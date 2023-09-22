@@ -1,7 +1,8 @@
-import {db} from '../firebase';
+import { db } from '../firebase';
 import { collection, addDoc } from "firebase/firestore";
-import {useState} from "react";
-import {Button} from "@mui/material";
+import { useState } from "react";
+import { Button } from "@mui/material";
+import { styled } from "styled-components"
 export default function Submit() {
     const [submission, setSubmission] = useState("");
     const [name, setName] = useState("");
@@ -38,23 +39,58 @@ export default function Submit() {
     }
 
     return (
-        <>
-            <label>
+        <StyledForm>
+            <StyledLabel>
                 Name:
-                <input
+                <StyledInput
                     type="text"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                 />
-            </label>
-            <textarea
+            </StyledLabel>
+            <StyledTextarea
                 name="postContent"
                 rows={4}
                 cols={40}
                 value={submission}
                 onChange={(event) => setSubmission(event.target.value)}
             />
-            <Button onClick={submit}>Submit</Button>
-        </>
+            <StyledButton onClick={submit}>Submit</StyledButton>
+        </StyledForm>
     );
+
 }
+
+const StyledForm = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+const StyledLabel = styled.label`
+  display: block;
+  margin-bottom: 10px;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+`;
+
+const StyledTextarea = styled.textarea`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+`;
+
+const StyledButton = styled(Button)`
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;

@@ -1,34 +1,27 @@
 import styled from "styled-components";
 import LinkButton from "./LinkButton";
 
-const NavWrapper = styled.div`
-    background-color: green;
+const NavWrapper = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
 `;
 
-const NavButtonStyles = `
-    background-color: blue;
-    height: 50%;
+const Title = styled.h1`
+  font-size: 1.5rem;
+  margin: 0;
 `;
 
 export default function NavBar() {
     return (
         <NavWrapper>
-            <h1>The Offensive Line</h1>
-            <LinkButton
-                destination='/'
-                styles={NavButtonStyles}
-                text="Home"
-            />
-            <LinkButton
-                destination='/News'
-                styles={NavButtonStyles}
-                text="News"
-            />
-            <LinkButton
-                destination='/submit'
-                styles={NavButtonStyles}
-                text="Submit"
-            />
+            <LinkButton destination="./" text="Home" />
+            <LinkButton destination="news" text="News" />
+            <LinkButton destination="submit" text="Contact" />
         </NavWrapper>
     );
-};
+}
+

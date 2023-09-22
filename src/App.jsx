@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 
 const BackgroundWrapper = styled.div`
-    background: antiquewhite;
+    background: #f9f7f1;
     height: 100vh;
 `;
 
