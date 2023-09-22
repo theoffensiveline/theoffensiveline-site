@@ -31,6 +31,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## ADDING NEW PAGES
 Add your new component in `/pages` create a route for it in `App.jsx`
 
+## Read/Write to Firestore
+[See here for reference](https://www.freecodecamp.org/news/how-to-use-the-firebase-database-in-react/#:~:text=To%20start%20using%20the%20Cloud,dropdown%2C%20and%20select%20Firestore%20Database.&text=Select%20the%20option%20to%20create,click%20to%20enable%20your%20database.)
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
