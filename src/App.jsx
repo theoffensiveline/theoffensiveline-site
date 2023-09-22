@@ -3,17 +3,21 @@ import Home from "./pages/Home";
 import News from "./pages/News";
 import Submit from "./pages/Submit";
 import Default from "./pages/Default";
+import NavBar from "./components/NavBar"
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {styled} from "styled-components";
 
 const BackgroundWrapper = styled.div`
-    background: rebeccapurple;
+    background: orange;
     height: 100vh;
 `;
 
 function App() {
   return (
       <BackgroundWrapper>
+
+        <NavBar someText="test1">test2</NavBar>
+
         <BrowserRouter>
             <Routes>
                 <Route path="/">
