@@ -13,7 +13,7 @@ export default function Submit() {
     const submit = async () => {
         if (!isBlank(submission)) {
             try {
-                const docRef = await addDoc(collection(db, "submissions"), {
+                await addDoc(collection(db, "submissions"), {
                     name: name,
                     content: submission,
                 });

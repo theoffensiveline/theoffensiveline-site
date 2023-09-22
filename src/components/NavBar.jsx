@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export default function NavBar({someText}) {
+export default function NavBar() {
     return (
         <NavWrapper>
-            <h1>{someText}</h1>
+            <h1>The Offensive Line</h1>
         </NavWrapper>
     );
 };

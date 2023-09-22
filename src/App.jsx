@@ -16,7 +16,7 @@ function App() {
   return (
       <BackgroundWrapper>
 
-        <NavBar someText="test1">test2</NavBar>
+        <NavBar />
 
         <BrowserRouter>
             <Routes>
