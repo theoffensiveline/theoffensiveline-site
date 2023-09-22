@@ -17,12 +17,24 @@ export default function Submit() {
                     name: name,
                     content: submission,
                 });
+                await sendDiscordNoti();
             } catch (e) {
                 console.error("Error during submission: ", e);
             }
         } else {
             //TODO: bully user
         }
+    }
+
+    const sendDiscordNoti = async () => {
+        const request = new XMLHttpRequest();
+        request.open("POST", "https://discord.com/api/webhooks/1154621303152705587/v37_IuEpCgQZyjn5Za4T-nChIiUGakhWB_eq2bfSWjFScRwgJIpphUZ-RRAG6uNRWL9V");
+        request.setRequestHeader('Content-type', 'application/json');
+        const params = {
+            username: name || "Anonymous League Manager",
+            content: submission
+        }
+        request.send(JSON.stringify(params));
     }
 
     return (
