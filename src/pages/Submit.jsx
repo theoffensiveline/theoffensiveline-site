@@ -41,7 +41,7 @@ export default function Submit() {
     return (
         <StyledForm>
             <StyledLabel>
-                Name:
+                Name (optional):
                 <StyledInput
                     type="text"
                     value={name}
@@ -64,6 +64,7 @@ export default function Submit() {
 const StyledForm = styled.div`
   max-width: 400px;
   margin: 0 auto;
+  padding: 20px;
 `;
 
 const StyledLabel = styled.label`

@@ -1,15 +1,17 @@
-import {styled} from "styled-components";
+import { styled } from "styled-components";
 
 export default function LinkButton({destination, styles, text}) {
-    const StyledLinkButton = styled.button`
+    const StyledLinkButton = styled.Button`
         ${styles}
     `;
 
-    return (
-        <StyledLinkButton
-            onClick={() => window.location.href = destination}
-        >
-            {text}
-        </StyledLinkButton>
-    );
+    // return (
+    //     <StyledLinkButton
+    //         onClick={() => window.location.href = destination}
+    //     >
+    //         {text}
+    //     </StyledLinkButton>
+    // );
+
+
 }
