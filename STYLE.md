@@ -19,16 +19,16 @@ The background and text colors are decent but the other neutrals \
 could use some work.
 - Background: #ECECDF (Alabaster)
 - Text: #2E2E2E (Jet)
-- Neutral 1: #7E6551 <span style="color:#7E6551">■</span> (Coyote)
-- Neutral 2: #668F80 <span style="color:#668F80">■</span> (Viridian)
-- Neutral 3: #7D8491 <span style="color:#7D8491">■</span> (Slate Gray)
-- Neutral 4: #71816D <span style="color:#71816D">■</span> (Reseda Green)
-- Neutral 5: #C2C299 <span style="color:#C2C299">■</span> (Sage)
+- Neutral 1: #7E6551 (Coyote)
+- Neutral 2: #668F80 (Viridian)
+- Neutral 3: #7D8491 (Slate Gray)
+- Neutral 4: #71816D (Reseda Green)
+- Neutral 5: #C2C299 (Sage)
 
 ### Data Visualization
 Two base colors used; think of these as true/false:
-- #FF3366 <span style="color:#FF3366">■</span> (Folly)
-- #20A4F4 <span style="color:#20A4F4">■</span> (Celestial Blue)
+- #FF3366 (Folly)
+- #20A4F4 (Celestial Blue)
 
 Gradient values between (made with https://colordesigner.io/gradient-generator)
 
