@@ -6,6 +6,7 @@ import { styled } from "styled-components"
 export default function Submit() {
     const [submission, setSubmission] = useState("");
     const [name, setName] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const isBlank = (str) => {
         return (!str || /^\s*$/.test(str));
@@ -14,13 +15,19 @@ export default function Submit() {
     const submit = async () => {
         if (!isBlank(submission)) {
             try {
+                setLoading(true);
                 await addDoc(collection(db, "submissions"), {
                     name: name,
                     content: submission,
                 });
-                await sendDiscordNoti();
+                sendDiscordNoti().then(() => {
+                    setSubmission("");
+                    setName("");
+                });
             } catch (e) {
                 console.error("Error during submission: ", e);
+            } finally {
+                setLoading(false);
             }
         } else {
             //TODO: bully user
@@ -55,7 +62,7 @@ export default function Submit() {
                 value={submission}
                 onChange={(event) => setSubmission(event.target.value)}
             />
-            <StyledButton onClick={submit}>Submit</StyledButton>
+            <StyledButton onClick={submit} disabled={loading}>Submit</StyledButton>
         </StyledForm>
     );
 
