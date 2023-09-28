@@ -1,4 +1,4 @@
-import {styled} from "styled-components";
+import { styled } from "styled-components";
 
 const NewsHolder = styled.iframe`
   height: 100vh;
@@ -8,7 +8,7 @@ const NewsHolder = styled.iframe`
 export default function News() {
     return (
         <>
-            <NewsHolder src="https://trevormart.in/FantasyFootball23/Week2/Week2.html" />
+            <NewsHolder src="https://trevormart.in/FantasyFootball23/Week3/Week3.html" />
         </>
     );
 };
