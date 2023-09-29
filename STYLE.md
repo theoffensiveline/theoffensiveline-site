@@ -6,17 +6,18 @@ data hardcoded across multiple files in order to get different \
 components to work. I think we should strive to make style \
 elements reusable.
 
-
 ## Color Scheme
 
 I think having a nice neutral color scheme would fit well with the \
-newspaper asthetic we already all are used to as well as some \
+newspaper aesthetic we already all are used to as well as some \
 colors that really pop for data visualization. Here are some \
 initial suggestions.
 
 ### Normal Colors
+
 The background and text colors are decent but the other neutrals \
 could use some work.
+
 - Background: #ECECDF (Alabaster)
 - Text: #2E2E2E (Jet)
 - Neutral 1: #7E6551 (Coyote)
@@ -26,13 +27,16 @@ could use some work.
 - Neutral 5: #C2C299 (Sage)
 
 ### Data Visualization
+
 Two base colors used; think of these as true/false:
+
 - #FF3366 (Folly)
 - #20A4F4 (Celestial Blue)
 
 Gradient values between (made with https://colordesigner.io/gradient-generator)
 
 #### 12 Colors
+
 \#ff3366
 \#fd3880
 \#f74398
@@ -47,6 +51,7 @@ Gradient values between (made with https://colordesigner.io/gradient-generator)
 \#20a4f3
 
 #### 24 Colors
+
 \#ff3366
 \#ff3472
 \#fd387e
@@ -73,6 +78,7 @@ Gradient values between (made with https://colordesigner.io/gradient-generator)
 \#20a4f3
 
 #### 36 Colors
+
 \#ff3366
 \#ff346e
 \#fe3576

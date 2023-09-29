@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import News from "./pages/News";
 import Submit from "./pages/Submit";
 import Default from "./pages/Default";
+import TestNews from "./pages/testNews";
 import NavBar from "./components/NavBar"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
@@ -23,6 +24,7 @@ function App() {
                         <Route path="news" element={<News />} />
                         <Route path="submit" element={<Submit />} />
                         <Route path="*" element={<Default />} />
+                        <Route path="testNews" element={<TestNews />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
