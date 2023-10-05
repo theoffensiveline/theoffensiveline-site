@@ -3,13 +3,15 @@ import Home from "./pages/Home";
 import News from "./pages/News";
 import Submit from "./pages/Submit";
 import Default from "./pages/Default";
+import Bylaws from './pages/Bylaws';
 import NavBar from "./components/NavBar"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 
 const BackgroundWrapper = styled.div`
-    background: #f9f7f1;
-    height: 100vh;
+    background: #ECECDF;
+    height: 100%;
+    width: 100%;
 `;
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="news" element={<News />} />
                         <Route path="submit" element={<Submit />} />
+                        <Route path="bylaws" element={<Bylaws />} />
                         <Route path="*" element={<Default />} />
                     </Route>
                 </Routes>
