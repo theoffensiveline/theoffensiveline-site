@@ -1,13 +1,12 @@
 import React from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import styled from "styled-components"; // Import styled from styled-components
+import styled from "styled-components";
 
 
 const ArticleBlock = styled.div`
-    padding: 20px;
-    border: 1px solid #ccc; /* Optional: Add a border for better separation */
-    border-radius: 8px; /* Optional: Add rounded corners */
-    margin: 10px; /* Optional: Add margin between articles */
+    padding: 8px;
+    margin: 4px; 
+    text-align: justify; // justify content only with more than 2 columns?
 `;
 
 export default function Newspaper() {
@@ -27,7 +26,7 @@ export default function Newspaper() {
         },
         {
             title: "Article 4",
-            content: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+            content: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
         },
         {
             title: "Article 5",
@@ -40,17 +39,14 @@ export default function Newspaper() {
         {
             title: "Article 7",
             content: "Vivamus id efficitur risus, a suscipit tellus. Aliquam erat volutpat. Fusce metus arcu, elementum eu tortor ac, fermentum blandit diam. Morbi ullamcorper eros quis rutrum dictum. Aenean accumsan nisi vel mauris suscipit, tempor iaculis felis rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum vel tristique lorem. Suspendisse mollis sollicitudin sodales. Vestibulum consequat, massa non aliquet pellentesque, ex ex blandit arcu, ut pharetra lectus purus dapibus quam. Suspendisse dictum dignissim laoreet. Fusce odio tellus, fermentum nec posuere quis, aliquam in sapien. Nam at blandit orci, eu sollicitudin libero. Proin efficitur elementum rhoncus."
-
         },
         {
             title: "Article 8",
             content: "Vivamus id efficitur risus, a suscipit tellus. Aliquam erat volutpat. Fusce metus arcu, elementum eu tortor ac, fermentum blandit diam. Morbi ullamcorper eros quis rutrum dictum. Aenean accumsan nisi vel mauris suscipit, tempor iaculis felis rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum vel tristique lorem. Suspendisse mollis sollicitudin sodales. Vestibulum consequat, massa non aliquet pellentesque, ex ex blandit arcu, ut pharetra lectus purus dapibus quam. Suspendisse dictum dignissim laoreet. Fusce odio tellus, fermentum nec posuere quis, aliquam in sapien. Nam at blandit orci, eu sollicitudin libero. Proin efficitur elementum rhoncus."
-
         },
         {
             title: "Article 9",
             content: "Vivamus id efficitur risus, a suscipit tellus. Aliquam erat volutpat. Fusce metus arcu, elementum eu tortor ac, fermentum blandit diam. Morbi ullamcorper eros quis rutrum dictum. Aenean accumsan nisi vel mauris suscipit, tempor iaculis felis rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum vel tristique lorem. Suspendisse mollis sollicitudin sodales. Vestibulum consequat, massa non aliquet pellentesque, ex ex blandit arcu, ut pharetra lectus purus dapibus quam. Suspendisse dictum dignissim laoreet. Fusce odio tellus, fermentum nec posuere quis, aliquam in sapien. Nam at blandit orci, eu sollicitudin libero. Proin efficitur elementum rhoncus."
-
         },
         {
             title: "Article 10",
@@ -61,7 +57,7 @@ export default function Newspaper() {
     return (
         <div className="Newspaper">
             <ResponsiveMasonry
-                columnsCountBreakPoints={{ 400: 1, 900: 2, 1200: 3, 1500: 4 }}
+                columnsCountBreakPoints={{ 600: 1, 1200: 2, 1800: 3 }}
             >
                 <Masonry>
                     {articles.map((article, index) => (
