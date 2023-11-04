@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import styled from 'styled-components';
+import * as NewsStyles from '../components/newsStyles';
 
-// broken
+function formatDate(inputDate) {
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC',
+    };
+    const date = new Date(inputDate + 'T00:00:00Z'); // Add time and UTC timezone
+    return date.toLocaleDateString(undefined, options);
+}
 
-const ArticleBlock = styled.div`
-    padding: 8px;
-    margin: 4px; 
-    text-align: justify; // justify content only with more than 2 columns?
-`;
+
 
 function NewsletterPage() {
     const currentLocation = useLocation();
@@ -19,9 +25,9 @@ function NewsletterPage() {
     useEffect(() => {
         const loadContent = async () => {
             try {
-                // Dynamically import the content based on the issue
-                const module = await import(`../newsletters/${issue}`);
-                setContent(module.articles);
+                // Dynamically import the content based on the issue name
+                const module = await import(`../newsletters/${issue}/${issue}.jsx`);
+                setContent(module); // Set the default export from the module
             } catch (error) {
                 console.error('Error loading newsletter content:', error);
                 setContent([]); // Handle the error gracefully
@@ -32,27 +38,27 @@ function NewsletterPage() {
     }, [issue]);
 
     return (
-        <div>
-            <h1>Newsletter Page</h1>
+        <NewsStyles.NewsletterContainer>
+            <NewsStyles.NewsletterTitle>The Offensive Line</NewsStyles.NewsletterTitle>
+            <NewsStyles.DateBar>
+                {content && formatDate(content.newsDate)}
+            </NewsStyles.DateBar>
             <div>
-                <h2>Newsletter {issue}</h2>
                 {content ? (
-                    // ugly af
                     <ResponsiveMasonry columnsCountBreakPoints={{ 600: 1, 1200: 2, 1800: 3 }}>
                         <Masonry>
-                            {content.map((article) => (
-                                <ArticleBlock as="div" key={article.id}>
+                            {content.articles.map((article) => (
+                                <NewsStyles.ArticleBlock as="div" key={article.id}>
                                     {article.content}
-                                </ArticleBlock>
+                                </NewsStyles.ArticleBlock>
                             ))}
-
                         </Masonry>
                     </ResponsiveMasonry>
                 ) : (
                     <p>Loading...</p>
                 )}
             </div>
-        </div>
+        </NewsStyles.NewsletterContainer>
     );
 }
 

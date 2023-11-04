@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-// ugly af
 const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
-    gap: 10px; /* Adjust the gap between items */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     justify-content: center;
 `;
 
-// ugly af
 const GridItem = styled.button`
-    background-color: #f2f2f2; /* Background color for each button */
-    border: 1px solid grey; /* Border color for each button */
+    background-color: #f2f2f2;
+    border: 1px solid grey;
     padding: 10px;
     cursor: pointer;
     text-align: center;
@@ -24,22 +22,27 @@ function Home() {
     const [newsletterIssues, setNewsletterIssues] = useState([]);
 
     useEffect(() => {
-        // Dynamically import the issues from the newsletters folder
-        const importIssues = async () => {
-            try {
-                const issuesContext = require.context('../newsletters', false, /\.jsx$/);
-                const issues = issuesContext.keys().map((key) => key.replace('./', '').replace('.jsx', ''));
-                setNewsletterIssues(issues);
-            } catch (error) {
-                console.error('Error loading newsletter issues:', error);
-            }
-        };
+        try {
+            const context = require.context(
+                '../newsletters',
+                true,
+                /\.jsx$/
+            );
 
-        importIssues();
-    }, []);
+            const issues = context.keys().map((key) => {
+                const parts = key.split('/');
+                return parts[parts.length - 1].replace(/\.jsx$/, '');
+            });
+
+            setNewsletterIssues(issues);
+        } catch (error) {
+            console.error('Error loading newsletter issues:', error);
+        }
+    }, []); // Empty dependency array to run the effect once
 
     const handleNavigate = (issue) => {
         navigate(`/newsletterPage`, { state: { issue } });
+        console.log({ issue })
     };
 
     return (
