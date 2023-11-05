@@ -1,6 +1,7 @@
 import React from 'react';
-import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, StyledTable } from '../../components/newsStyles';
+import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, BarChart } from '../../components/newsStyles';
 import awardsData from './awardsTable.json';
+import efficiencyData from './efficiencyData.json';
 
 export const newsDate = '2023-11-09';
 
@@ -17,6 +18,7 @@ export const articles = [
                 <p>
                     This is the content of Article 1. It can include text, images, and other elements.
                 </p>
+                <BarChart chartData={efficiencyData} />
             </div>
         ),
     },

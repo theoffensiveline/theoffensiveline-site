@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Chart from 'chart.js/auto';
+import React, { useEffect, useRef } from 'react';
 
 export const NewsletterContainer = styled.div`
     max-width: 100%;
@@ -15,7 +17,6 @@ export const NewsletterTitle = styled.h1`
     font-weight: 900;
     font-size: 80px;
     text-transform: uppercase;
-    display: inline-block;
     line-height: 72px;
     margin-bottom: 10px;
     max-width: 100%;
@@ -137,3 +138,64 @@ const AwardsTable = ({ awardsData }) => {
 };
 
 export default AwardsTable;
+
+
+
+export const BarChart = ({ chartData }) => {
+    const chartRef = useRef(null); // Reference to the chart instance
+
+    useEffect(() => {
+        if (chartRef.current) {
+            // Destroy the previous chart if it exists
+            chartRef.current.destroy();
+        }
+
+        // Extract data from chartData
+        const teamNames = chartData.map(item => item.team_name);
+        const maxPoints = chartData.map(item => item.max_points);
+        const actualPoints = chartData.map(item => item.actual_points);
+
+        // Get the canvas element
+        const canvas = document.getElementById('myBarChart');
+
+        // Create the new chart and store the reference
+        chartRef.current = new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: teamNames,
+                datasets: [
+                    {
+                        label: 'Actual Points',
+                        data: actualPoints,
+                        backgroundColor: '#20A4F4',
+                    },
+                    {
+                        label: 'Max Points',
+                        data: maxPoints,
+                        backgroundColor: '#7D8491',
+                    },
+                ],
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    y: {
+                        type: 'category',
+                        beginAtZero: true,
+                        stacked: true,
+                    },
+                    x: {
+                        type: 'linear',
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    }, [chartData]);
+
+    return (
+        <div>
+            <canvas id="myBarChart"></canvas>
+        </div>
+    );
+};
