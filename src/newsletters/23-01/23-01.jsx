@@ -1,7 +1,8 @@
 import React from 'react';
-import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, BarChart } from '../../components/newsStyles';
+import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, BarChart, HistogramChart } from '../../components/newsStyles';
 import awardsData from './awardsTable.json';
 import efficiencyData from './efficiencyData.json';
+import matchupData from './matchupData.json';
 
 export const newsDate = '2023-11-09';
 
@@ -14,11 +15,11 @@ export const articles = [
                 <ArticleHeader>Awards and Recap</ArticleHeader>
                 <ArticleSubheader>Week 9</ArticleSubheader>
                 <AwardsTable awardsData={awardsData} />
-                <ImageWrapper><ArticleImage src="https://picsum.photos/800/300" alt="Article 1" /></ImageWrapper>
                 <p>
                     This is the content of Article 1. It can include text, images, and other elements.
                 </p>
                 <BarChart chartData={efficiencyData} />
+                <HistogramChart chartData={matchupData} />
             </div>
         ),
     },

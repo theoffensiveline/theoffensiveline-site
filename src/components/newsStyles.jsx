@@ -142,24 +142,20 @@ export default AwardsTable;
 
 
 export const BarChart = ({ chartData }) => {
-    const chartRef = useRef(null); // Reference to the chart instance
+    const chartRef1 = useRef();
 
     useEffect(() => {
-        if (chartRef.current) {
-            // Destroy the previous chart if it exists
-            chartRef.current.destroy();
-        }
+        // Get the canvas element
+        const canvas = chartRef1.current;
+        if (!canvas) return;
 
         // Extract data from chartData
         const teamNames = chartData.map(item => item.team_name);
         const maxPoints = chartData.map(item => item.max_points);
         const actualPoints = chartData.map(item => item.actual_points);
 
-        // Get the canvas element
-        const canvas = document.getElementById('myBarChart');
-
-        // Create the new chart and store the reference
-        chartRef.current = new Chart(canvas, {
+        // Create the new chart
+        const myChart = new Chart(canvas, {
             type: 'bar',
             data: {
                 labels: teamNames,
@@ -191,11 +187,93 @@ export const BarChart = ({ chartData }) => {
                 },
             },
         });
+
+        // Cleanup the old chart before creating a new one
+        return () => myChart.destroy();
     }, [chartData]);
 
     return (
         <div>
-            <canvas id="myBarChart"></canvas>
+            <canvas ref={chartRef1}></canvas>
+        </div>
+    );
+};
+
+
+
+export const HistogramChart = ({ chartData }) => {
+    const chartRef = useRef();
+    let myChart = null;
+
+    useEffect(() => {
+        const canvas = chartRef.current;
+        if (!canvas) return;
+
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        const scores = chartData.map((item) => item.Score);
+        const groups = chartData.map((item) => item.Group);
+
+        const minScore = Math.floor(Math.min(...scores) / 5) * 5;
+        const maxScore = Math.ceil(Math.max(...scores) / 5) * 5;
+        const numBins = (maxScore - minScore) / 5 + 1;
+
+        const binLabels = Array.from({ length: numBins }, (_, index) => (minScore + index * 5).toString());
+        const binCountsThisWeek = new Array(numBins).fill(0);
+        const binCountsHistoric = new Array(numBins).fill(0);
+
+        scores.forEach((score, index) => {
+            const binIndex = Math.floor((score - minScore) / 5);
+            if (groups[index] === 'This Week') {
+                binCountsThisWeek[binIndex]++;
+            } else if (groups[index] === 'Historic') {
+                binCountsHistoric[binIndex]++;
+            }
+        });
+
+        const data = {
+            labels: binLabels,
+            datasets: [
+                {
+                    label: 'This Week',
+                    data: binCountsThisWeek,
+                    backgroundColor: '#20A4F4',
+                },
+                {
+                    label: 'Historic',
+                    data: binCountsHistoric,
+                    backgroundColor: '#7D8491',
+                },
+            ],
+        };
+
+        const options = {
+            scales: {
+                x: {
+                    type: 'linear',
+                    ticks: {
+                        stepSize: 15,
+                    },
+                },
+                y: {
+                    type: 'linear',
+                    stacked: true,
+                },
+            },
+        };
+
+        myChart = new Chart(canvas, {
+            type: 'bar',
+            data: data,
+            options: options,
+        });
+    }, [chartData]);
+
+    return (
+        <div>
+            <canvas ref={chartRef}></canvas>
         </div>
     );
 };
