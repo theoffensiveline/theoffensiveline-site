@@ -8,7 +8,7 @@ const NewsHolder = styled.iframe`
 export default function News() {
     return (
         <>
-            <NewsHolder src="https://trevormart.in/FantasyFootball23/Week10/Week10.html" />
+            <NewsHolder src="https://trevormart.in/FantasyFootball23/Week11/Week11.html" />
         </>
     );
 };
