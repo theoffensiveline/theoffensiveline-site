@@ -1,8 +1,10 @@
 import React from 'react';
-import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, BarChart, HistogramChart } from '../../components/newsStyles';
+import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, BarChart, StackedHistogram, WeeklyScoringChart, MatchupPlot, MotwTable } from '../../components/newsStyles';
 import awardsData from './awardsTable.json';
 import efficiencyData from './efficiencyData.json';
 import matchupData from './matchupData.json';
+import starterData from './starters.json';
+import motwHistoryData from './motwtable.json';
 
 export const newsDate = '2023-11-09';
 
@@ -19,7 +21,8 @@ export const articles = [
                     This is the content of Article 1. It can include text, images, and other elements.
                 </p>
                 <BarChart chartData={efficiencyData} />
-                <HistogramChart chartData={matchupData} />
+                <StackedHistogram chartData={matchupData} />
+                <WeeklyScoringChart chartData={matchupData} />
             </div>
         ),
     },
@@ -29,10 +32,11 @@ export const articles = [
         content: (
             <div>
                 <ArticleHeader>This is the Title of Article 2</ArticleHeader>
-                <ImageWrapper><ArticleImage src="https://picsum.photos/400/400" alt="Article 2" /></ImageWrapper>
+                <MatchupPlot data={starterData} matchupId={1} />
                 <p>
                     This is the content of Article 2. It can include text, images, and other elements.
                 </p>
+                <MatchupPlot data={starterData} matchupId={2} />
             </div>)
     },
     {
@@ -41,7 +45,7 @@ export const articles = [
         content: (
             <div>
                 <ArticleHeader>This is the Title of Article 3</ArticleHeader>
-                <ImageWrapper><ArticleImage src="https://picsum.photos/900/600" alt="Article 3" /></ImageWrapper>
+                <MotwTable motwHistoryData={motwHistoryData} />
                 <p>
                     This is the content of Article 3. It can include text, images, and other elements.
                 </p>

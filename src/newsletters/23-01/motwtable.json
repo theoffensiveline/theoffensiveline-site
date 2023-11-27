@@ -1,0 +1,123 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "Hurt Thuggins & the boys",
+    "Winner Score": 140.96,
+    "Loser Score": 120.16,
+    "Loser Team": "First Down Syndrome",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#9a86ef",
+    "LoserScoreColor": "#bf74de",
+    "ShotsDogsColor": "#aa7fea"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "Hurt Thuggins & the boys",
+    "Winner Score": 141.76,
+    "Loser Score": 112.7,
+    "Loser Team": "Bijan shih tzu",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#9289f1",
+    "LoserScoreColor": "#cc6cd5",
+    "ShotsDogsColor": "#d863ca"
+  },
+  {
+    "Week": 3,
+    "Winner Team": "Hurt Thuggins & the boys",
+    "Winner Score": 174.64,
+    "Loser Score": 109.56,
+    "Loser Team": "E.T.N Phone Home",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#479ef6",
+    "LoserScoreColor": "#d268d0",
+    "ShotsDogsColor": "#aa7fea"
+  },
+  {
+    "Week": 4,
+    "Winner Team": "Travis Swift",
+    "Winner Score": 154.2,
+    "Loser Score": 126.66,
+    "Loser Team": "Hurt Thuggins & the boys",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#7892f6",
+    "LoserScoreColor": "#b17ce6",
+    "ShotsDogsColor": "#d863ca"
+  },
+  {
+    "Week": 5,
+    "Winner Team": "Travis Swift",
+    "Winner Score": 140.68,
+    "Loser Score": 108.24,
+    "Loser Team": "First Down Syndrome",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#9a86ef",
+    "LoserScoreColor": "#d268d0",
+    "ShotsDogsColor": "#aa7fea"
+  },
+  {
+    "Week": 6,
+    "Winner Team": "Travis Swift",
+    "Winner Score": 112.92,
+    "Loser Score": 106.24,
+    "Loser Team": "Dropping Like Flys",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#cc6cd5",
+    "LoserScoreColor": "#d863ca",
+    "ShotsDogsColor": "#f5459d"
+  },
+  {
+    "Week": 7,
+    "Winner Team": "Travis Swift",
+    "Winner Score": 125.2,
+    "Loser Score": 123.64,
+    "Loser Team": "Travis Swifty",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#b878e2",
+    "LoserScoreColor": "#b878e2",
+    "ShotsDogsColor": "#d863ca"
+  },
+  {
+    "Week": 8,
+    "Winner Team": "Bijan shih tzu",
+    "Winner Score": 120.42,
+    "Loser Score": 114.3,
+    "Loser Team": "Travis Swift",
+    "# of Shots/Dogs": 1,
+    "WinnerScoreColor": "#bf74de",
+    "LoserScoreColor": "#cc6cd5",
+    "ShotsDogsColor": "#20a4f3"
+  },
+  {
+    "Week": 9,
+    "Winner Team": "The Werbenjägermanjensens",
+    "Winner Score": 94.22,
+    "Loser Score": 82.24,
+    "Loser Team": "Bijan shih tzu",
+    "# of Shots/Dogs": 6,
+    "WinnerScoreColor": "#e756b8",
+    "LoserScoreColor": "#f249a4",
+    "ShotsDogsColor": "#ff3366"
+  },
+  {
+    "Week": 10,
+    "Winner Team": "The Werbenjägermanjensens",
+    "Winner Score": 106.82,
+    "Loser Score": 95.66,
+    "Loser Team": "League Camera Fund",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#d863ca",
+    "LoserScoreColor": "#e756b8",
+    "ShotsDogsColor": "#d863ca"
+  },
+  {
+    "Week": 11,
+    "Winner Team": "Just Joshin",
+    "Winner Score": 96.9,
+    "Loser Score": 88.94,
+    "Loser Team": "The Werbenjägermanjensens",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#e25bbf",
+    "LoserScoreColor": "#ef4eab",
+    "ShotsDogsColor": "#d863ca"
+  }
+]

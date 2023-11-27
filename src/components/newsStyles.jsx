@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import Chart from 'chart.js/auto';
-import React, { useEffect, useRef } from 'react';
+import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter } from 'victory';
 
 export const NewsletterContainer = styled.div`
     max-width: 100%;
@@ -83,19 +82,28 @@ export const ArticleSubheader = styled.div`
 
 export const StyledTable = styled.table`
     table-layout: auto;
-    width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 
     th, td {
         border: 1px solid #000;
-        padding: 10px; /* Add padding to th and td */
+        padding: 5px; /* Add padding to th and td */
         text-align: left; /* Align text to the left */
     }
 
     th {
         color: #2E2E2E;
         background-color: #d6d6d6;
+    }
+
+    .wrap-cell {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .center-column {
+        text-align: center;
     }
 `;
 
@@ -140,140 +148,302 @@ const AwardsTable = ({ awardsData }) => {
 export default AwardsTable;
 
 
-
 export const BarChart = ({ chartData }) => {
-    const chartRef1 = useRef();
+    const teamNames = chartData.map(item => item.team_name);
+    const maxPoints = chartData.map(item => item.max_points);
+    const actualPoints = chartData.map(item => item.actual_points);
 
-    useEffect(() => {
-        // Get the canvas element
-        const canvas = chartRef1.current;
-        if (!canvas) return;
-
-        // Extract data from chartData
-        const teamNames = chartData.map(item => item.team_name);
-        const maxPoints = chartData.map(item => item.max_points);
-        const actualPoints = chartData.map(item => item.actual_points);
-
-        // Create the new chart
-        const myChart = new Chart(canvas, {
-            type: 'bar',
-            data: {
-                labels: teamNames,
-                datasets: [
-                    {
-                        label: 'Actual Points',
-                        data: actualPoints,
-                        backgroundColor: '#20A4F4',
-                    },
-                    {
-                        label: 'Max Points',
-                        data: maxPoints,
-                        backgroundColor: '#7D8491',
-                    },
-                ],
-            },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    y: {
-                        type: 'category',
-                        beginAtZero: true,
-                        stacked: true,
-                    },
-                    x: {
-                        type: 'linear',
-                        beginAtZero: true,
-                    },
-                },
-            },
-        });
-
-        // Cleanup the old chart before creating a new one
-        return () => myChart.destroy();
-    }, [chartData]);
+    const data = teamNames.map((name, index) => ({
+        team_name: name,
+        'Actual Points': actualPoints[index],
+        'Max Points': maxPoints[index],
+        'Percentage': actualPoints[index] / maxPoints[index]
+    }));
 
     return (
-        <div>
-            <canvas ref={chartRef1}></canvas>
-        </div>
+        <VictoryChart
+            horizontal
+        >
+            <VictoryLegend x={100} y={10}
+                orientation="horizontal"
+                gutter={20}
+                data={[
+                    { name: 'Actual Points', symbol: { fill: '#20A4F4' } },
+                    { name: 'Max Points', symbol: { fill: '#7D8491' } },
+                ]}
+            />
+            <VictoryBar
+                barWidth={15}
+                cornerRadius={3}
+                style={{ data: { fill: '#7D8491' } }}
+                data={data}
+                x="team_name"
+                y="Max Points"
+                sortKey={"Actual Points"}
+                sortOrder={"ascending"}
+                labels={({ datum }) => `${(datum.Percentage * 100).toFixed(1)}%`}
+            />
+            <VictoryBar
+                barWidth={15}
+                cornerRadius={3}
+                style={{ data: { fill: '#20A4F4' } }}
+                data={data}
+                x="team_name"
+                y="Actual Points"
+                labels={({ datum }) => `${datum.team_name}`}
+                labelComponent={<VictoryLabel x={45} />}
+            />
+            <VictoryAxis dependentAxis
+                style={{ axis: { stroke: 'transparent' } }}
+            />
+        </VictoryChart >
     );
 };
 
 
+export const StackedHistogram = ({ chartData }) => {
+    const maxScore = Math.ceil(Math.max(...chartData.map(entry => entry.team_points)));
+    const minScore = Math.floor(Math.min(...chartData.map(entry => entry.team_points)));
 
-export const HistogramChart = ({ chartData }) => {
-    const chartRef = useRef();
-    let myChart = null;
+    const bins = [];
+    for (let i = minScore - 5; i <= maxScore; i += 5) {
+        bins.push(Math.round(i / 5) * 5);
+    }
 
-    useEffect(() => {
-        const canvas = chartRef.current;
-        if (!canvas) return;
+    // Find the maximum week value
+    const maxWeek = chartData.reduce((max, entry) => Math.max(max, entry.week), -Infinity);
 
-        if (myChart) {
-            myChart.destroy();
-        }
+    // Subset the data into two datasets
+    const thisWeekData = chartData.filter(entry => entry.week === maxWeek);
+    const historicData = chartData.filter(entry => entry.week !== maxWeek);
 
-        const scores = chartData.map((item) => item.Score);
-        const groups = chartData.map((item) => item.Group);
+    return (
+        <VictoryChart>
+            <VictoryStack colorScale="qualitative">
+                <VictoryHistogram
+                    style={{ data: { fill: '#20A4F4' } }}
+                    cornerRadius={3}
+                    data={thisWeekData}
+                    x="team_points"
+                    bins={bins} />
+                <VictoryHistogram
+                    style={{ data: { fill: '#7D8491' } }}
+                    cornerRadius={3}
+                    data={historicData}
+                    x="team_points"
+                    bins={bins} />
+            </VictoryStack>
+            <VictoryAxis
+                tickCount={Math.round(bins.length / 2.5)}
+            />
+            <VictoryAxis dependentAxis />
+        </VictoryChart>
+    );
+};
 
-        const minScore = Math.floor(Math.min(...scores) / 5) * 5;
-        const maxScore = Math.ceil(Math.max(...scores) / 5) * 5;
-        const numBins = (maxScore - minScore) / 5 + 1;
 
-        const binLabels = Array.from({ length: numBins }, (_, index) => (minScore + index * 5).toString());
-        const binCountsThisWeek = new Array(numBins).fill(0);
-        const binCountsHistoric = new Array(numBins).fill(0);
+export const WeeklyScoringChart = ({ chartData }) => {
+    const data = chartData.map(({ week, team_points, Average, Median, Maximum, Minimum }) => ({
+        week,
+        team_points,
+        Average,
+        Median,
+        Maximum,
+        Minimum,
+    }));
 
-        scores.forEach((score, index) => {
-            const binIndex = Math.floor((score - minScore) / 5);
-            if (groups[index] === 'This Week') {
-                binCountsThisWeek[binIndex]++;
-            } else if (groups[index] === 'Historic') {
-                binCountsHistoric[binIndex]++;
-            }
-        });
+    return (
+        <VictoryChart>
+            <VictoryLegend
+                x={50}
+                y={10}
+                orientation="horizontal"
+                gutter={20}
+                data={[
+                    { name: 'Maximum', symbol: { fill: '#20A4F4' } },
+                    { name: 'Average', symbol: { fill: '#668F80' } },
+                    { name: 'Median', symbol: { fill: '#7E6551' } },
+                    { name: 'Minimum', symbol: { fill: '#FF3366' } },
+                ]}
+            />
+            <VictoryAxis dependentAxis
+                tickValues={[50, 70, 90, 110, 130, 150, 170, 190]}
+            />
+            <VictoryAxis
+                tickCount={data.length / 12}
+            />
+            <VictoryLine
+                data={data}
+                x="week"
+                y="Maximum"
+                style={{ data: { stroke: '#20A4F4', strokeWidth: 2 } }}
+            />
+            <VictoryLine
+                data={data}
+                x="week"
+                y="Average"
+                style={{ data: { stroke: '#668F80', strokeWidth: 2 } }}
+            />
+            <VictoryLine
+                data={data}
+                x="week"
+                y="Median"
+                style={{ data: { stroke: '#7E6551', strokeWidth: 2 } }}
+            />
+            <VictoryLine
+                data={data}
+                x="week"
+                y="Minimum"
+                style={{ data: { stroke: '#FF3366', strokeWidth: 2 } }}
+            />
+            <VictoryScatter
+                data={data}
+                x="week"
+                y="team_points"
+            />
+        </VictoryChart>
+    );
+};
 
-        const data = {
-            labels: binLabels,
-            datasets: [
-                {
-                    label: 'This Week',
-                    data: binCountsThisWeek,
-                    backgroundColor: '#20A4F4',
-                },
-                {
-                    label: 'Historic',
-                    data: binCountsHistoric,
-                    backgroundColor: '#7D8491',
-                },
-            ],
-        };
 
-        const options = {
-            scales: {
-                x: {
-                    type: 'linear',
-                    ticks: {
-                        stepSize: 15,
-                    },
-                },
-                y: {
-                    type: 'linear',
-                    stacked: true,
-                },
-            },
-        };
+// Define colors for each position
+const colorsByPosition = {
+    QB: '#E1676F',
+    RB: '#11D677',
+    WR: '#4DB6F0',
+    TE: '#E9AC53',
+    K: '#D959FF',
+    DEF: '#65645A',
+};
 
-        myChart = new Chart(canvas, {
-            type: 'bar',
-            data: data,
-            options: options,
-        });
-    }, [chartData]);
+// Define the order for sorting positions
+const positionOrder = ["QB", "RB", "WR", "TE", "K", "DEF"];
+
+export const MatchupPlot = ({ data, matchupId }) => {
+    // Filter data based on the provided matchupId
+    const filteredData = data.filter((team) => team.matchup_id === matchupId);
+
+    // Get unique positions for creating legend, sorted in reverse order
+    const uniquePositions = positionOrder
+        .filter((position) => filteredData.some((team) => team.entries.some((entry) => entry.position === position)))
+        .reverse();
 
     return (
         <div>
-            <canvas ref={chartRef}></canvas>
+            <VictoryChart
+                domainPadding={{ x: 90, y: [20, 20] }} // Adjust the x and y domainPadding values
+                padding={{ top: 20, bottom: 30, left: 50, right: 20 }}
+            >
+                <VictoryAxis
+                    tickValues={filteredData.map((team, index) => index + 0.5)}
+                    tickFormat={filteredData.map((team) => team.team_name)}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryStack colorScale={Object.values(colorsByPosition)}>
+                    {uniquePositions.flatMap((position) =>
+                        filteredData.flatMap((team) =>
+                            team.entries
+                                .filter((entry) => entry.position === position)
+                                .map((entry, index) => ({
+                                    team_name: team.team_name,
+                                    points: entry.points,
+                                    full_name: entry.full_name,
+                                    label: `${entry.points}`,
+                                    position: entry.position,
+                                    index, // Adding index for unique key
+                                }))
+                        )
+                    ).map((entry) => (
+                        <VictoryBar
+                            key={entry.index}
+                            data={[entry]}
+                            x="team_name"
+                            y="points"
+                            barWidth={150}
+                            style={{
+                                data: {
+                                    fill: colorsByPosition[entry.position],
+                                    stroke: '#000',
+                                    strokeWidth: 1,
+                                },
+                                labels: { fill: '#000' },
+                            }}
+                            labels={({ datum }) => `${datum.full_name} ${datum.label}`}
+                            labelComponent={<CustomLabel />}
+                        />
+                    ))}
+                </VictoryStack>
+            </VictoryChart>
         </div>
+    );
+};
+
+// Custom label component to position the label in the middle of the bar segment
+const CustomLabel = (props) => {
+    const { x, y, datum } = props;
+
+    // Check if both full_name and label are defined before concatenating
+    const labelContent = datum.full_name && datum.label ? `${datum.full_name} - ${datum.label}` : '';
+
+    // Assuming points represent the height of the bar segment
+    const points = datum.label || 0; // Use the points value from the label or default to 0
+
+    // Define a threshold value for positioning the label outside the bar
+    const threshold = 0;
+
+    // Calculate the y position based on the threshold
+    const yPos = points < threshold ? y - 15 : y + (2 * points) / 2 + 3;
+
+    return (
+        <g transform={`translate(${x}, ${yPos})`}>
+            <text textAnchor="middle" fontSize={10} fill="#000">
+                {labelContent}
+            </text>
+        </g>
+    );
+};
+
+
+export const MotwTable = ({ motwHistoryData }) => {
+    return (
+        <StyledTable>
+            <thead>
+                <tr>
+                    <th>Week</th>
+                    <th>Winner Team</th>
+                    <th>Winner Score</th>
+                    <th>Loser Score</th>
+                    <th>Loser Team</th>
+                    <th># of Shots / Dogs</th>
+                </tr>
+            </thead>
+            <tbody>
+                {motwHistoryData.map((weekData, index) => (
+                    <tr key={index}>
+                        <td class="center-column">{weekData.Week}</td>
+                        <td class="wrap-cell">
+                            {weekData["Winner Team"]}
+                        </td>
+                        <td class="center-column"
+                            style={{
+                                backgroundColor: weekData.WinnerScoreColor
+                            }}>
+                            {weekData["Winner Score"]}
+                        </td>
+                        <td class="center-column"
+                            style={{
+                                backgroundColor: weekData.LoserScoreColor
+                            }}>
+                            {weekData["Loser Score"]}</td>
+                        <td class="wrap-cell">{weekData["Loser Team"]}</td>
+                        <td class="center-column"
+                            style={{
+                                backgroundColor: weekData.ShotsDogsColor
+                            }}
+                        >{weekData["# of Shots/Dogs"]}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </StyledTable>
     );
 };

@@ -1,1082 +1,866 @@
 [
   {
     "week": 1,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 140.96,
-    "Group": "Historic",
-    "Score": 140.96
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 74.52,
-    "Group": "Historic",
-    "Score": 74.52
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 80.44,
-    "Group": "Historic",
-    "Score": 80.44
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 108.34,
-    "Group": "Historic",
-    "Score": 108.34
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 131.14,
-    "Group": "Historic",
-    "Score": 131.14
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 122.44,
-    "Group": "Historic",
-    "Score": 122.44
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 146.56,
-    "Group": "Historic",
-    "Score": 146.56
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 75.98,
-    "Group": "Historic",
-    "Score": 75.98
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 106.66,
-    "Group": "Historic",
-    "Score": 106.66
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 75.5,
-    "Group": "Historic",
-    "Score": 75.5
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 110.14,
-    "Group": "Historic",
-    "Score": 110.14
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 1,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 120.16,
-    "Group": "Historic",
-    "Score": 120.16
+    "Average": 107.7367,
+    "Median": 109.24,
+    "Maximum": 146.56,
+    "Minimum": 74.52
   },
   {
     "week": 2,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 141.76,
-    "Group": "Historic",
-    "Score": 141.76
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 125.8,
-    "Group": "Historic",
-    "Score": 125.8
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 143.4,
-    "Group": "Historic",
-    "Score": 143.4
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 113.14,
-    "Group": "Historic",
-    "Score": 113.14
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 154.56,
-    "Group": "Historic",
-    "Score": 154.56
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 90.64,
-    "Group": "Historic",
-    "Score": 90.64
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 112.7,
-    "Group": "Historic",
-    "Score": 112.7
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 138.58,
-    "Group": "Historic",
-    "Score": 138.58
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 112.94,
-    "Group": "Historic",
-    "Score": 112.94
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 113.92,
-    "Group": "Historic",
-    "Score": 113.92
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 97.76,
-    "Group": "Historic",
-    "Score": 97.76
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 2,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 125.78,
-    "Group": "Historic",
-    "Score": 125.78
+    "Average": 122.5817,
+    "Median": 119.85,
+    "Maximum": 154.56,
+    "Minimum": 90.64
   },
   {
     "week": 3,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 174.64,
-    "Group": "Historic",
-    "Score": 174.64
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 81.16,
-    "Group": "Historic",
-    "Score": 81.16
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 143.58,
-    "Group": "Historic",
-    "Score": 143.58
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 111.86,
-    "Group": "Historic",
-    "Score": 111.86
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 140.52,
-    "Group": "Historic",
-    "Score": 140.52
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 148.86,
-    "Group": "Historic",
-    "Score": 148.86
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 112.7,
-    "Group": "Historic",
-    "Score": 112.7
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 140.26,
-    "Group": "Historic",
-    "Score": 140.26
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 109.56,
-    "Group": "Historic",
-    "Score": 109.56
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 106.98,
-    "Group": "Historic",
-    "Score": 106.98
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 122.06,
-    "Group": "Historic",
-    "Score": 122.06
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 3,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 132.88,
-    "Group": "Historic",
-    "Score": 132.88
+    "Average": 127.0883,
+    "Median": 127.47,
+    "Maximum": 174.64,
+    "Minimum": 81.16
   },
   {
     "week": 4,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 126.66,
-    "Group": "Historic",
-    "Score": 126.66
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 99.9,
-    "Group": "Historic",
-    "Score": 99.9
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 75.22,
-    "Group": "Historic",
-    "Score": 75.22
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 154.2,
-    "Group": "Historic",
-    "Score": 154.2
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 164.3,
-    "Group": "Historic",
-    "Score": 164.3
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 91.78,
-    "Group": "Historic",
-    "Score": 91.78
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 122.88,
-    "Group": "Historic",
-    "Score": 122.88
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 53.9,
-    "Group": "Historic",
-    "Score": 53.9
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 107.92,
-    "Group": "Historic",
-    "Score": 107.92
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 97.66,
-    "Group": "Historic",
-    "Score": 97.66
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 124.68,
-    "Group": "Historic",
-    "Score": 124.68
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 4,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 135.14,
-    "Group": "Historic",
-    "Score": 135.14
+    "Average": 112.8533,
+    "Median": 115.4,
+    "Maximum": 164.3,
+    "Minimum": 53.9
   },
   {
     "week": 5,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 129.86,
-    "Group": "Historic",
-    "Score": 129.86
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 94.42,
-    "Group": "Historic",
-    "Score": 94.42
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 74.74,
-    "Group": "Historic",
-    "Score": 74.74
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 140.68,
-    "Group": "Historic",
-    "Score": 140.68
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 150.86,
-    "Group": "Historic",
-    "Score": 150.86
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 142.26,
-    "Group": "Historic",
-    "Score": 142.26
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 94.94,
-    "Group": "Historic",
-    "Score": 94.94
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 109.12,
-    "Group": "Historic",
-    "Score": 109.12
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 100.08,
-    "Group": "Historic",
-    "Score": 100.08
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 138.72,
-    "Group": "Historic",
-    "Score": 138.72
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 118.22,
-    "Group": "Historic",
-    "Score": 118.22
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 5,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 108.24,
-    "Group": "Historic",
-    "Score": 108.24
+    "Average": 116.845,
+    "Median": 113.67,
+    "Maximum": 150.86,
+    "Minimum": 74.74
   },
   {
     "week": 6,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 124.14,
-    "Group": "Historic",
-    "Score": 124.14
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 119.94,
-    "Group": "Historic",
-    "Score": 119.94
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 95.04,
-    "Group": "Historic",
-    "Score": 95.04
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 112.92,
-    "Group": "Historic",
-    "Score": 112.92
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 113.76,
-    "Group": "Historic",
-    "Score": 113.76
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 106.24,
-    "Group": "Historic",
-    "Score": 106.24
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 96.18,
-    "Group": "Historic",
-    "Score": 96.18
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 101.4,
-    "Group": "Historic",
-    "Score": 101.4
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 124.28,
-    "Group": "Historic",
-    "Score": 124.28
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 105,
-    "Group": "Historic",
-    "Score": 105
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 136.68,
-    "Group": "Historic",
-    "Score": 136.68
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 6,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 111.62,
-    "Group": "Historic",
-    "Score": 111.62
+    "Average": 112.2667,
+    "Median": 112.27,
+    "Maximum": 136.68,
+    "Minimum": 95.04
   },
   {
     "week": 7,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 123.26,
-    "Group": "Historic",
-    "Score": 123.26
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 123.64,
-    "Group": "Historic",
-    "Score": 123.64
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 125.56,
-    "Group": "Historic",
-    "Score": 125.56
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 125.2,
-    "Group": "Historic",
-    "Score": 125.2
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 77.6,
-    "Group": "Historic",
-    "Score": 77.6
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 123.86,
-    "Group": "Historic",
-    "Score": 123.86
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 72.46,
-    "Group": "Historic",
-    "Score": 72.46
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 79.46,
-    "Group": "Historic",
-    "Score": 79.46
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 96,
-    "Group": "Historic",
-    "Score": 96
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 125.36,
-    "Group": "Historic",
-    "Score": 125.36
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 148.54,
-    "Group": "Historic",
-    "Score": 148.54
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 7,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 122.58,
-    "Group": "Historic",
-    "Score": 122.58
+    "Average": 111.96,
+    "Median": 123.45,
+    "Maximum": 148.54,
+    "Minimum": 72.46
   },
   {
     "week": 8,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 100.36,
-    "Group": "Historic",
-    "Score": 100.36
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 144.48,
-    "Group": "Historic",
-    "Score": 144.48
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 98.3,
-    "Group": "Historic",
-    "Score": 98.3
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 114.3,
-    "Group": "Historic",
-    "Score": 114.3
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 139.76,
-    "Group": "Historic",
-    "Score": 139.76
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 97.5,
-    "Group": "Historic",
-    "Score": 97.5
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 120.42,
-    "Group": "Historic",
-    "Score": 120.42
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 114.08,
-    "Group": "Historic",
-    "Score": 114.08
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 140.96,
-    "Group": "Historic",
-    "Score": 140.96
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 133.76,
-    "Group": "Historic",
-    "Score": 133.76
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 183.96,
-    "Group": "Historic",
-    "Score": 183.96
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 8,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 137.68,
-    "Group": "Historic",
-    "Score": 137.68
+    "Average": 127.13,
+    "Median": 127.09,
+    "Maximum": 183.96,
+    "Minimum": 97.5
   },
   {
     "week": 9,
-    "manager_id": 1,
-    "team_name": "Hurt Thuggins & the boys",
-    "winner": 0,
-    "matchup_id": 4,
     "team_points": 100.74,
-    "Group": "This Week",
-    "Score": 100.74
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 2,
-    "team_name": "WalterVick",
-    "winner": 1,
-    "matchup_id": 5,
     "team_points": 133.4,
-    "Group": "This Week",
-    "Score": 133.4
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 3,
-    "team_name": "League Camera Fund",
-    "winner": 1,
-    "matchup_id": 4,
     "team_points": 162.5,
-    "Group": "This Week",
-    "Score": 162.5
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 4,
-    "team_name": "Travis Swift",
-    "winner": 1,
-    "matchup_id": 1,
     "team_points": 96.62,
-    "Group": "This Week",
-    "Score": 96.62
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 5,
-    "team_name": "Just Joshin",
-    "winner": 1,
-    "matchup_id": 3,
     "team_points": 150.72,
-    "Group": "This Week",
-    "Score": 150.72
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 6,
-    "team_name": "Dropping Like Flys",
-    "winner": 0,
-    "matchup_id": 6,
     "team_points": 117.7,
-    "Group": "This Week",
-    "Score": 117.7
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 7,
-    "team_name": "Bijan shih tzu",
-    "winner": 0,
-    "matchup_id": 2,
     "team_points": 82.24,
-    "Group": "This Week",
-    "Score": 82.24
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 8,
-    "team_name": "The Werbenjägermanjensens",
-    "winner": 1,
-    "matchup_id": 2,
     "team_points": 94.22,
-    "Group": "This Week",
-    "Score": 94.22
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 9,
-    "team_name": "E.T.N Phone Home",
-    "winner": 0,
-    "matchup_id": 1,
     "team_points": 91.86,
-    "Group": "This Week",
-    "Score": 91.86
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 10,
-    "team_name": "Cook-ing a 0.2",
-    "winner": 0,
-    "matchup_id": 5,
     "team_points": 119.58,
-    "Group": "This Week",
-    "Score": 119.58
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 11,
-    "team_name": "Njigba’s in Paris",
-    "winner": 1,
-    "matchup_id": 6,
     "team_points": 127.12,
-    "Group": "This Week",
-    "Score": 127.12
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   },
   {
     "week": 9,
-    "manager_id": 12,
-    "team_name": "First Down Syndrome",
-    "winner": 0,
-    "matchup_id": 3,
     "team_points": 84.08,
-    "Group": "This Week",
-    "Score": 84.08
+    "Average": 113.3983,
+    "Median": 109.22,
+    "Maximum": 162.5,
+    "Minimum": 82.24
   }
 ]
