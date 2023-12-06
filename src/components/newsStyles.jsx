@@ -83,6 +83,7 @@ export const ArticleSubheader = styled.div`
 export const StyledTable = styled.table`
     table-layout: auto;
     max-width: 100%;
+    width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 
@@ -104,6 +105,14 @@ export const StyledTable = styled.table`
 
     .center-column {
         text-align: center;
+    }
+
+    .positive-trend {
+        color: green;
+    }
+
+  .negative-trend {
+        color: red;
     }
 `;
 
@@ -241,6 +250,33 @@ export const StackedHistogram = ({ chartData }) => {
     );
 };
 
+export const ShotsDistributionChart = ({ chartData }) => {
+    // Assuming bins is an array of your desired bin values
+    const bins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // Update with your actual bin values
+
+    return (
+        <VictoryChart>
+            <VictoryStack colorScale="qualitative">
+                <VictoryHistogram
+                    style={{ data: { fill: '#20A4F4' } }}
+                    cornerRadius={3}
+                    data={chartData.filter(entry => entry.group === 'MotW')}
+                    x="x"
+                    bins={bins}
+                />
+                <VictoryHistogram
+                    style={{ data: { fill: '#7D8491' } }}
+                    cornerRadius={3}
+                    data={chartData.filter(entry => entry.group === 'Not MotW')}
+                    x="x"
+                    bins={bins}
+                />
+            </VictoryStack>
+            <VictoryAxis tickCount={Math.round(bins.length / 2.5)} />
+            <VictoryAxis dependentAxis />
+        </VictoryChart>
+    );
+};
 
 export const WeeklyScoringChart = ({ chartData }) => {
     const data = chartData.map(({ week, team_points, Average, Median, Maximum, Minimum }) => ({
@@ -420,30 +456,249 @@ export const MotwTable = ({ motwHistoryData }) => {
             <tbody>
                 {motwHistoryData.map((weekData, index) => (
                     <tr key={index}>
-                        <td class="center-column">{weekData.Week}</td>
-                        <td class="wrap-cell">
+                        <td className="center-column">{weekData.Week}</td>
+                        <td className="wrap-cell">
                             {weekData["Winner Team"]}
                         </td>
-                        <td class="center-column"
+                        <td className="center-column"
                             style={{
                                 backgroundColor: weekData.WinnerScoreColor
                             }}>
                             {weekData["Winner Score"]}
                         </td>
-                        <td class="center-column"
+                        <td className="center-column"
                             style={{
                                 backgroundColor: weekData.LoserScoreColor
                             }}>
                             {weekData["Loser Score"]}</td>
-                        <td class="wrap-cell">{weekData["Loser Team"]}</td>
-                        <td class="center-column"
+                        <td className="wrap-cell">{weekData["Loser Team"]}</td>
+                        <td className="center-column"
                             style={{
                                 backgroundColor: weekData.ShotsDogsColor
-                            }}
-                        >{weekData["# of Shots/Dogs"]}</td>
+                            }}>
+                            {weekData["# of Shots/Dogs"]}</td>
                     </tr>
                 ))}
             </tbody>
         </StyledTable>
     );
 };
+
+export const LeaderboardTable = ({ leaderboardData }) => {
+    return (
+        <StyledTable>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Trend</th>
+                    <th>Team</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>PF</th>
+                    <th>PA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {leaderboardData.map((teamData, index) => (
+                    <tr key={index}>
+                        <td className="center-column">{teamData.Rank}</td>
+                        <td className={`center-column ${teamData.Trend > 0 ? 'positive-trend' : (teamData.Trend < 0 ? 'negative-trend' : '')}`}>
+                            {teamData.Trend}
+                        </td>
+                        <td className="wrap-cell">{teamData.Team}</td>
+                        <td className="center-column">{teamData.W}</td>
+                        <td className="center-column">{teamData.L}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.PFColor }}
+                        >{teamData.PF}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.PAColor }}
+                        >{teamData.PA}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </StyledTable>
+    );
+};
+
+export const PowerRankingsTable = ({ powerRankingsData }) => {
+    return (
+        <StyledTable>
+            <thead>
+                <tr>
+                    <th>Power Rank</th>
+                    <th>Trend</th>
+                    <th>Team</th>
+                    <th>Play All W</th>
+                    <th>Play All L</th>
+                    <th>Team Ability</th>
+                    <th>Str of Sched</th>
+                </tr>
+            </thead>
+            <tbody>
+                {powerRankingsData.map((teamData, index) => (
+                    <tr key={index}>
+                        <td className="center-column">{teamData['P Rank']}</td>
+                        <td className={`center-column ${teamData.Trend > 0 ? 'positive-trend' : (teamData.Trend < 0 ? 'negative-trend' : '')}`}>
+                            {teamData.Trend}
+                        </td>
+                        <td className="wrap-cell">{teamData.Team}</td>
+                        <td className="center-column">{teamData['Play All W']}</td>
+                        <td className="center-column">{teamData['Play All L']}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.TaColor }}
+                        >{teamData['Team Ability']}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.SosColor }}
+                        >{teamData['Str of Sched']}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </StyledTable>
+    );
+};
+
+export const PlayoffTable = ({ playoffData }) => {
+    return (
+        <StyledTable>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>Play-off %</th>
+                    <th>Play-off #</th>
+                    <th>Last %</th>
+                    <th>Last #</th>
+                </tr>
+            </thead>
+            <tbody>
+                {playoffData.map((teamData, index) => (
+                    <tr key={index}>
+                        <td className="center-column">{teamData.Rank}</td>
+                        <td className="wrap-cell">{teamData.Team}</td>
+                        <td className="center-column">{teamData.W}</td>
+                        <td className="center-column">{teamData.L}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.PlayoffColor }}
+                        >{teamData['Play-off %']}</td>
+                        <td className="wrap-cell"
+                            style={{
+                                backgroundColor: teamData.PlayoffMagicColor,
+                                whiteSpace: 'nowrap', // Prevent text wrapping
+                            }}
+                        >{teamData['Play-off #']}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.LastColor }}
+                        >{teamData['Last %']}</td>
+                        <td className="wrap-cell"
+                            style={{
+                                backgroundColor: teamData.PlayoffMagicColor,
+                                whiteSpace: 'nowrap', // Prevent text wrapping
+                            }}
+                        >{teamData['Last #']}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </StyledTable>
+    );
+};
+
+
+const CustomDataComponent = (props) => {
+    const { x, y, datum } = props;
+
+    return (
+        <g transform={`translate(${x}, ${y})`}>
+            <image
+                x="-15"
+                y="-15"
+                width="30"
+                height="30"
+                href={datum.image_or_text}
+                alt=""
+            />
+        </g>
+    );
+};
+
+export const PfPaScatter = ({ leaderboardData }) => {
+    return (
+        <VictoryChart domainPadding={{ x: 25, y: 25 }}>
+            <VictoryLine
+                data={[
+                    { x: Math.min(...leaderboardData.map((d) => d.PF)), y: Math.min(...leaderboardData.map((d) => d.PA)) },
+                    { x: Math.max(...leaderboardData.map((d) => d.PF)), y: Math.max(...leaderboardData.map((d) => d.PA)) },
+                ]}
+                style={{
+                    data: { stroke: 'black', strokeWidth: 0.5, strokeDasharray: '5, 5' },
+                }}
+            />
+
+            <VictoryScatter
+                data={leaderboardData}
+                x="PF"
+                y="PA"
+                dataComponent={<CustomDataComponent />}
+            />
+
+            {/* X-axis */}
+            <VictoryAxis
+                label="Points For"
+                style={{
+                    axisLabel: { padding: 30 },
+                }}
+            />
+
+            {/* Y-axis */}
+            <VictoryAxis
+                dependentAxis
+                label="Points Against"
+                style={{
+                    axisLabel: { padding: 40 },
+                }}
+            />
+
+            {/* Line at y=x */}
+
+        </VictoryChart>
+    );
+};
+
+export const AltLeaderboardTable = ({ data }) => {
+    return (
+        <StyledTable>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Diff</th>
+                    <th>Team</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>PF</th>
+                    <th>PA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {data.map((teamData, index) => (
+                    <tr key={index}>
+                        <td className="center-column">{teamData.Rank}</td>
+                        <td className={`center-column ${teamData.Diff > 0 ? 'positive-trend' : (teamData.Diff < 0 ? 'negative-trend' : '')}`}>
+                            {teamData.Diff}
+                        </td>
+                        <td className="wrap-cell">{teamData.Team}</td>
+                        <td className="center-column">{teamData.W}</td>
+                        <td className="center-column">{teamData.L}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.PFColor }}
+                        >{teamData.PF}</td>
+                        <td className="center-column"
+                            style={{ backgroundColor: teamData.PAColor }}
+                        >{teamData.PA}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </StyledTable>
+    );
+}

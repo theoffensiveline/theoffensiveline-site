@@ -1,10 +1,16 @@
 import React from 'react';
-import AwardsTable, { ArticleImage, ArticleHeader, ImageWrapper, ArticleSubheader, BarChart, StackedHistogram, WeeklyScoringChart, MatchupPlot, MotwTable } from '../../components/newsStyles';
+import AwardsTable, { ArticleHeader, ArticleSubheader, BarChart, StackedHistogram, WeeklyScoringChart, MatchupPlot, MotwTable, ShotsDistributionChart, LeaderboardTable, PfPaScatter, PowerRankingsTable, PlayoffTable, AltLeaderboardTable } from '../../components/newsStyles';
 import awardsData from './awardsTable.json';
 import efficiencyData from './efficiencyData.json';
 import matchupData from './matchupData.json';
 import starterData from './starters.json';
 import motwHistoryData from './motwtable.json';
+import shotsDistData from './shotsDist.json';
+import leaderboardData from './leaderboard.json';
+import powerRankingsData from './powerRankings.json';
+import playoffData from './playoffTable.json';
+import medianLbData from './medianLb.json';
+import bestBallLbData from './bestBallLb.json';
 
 export const newsDate = '2023-11-09';
 
@@ -49,6 +55,31 @@ export const articles = [
                 <p>
                     This is the content of Article 3. It can include text, images, and other elements.
                 </p>
+                <ShotsDistributionChart chartData={shotsDistData} />
+            </div>
+        ),
+    },
+    {
+        id: 4,
+        title: 'Article 4',
+        content: (
+            <div>
+                <ArticleHeader>This is the Title of Article 4</ArticleHeader>
+                <LeaderboardTable leaderboardData={leaderboardData} />
+                <PfPaScatter leaderboardData={leaderboardData} />
+                <PowerRankingsTable powerRankingsData={powerRankingsData} />
+                <PlayoffTable playoffData={playoffData} />
+            </div>
+        ),
+    },
+    {
+        id: 5,
+        title: 'Article 5',
+        content: (
+            <div>
+                <ArticleHeader>This is the Title of Article 5</ArticleHeader>
+                <AltLeaderboardTable data={medianLbData} />
+                <AltLeaderboardTable data={bestBallLbData} />
             </div>
         ),
     },
