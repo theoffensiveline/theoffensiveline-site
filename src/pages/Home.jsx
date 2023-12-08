@@ -11,11 +11,13 @@ const GridContainer = styled.div`
 `;
 
 const GridItem = styled.button`
-    background-color: #7D8491;
-    border: 1px solid #2E2E2E;
+    background-color: #7E6551;
+    border: 1px solid #7E6551;
+    border-radius: 5px;
     padding: 30px;
     cursor: pointer;
     text-align: center;
+    color: #fff; /* Set the desired text color */
 `;
 
 function Home() {
