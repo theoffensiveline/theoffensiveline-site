@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Just Joshin",
+    "W": 21,
+    "L": 5,
+    "PF": 1719.86,
+    "PA": 1295.66,
+    "PFColor": "#20a4f3",
+    "PAColor": "#20a4f3"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Njigba’s in Paris",
+    "W": 20,
+    "L": 6,
+    "PF": 1700.08,
+    "PA": 1484.66,
+    "PFColor": "#3ca0f6",
+    "PAColor": "#cc6cd5"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Hurt Thuggins & the boys",
+    "W": 17,
+    "L": 9,
+    "PF": 1637.78,
+    "PA": 1552.18,
+    "PFColor": "#6597f7",
+    "PAColor": "#ef4eab"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Travis Swift",
+    "W": 15,
+    "L": 11,
+    "PF": 1608.02,
+    "PA": 1442.16,
+    "PFColor": "#818ff5",
+    "PAColor": "#b17ce6"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "Cook-ing a 0.2",
+    "W": 15,
+    "L": 11,
+    "PF": 1525.66,
+    "PA": 1528.8,
+    "PFColor": "#b17ce6",
+    "PAColor": "#e756b8"
+  },
+  {
+    "Rank": 6,
+    "Diff": 1,
+    "Team": "Murray Hater",
+    "W": 13,
+    "L": 13,
+    "PF": 1498.68,
+    "PA": 1506.44,
+    "PFColor": "#bf74de",
+    "PAColor": "#d863ca"
+  },
+  {
+    "Rank": 7,
+    "Diff": -1,
+    "Team": "First Down Syndrome",
+    "W": 12,
+    "L": 14,
+    "PF": 1525.28,
+    "PA": 1547.14,
+    "PFColor": "#b17ce6",
+    "PAColor": "#eb52b2"
+  },
+  {
+    "Rank": 8,
+    "Diff": 1,
+    "Team": "WalterFix",
+    "W": 11,
+    "L": 15,
+    "PF": 1505.06,
+    "PA": 1642.14,
+    "PFColor": "#bf74de",
+    "PAColor": "#ff3366"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "League Camera Fund",
+    "W": 10,
+    "L": 16,
+    "PF": 1442.38,
+    "PA": 1642.58,
+    "PFColor": "#dd5fc5",
+    "PAColor": "#ff3366"
+  },
+  {
+    "Rank": 10,
+    "Diff": -2,
+    "Team": "Bijan shih tzu",
+    "W": 10,
+    "L": 16,
+    "PF": 1418.46,
+    "PA": 1497.54,
+    "PFColor": "#e756b8",
+    "PAColor": "#d268d0"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "E.T.N Phone Home",
+    "W": 6,
+    "L": 20,
+    "PF": 1413.88,
+    "PA": 1586.02,
+    "PFColor": "#e756b8",
+    "PAColor": "#f84195"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "The Werbenjägermanjensens",
+    "W": 6,
+    "L": 20,
+    "PF": 1274.56,
+    "PA": 1544.38,
+    "PFColor": "#ff3366",
+    "PAColor": "#eb52b2"
+  }
+]

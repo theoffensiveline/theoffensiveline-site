@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 1,
+    "Team": "Njigba’s in Paris",
+    "Play All W": 100,
+    "Play All L": 43,
+    "Team Ability": 70.21,
+    "Str of Sched": 50.14,
+    "TaColor": "#2fa2f4",
+    "SosColor": "#d268d0"
+  },
+  {
+    "P Rank": 2,
+    "Trend": -1,
+    "Team": "Just Joshin",
+    "Play All W": 102,
+    "Play All L": 41,
+    "Team Ability": 71.65,
+    "Str of Sched": 25.21,
+    "TaColor": "#20a4f3",
+    "SosColor": "#20a4f3"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 1,
+    "Team": "Hurt Thuggins & the boys",
+    "Play All W": 88,
+    "Play All L": 55,
+    "Team Ability": 61.93,
+    "Str of Sched": 50.14,
+    "TaColor": "#7892f6",
+    "SosColor": "#d268d0"
+  },
+  {
+    "P Rank": 4,
+    "Trend": -1,
+    "Team": "Travis Swift",
+    "Play All W": 82,
+    "Play All L": 61,
+    "Team Ability": 57.79,
+    "Str of Sched": 42.58,
+    "TaColor": "#9289f1",
+    "SosColor": "#aa7fea"
+  },
+  {
+    "P Rank": 5,
+    "Trend": 1,
+    "Team": "WalterFix",
+    "Play All W": 74,
+    "Play All L": 69,
+    "Team Ability": 52.21,
+    "Str of Sched": 61.93,
+    "TaColor": "#b878e2",
+    "SosColor": "#f84195"
+  },
+  {
+    "P Rank": 6,
+    "Trend": -1,
+    "Team": "Cook-ing a 0.2",
+    "Play All W": 70,
+    "Play All L": 73,
+    "Team Ability": 49.42,
+    "Str of Sched": 48.79,
+    "TaColor": "#c670da",
+    "SosColor": "#cc6cd5"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 0,
+    "Team": "Murray Hater",
+    "Play All W": 67,
+    "Play All L": 76,
+    "Team Ability": 47.35,
+    "Str of Sched": 50.14,
+    "TaColor": "#cc6cd5",
+    "SosColor": "#d268d0"
+  },
+  {
+    "P Rank": 8,
+    "Trend": 2,
+    "Team": "League Camera Fund",
+    "Play All W": 63,
+    "Play All L": 80,
+    "Team Ability": 44.65,
+    "Str of Sched": 68.86,
+    "TaColor": "#dd5fc5",
+    "SosColor": "#ff3366"
+  },
+  {
+    "P Rank": 9,
+    "Trend": 0,
+    "Team": "First Down Syndrome",
+    "Play All W": 64,
+    "Play All L": 79,
+    "Team Ability": 45.28,
+    "Str of Sched": 53.65,
+    "TaColor": "#d863ca",
+    "SosColor": "#e25bbf"
+  },
+  {
+    "P Rank": 10,
+    "Trend": -2,
+    "Team": "Bijan shih tzu",
+    "Play All W": 54,
+    "Play All L": 89,
+    "Team Ability": 38.35,
+    "Str of Sched": 50.14,
+    "TaColor": "#f249a4",
+    "SosColor": "#d268d0"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 0,
+    "Team": "E.T.N Phone Home",
+    "Play All W": 55,
+    "Play All L": 88,
+    "Team Ability": 39.07,
+    "Str of Sched": 54.28,
+    "TaColor": "#ef4eab",
+    "SosColor": "#e25bbf"
+  },
+  {
+    "P Rank": 12,
+    "Trend": 0,
+    "Team": "The Werbenjägermanjensens",
+    "Play All W": 39,
+    "Play All L": 104,
+    "Team Ability": 28,
+    "Str of Sched": 50.14,
+    "TaColor": "#ff3366",
+    "SosColor": "#d268d0"
+  }
+]
