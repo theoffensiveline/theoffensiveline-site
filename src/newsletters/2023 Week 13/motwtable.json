@@ -59,7 +59,7 @@
     "Winner Team": "Travis Swift",
     "Winner Score": 112.92,
     "Loser Score": 106.24,
-    "Loser Team": "Dropping Like Flys",
+    "Loser Team": "Murray Hater",
     "# of Shots/Dogs": 5,
     "WinnerScoreColor": "#cc6cd5",
     "LoserScoreColor": "#d863ca",
@@ -70,7 +70,7 @@
     "Winner Team": "Travis Swift",
     "Winner Score": 125.2,
     "Loser Score": 123.64,
-    "Loser Team": "Travis Swifty",
+    "Loser Team": "WalterFix",
     "# of Shots/Dogs": 4,
     "WinnerScoreColor": "#b878e2",
     "LoserScoreColor": "#b878e2",
@@ -119,5 +119,27 @@
     "WinnerScoreColor": "#e25bbf",
     "LoserScoreColor": "#ef4eab",
     "ShotsDogsColor": "#d863ca"
+  },
+  {
+    "Week": 12,
+    "Winner Team": "Just Joshin",
+    "Winner Score": 160.86,
+    "Loser Score": 91.76,
+    "Loser Team": "League Camera Fund",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#6597f7",
+    "LoserScoreColor": "#eb52b2",
+    "ShotsDogsColor": "#f5459d"
+  },
+  {
+    "Week": 13,
+    "Winner Team": "Just Joshin",
+    "Winner Score": 132.3,
+    "Loser Score": 130.86,
+    "Loser Team": "Murray Hater",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#aa7fea",
+    "LoserScoreColor": "#aa7fea",
+    "ShotsDogsColor": "#aa7fea"
   }
 ]

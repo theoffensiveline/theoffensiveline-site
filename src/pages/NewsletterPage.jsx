@@ -45,7 +45,7 @@ function NewsletterPage() {
             </NewsStyles.DateBar>
             <div>
                 {content ? (
-                    <ResponsiveMasonry columnsCountBreakPoints={{ 600: 1, 1200: 2, 1800: 3 }}>
+                    <ResponsiveMasonry columnsCountBreakPoints={{ 600: 1, 1200: 2, 1800: 3, 2400: 4, 3000: 5 }}>
                         <Masonry>
                             {content.articles.map((article) => (
                                 <NewsStyles.ArticleBlock as="div" key={article.id}>

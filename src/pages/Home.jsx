@@ -1,60 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     justify-content: center;
+    padding: 20px;
 `;
 
 const GridItem = styled.button`
-    background-color: #f2f2f2;
-    border: 1px solid grey;
-    padding: 10px;
+    background-color: #7D8491;
+    border: 1px solid #2E2E2E;
+    padding: 30px;
     cursor: pointer;
     text-align: center;
 `;
 
 function Home() {
     const navigate = useNavigate();
-    const [newsletterIssues, setNewsletterIssues] = useState([]);
 
-    useEffect(() => {
-        try {
-            const context = require.context(
-                '../newsletters',
-                true,
-                /\.jsx$/
-            );
-
-            const issues = context.keys().map((key) => {
-                const parts = key.split('/');
-                return parts[parts.length - 1].replace(/\.jsx$/, '');
-            });
-
-            setNewsletterIssues(issues);
-        } catch (error) {
-            console.error('Error loading newsletter issues:', error);
-        }
-    }, []); // Empty dependency array to run the effect once
+    const newsletterIssues = [
+        '2023 Week 13',
+    ]
 
     const handleNavigate = (issue) => {
         navigate(`/newsletterPage`, { state: { issue } });
-        console.log({ issue })
+        console.log({ issue });
     };
 
     return (
         <GridContainer>
             {newsletterIssues.map((issue) => (
-                <GridItem
-                    key={issue}
-                    onClick={() => handleNavigate(issue)}
-                >
-                    Newsletter {issue}
+                <GridItem key={issue} onClick={() => handleNavigate(issue)}>
+                    {issue}
                 </GridItem>
             ))}
+            <GridItem onClick={() => navigate("/news")}>
+                Older News
+            </GridItem>
         </GridContainer>
     );
 }

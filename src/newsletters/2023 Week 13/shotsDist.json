@@ -286,5 +286,29 @@
   {
     "x": 2,
     "group": "Not MotW"
+  },
+  {
+    "x": 4,
+    "group": "Not MotW"
+  },
+  {
+    "x": 3,
+    "group": "Not MotW"
+  },
+  {
+    "x": 3,
+    "group": "MotW"
+  },
+  {
+    "x": 5,
+    "group": "Not MotW"
+  },
+  {
+    "x": 7,
+    "group": "Not MotW"
+  },
+  {
+    "x": 2,
+    "group": "Not MotW"
   }
 ]

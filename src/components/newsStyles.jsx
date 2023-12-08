@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter } from 'victory';
+import React from 'react';
 
 export const NewsletterContainer = styled.div`
     max-width: 100%;
@@ -35,7 +36,6 @@ export const DateBar = styled.div`
     text-align: center;
 `;
 
-
 export const ArticleHeader = styled.h2`
     font-weight: 500;
     font-style: italic;
@@ -50,8 +50,8 @@ export const ArticleHeader = styled.h2`
 `;
 
 export const ArticleSubheader = styled.div`
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 500;
+    font-size: 16px;
     box-sizing: border-box;
     padding: 10px 0 10px 0;
     text-align: center;
@@ -63,7 +63,7 @@ export const ArticleSubheader = styled.div`
     &:before {
         border-top: 1px solid #2E2E2E;
         content: '';
-        width: 100px;
+        width: 250px;
         height: 7px;
         display: block;
         margin: 0 auto;
@@ -72,13 +72,12 @@ export const ArticleSubheader = styled.div`
     &:after {
         border-bottom: 1px solid #2E2E2E;
         content: '';
-        width: 100px;
+        width: 250px;
         height: 7px;
         display: block;
         margin: 0 auto;
     }
 `;
-
 
 export const StyledTable = styled.table`
     table-layout: auto;
@@ -89,8 +88,8 @@ export const StyledTable = styled.table`
 
     th, td {
         border: 1px solid #000;
-        padding: 5px; /* Add padding to th and td */
-        text-align: left; /* Align text to the left */
+        padding: 5px;
+        text-align: left;
     }
 
     th {
@@ -111,7 +110,7 @@ export const StyledTable = styled.table`
         color: green;
     }
 
-  .negative-trend {
+    .negative-trend {
         color: red;
     }
 `;
@@ -120,20 +119,37 @@ export const ArticleBlock = styled.div`
     padding: 4px;
     margin: 4px;
     max-width: calc(100% - 8px); /* Consider padding and margin within max-width */
-    border: 1px solid #ccc;
+    text-align: justify;
 `;
 
+export const LeagueQuote = styled.div`
+    font-weight: 500;
+    font-size: 24px;
+    box-sizing: border-box;
+    display: block;
+    font-style: italic;
+    padding: 10px 0 10px 0;
+    text-align: center;
+`
+
 export const ImageWrapper = styled.div`
-    max-width: 100%; // Limit the image width to its container
-    overflow: hidden; // Hide any overflow if the image exceeds the container's width
+    max-width: 100%;
 `;
 
 export const ArticleImage = styled.img`
-    max-width: 100%; // Make the image responsive to its container's width
+    max-width: 100%;
+    width: 100%;
 `;
 
+export const ArticleCaption = styled.figcaption`
+    text-align: center;
+    font-style: italic;
+    font-size: 12px;
+    font-family: 'Droid Serif', serif;
+    color: #2E2E2E;
+`;
 
-const AwardsTable = ({ awardsData }) => {
+export const AwardsTable = ({ awardsData }) => {
     return (
         <StyledTable>
             <thead>
@@ -154,10 +170,7 @@ const AwardsTable = ({ awardsData }) => {
     );
 };
 
-export default AwardsTable;
-
-
-export const BarChart = ({ chartData }) => {
+export const EfficiencyChart = ({ chartData }) => {
     const teamNames = chartData.map(item => item.team_name);
     const maxPoints = chartData.map(item => item.max_points);
     const actualPoints = chartData.map(item => item.actual_points);
@@ -169,11 +182,30 @@ export const BarChart = ({ chartData }) => {
         'Percentage': actualPoints[index] / maxPoints[index]
     }));
 
+    // calculate the maximum maxPoints
+    const maxPointsValue = Math.max(...maxPoints);
+
+    // list of values from 0 to 25 more than maxPointsValue by 25
+    const bins = [];
+    for (let i = 0; i <= maxPointsValue + 25; i += 25) {
+        bins.push(i);
+    }
+
     return (
         <VictoryChart
             horizontal
+            padding={{ top: 25, bottom: 25, left: 10, right: 50 }}
+            domainPadding={{ x: 10 }}
         >
-            <VictoryLegend x={100} y={10}
+            <VictoryAxis
+                dependentAxis
+                style={{ axis: { width: 0, height: 0 } }}
+                tickValues={bins}
+                gridComponent={<line
+                    style={{ stroke: 'grey', strokeDasharray: '4 4' }}
+                />}
+            />
+            <VictoryLegend x={100} y={0}
                 orientation="horizontal"
                 gutter={20}
                 data={[
@@ -200,15 +232,12 @@ export const BarChart = ({ chartData }) => {
                 x="team_name"
                 y="Actual Points"
                 labels={({ datum }) => `${datum.team_name}`}
-                labelComponent={<VictoryLabel x={45} />}
+                labelComponent={<VictoryLabel x={5} />}
             />
-            <VictoryAxis dependentAxis
-                style={{ axis: { stroke: 'transparent' } }}
-            />
+
         </VictoryChart >
     );
 };
-
 
 export const StackedHistogram = ({ chartData }) => {
     const maxScore = Math.ceil(Math.max(...chartData.map(entry => entry.team_points)));
@@ -228,6 +257,24 @@ export const StackedHistogram = ({ chartData }) => {
 
     return (
         <VictoryChart>
+            <VictoryLegend x={125} y={0}
+                orientation="horizontal"
+                gutter={20}
+                data={[
+                    { name: 'This Week', symbol: { fill: '#20A4F4' } },
+                    { name: 'Historic', symbol: { fill: '#7D8491' } },
+                ]}
+            />
+            <VictoryAxis
+                tickCount={Math.round(bins.length / 2.5)}
+            />
+            <VictoryAxis
+                dependentAxis
+                tickCount={8}
+                gridComponent={<line
+                    style={{ stroke: 'grey', strokeDasharray: '4 4' }}
+                />}
+            />
             <VictoryStack colorScale="qualitative">
                 <VictoryHistogram
                     style={{ data: { fill: '#20A4F4' } }}
@@ -242,20 +289,40 @@ export const StackedHistogram = ({ chartData }) => {
                     x="team_points"
                     bins={bins} />
             </VictoryStack>
-            <VictoryAxis
-                tickCount={Math.round(bins.length / 2.5)}
-            />
-            <VictoryAxis dependentAxis />
+
         </VictoryChart>
     );
 };
 
 export const ShotsDistributionChart = ({ chartData }) => {
     // Assuming bins is an array of your desired bin values
-    const bins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // Update with your actual bin values
+    const bins = [1, 2, 3, 4, 5, 6, 7, 8, 9]; // Update with your actual bin values
 
     return (
-        <VictoryChart>
+        <VictoryChart
+            domainPadding={{ x: 0, y: 0 }}
+            padding={{ top: 40, bottom: 25, left: 40, right: 20 }}
+        >
+            <VictoryLegend
+                x={140} y={0}
+                orientation="horizontal"
+                gutter={20}
+                data={[
+                    { name: 'MotW', symbol: { fill: '#20A4F4' } },
+                    { name: 'Not MotW', symbol: { fill: '#7D8491' } },
+                ]}
+            />
+            <VictoryAxis
+                tickValues={bins}
+                tickFormat={() => ''}
+            />
+            <VictoryAxis
+                dependentAxis
+                tickCount={7}
+                gridComponent={<line
+                    style={{ stroke: 'grey', strokeDasharray: '4 4' }}
+                />}
+            />
             <VictoryStack colorScale="qualitative">
                 <VictoryHistogram
                     style={{ data: { fill: '#20A4F4' } }}
@@ -272,8 +339,15 @@ export const ShotsDistributionChart = ({ chartData }) => {
                     bins={bins}
                 />
             </VictoryStack>
-            <VictoryAxis tickCount={Math.round(bins.length / 2.5)} />
-            <VictoryAxis dependentAxis />
+            {bins.map((bin, index) => (
+                <VictoryLabel
+                    key={index}
+                    text={`${bin}`}
+                    x={index * 49.2 + 62.5} // Adjust this value for proper positioning
+                    y={287} // Adjust this value for proper vertical positioning
+                    textAnchor="middle"
+                />
+            ))}
         </VictoryChart>
     );
 };
@@ -341,7 +415,6 @@ export const WeeklyScoringChart = ({ chartData }) => {
     );
 };
 
-
 // Define colors for each position
 const colorsByPosition = {
     QB: '#E1676F',
@@ -367,14 +440,19 @@ export const MatchupPlot = ({ data, matchupId }) => {
     return (
         <div>
             <VictoryChart
-                domainPadding={{ x: 90, y: [20, 20] }} // Adjust the x and y domainPadding values
-                padding={{ top: 20, bottom: 30, left: 50, right: 20 }}
+                domainPadding={{ x: 90 }} // Adjust the x and y domainPadding values
+                padding={{ top: 10, bottom: 30, left: 40, right: 20 }}
             >
                 <VictoryAxis
                     tickValues={filteredData.map((team, index) => index + 0.5)}
                     tickFormat={filteredData.map((team) => team.team_name)}
                 />
-                <VictoryAxis dependentAxis />
+                <VictoryAxis
+                    dependentAxis
+                    gridComponent={<line
+                        style={{ stroke: 'grey', strokeDasharray: '4 4' }}
+                    />}
+                />
                 <VictoryStack colorScale={Object.values(colorsByPosition)}>
                     {uniquePositions.flatMap((position) =>
                         filteredData.flatMap((team) =>
@@ -425,7 +503,7 @@ const CustomLabel = (props) => {
     const points = datum.label || 0; // Use the points value from the label or default to 0
 
     // Define a threshold value for positioning the label outside the bar
-    const threshold = 0;
+    const threshold = -5;
 
     // Calculate the y position based on the threshold
     const yPos = points < threshold ? y - 15 : y + (2 * points) / 2 + 3;
@@ -438,7 +516,6 @@ const CustomLabel = (props) => {
         </g>
     );
 };
-
 
 export const MotwTable = ({ motwHistoryData }) => {
     return (
@@ -594,7 +671,7 @@ export const PlayoffTable = ({ playoffData }) => {
                         >{teamData['Last %']}</td>
                         <td className="wrap-cell"
                             style={{
-                                backgroundColor: teamData.PlayoffMagicColor,
+                                backgroundColor: teamData.LastMagicColor,
                                 whiteSpace: 'nowrap', // Prevent text wrapping
                             }}
                         >{teamData['Last #']}</td>
@@ -604,7 +681,6 @@ export const PlayoffTable = ({ playoffData }) => {
         </StyledTable>
     );
 };
-
 
 const CustomDataComponent = (props) => {
     const { x, y, datum } = props;
@@ -625,24 +701,25 @@ const CustomDataComponent = (props) => {
 
 export const PfPaScatter = ({ leaderboardData }) => {
     return (
-        <VictoryChart domainPadding={{ x: 25, y: 25 }}>
+        <VictoryChart
+            domainPadding={{ x: 20, y: 20 }}
+            padding={{ top: 10, bottom: 50, left: 70, right: 10 }}
+        >
             <VictoryLine
                 data={[
                     { x: Math.min(...leaderboardData.map((d) => d.PF)), y: Math.min(...leaderboardData.map((d) => d.PA)) },
                     { x: Math.max(...leaderboardData.map((d) => d.PF)), y: Math.max(...leaderboardData.map((d) => d.PA)) },
                 ]}
                 style={{
-                    data: { stroke: 'black', strokeWidth: 0.5, strokeDasharray: '5, 5' },
+                    data: { stroke: 'grey', strokeWidth: 0.5, strokeDasharray: '4, 4' },
                 }}
             />
-
             <VictoryScatter
                 data={leaderboardData}
                 x="PF"
                 y="PA"
                 dataComponent={<CustomDataComponent />}
             />
-
             {/* X-axis */}
             <VictoryAxis
                 label="Points For"
@@ -650,18 +727,14 @@ export const PfPaScatter = ({ leaderboardData }) => {
                     axisLabel: { padding: 30 },
                 }}
             />
-
             {/* Y-axis */}
             <VictoryAxis
                 dependentAxis
                 label="Points Against"
                 style={{
-                    axisLabel: { padding: 40 },
+                    axisLabel: { padding: 50 },
                 }}
             />
-
-            {/* Line at y=x */}
-
         </VictoryChart>
     );
 };
@@ -702,3 +775,63 @@ export const AltLeaderboardTable = ({ data }) => {
         </StyledTable>
     );
 }
+
+export const ScheduleTable = ({ data }) => {
+    return (
+        <div>
+            <StyledTable>
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Best Possible Record <br />(Schedule(s))</th>
+                        <th>Current Record</th>
+                        <th>Worst Possible Record <br />(Schedule(s))</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.current_records.map((team) => (
+                        <tr key={team.team1}>
+                            <td className="wrap-cell">{team.team1}</td>
+                            <td className="center-column"
+                                dangerouslySetInnerHTML={{
+                                    __html: `${findTeamRecord(data.best_records, team.team1)}(${getOpponentList(
+                                        data.best_records,
+                                        team.team1
+                                    )})`,
+                                }}
+                            ></td>
+                            <td className="center-column">{`${team.wins}-${team.losses}${team.ties > 0 ? `-${team.ties}` : ''}`}</td>
+                            <td className="center-column"
+                                dangerouslySetInnerHTML={{
+                                    __html: `${findTeamRecord(data.worst_records, team.team1)}(${getOpponentList(
+                                        data.worst_records,
+                                        team.team1
+                                    )})`,
+                                }}
+                            ></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </StyledTable>
+        </div>
+    );
+};
+
+// Helper function to find a team's record in the best/worst records array
+const findTeamRecord = (records, teamName) => {
+    const teamRecord = records.find((record) => record.team1 === teamName);
+    return teamRecord
+        ? `${teamRecord.wins}-${teamRecord.losses}${teamRecord.ties > 0 ? `-${teamRecord.ties}` : ''} <br />`
+        : 'N/A';
+};
+
+// Helper function to get a formatted string of opponent teams
+const getOpponentList = (records, teamName) => {
+    const teamRecord = records.find((record) => record.team1 === teamName);
+    return teamRecord
+        ? teamRecord.team2_list
+            .filter((opponent) => opponent !== 'N/A')
+            .map((opponent) => (opponent.ties > 0 ? `${opponent} (${opponent.ties} ties)` : opponent))
+            .join(', <br>')
+        : 'N/A';
+};
