@@ -6,7 +6,7 @@ import efficiencyData from './efficiencyData.json';
 import leaderboardData from './leaderboard.json';
 import matchupData from './matchupData.json';
 import medianLbData from './medianLb.json';
-import motwHistoryData from './motwTable.json';
+import motwHistoryData from './motwtable.json';
 import playoffData from './playoffTable.json';
 import powerRankingsData from './powerRankings.json';
 import scheduleData from './scheduleData.json';
