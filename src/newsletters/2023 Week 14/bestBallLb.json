@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Just Joshin",
+    "W": 11,
+    "L": 3,
+    "PF": 2028.6,
+    "PA": 1623.74,
+    "PFColor": "#20a4f3",
+    "PAColor": "#20a4f3"
+  },
+  {
+    "Rank": 2,
+    "Diff": 6,
+    "Team": "Questionable",
+    "W": 9,
+    "L": 5,
+    "PF": 1813.2,
+    "PA": 1838.72,
+    "PFColor": "#dd5fc5",
+    "PAColor": "#ef4eab"
+  },
+  {
+    "Rank": 3,
+    "Diff": -1,
+    "Team": "Njigba’s in Paris",
+    "W": 8,
+    "L": 6,
+    "PF": 2010.8,
+    "PA": 1845.34,
+    "PFColor": "#3ca0f6",
+    "PAColor": "#f249a4"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Travis Swift",
+    "W": 8,
+    "L": 6,
+    "PF": 1874.64,
+    "PA": 1886.34,
+    "PFColor": "#b878e2",
+    "PAColor": "#fd387e"
+  },
+  {
+    "Rank": 5,
+    "Diff": 2,
+    "Team": "First Down Syndrome",
+    "W": 8,
+    "L": 6,
+    "PF": 1811.04,
+    "PA": 1824.02,
+    "PFColor": "#dd5fc5",
+    "PAColor": "#e756b8"
+  },
+  {
+    "Rank": 6,
+    "Diff": -3,
+    "Team": "Hurt Thuggins & the boys",
+    "W": 6,
+    "L": 8,
+    "PF": 1966.48,
+    "PA": 1876.32,
+    "PFColor": "#6597f7",
+    "PAColor": "#fa3e8e"
+  },
+  {
+    "Rank": 7,
+    "Diff": 3,
+    "Team": "League Camera Fund",
+    "W": 6,
+    "L": 8,
+    "PF": 1829,
+    "PA": 1895.1,
+    "PFColor": "#d268d0",
+    "PAColor": "#fe3576"
+  },
+  {
+    "Rank": 8,
+    "Diff": -3,
+    "Team": "Cook-ing a 0.2",
+    "W": 6,
+    "L": 8,
+    "PF": 1792.88,
+    "PA": 1884.18,
+    "PFColor": "#e756b8",
+    "PAColor": "#fc3a86"
+  },
+  {
+    "Rank": 9,
+    "Diff": 3,
+    "Team": "E.T.N Phone Home",
+    "W": 6,
+    "L": 8,
+    "PF": 1771.34,
+    "PA": 1914.04,
+    "PFColor": "#ef4eab",
+    "PAColor": "#ff3366"
+  },
+  {
+    "Rank": 10,
+    "Diff": 1,
+    "Team": "The Werbenjägermanjensens",
+    "W": 6,
+    "L": 8,
+    "PF": 1687.12,
+    "PA": 1805.56,
+    "PFColor": "#ff3366",
+    "PAColor": "#dd5fc5"
+  },
+  {
+    "Rank": 11,
+    "Diff": -2,
+    "Team": "WalterFix",
+    "W": 5,
+    "L": 9,
+    "PF": 1785.78,
+    "PA": 1888.98,
+    "PFColor": "#eb52b2",
+    "PAColor": "#fd387e"
+  },
+  {
+    "Rank": 12,
+    "Diff": -6,
+    "Team": "Cinderella",
+    "W": 5,
+    "L": 9,
+    "PF": 1743.6,
+    "PA": 1832.14,
+    "PFColor": "#f84195",
+    "PAColor": "#eb52b2"
+  }
+]

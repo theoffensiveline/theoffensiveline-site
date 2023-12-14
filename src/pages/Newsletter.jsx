@@ -17,7 +17,7 @@ function formatDate(inputDate) {
 
 
 
-function NewsletterPage() {
+function Newsletter() {
     const currentLocation = useLocation();
     const { issue } = currentLocation.state;
     const [content, setContent] = useState(null);
@@ -62,4 +62,4 @@ function NewsletterPage() {
     );
 }
 
-export default NewsletterPage;
+export default Newsletter;

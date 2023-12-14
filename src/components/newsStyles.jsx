@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter } from 'victory';
+import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter, VictoryContainer } from 'victory';
 import React from 'react';
 
 export const NewsletterContainer = styled.div`
@@ -17,13 +17,13 @@ export const NewsletterTitle = styled.h1`
     font-weight: 900;
     font-size: 80px;
     text-transform: uppercase;
-    line-height: 72px;
+    line-height: 60px;
     margin-bottom: 10px;
     max-width: 100%;
     text-align: center;
 
     @media (max-width: 600px) {
-        font-size: 40px; /* Adjust the font size for small screens */
+        font-size: 48px; /* Adjust the font size for small screens */
         line-height: 36px; /* Adjust the line height accordingly */
     }
 `;
@@ -193,6 +193,13 @@ export const EfficiencyChart = ({ chartData }) => {
 
     return (
         <VictoryChart
+            containerComponent={
+                <VictoryContainer
+                    style={{
+                        touchAction: "auto"
+                    }}
+                />
+            }
             horizontal
             padding={{ top: 25, bottom: 25, left: 10, right: 50 }}
             domainPadding={{ x: 10 }}
@@ -256,7 +263,15 @@ export const StackedHistogram = ({ chartData }) => {
     const historicData = chartData.filter(entry => entry.week !== maxWeek);
 
     return (
-        <VictoryChart>
+        <VictoryChart
+            containerComponent={
+                <VictoryContainer
+                    style={{
+                        touchAction: "auto"
+                    }}
+                />
+            }
+        >
             <VictoryLegend x={125} y={0}
                 orientation="horizontal"
                 gutter={20}
@@ -300,6 +315,13 @@ export const ShotsDistributionChart = ({ chartData }) => {
 
     return (
         <VictoryChart
+            containerComponent={
+                <VictoryContainer
+                    style={{
+                        touchAction: "auto"
+                    }}
+                />
+            }
             domainPadding={{ x: 0, y: 0 }}
             padding={{ top: 40, bottom: 25, left: 40, right: 20 }}
         >
@@ -363,7 +385,15 @@ export const WeeklyScoringChart = ({ chartData }) => {
     }));
 
     return (
-        <VictoryChart>
+        <VictoryChart
+            containerComponent={
+                <VictoryContainer
+                    style={{
+                        touchAction: "auto"
+                    }}
+                />
+            }
+        >
             <VictoryLegend
                 x={50}
                 y={10}
@@ -440,6 +470,13 @@ export const MatchupPlot = ({ data, matchupId }) => {
     return (
         <div>
             <VictoryChart
+                containerComponent={
+                    <VictoryContainer
+                        style={{
+                            touchAction: "auto"
+                        }}
+                    />
+                }
                 domainPadding={{ x: 90 }} // Adjust the x and y domainPadding values
                 padding={{ top: 10, bottom: 30, left: 40, right: 20 }}
             >
@@ -702,6 +739,13 @@ const CustomDataComponent = (props) => {
 export const PfPaScatter = ({ leaderboardData }) => {
     return (
         <VictoryChart
+            containerComponent={
+                <VictoryContainer
+                    style={{
+                        touchAction: "auto"
+                    }}
+                />
+            }
             domainPadding={{ x: 20, y: 20 }}
             padding={{ top: 10, bottom: 50, left: 70, right: 10 }}
         >
