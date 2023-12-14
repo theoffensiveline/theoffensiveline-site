@@ -28,22 +28,6 @@ const TeamName = styled.span`
   font-weight: bold;
 `;
 
-const FormulaWrapper = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  color: #0073e6; /* Adjust the color as needed */
-  background-color: #f7f7f7; /* Adjust the background color as needed */
-  padding: 5px 10px;
-  border-radius: 5px;
-`;
-
-const FormulaText = styled.span`
-  font-size: 16px;
-  font-weight: bold;
-  color: #0073e6; /* Adjust the color as needed */
-`;
-
-
 const CommissionerNote = () => {
   return (
     <CommissionerNoteWrapper>
