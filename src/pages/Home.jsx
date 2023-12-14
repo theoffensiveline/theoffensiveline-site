@@ -10,30 +10,49 @@ const GridContainer = styled.div`
     padding: 20px;
 `;
 
-const GridItem = styled.button`
-    background-color: #7E6551;
-    border: 1px solid #7E6551;
-    border-radius: 5px;
-    padding: 30px;
+const RecentGridItem = styled.button`
+    background-color: #20a4f3;
+    border: 1px solid #20a4f3;
+    border-radius: 50px;
+    padding: 20px;
     cursor: pointer;
     text-align: center;
-    color: #fff; /* Set the desired text color */
+    color: #ECECDF; /* Set the desired text color */
+`;
+
+const GridItem = styled.button`
+    background-color: #ECECDF;
+    border: 1px solid #20a4f3;
+    border-radius: 50px;
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+    color: #20a4f3; /* Set the desired text color */
 `;
 
 function Home() {
     const navigate = useNavigate();
+
+    const mostRecentIssue = [
+        '2023 Week 14'
+    ]
 
     const newsletterIssues = [
         '2023 Week 13',
     ]
 
     const handleNavigate = (issue) => {
-        navigate(`/newsletterPage`, { state: { issue } });
+        navigate(`/newsletter`, { state: { issue } });
         console.log({ issue });
     };
 
     return (
         <GridContainer>
+            {mostRecentIssue.map((issue) => (
+                <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
+                    {issue}
+                </RecentGridItem>
+            ))}
             {newsletterIssues.map((issue) => (
                 <GridItem key={issue} onClick={() => handleNavigate(issue)}>
                     {issue}

@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 0,
+    "Team": "Njigba’s in Paris",
+    "Play All W": 111,
+    "Play All L": 43,
+    "Team Ability": 72.37,
+    "Str of Sched": 48.61,
+    "TaColor": "#20a4f3",
+    "SosColor": "#d863ca"
+  },
+  {
+    "P Rank": 2,
+    "Trend": 0,
+    "Team": "Just Joshin",
+    "Play All W": 103,
+    "Play All L": 51,
+    "Team Ability": 67.24,
+    "Str of Sched": 26.11,
+    "TaColor": "#529cf7",
+    "SosColor": "#20a4f3"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 0,
+    "Team": "Hurt Thuggins & the boys",
+    "Play All W": 96,
+    "Play All L": 58,
+    "Team Ability": 62.74,
+    "Str of Sched": 49.87,
+    "TaColor": "#7892f6",
+    "SosColor": "#dd5fc5"
+  },
+  {
+    "P Rank": 4,
+    "Trend": 0,
+    "Team": "Travis Swift",
+    "Play All W": 85,
+    "Play All L": 69,
+    "Team Ability": 55.63,
+    "Str of Sched": 46.63,
+    "TaColor": "#aa7fea",
+    "SosColor": "#cc6cd5"
+  },
+  {
+    "P Rank": 5,
+    "Trend": 0,
+    "Team": "WalterFix",
+    "Play All W": 78,
+    "Play All L": 76,
+    "Team Ability": 51.13,
+    "Str of Sched": 58.24,
+    "TaColor": "#c670da",
+    "SosColor": "#fa3e8e"
+  },
+  {
+    "P Rank": 6,
+    "Trend": 2,
+    "Team": "League Camera Fund",
+    "Play All W": 73,
+    "Play All L": 81,
+    "Team Ability": 47.89,
+    "Str of Sched": 64,
+    "TaColor": "#d268d0",
+    "SosColor": "#ff3366"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 2,
+    "Team": "First Down Syndrome",
+    "Play All W": 71,
+    "Play All L": 83,
+    "Team Ability": 46.63,
+    "Str of Sched": 55.63,
+    "TaColor": "#d863ca",
+    "SosColor": "#f249a4"
+  },
+  {
+    "P Rank": 8,
+    "Trend": -2,
+    "Team": "Cook-ing a 0.2",
+    "Play All W": 72,
+    "Play All L": 82,
+    "Team Ability": 47.26,
+    "Str of Sched": 49.24,
+    "TaColor": "#d863ca",
+    "SosColor": "#d863ca"
+  },
+  {
+    "P Rank": 9,
+    "Trend": 1,
+    "Team": "Cinderella",
+    "Play All W": 63,
+    "Play All L": 91,
+    "Team Ability": 41.5,
+    "Str of Sched": 51.13,
+    "TaColor": "#eb52b2",
+    "SosColor": "#e25bbf"
+  },
+  {
+    "P Rank": 10,
+    "Trend": -3,
+    "Team": "Questionable",
+    "Play All W": 67,
+    "Play All L": 87,
+    "Team Ability": 44.11,
+    "Str of Sched": 53.11,
+    "TaColor": "#e25bbf",
+    "SosColor": "#eb52b2"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 0,
+    "Team": "E.T.N Phone Home",
+    "Play All W": 60,
+    "Play All L": 94,
+    "Team Ability": 39.61,
+    "Str of Sched": 55.63,
+    "TaColor": "#f249a4",
+    "SosColor": "#f249a4"
+  },
+  {
+    "P Rank": 12,
+    "Trend": 0,
+    "Team": "The Werbenjägermanjensens",
+    "Play All W": 45,
+    "Play All L": 109,
+    "Team Ability": 29.89,
+    "Str of Sched": 47.89,
+    "TaColor": "#ff3366",
+    "SosColor": "#d268d0"
+  }
+]

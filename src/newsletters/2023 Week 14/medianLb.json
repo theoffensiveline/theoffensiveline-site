@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 1,
+    "Team": "Njigba’s in Paris",
+    "W": 22,
+    "L": 6,
+    "PF": 1866.58,
+    "PA": 1583.78,
+    "PFColor": "#20a4f3",
+    "PAColor": "#d268d0"
+  },
+  {
+    "Rank": 2,
+    "Diff": -1,
+    "Team": "Just Joshin",
+    "W": 21,
+    "L": 7,
+    "PF": 1804.48,
+    "PA": 1397.78,
+    "PFColor": "#5c9af7",
+    "PAColor": "#20a4f3"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Hurt Thuggins & the boys",
+    "W": 19,
+    "L": 9,
+    "PF": 1756.52,
+    "PA": 1659.7,
+    "PFColor": "#7892f6",
+    "PAColor": "#f5459d"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Travis Swift",
+    "W": 15,
+    "L": 13,
+    "PF": 1707.14,
+    "PA": 1608.66,
+    "PFColor": "#9a86ef",
+    "PAColor": "#dd5fc5"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "Cook-ing a 0.2",
+    "W": 15,
+    "L": 13,
+    "PF": 1619.34,
+    "PA": 1637.94,
+    "PFColor": "#c670da",
+    "PAColor": "#ef4eab"
+  },
+  {
+    "Rank": 6,
+    "Diff": 1,
+    "Team": "First Down Syndrome",
+    "W": 13,
+    "L": 15,
+    "PF": 1641.4,
+    "PA": 1671.78,
+    "PFColor": "#b878e2",
+    "PAColor": "#f84195"
+  },
+  {
+    "Rank": 7,
+    "Diff": 1,
+    "Team": "Questionable",
+    "W": 13,
+    "L": 15,
+    "PF": 1562.02,
+    "PA": 1634.1,
+    "PFColor": "#dd5fc5",
+    "PAColor": "#eb52b2"
+  },
+  {
+    "Rank": 8,
+    "Diff": 1,
+    "Team": "WalterFix",
+    "W": 12,
+    "L": 16,
+    "PF": 1607.18,
+    "PA": 1726.76,
+    "PFColor": "#cc6cd5",
+    "PAColor": "#ff3366"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "League Camera Fund",
+    "W": 12,
+    "L": 16,
+    "PF": 1570.04,
+    "PA": 1705.92,
+    "PFColor": "#d863ca",
+    "PAColor": "#fe3576"
+  },
+  {
+    "Rank": 10,
+    "Diff": -4,
+    "Team": "Cinderella",
+    "W": 12,
+    "L": 16,
+    "PF": 1543.1,
+    "PA": 1613.66,
+    "PFColor": "#e25bbf",
+    "PAColor": "#e25bbf"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "The Werbenjägermanjensens",
+    "W": 8,
+    "L": 20,
+    "PF": 1383.7,
+    "PA": 1638.06,
+    "PFColor": "#ff3366",
+    "PAColor": "#ef4eab"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "E.T.N Phone Home",
+    "W": 6,
+    "L": 22,
+    "PF": 1521.4,
+    "PA": 1704.76,
+    "PFColor": "#eb52b2",
+    "PAColor": "#fe3576"
+  }
+]
