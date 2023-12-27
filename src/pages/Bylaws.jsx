@@ -25,7 +25,7 @@ export default function Bylaws() {
             <SubtitleHolder>Article VI - Rosters</SubtitleHolder>
             <StyledTextArea><StyledOrderedList><StyledListItem>Active Roster: A team's active roster consists of fifteen player slots, with an additional injured reserve (IR) slot. The starting roster consists of nine player slots, outlined below:</StyledListItem><ul><StyledListItem>1 Quarterback (QB)</StyledListItem><StyledListItem>2 Running Backs (RB)</StyledListItem><StyledListItem>2 Wide Receivers (WR)</StyledListItem><StyledListItem>1 Tight End (TE)</StyledListItem><StyledListItem>1 Flex (RB/WR/TE)</StyledListItem><StyledListItem>1 Kicker (K)</StyledListItem><StyledListItem>1 Defense (DEF)</StyledListItem></ul><StyledListItem>Bench & IR: Each team has a bench of six players, plus an additional injured reserve slot (IR). Players are eligible to be placed on the IR if they are listed as O (Out), Injured Reserve (IR), or PUP (Physically Unable to Perform).</StyledListItem><StyledListItem>Roster Lock: Player lineup changes lock on a per-player basis, set for the start of each player’s individually scheduled game time. The roster will also be locked if the manager exceeds the allowed number of player slots, and the commissioner can lock a roster if the manager is breaking rules.</StyledListItem></StyledOrderedList></StyledTextArea>
             <SubtitleHolder>Article VII - Scoring</SubtitleHolder>
-            <StyledTextArea><StyledOrderedList><StyledListItem>Passing:</StyledListItem><StyledTable border="1">
+            <StyledTextArea><StyledOrderedList><StyledBigListItem>Passing:</StyledBigListItem><StyledTable border="1">
                 <tr>
                     <th>Action</th>
                     <th>Points</th>
@@ -46,7 +46,7 @@ export default function Bylaws() {
                     <td>Interception</td>
                     <td>-2</td>
                 </tr>
-            </StyledTable><StyledListItem>Rushing:</StyledListItem><StyledTable border="1">
+            </StyledTable><StyledBigListItem>Rushing:</StyledBigListItem><StyledTable border="1">
                     <tr>
                         <th>Action</th>
                         <th>Points</th>
@@ -63,7 +63,7 @@ export default function Bylaws() {
                         <td>2-Pt Conversion</td>
                         <td>2</td>
                     </tr>
-                </StyledTable><StyledListItem>Receiving:</StyledListItem><StyledTable border="1">
+                </StyledTable><StyledBigListItem>Receiving:</StyledBigListItem><StyledTable border="1">
                     <tr>
                         <th>Action</th>
                         <th>Points</th>
@@ -84,7 +84,7 @@ export default function Bylaws() {
                         <td>2-Pt Conversion</td>
                         <td>2</td>
                     </tr>
-                </StyledTable><StyledListItem>Kicking:</StyledListItem><StyledTable border="1">
+                </StyledTable><StyledBigListItem>Kicking:</StyledBigListItem><StyledTable border="1">
                     <tr>
                         <th>Action</th>
                         <th>Points</th>
@@ -109,7 +109,7 @@ export default function Bylaws() {
                         <td>PAT Missed</td>
                         <td>-1</td>
                     </tr>
-                </StyledTable><StyledListItem>Defense:</StyledListItem><StyledTable border="1">
+                </StyledTable><StyledBigListItem>Defense:</StyledBigListItem><StyledTable border="1">
                     <tr>
                         <th>Action</th>
                         <th>Points</th>
@@ -174,7 +174,7 @@ export default function Bylaws() {
                         <td>Special Teams Fumble Recovery</td>
                         <td>2</td>
                     </tr>
-                </StyledTable><StyledListItem>Miscellaneous</StyledListItem><StyledTable border="1">
+                </StyledTable><StyledBigListItem>Miscellaneous</StyledBigListItem><StyledTable border="1">
                     <tr>
                         <th>Action</th>
                         <th>Points</th>
@@ -199,7 +199,7 @@ export default function Bylaws() {
             <SubtitleHolder>Article VIII - Transactions</SubtitleHolder>
             <StyledTextArea><StyledOrderedList><StyledListItem>Waivers: Players are put on waivers when dropped (after being owned for more than 24 hours), or at the start of their game time. Players who are dropped remain on waivers for 2 days, after which time they become free agents. Game related waivers clear Wednesday morning at 3:05 AM ET (12:05 AM PT). Waiver order is determined on a rolling basis with the initial order being the reverse of the draft order. All waiver transactions are processed based on the current order of the waiver list. After each individual waiver transaction you move to the bottom of the list.</StyledListItem><StyledListItem>Trades: Trades process after both parties have accepted and after 2 days of league voting.  Trades can be overturned by the commissioner, but only in extremely rare cases where a trade cannot be reasonably defended as mutually beneficial from the perspective of both parties. Please see the Code of Conduct above. The trade deadline is Week 13.</StyledListItem><StyledListItem>Limitations: There is no limit to a team's roster acquisitions during the season. All teams may freely add or drop players following the annual league draft until rosters lock following Week 17, constituting the team's end-of-season roster.</StyledListItem></StyledOrderedList></StyledTextArea>
             <SubtitleHolder>Article IX - Amendments</SubtitleHolder>
-            <StyledTextArea><StyledOrderedList><StyledListItem>Off-season Changes: Any owner may suggest rule modifications to the commissioner before the league's annual meeting. A simple majority vote of all owners may amend this constitution.</StyledListItem><StyledListItem>In-season Changes: The Commissioner may make in-season rule changes only in exceptional circumstances, with input from the Assistant to the Commissioner, and informed by league opinion.</StyledListItem></StyledOrderedList></StyledTextArea>
+            <StyledTextArea><StyledOrderedList><StyledListItem>Off-season Changes: Any owner may suggest rule modifications to the commissioner before the league's annual meeting. A simple majority vote of all owners may amend this constitution.</StyledListItem><StyledListItem>In-season Changes: The Commissioner may make in-season rule changes only in exceptional circumstances, with input from the Assistant to the Commissioner, and informed by league opinion. All in-season rule changes up to this point have been via unanimous vote.</StyledListItem></StyledOrderedList></StyledTextArea>
         </>
     );
 };
@@ -215,78 +215,53 @@ const StyledTextArea = styled.div`
     display: flex;
     width: 100%;
     padding: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `;
 
 const TitleHolder = styled(CenteredContainer)`
     font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    padding: 0px 5%;
+    text-align: center;
 `;
 
 const SubtitleHolder = styled(CenteredContainer)`
     font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 0px 5%;
+    text-align: center;
 `;
 
 const CenteredTextWithPadding = styled(CenteredContainer)`
     padding: 8px 5%;
+    margin-bottom: 20px;
 `;
 
 // Styled component for the ordered list (ol)
 const StyledOrderedList = styled.ol`
     list-style-type: decimal; /* You can change this to other list styles like 'disc' or 'none' */
-    padding-left: 20px; /* Adjust the left padding as needed */
+    padding-left: 50px; /* Adjust the left padding as needed */
+    margin-bottom: 20px;
+    padding-right: 20px;
 `;
 
 // Styled component for list items (li)
 const StyledListItem = styled.li`
-    margin-bottom: 8px; /* Add spacing between list items */
+    margin-bottom: 10px;
     padding-right: 20px;
 `;
 
-const StyledTable = styled.table`
-  caption-side: top;
-  border: none;
-  border-collapse: collapse;
-  /* border-collapse: separate; */
-  /* border-spacing: 5px 10px; */
-
-  caption-side: bottom;
-  /* empty-cell: show | hide;  */
-  /* empty-cell is a property of table or the cells themselves */
-
-  /* vertical-align: baseline | sub | super | text-top | 
-                text-bottom | middle | top | bottom | 
-                <percentage> | <length> */
-
-  /* tbody {
-    vertical-align: top;
-  }              */
-  td,
-  th {
-    border: none;
-  }
-  /* td,
-  th {
-    border: 1px solid;
-  } */
-
-  td {
-    padding: 5px 10px;
-  }
-
-  tbody tr {
-    :nth-of-type(odd) {
-      background-color: #efefef;
-    }
-    :hover {
-      background-color: lightpink;
-    }
-  }
-  thead > tr {
-    background-color: #c2c2c2;
-  }
-  caption {
-    font-size: 0.9em;
-    padding: 5px;
+const StyledBigListItem = styled.li`
+    margin-bottom: 10px;
+    padding-right: 20px;
+    font-size: 18px;
     font-weight: bold;
-  }
+`;
+
+const StyledTable = styled.table`
+  width: 100%;
+  margin-bottom: 20px;
 `;

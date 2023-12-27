@@ -10,7 +10,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['News', 'Submit'];
+const pages = ['News', 'Submit', 'Bylaws'];
 
 function NavBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
