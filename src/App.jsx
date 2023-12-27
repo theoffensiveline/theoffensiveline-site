@@ -12,7 +12,6 @@ import { styled } from "styled-components";
 
 const BackgroundWrapper = styled.div`
   background: #ECECDF;
-  height: 100vh;
 `;
 
 function App() {
