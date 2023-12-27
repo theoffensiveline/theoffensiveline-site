@@ -1,0 +1,58 @@
+[
+  {
+    "week": 15,
+    "team_name": "League Camera Fund",
+    "actual_points": 144.92,
+    "max_points": 154.72,
+    "percentage": 93.666
+  },
+  {
+    "week": 15,
+    "team_name": "Cinderella",
+    "actual_points": 142.92,
+    "max_points": 145.72,
+    "percentage": 98.0785
+  },
+  {
+    "week": 15,
+    "team_name": "First Down Syndrome",
+    "actual_points": 137.14,
+    "max_points": 161.28,
+    "percentage": 85.0322
+  },
+  {
+    "week": 15,
+    "team_name": "Cook-ing a 0.2",
+    "actual_points": 121.42,
+    "max_points": 121.42,
+    "percentage": 100
+  },
+  {
+    "week": 15,
+    "team_name": "Questionable",
+    "actual_points": 117.74,
+    "max_points": 120.84,
+    "percentage": 97.4346
+  },
+  {
+    "week": 15,
+    "team_name": "Hurt Thuggins & the boys",
+    "actual_points": 113.3,
+    "max_points": 130.6,
+    "percentage": 86.7534
+  },
+  {
+    "week": 15,
+    "team_name": "WalterFix",
+    "actual_points": 109.68,
+    "max_points": 149.08,
+    "percentage": 73.5712
+  },
+  {
+    "week": 15,
+    "team_name": "Travis Swift",
+    "actual_points": 101.94,
+    "max_points": 137.64,
+    "percentage": 74.0628
+  }
+]
