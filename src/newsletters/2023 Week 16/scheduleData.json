@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "Cinderella",
+      "team2_list": ["Just Joshin"],
+      "wins": 9,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Cook-ing a 0.2",
+      "team2_list": ["Just Joshin"],
+      "wins": 10,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "E.T.N Phone Home",
+      "team2_list": ["Just Joshin"],
+      "wins": 12,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Just Joshin"],
+      "wins": 11,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Hurt Thuggins & the boys",
+      "team2_list": ["Cook-ing a 0.2"],
+      "wins": 13,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin",
+      "team2_list": ["Just Joshin"],
+      "wins": 12,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Njigba’s in Paris",
+      "team2_list": ["Just Joshin"],
+      "wins": 14,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Questionable",
+      "team2_list": ["Just Joshin", "Questionable"],
+      "wins": 8,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "The Werbenjägermanjensens",
+      "team2_list": ["Just Joshin"],
+      "wins": 7,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Tim’s Team",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome"],
+      "wins": 9,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Travis Swift",
+      "team2_list": ["Just Joshin"],
+      "wins": 13,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "WalterFix",
+      "team2_list": ["Just Joshin"],
+      "wins": 11,
+      "losses": 4,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "Cinderella",
+      "team2_list": ["Hurt Thuggins & the boys", "Questionable", "Tim’s Team", "Travis Swift"],
+      "wins": 6,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "Cook-ing a 0.2",
+      "team2_list": ["Hurt Thuggins & the boys", "Njigba’s in Paris", "The Werbenjägermanjensens", "Tim’s Team", "WalterFix"],
+      "wins": 6,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "E.T.N Phone Home",
+      "team2_list": ["Cinderella"],
+      "wins": 4,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Tim’s Team", "WalterFix"],
+      "wins": 5,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "team1": "Hurt Thuggins & the boys",
+      "team2_list": ["First Down Syndrome", "Tim’s Team"],
+      "wins": 8,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin",
+      "team2_list": ["E.T.N Phone Home", "First Down Syndrome", "The Werbenjägermanjensens"],
+      "wins": 9,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Njigba’s in Paris",
+      "team2_list": ["Tim’s Team"],
+      "wins": 9,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Questionable",
+      "team2_list": ["Tim’s Team"],
+      "wins": 5,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "team1": "The Werbenjägermanjensens",
+      "team2_list": ["Cinderella", "Hurt Thuggins & the boys", "Questionable", "WalterFix"],
+      "wins": 3,
+      "losses": 12,
+      "ties": 0
+    },
+    {
+      "team1": "Tim’s Team",
+      "team2_list": ["Just Joshin", "Questionable", "The Werbenjägermanjensens", "Tim’s Team"],
+      "wins": 6,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "Travis Swift",
+      "team2_list": ["Cinderella", "Tim’s Team"],
+      "wins": 6,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "WalterFix",
+      "team2_list": ["Hurt Thuggins & the boys", "WalterFix"],
+      "wins": 5,
+      "losses": 11,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "Cinderella",
+      "wins": 8,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Cook-ing a 0.2",
+      "wins": 9,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "E.T.N Phone Home",
+      "wins": 5,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 7,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "team1": "Hurt Thuggins & the boys",
+      "wins": 10,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin",
+      "wins": 12,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Njigba’s in Paris",
+      "wins": 11,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Questionable",
+      "wins": 8,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "The Werbenjägermanjensens",
+      "wins": 5,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "Tim’s Team",
+      "wins": 6,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "Travis Swift",
+      "wins": 8,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "WalterFix",
+      "wins": 5,
+      "losses": 11,
+      "ties": 0
+    }
+  ]
+}

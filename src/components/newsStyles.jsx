@@ -6,7 +6,7 @@ export const NewsletterContainer = styled.div`
     max-width: 100%;
     margin: 0 auto;
     padding: 4px;
-    font-family: 'Droid Serif', serif;
+    font-family: 'Playfair Display', sans-serif;
     font-size: 14px;
     color: #2E2E2E;
     background-color: #ECECDF;
@@ -44,7 +44,7 @@ export const ArticleHeader = styled.h2`
     padding: 10px 0 10px 0;
     text-align: center;
     line-height: normal;
-    font-family: 'Droid Serif', serif;
+    font-family: 'Playfair Display', serif;
     display: block;
     margin: 0 auto;
 `;
@@ -56,7 +56,7 @@ export const ArticleSubheader = styled.div`
     padding: 10px 0 10px 0;
     text-align: center;
     line-height: normal;
-    font-family: 'Droid Serif', serif;
+    font-family: 'Playfair Display', serif;
     display: block;
     margin: 0 auto;
 
@@ -145,7 +145,7 @@ export const ArticleCaption = styled.figcaption`
     text-align: center;
     font-style: italic;
     font-size: 12px;
-    font-family: 'Droid Serif', serif;
+    font-family: 'Playfair Display', serif;
     color: #2E2E2E;
 `;
 
