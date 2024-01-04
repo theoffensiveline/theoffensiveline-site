@@ -1,0 +1,58 @@
+[
+  {
+    "week": 17,
+    "team_name": "Njigba’s in Paris",
+    "actual_points": 145.98,
+    "max_points": 167.76,
+    "percentage": 87.0172
+  },
+  {
+    "week": 17,
+    "team_name": "Just Joshin",
+    "actual_points": 122.56,
+    "max_points": 127.56,
+    "percentage": 96.0803
+  },
+  {
+    "week": 17,
+    "team_name": "WalterFix",
+    "actual_points": 120.68,
+    "max_points": 133.28,
+    "percentage": 90.5462
+  },
+  {
+    "week": 17,
+    "team_name": "E.T.N Phone Home",
+    "actual_points": 119.84,
+    "max_points": 150.54,
+    "percentage": 79.6067
+  },
+  {
+    "week": 17,
+    "team_name": "Cinderella",
+    "actual_points": 118.68,
+    "max_points": 127.68,
+    "percentage": 92.9511
+  },
+  {
+    "week": 17,
+    "team_name": "Cook-ing a 0.2",
+    "actual_points": 108.98,
+    "max_points": 145.08,
+    "percentage": 75.1172
+  },
+  {
+    "week": 17,
+    "team_name": "First Down Syndrome",
+    "actual_points": 103.64,
+    "max_points": 118.34,
+    "percentage": 87.5782
+  },
+  {
+    "week": 17,
+    "team_name": "The Werbenjägermanjensens",
+    "actual_points": 93.34,
+    "max_points": 97.34,
+    "percentage": 95.8907
+  }
+]
