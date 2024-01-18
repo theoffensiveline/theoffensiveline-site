@@ -15,23 +15,20 @@ function formatDate(inputDate) {
     return date.toLocaleDateString(undefined, options);
 }
 
-
+export const TeamContext = React.createContext(null);
 
 function Newsletter() {
     const currentLocation = useLocation();
     const { issue } = currentLocation.state;
     const [content, setContent] = useState(null);
 
+    const [selectedTeam, setSelectedTeam] = useState(null);
+
     useEffect(() => {
         const loadContent = async () => {
-            try {
-                // Dynamically import the content based on the issue name
-                const module = await import(`../newsletters/${issue}/${issue}.jsx`);
-                setContent(module); // Set the default export from the module
-            } catch (error) {
-                console.error('Error loading newsletter content:', error);
-                setContent([]); // Handle the error gracefully
-            }
+            // Dynamically import the content based on the issue name
+            const module = await import(`../newsletters/${issue}/${issue}.jsx`);
+            setContent(module); // Set the default export from the module
         };
 
         loadContent();
@@ -44,19 +41,21 @@ function Newsletter() {
                 {content && formatDate(content.newsDate)}
             </NewsStyles.DateBar>
             <div>
-                {content ? (
-                    <ResponsiveMasonry columnsCountBreakPoints={{ 600: 1, 1200: 2, 1800: 3, 2400: 4, 3000: 5 }}>
-                        <Masonry>
-                            {content.articles.map((article) => (
-                                <NewsStyles.ArticleBlock as="div" key={article.id}>
-                                    {article.content}
-                                </NewsStyles.ArticleBlock>
-                            ))}
-                        </Masonry>
-                    </ResponsiveMasonry>
-                ) : (
-                    <p>Loading...</p>
-                )}
+                <TeamContext.Provider value={{ selectedTeam: selectedTeam, setSelectedTeam: setSelectedTeam }}>
+                    {content ? (
+                        <ResponsiveMasonry columnsCountBreakPoints={{ 500: 1, 1000: 2, 1500: 3, 2000: 4, 2500: 5 }}>
+                            <Masonry>
+                                {content.articles.map((article) => (
+                                    <NewsStyles.ArticleBlock as="div" key={article.id}>
+                                        <article.content />
+                                    </NewsStyles.ArticleBlock>
+                                ))}
+                            </Masonry>
+                        </ResponsiveMasonry>
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+                </TeamContext.Provider>
             </div>
         </NewsStyles.NewsletterContainer>
     );
