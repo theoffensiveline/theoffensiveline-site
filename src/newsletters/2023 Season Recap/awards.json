@@ -1,0 +1,100 @@
+[
+  {
+    "name": "Njigba’s in Paris",
+    "photo": "https://sleepercdn.com/uploads/bb838332d8a662620f4b0629fc227c3f.jpg",
+    "award": "League Champion",
+    "value": "Defeated Just Joshin in the championship",
+    "description": "Congrats to Njigba's in Paris on a hard fought victory"
+  },
+  {
+    "name": "E.T.N Phone Home",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "award": "Sucks At Fantasy Football",
+    "value": "4-10 Record",
+    "description": "They lost 6 straight games to earn the punishment"
+  },
+  {
+    "name": "CeeDee Lamb",
+    "photo": "https://sleepercdn.com/content/nfl/players/6786.jpg",
+    "award": "Finals MVP",
+    "value": "40.20 points",
+    "description": "CeeDee dominated all season long"
+  },
+  {
+    "name": "CeeDee Lamb",
+    "photo": "https://sleepercdn.com/content/nfl/players/6786.jpg",
+    "award": "League MVP",
+    "value": "349.10 points - 23.27 ppg",
+    "description": "Would've been CMC if First Down Syndrome made the playoffs"
+  },
+  {
+    "name": "Hurt Thuggins & the boys",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "award": "Offensive Team of The Year",
+    "value": "1756.52 PF (3rd Most)",
+    "description": "They overcame a tough schedule to finish 9-5"
+  },
+  {
+    "name": "Just Joshin",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "award": "Defensive Team of The Year",
+    "value": "1397.78 PA",
+    "description": "This might go down as the best defensive season ever"
+  },
+  {
+    "name": "Travis Swift",
+    "photo": "https://sleepercdn.com/uploads/bbec1499b536f4ec2e79a10fb4765a38.jpg",
+    "award": "Best MotW Manager",
+    "value": "3-1 record",
+    "description": "16:1 Hot Dog/Shot Given:Taken Ratio"
+  },
+  {
+    "name": "Tim's Team",
+    "photo": "https://sleepercdn.com/uploads/7dbe04325fa93fc3a7577bf21b0a4ebe.jpg",
+    "award": "Worst MotW Manager",
+    "value": "0-3 record",
+    "description": "0:16 Hot Dog/Shot Given:Taken Ratio"
+  },
+  {
+    "name": "Puka Nacua",
+    "photo": "https://sleepercdn.com/content/nfl/players/9493.jpg",
+    "award": "Best Waiver Pickup",
+    "value": "213.7 points - 16.44 ppg",
+    "description": "Hurt Thuggins & the boys picked him up after week 1"
+  },
+  {
+    "name": "Deshaun Watson",
+    "photo": "https://sleepercdn.com/content/nfl/players/4017.jpg",
+    "award": "Worst Waiver Pickup",
+    "value": "-1.8 points",
+    "description": "Travis Swift started him week 7 - only non-K/DEF started this season to go negative"
+  },
+  {
+    "name": "Njigba’s in Paris",
+    "photo": "https://sleepercdn.com/uploads/bb838332d8a662620f4b0629fc227c3f.jpg",
+    "award": "Best Start/Sits",
+    "value": "45.7 points lost",
+    "description": "Coincidence this is our champion?"
+  },
+  {
+    "name": "E.T.N Phone Home",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "award": "Worst Start/Sits",
+    "value": "212.6 points lost",
+    "description": "Coincidence this is our loser?"
+  },
+  {
+    "name": "WalterFix",
+    "photo": "https://sleepercdn.com/uploads/b3c7d23a5b2e92457a0070891cb98326",
+    "award": "Best Trader",
+    "value": "3-2 record in trades",
+    "description": "Shoutout WalterPicks Trade Analyzer - traded for 549.26 points to help avoid last place"
+  },
+  {
+    "name": "The Werbenjägermanjensens",
+    "photo": "https://sleepercdn.com/uploads/0a4e3f97a2fc3e992a48ada89ccb76a2",
+    "award": "Worst Trader",
+    "value": "0-3 record in trades",
+    "description": "This doesn't even count trading away their 2nd round draft pick"
+  }
+]
