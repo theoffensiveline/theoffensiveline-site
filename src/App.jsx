@@ -6,6 +6,7 @@ import Default from "./pages/Default";
 import Bylaws from './pages/Bylaws';
 import Newsletter from "./pages/Newsletter";
 import NavBar from "./components/NavBar";
+import Dashboard from "./pages/Dashboard";
 import CommissionerNote from './league/commishNote1';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
@@ -27,6 +28,7 @@ function App() {
                         <Route path="submit" element={<Submit />} />
                         <Route path="bylaws" element={<Bylaws />} />
                         <Route path="newsletter" element={<Newsletter />} />
+                        <Route path="dashboard" element={<Dashboard />} />
                         <Route path="*" element={<Default />} />
                         <Route path="league/commishNote1" element={<CommissionerNote />} />
                     </Route>
