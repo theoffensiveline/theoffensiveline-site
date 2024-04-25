@@ -34,10 +34,11 @@ function Home() {
     const navigate = useNavigate();
 
     const mostRecentIssue = [
-        '2023 Season Recap',
+        '2024 Offseason 1',
     ]
 
     const newsletterIssues = [
+        '2023 Season Recap',
         '2023 Week 17',
         '2023 Week 16',
         '2023 Week 15',
