@@ -20,8 +20,8 @@ const BackgroundWrapper = styled.div`
 function App() {
     return (
         <BackgroundWrapper>
-            <NavBar />
             <BrowserRouter>
+                <NavBar />
                 <Routes>
                     <Route path="/">
                         <Route path="/" element={<SleeperLogin />} />
