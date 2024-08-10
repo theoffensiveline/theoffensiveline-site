@@ -61,6 +61,7 @@ const LeagueName = styled.span`
 function SleeperLogin() {
     const [username, setUsername] = useState('');
     const [leagues, setLeagues] = useState([]);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const navigate = useNavigate();
 
     // Load the stored username from localStorage when the component mounts
@@ -72,6 +73,12 @@ function SleeperLogin() {
     }, []);
 
     const handleUsernameSubmit = async () => {
+        // Disable the button for 3 seconds
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+            setIsButtonDisabled(false);
+        }, 5000);
+
         // Save the username to localStorage
         localStorage.setItem('sleeperUsername', username);
 
@@ -107,7 +114,9 @@ function SleeperLogin() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Sleeper Username"
             />
-            <Button onClick={handleUsernameSubmit}>Submit</Button>
+            <Button onClick={handleUsernameSubmit} disabled={isButtonDisabled}>
+                {isButtonDisabled ? 'Please wait...' : 'Submit'}
+            </Button>
 
             {leagues.length > 0 && (
                 <div>
