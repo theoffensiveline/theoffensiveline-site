@@ -1,10 +1,12 @@
 import React from "react";
+import SleeperLogin from "./pages/SleeperLogin";
 import Home from "./pages/Home";
 import News from "./pages/News";
 import Submit from "./pages/Submit";
 import Default from "./pages/Default";
 import Bylaws from './pages/Bylaws';
 import Newsletter from "./pages/Newsletter";
+import ComingSoon from "./pages/ComingSoon";
 import NavBar from "./components/NavBar";
 import CommissionerNote from './league/commishNote1';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -22,7 +24,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/">
-                        <Route index element={<Home />} />
+                        <Route path="/" element={<SleeperLogin />} />
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/coming-soon" element={<ComingSoon />} />
                         <Route path="news" element={<News />} />
                         <Route path="submit" element={<Submit />} />
                         <Route path="bylaws" element={<Bylaws />} />
