@@ -6,11 +6,14 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     padding: 20px;
     background-color: #ECECDF;
     color: #333;
     text-align: center;
+
+    @media (max-width: 600px) {
+        padding: 10px;
+    }
 `;
 
 const Heading = styled.h1`
