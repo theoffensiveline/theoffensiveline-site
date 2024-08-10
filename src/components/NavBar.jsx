@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = ['Submit', 'Bylaws'];
 
 function NavBar() {
+    const location = useLocation();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -25,13 +27,15 @@ function NavBar() {
 
     const redirect = (page) => {
         window.location.href = page.toLowerCase();
-    }
+    };
+
+    // Check if the current location is "/" or "/coming-soon" - which are accessible to anyone
+    const shouldHidePages = location.pathname === '/' || location.pathname === '/coming-soon';
 
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    {/*<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />*/}
                     <Typography
                         variant="h6"
                         noWrap
@@ -78,14 +82,13 @@ function NavBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
+                            {!shouldHidePages && pages.map((page) => (
                                 <MenuItem key={page} onClick={() => redirect(page)}>
                                     <Typography textAlign="center">{page}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
-                    {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
                     <Typography
                         variant="h5"
                         noWrap
@@ -104,7 +107,8 @@ function NavBar() {
                         The Offensive Line
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {/* Conditionally render the pages */}
+                        {!shouldHidePages && pages.map((page) => (
                             <Button
                                 key={page}
                                 onClick={() => redirect(page)}
