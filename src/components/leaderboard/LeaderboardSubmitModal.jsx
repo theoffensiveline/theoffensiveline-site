@@ -45,12 +45,11 @@ const LeaderboardSubmitModal = ({ props }) => {
   };
 
   useEffect(() => {
+    const canSaveResult = () => {
+      return !isEmpty(minutes) && !isEmpty(seconds) && !isEmpty(hs) && !isEmpty(name) && !isEmpty(link);
+    };
     setCanSave(canSaveResult());
   }, [name, seconds, minutes, hs, link]);
-
-  const canSaveResult = () => {
-    return !isEmpty(minutes) && !isEmpty(seconds) && !isEmpty(hs) && !isEmpty(name) && !isEmpty(link);
-  };
 
   const submit = async () => {
     addDoc(collection(db, "leaderboard-times"), {
@@ -73,7 +72,7 @@ const LeaderboardSubmitModal = ({ props }) => {
         <Input
           type="text"
           value={name}
-          placeholder="name..."
+          placeholder="name"
           onChange={(event) => setName(event.target.value)}
         />
         <h4>Time</h4>
@@ -100,7 +99,7 @@ const LeaderboardSubmitModal = ({ props }) => {
         <Input
           type="text"
           value={link}
-          placeholder="video link..."
+          placeholder="youtube.com/"
           onChange={(event) => setLink(event.target.value)}
         />
         <br />
