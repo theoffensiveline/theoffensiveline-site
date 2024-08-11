@@ -11,6 +11,7 @@ import NavBar from "./components/NavBar";
 import CommissionerNote from './league/commishNote1';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
+import Eaterboard from "./pages/Eaterboard";
 
 const BackgroundWrapper = styled.div`
   background: #ECECDF;
@@ -31,6 +32,7 @@ function App() {
                         <Route path="submit" element={<Submit />} />
                         <Route path="bylaws" element={<Bylaws />} />
                         <Route path="newsletter" element={<Newsletter />} />
+                        <Route path="leaderboard" element={<Eaterboard />} />
                         <Route path="*" element={<Default />} />
                         <Route path="league/commishNote1" element={<CommissionerNote />} />
                     </Route>

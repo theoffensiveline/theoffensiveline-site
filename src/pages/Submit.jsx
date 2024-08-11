@@ -3,6 +3,42 @@ import { collection, addDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { styled } from "styled-components"
+
+const StyledForm = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+`;
+
+const StyledLabel = styled.label`
+  display: block;
+  margin-bottom: 10px;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+`;
+
+const StyledTextarea = styled.textarea`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+`;
+
+const StyledButton = styled(Button)`
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 export default function Submit() {
     const [submission, setSubmission] = useState("");
     const [name, setName] = useState("");
@@ -67,38 +103,3 @@ export default function Submit() {
     );
 
 }
-
-const StyledForm = styled.div`
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  margin-bottom: 10px;
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;

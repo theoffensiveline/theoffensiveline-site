@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Submit', 'Bylaws'];
+const pages = ['Submit', 'Bylaws', 'Leaderboard'];
 
 function NavBar() {
     const location = useLocation();
