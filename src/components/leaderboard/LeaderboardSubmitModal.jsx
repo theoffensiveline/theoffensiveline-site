@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Box from "@mui/material/Box";
-import {styled} from "styled-components";
-import {Button, Input, Modal} from "@mui/material";
-import {addDoc, collection} from "firebase/firestore";
-import {db} from "../../firebase";
+import { styled } from "styled-components";
+import { Input, Modal } from "@mui/material";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const NiceBox = styled(Box)`
     position: absolute;
@@ -27,9 +27,10 @@ const ButtonButton = styled.button`
     color: black;
     margin-top: 1rem;
     font-weight: bold;
+    cursor: pointer;
 `;
 
-const LeaderboardSubmitModal = ({props}) => {
+const LeaderboardSubmitModal = ({ props }) => {
   const { visible, setVisible, refresh } = props;
 
   const [minutes, setMinutes] = React.useState(null);
@@ -80,20 +81,20 @@ const LeaderboardSubmitModal = ({props}) => {
           type="number"
           value={minutes}
           placeholder="minutes"
-          onChange={(e) => {setMinutes(e.target.value)}}
+          onChange={(e) => { setMinutes(e.target.value) }}
         />
         <Input
           name="test"
           type="number"
           placeholder="seconds"
           value={seconds}
-          onChange={(e) => {setSeconds(e.target.value)}}
+          onChange={(e) => { setSeconds(e.target.value) }}
         />
         <Input
           type="number"
           value={hs}
           placeholder="hundredths of a second"
-          onChange={(e) => {setHs(e.target.value)}}
+          onChange={(e) => { setHs(e.target.value) }}
         />
         <h4>Video Link</h4>
         <Input
