@@ -72,7 +72,7 @@ const LeaderboardSubmitModal = ({ props }) => {
     request.setRequestHeader('Content-type', 'application/json');
     const params = {
       username: name,
-      content: "New time submitted to happy meal leaderboard: " + minutes + ":" + seconds + "." + hs + " " + link
+      content: "I just submitted a new time to the happy meal leaderboard: " + minutes + "m " + seconds + "." + hs + "s at:" + link
     }
     request.send(JSON.stringify(params));
   }
