@@ -62,6 +62,19 @@ const LeaderboardSubmitModal = ({ props }) => {
       setVisible(false);
       refresh();
     });
+
+    sendDiscordNoti();
+  }
+
+  const sendDiscordNoti = async () => {
+    const request = new XMLHttpRequest();
+    request.open("POST", "https://discord.com/api/webhooks/1272751517106962493/96rcRzRoToKlHZ1bXCqeB77sxECbCOLGV9UAYEnXP2prr7Hn9-NIwaJQekFSJSst8tGC");
+    request.setRequestHeader('Content-type', 'application/json');
+    const params = {
+      username: name,
+      content: "New time submitted to happy meal leaderboard: " + minutes + ":" + seconds + "." + hs + " " + link
+    }
+    request.send(JSON.stringify(params));
   }
 
   return (
