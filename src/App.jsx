@@ -12,9 +12,10 @@ import CommissionerNote from './league/commishNote1';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 import Eaterboard from "./pages/Eaterboard";
+import { ColorConstants } from "./components/constants/ColorConstants";
 
 const BackgroundWrapper = styled.div`
-  background: #ECECDF;
+  background: ${ColorConstants.background};
   min-height: 100vh;
 `;
 

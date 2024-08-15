@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ColorConstants } from '../components/constants/ColorConstants';
 
 const Container = styled.div`
     display: flex;
@@ -7,8 +8,8 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #ECECDF;
-    color: #333;
+    background-color: ${ColorConstants.background};
+    color: ${ColorConstants.text};
     text-align: center;
 
     @media (max-width: 600px) {

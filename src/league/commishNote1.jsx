@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ColorConstants } from '../components/constants/ColorConstants';
 
 const CommissionerNoteWrapper = styled.div`
-  background-color: #f4f4f4;
-  text-color: #2E2E2E;
+  background-color: ${ColorConstants.background};
+  text-color: ${ColorConstants.text};
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
