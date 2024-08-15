@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { ColorConstants } from '../components/constants/ColorConstants';
 
 const GridContainer = styled.div`
     display: grid;
@@ -11,23 +12,23 @@ const GridContainer = styled.div`
 `;
 
 const RecentGridItem = styled.button`
-    background-color: #20a4f3;
-    border: 1px solid #20a4f3;
+    background-color: ${ColorConstants.newsBlue};
+    border: 1px solid ${ColorConstants.newsBlue};
     border-radius: 50px;
     padding: 20px;
     cursor: pointer;
     text-align: center;
-    color: #ECECDF; /* Set the desired text color */
+    color: ${ColorConstants.background}; /* Set the desired text color */
 `;
 
 const GridItem = styled.button`
-    background-color: #ECECDF;
-    border: 1px solid #20a4f3;
+    background-color: ${ColorConstants.background};
+    border: 1px solid ${ColorConstants.newsBlue};
     border-radius: 50px;
     padding: 20px;
     cursor: pointer;
     text-align: center;
-    color: #20a4f3; /* Set the desired text color */
+    color: ${ColorConstants.newsBlue}; /* Set the desired text color */
 `;
 
 function Home() {

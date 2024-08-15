@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter, VictoryContainer } from 'victory';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { ColorConstants, colorsByPosition } from '../components/constants/ColorConstants.js';
 
 export const NewsletterContainer = styled.div`
     max-width: 100%;
@@ -9,8 +10,8 @@ export const NewsletterContainer = styled.div`
     padding: 4px;
     font-family: 'Playfair Display', sans-serif;
     font-size: 14px;
-    color: #2E2E2E;
-    background-color: #ECECDF;
+    color: ${ColorConstants.text};
+    background-color: ${ColorConstants.background};
 `;
 
 export const NewsletterTitle = styled.h1`
@@ -31,8 +32,8 @@ export const NewsletterTitle = styled.h1`
 
 export const DateBar = styled.div`
     text-transform: uppercase;
-    border-bottom: 2px solid #2E2E2E;
-    border-top: 2px solid #2E2E2E;
+    border-bottom: 2px solid ${ColorConstants.text};
+    border-top: 2px solid ${ColorConstants.text};
     padding: 12px 0 12px 0;
     text-align: center;
 `;
@@ -62,7 +63,7 @@ export const ArticleSubheader = styled.div`
     margin: 0 auto;
 
     &:before {
-        border-top: 1px solid #2E2E2E;
+        border-top: 1px solid ${ColorConstants.text};
         content: '';
         width: 250px;
         height: 7px;
@@ -71,7 +72,7 @@ export const ArticleSubheader = styled.div`
     }
 
     &:after {
-        border-bottom: 1px solid #2E2E2E;
+        border-bottom: 1px solid ${ColorConstants.text};
         content: '';
         width: 250px;
         height: 7px;
@@ -94,7 +95,7 @@ export const StyledTable = styled.table`
     }
 
     th {
-        color: #2E2E2E;
+        color: ${ColorConstants.text};
         background-color: #d6d6d6;
     }
 
@@ -147,7 +148,7 @@ export const ArticleCaption = styled.figcaption`
     font-style: italic;
     font-size: 12px;
     font-family: 'Playfair Display', serif;
-    color: #2E2E2E;
+    color: ${ColorConstants.text};
 `;
 
 export const AwardsTable = ({ awardsData }) => {
@@ -217,14 +218,14 @@ export const EfficiencyChart = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'Actual Points', symbol: { fill: '#20A4F4' } },
-                    { name: 'Max Points', symbol: { fill: '#7D8491' } },
+                    { name: 'Actual Points', symbol: { fill: ColorConstants.newsBlue } },
+                    { name: 'Max Points', symbol: { fill: ColorConstants.neutral3 } },
                 ]}
             />
             <VictoryBar
                 barWidth={15}
                 cornerRadius={3}
-                style={{ data: { fill: '#7D8491' } }}
+                style={{ data: { fill: ColorConstants.neutral3 } }}
                 data={data}
                 x="team_name"
                 y="Max Points"
@@ -235,7 +236,7 @@ export const EfficiencyChart = ({ chartData }) => {
             <VictoryBar
                 barWidth={15}
                 cornerRadius={3}
-                style={{ data: { fill: '#20A4F4' } }}
+                style={{ data: { fill: ColorConstants.newsBlue } }}
                 data={data}
                 x="team_name"
                 y="Actual Points"
@@ -293,8 +294,8 @@ export const StackedHistogram = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'This Week', symbol: { fill: '#20A4F4' } },
-                    { name: 'Historic', symbol: { fill: '#7D8491' } },
+                    { name: 'This Week', symbol: { fill: ColorConstants.newsBlue } },
+                    { name: 'Historic', symbol: { fill: ColorConstants.neutral3 } },
                 ]}
             />
             <VictoryAxis
@@ -309,13 +310,13 @@ export const StackedHistogram = ({ chartData }) => {
             />
             <VictoryStack colorScale="qualitative">
                 <VictoryHistogram
-                    style={{ data: { fill: '#20A4F4' } }}
+                    style={{ data: { fill: ColorConstants.newsBlue } }}
                     cornerRadius={3}
                     data={thisWeekData}
                     x="team_points"
                     bins={bins} />
                 <VictoryHistogram
-                    style={{ data: { fill: '#7D8491' } }}
+                    style={{ data: { fill: ColorConstants.neutral3 } }}
                     cornerRadius={3}
                     data={historicData}
                     x="team_points"
@@ -347,8 +348,8 @@ export const ShotsDistributionChart = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'MotW', symbol: { fill: '#20A4F4' } },
-                    { name: 'Not MotW', symbol: { fill: '#7D8491' } },
+                    { name: 'MotW', symbol: { fill: ColorConstants.newsBlue } },
+                    { name: 'Not MotW', symbol: { fill: ColorConstants.neutral3 } },
                 ]}
             />
             <VictoryAxis
@@ -364,14 +365,14 @@ export const ShotsDistributionChart = ({ chartData }) => {
             />
             <VictoryStack colorScale="qualitative">
                 <VictoryHistogram
-                    style={{ data: { fill: '#20A4F4' } }}
+                    style={{ data: { fill: ColorConstants.newsBlue } }}
                     cornerRadius={3}
                     data={chartData.filter(entry => entry.group === 'MotW')}
                     x="x"
                     bins={bins}
                 />
                 <VictoryHistogram
-                    style={{ data: { fill: '#7D8491' } }}
+                    style={{ data: { fill: ColorConstants.neutral3 } }}
                     cornerRadius={3}
                     data={chartData.filter(entry => entry.group === 'Not MotW')}
                     x="x"
@@ -417,10 +418,10 @@ export const WeeklyScoringChart = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'Maximum', symbol: { fill: '#20A4F4' } },
-                    { name: 'Average', symbol: { fill: '#668F80' } },
-                    { name: 'Median', symbol: { fill: '#7E6551' } },
-                    { name: 'Minimum', symbol: { fill: '#FF3366' } },
+                    { name: 'Maximum', symbol: { fill: ColorConstants.newsBlue } },
+                    { name: 'Average', symbol: { fill: ColorConstants.neutral4 } },
+                    { name: 'Median', symbol: { fill: ColorConstants.neutral1 } },
+                    { name: 'Minimum', symbol: { fill: ColorConstants.newsRed } },
                 ]}
             />
             <VictoryAxis dependentAxis
@@ -433,25 +434,25 @@ export const WeeklyScoringChart = ({ chartData }) => {
                 data={data}
                 x="week"
                 y="Maximum"
-                style={{ data: { stroke: '#20A4F4', strokeWidth: 2 } }}
+                style={{ data: { stroke: ColorConstants.newsBlue, strokeWidth: 2 } }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Average"
-                style={{ data: { stroke: '#668F80', strokeWidth: 2 } }}
+                style={{ data: { stroke: ColorConstants.neutral4, strokeWidth: 2 } }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Median"
-                style={{ data: { stroke: '#7E6551', strokeWidth: 2 } }}
+                style={{ data: { stroke: ColorConstants.neutral1, strokeWidth: 2 } }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Minimum"
-                style={{ data: { stroke: '#FF3366', strokeWidth: 2 } }}
+                style={{ data: { stroke: ColorConstants.newsRed, strokeWidth: 2 } }}
             />
             <VictoryScatter
                 data={data}
@@ -460,16 +461,6 @@ export const WeeklyScoringChart = ({ chartData }) => {
             />
         </VictoryChart>
     );
-};
-
-// Define colors for each position
-const colorsByPosition = {
-    QB: '#E1676F',
-    RB: '#11D677',
-    WR: '#4DB6F0',
-    TE: '#E9AC53',
-    K: '#D959FF',
-    DEF: '#65645A',
 };
 
 // Define the order for sorting positions
@@ -1017,13 +1008,13 @@ export const FreeAgentTable = ({ data, selectedTeam }) => {
 }
 
 const StyledButton = styled.button`
-    background-color: #ECECDF;
-    border: 1px solid #20a4f3;
+    background-color: ${ColorConstants.background};
+    border: 1px solid ${ColorConstants.newsBlue};
     border-radius: 50px;
     padding: 14px;
     cursor: pointer;
     text-align: center;
-    color: #20a4f3;
+    color: ${ColorConstants.newsBlue};
 
     /* Additional styles for disabled state */
     &:disabled {
@@ -1107,7 +1098,7 @@ const GridContainer = styled.div`
 `;
 
 const GridItem = styled.div`
-    border: 1px solid #2E2E2E;
+    border: 1px solid ${ColorConstants.text};
     border-radius: 8px;
     overflow: hidden;
     width: 100%;
@@ -1173,7 +1164,7 @@ export const MotwRecapTable = ({ data, selectedTeam }) => {
 
 const StyledSortButton = styled.button`
     background-color: #d6d6d6;
-    color: #2e2e2e;
+    color: ${ColorConstants.text};
     border: none;
     width: 100%;
     height: 100%;
@@ -1237,7 +1228,7 @@ export const TeamDropdown = ({ data, onSelectTeam }) => {
                     padding: '5px',
                     fontSize: '16px',
                     borderRadius: '5px',
-                    border: '1px solid #2E2E2E',
+                    border: '1px solid ' + ColorConstants.text,
                     width: '300px',
                     margin: '10px auto',
                 }}
@@ -1350,7 +1341,7 @@ const GenericRecapTable = ({ data, selectedTeam, columns }) => {
                                     style={{
                                         background:
                                             column.sortKey === 'team_name' && item.team_name === selectedTeam
-                                                ? '#20a4f3'
+                                                ? ColorConstants.newsBlue
                                                 : colorCondition && item[column.colorKey]
                                                     ? item[column.colorKey] // Use the correct color value from the item data
                                                     : 'transparent',
