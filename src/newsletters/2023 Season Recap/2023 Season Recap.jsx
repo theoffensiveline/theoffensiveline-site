@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { ArticleHeader, ArticleSubheader, ArticleCaption, RecapPositionTable, KickerDefenseChart, WorstStartSitsTable, FreeAgentTable, DualTableViewer, AwardsGrid, MotwRecapTable, TeamDropdown, BestWorstGameRecapTable, BestWorstTeamRecapTable, BlowoutRecapTable, TransactionRecapTable, TradeRecapTable, StartSitRecapTable, StyledSlider, JakeAlecTable } from '../../components/newsStyles';
+import { RecapPositionTable, KickerDefenseChart, WorstStartSitsTable, FreeAgentTable, DualTableViewer, AwardsGrid, MotwRecapTable, TeamDropdown, BestWorstGameRecapTable, BestWorstTeamRecapTable, BlowoutRecapTable, TransactionRecapTable, TradeRecapTable, StartSitRecapTable, StyledSlider, JakeAlecTable } from '../../components/recapStyles';
+import { ArticleHeader, ArticleSubheader, ArticleCaption } from '../../components/newsStyles';
 import starterData from './startersPPG.json';
 import kickerDefenseData from './kickerDef.json';
 import bestBallBenchData from './bestBallBench.json';
