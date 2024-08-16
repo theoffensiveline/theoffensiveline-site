@@ -81,7 +81,7 @@ function SleeperLogin() {
         setIsButtonDisabled(true);
         setTimeout(() => {
             setIsButtonDisabled(false);
-        }, 5000);
+        }, 3000);
 
         // Save the username to localStorage
         localStorage.setItem('sleeperUsername', username);
@@ -98,6 +98,7 @@ function SleeperLogin() {
             setLeagues(data);
         } catch (error) {
             console.error("Error fetching leagues:", error);
+            setLeagues([]);
         }
     };
 
@@ -122,7 +123,12 @@ function SleeperLogin() {
                 {isButtonDisabled ? 'Please wait...' : 'Submit'}
             </Button>
 
-            {leagues.length > 0 && (
+            {leagues.length === 0 ? (
+                <div>
+                    <h3>You are disabled.</h3>
+                    <h3>Are you sure {username} is your Sleeper username?</h3>
+                </div>
+            ) : (
                 <div>
                     <h2>Select a League</h2>
                     {leagues.map((league) => (
