@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBurger, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ColorConstants } from "../components/constants/ColorConstants";
 import LeaderboardSubmitModal from "../components/leaderboard/LeaderboardSubmitModal";
+import { Switch, FormControlLabel } from '@mui/material';
 
 const ResultsContainer = styled.div`
   width: 100%;
@@ -22,7 +23,9 @@ const ResultsColumn = styled.div`
 
 const Eaterboard = () => {
   const [results, setResults] = useState([]);
+  const [uniqueResults, setUniqueResults] = useState([]);
   const [submitModalVisible, setSubmitModalVisible] = useState(false);
+  const [showUnique, setShowUnique] = useState(false);
 
   useEffect(() => {
     fetchResults();
@@ -33,22 +36,30 @@ const Eaterboard = () => {
       const querySnapshot = await getDocs(collection(db, "leaderboard-times"));
       const docs = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(), // Assuming doc.data() contains all necessary fields
+        name: doc.data().name || '',
+        minutes: parseInt(doc.data().minutes) || 0,
+        seconds: parseInt(doc.data().seconds) || 0,
+        hs: parseInt(doc.data().hs) || 0,
+        link: doc.data().link || '',
+        score: parseInt(doc.data().minutes) * 6000 + parseInt(doc.data().seconds) * 100 + parseInt(doc.data().hs),
       }));
 
-      // Add score calculation and sorting here
-      const processedResults = docs.map((doc) => ({
-        id: doc.id,
-        name: doc.name || '',
-        minutes: parseInt(doc.minutes) || 0,
-        seconds: parseInt(doc.seconds) || 0,
-        hs: parseInt(doc.hs) || 0,
-        link: doc.link || '',
-        score: parseInt(doc.minutes) * 6000 + parseInt(doc.seconds) * 100 + parseInt(doc.hs),
-      })).sort((a, b) => a.score - b.score);
+      // Processed results
+      const processedResults = docs.sort((a, b) => a.score - b.score);
 
-      console.log(processedResults);
+      // Unique results by name
+      const uniqueResults = [];
+      const nameSet = new Set();
+
+      processedResults.forEach((doc) => {
+        if (!nameSet.has(doc.name)) {
+          uniqueResults.push(doc);
+          nameSet.add(doc.name);
+        }
+      });
+
       setResults(processedResults);
+      setUniqueResults(uniqueResults);
     } catch (error) {
       console.error("Error fetching results: ", error);
     }
@@ -56,15 +67,52 @@ const Eaterboard = () => {
 
   return (
     <>
-      {!!submitModalVisible && (<LeaderboardSubmitModal props={{ visible: submitModalVisible, setVisible: setSubmitModalVisible, refresh: fetchResults }} />)}
+      {!!submitModalVisible && (
+        <LeaderboardSubmitModal
+          props={{
+            visible: submitModalVisible,
+            setVisible: setSubmitModalVisible,
+            refresh: fetchResults
+          }}
+        />
+      )}
       <ResultsContainer>
         <ResultsColumn>
-          <h2><FontAwesomeIcon icon={faBurger} />&nbsp;Happy Meal Leaders&nbsp;<FontAwesomeIcon icon={faPlus} color={ColorConstants.link} cursor={"pointer"} onClick={() => setSubmitModalVisible(true)} /></h2>
-          {results.map((res, iter) => (
-            <LeaderboardResult
-              props={{ ...res, iter: iter + 1 }}
+          <h2>
+            <FontAwesomeIcon icon={faBurger} />
+            &nbsp;Happy Meal Leaders&nbsp;
+            <FontAwesomeIcon
+              icon={faPlus}
+              color={ColorConstants.link}
+              cursor={"pointer"}
+              onClick={() => setSubmitModalVisible(true)}
             />
-          ))}
+          </h2>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showUnique}
+                onChange={() => setShowUnique(!showUnique)}
+                color="primary"
+              />
+            }
+            label={showUnique ? 'Unique Leaders' : 'All Times'}
+            style={{ marginBottom: '10px' }}
+          />
+          {showUnique
+            ? uniqueResults.map((res, iter) => (
+              <LeaderboardResult
+                key={res.id}
+                props={{ ...res, iter: iter + 1 }}
+              />
+            ))
+            : results.map((res, iter) => (
+              <LeaderboardResult
+                key={res.id}
+                props={{ ...res, iter: iter + 1 }}
+              />
+            ))
+          }
         </ResultsColumn>
       </ResultsContainer>
     </>
