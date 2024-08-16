@@ -70,8 +70,11 @@ function SleeperLogin() {
         const storedUsername = localStorage.getItem('sleeperUsername');
         if (storedUsername) {
             setUsername(storedUsername);
+            if (storedUsername === 'AntDicarlo') {
+                navigate('/home');
+            }
         }
-    }, []);
+    }, [navigate]);
 
     const handleUsernameSubmit = async () => {
         // Disable the button for 3 seconds
