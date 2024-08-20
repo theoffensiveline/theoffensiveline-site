@@ -34,15 +34,24 @@ const Eaterboard = () => {
   const fetchResults = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "leaderboard-times"));
-      const docs = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        name: doc.data().name || '',
-        minutes: parseInt(doc.data().minutes) || 0,
-        seconds: parseInt(doc.data().seconds) || 0,
-        hs: parseInt(doc.data().hs) || 0,
-        link: doc.data().link || '',
-        score: parseInt(doc.data().minutes) * 6000 + parseInt(doc.data().seconds) * 100 + parseInt(doc.data().hs),
-      }));
+      const docs = querySnapshot.docs.map((doc) => {
+        const dnf = doc.data().dnf || false;
+        const minutes = parseInt(doc.data().minutes) || 0;
+        const seconds = parseInt(doc.data().seconds) || 0;
+        const hs = parseInt(doc.data().hs) || 0;
+        const score = dnf ? Infinity : minutes * 6000 + seconds * 100 + hs;
+
+        return {
+          id: doc.id,
+          name: doc.data().name || '',
+          minutes: minutes,
+          seconds: seconds,
+          hs: hs,
+          dnf: dnf,
+          link: doc.data().link || '',
+          score: score,
+        };
+      });
 
       // Processed results
       const processedResults = docs.sort((a, b) => a.score - b.score);

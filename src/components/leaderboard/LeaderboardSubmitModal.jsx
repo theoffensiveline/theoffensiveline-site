@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Box from "@mui/material/Box";
 import { styled } from "styled-components";
-import { Input, Modal } from "@mui/material";
+import { Checkbox, Input, Modal, TextField } from "@mui/material";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -36,6 +36,7 @@ const LeaderboardSubmitModal = ({ props }) => {
   const [minutes, setMinutes] = React.useState(null);
   const [seconds, setSeconds] = React.useState(null);
   const [hs, setHs] = React.useState(null);
+  const [dnf, setDnf] = React.useState(false);
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
   const [canSave, setCanSave] = React.useState(false);
@@ -46,25 +47,31 @@ const LeaderboardSubmitModal = ({ props }) => {
 
   useEffect(() => {
     const canSaveResult = () => {
-      return !isEmpty(minutes) && !isEmpty(seconds) && !isEmpty(hs) && !isEmpty(name) && !isEmpty(link);
+      return !isEmpty(name) && !isEmpty(link) && (dnf || (!isEmpty(minutes) && !isEmpty(seconds) && !isEmpty(hs)));
     };
     setCanSave(canSaveResult());
-  }, [name, seconds, minutes, hs, link]);
+  }, [name, seconds, minutes, hs, link, dnf]);
 
   const submit = async () => {
-    addDoc(collection(db, "leaderboard-times"), {
+    const submissionData = {
       name: name,
-      minutes: parseInt(minutes),
-      seconds: parseInt(seconds),
-      hs: parseInt(hs),
-      link: link
-    }).then(() => {
+      link: link,
+      dnf: dnf,
+    };
+
+    if (!dnf) {
+      submissionData.minutes = parseInt(minutes);
+      submissionData.seconds = parseInt(seconds);
+      submissionData.hs = parseInt(hs);
+    }
+
+    addDoc(collection(db, "leaderboard-times"), submissionData).then(() => {
       setVisible(false);
       refresh();
     });
 
     sendDiscordNoti();
-  }
+  };
 
   const sendDiscordNoti = async () => {
     const request = new XMLHttpRequest();
@@ -72,53 +79,75 @@ const LeaderboardSubmitModal = ({ props }) => {
     request.setRequestHeader('Content-type', 'application/json');
     const params = {
       username: name,
-      content: "I just submitted a new time to the happy meal leaderboard: " + minutes + "m " + seconds + "." + hs + "s at:" + link
-    }
+      content: dnf
+        ? `I just submitted a DNF to the happy meal leaderboard at: ${link}`
+        : `I just submitted a new time to the happy meal leaderboard: ${minutes}m ${seconds}.${hs}s at: ${link}`
+    };
     request.send(JSON.stringify(params));
-  }
+  };
+
+  const handleDnfChange = (checked) => {
+    setDnf(checked);
+    if (checked) {
+      setMinutes('');
+      setSeconds('');
+      setHs('');
+    }
+  };
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <NiceBox>
         <h3>Submit New Time</h3>
         <h4>Name</h4>
-        <Input
-          type="text"
+        <TextField
           value={name}
           placeholder="name"
           onChange={(event) => setName(event.target.value)}
+          size='small'
         />
         <h4>Time</h4>
         <Input
           type="number"
           value={minutes}
           placeholder="minutes"
-          onChange={(e) => { setMinutes(e.target.value) }}
+          onChange={(e) => setMinutes(e.target.value)}
+          disabled={dnf}
         />
         <Input
-          name="test"
           type="number"
           placeholder="seconds"
           value={seconds}
-          onChange={(e) => { setSeconds(e.target.value) }}
+          onChange={(e) => setSeconds(e.target.value)}
+          disabled={dnf}
         />
         <Input
           type="number"
           value={hs}
           placeholder="hundredths of a second"
-          onChange={(e) => { setHs(e.target.value) }}
+          onChange={(e) => setHs(e.target.value)}
+          disabled={dnf}
         />
+        <br />
+        <label>
+          DNF
+          <Checkbox
+            checked={dnf}
+            onChange={(e) => handleDnfChange(e.target.checked)}
+            sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }}
+          />
+        </label>
         <h4>Video Link</h4>
-        <Input
-          type="text"
+        <TextField
           value={link}
           placeholder="youtube.com/"
           onChange={(event) => setLink(event.target.value)}
+          size='small'
         />
         <br />
         {!!canSave ?
           <ButtonButton onClick={submit}>SUBMIT</ButtonButton> :
-          <ButtonButton onClick={() => console.log("bang!")}>you are disabled</ButtonButton>}
+          <ButtonButton onClick={() => console.log("Cannot submit yet")}>you are disabled</ButtonButton>}
       </NiceBox>
     </Modal>
   );

@@ -23,13 +23,13 @@ const Time = styled.div`
 `;
 
 const LeaderboardResult = ({ props }) => {
-    const { name, minutes, seconds, link, hs, iter } = props;
+    const { name, minutes, seconds, link, hs, dnf, iter } = props;
 
     return (
         <ResultContainer>
             <Rank>{iter}</Rank>
             <Name href={link} target="_blank">{name}</Name>
-            <Time>{minutes}m&nbsp;{seconds}.{hs}s</Time>
+            <Time>{dnf ? 'DNF' : `${minutes}m ${seconds}.${hs}s`}</Time>
         </ResultContainer>
     );
 };
