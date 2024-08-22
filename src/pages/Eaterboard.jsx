@@ -122,6 +122,21 @@ const Eaterboard = () => {
               />
             ))
           }
+          <p>
+            Rules:
+            <br />
+            <ul>
+              <li>Must get a burger with whatever comes on it.</li>
+              <li>Must get fries and apple slices.</li>
+              <li>Must get a non-water drink in the drink cup (no milk or juice box), with a standard amount of ice.</li>
+              <li>Timer starts when the box is touched and ends when the mouth is empty.</li>
+              <li>Unpackaging is part of the time; no scissors, knives, or other tools are allowed to assist in unpackaging.</li>
+              <li>Everyone must submit a video by 8/25 at 11:59 PM ET.</li>
+              <li>Anyone who does not submit a video will receive the last draft pick selection and lose their last-round pick in the draft.</li>
+              <li>After the 8/25 deadline, everyone who submitted a time will have the opportunity to eat additional Happy Meals until 8/28 at 11:59 PM ET.</li>
+              <li>Any submissions after 8/25 must have evidence present in the video that it was filmed after 8/25.</li>
+            </ul>
+          </p>
         </ResultsColumn>
       </ResultsContainer>
     </>
