@@ -36,6 +36,19 @@ function NavBar() {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
+                    {/* Conditionally render the logo on non-mobile view */}
+                    {!shouldHidePages && (
+                        <Box
+                            component="img"
+                            sx={{
+                                height: 40,
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                            }}
+                            alt="Logo"
+                            src="/logo.png"
+                        />
+                    )}
                     <Typography
                         variant="h6"
                         noWrap
