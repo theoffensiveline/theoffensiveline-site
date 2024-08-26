@@ -63,6 +63,7 @@ function SleeperLogin() {
     const [username, setUsername] = useState('');
     const [leagues, setLeagues] = useState([]);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
     const navigate = useNavigate();
 
     // Load the stored username from localStorage when the component mounts
@@ -96,9 +97,11 @@ function SleeperLogin() {
             const data = await response.json();
             console.log(data);
             setLeagues(data);
+            setHasSubmitted(true);
         } catch (error) {
             console.error("Error fetching leagues:", error);
             setLeagues([]);
+            setHasSubmitted(true);
         }
     };
 
@@ -123,12 +126,14 @@ function SleeperLogin() {
                 {isButtonDisabled ? 'Please wait...' : 'Submit'}
             </Button>
 
-            {leagues.length === 0 ? (
+            {hasSubmitted && leagues.length === 0 && (
                 <div>
                     <h3>You are disabled.</h3>
                     <h3>Are you sure {username} is your Sleeper username?</h3>
                 </div>
-            ) : (
+            )}
+
+            {leagues.length > 0 && (
                 <div>
                     <h2>Select a League</h2>
                     {leagues.map((league) => (
