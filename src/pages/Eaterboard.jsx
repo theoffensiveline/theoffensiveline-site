@@ -4,8 +4,8 @@ import { getDocs, collection } from "firebase/firestore";
 import { styled } from "styled-components";
 import LeaderboardResult from "../components/leaderboard/LeaderboardResult";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBurger, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { ColorConstants } from "../components/constants/ColorConstants";
+import { faBurger } from "@fortawesome/free-solid-svg-icons";
+// import { ColorConstants } from "../components/constants/ColorConstants";
 import LeaderboardSubmitModal from "../components/leaderboard/LeaderboardSubmitModal";
 import { Switch, FormControlLabel } from '@mui/material';
 
