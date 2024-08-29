@@ -90,12 +90,12 @@ const Eaterboard = () => {
           <h2>
             <FontAwesomeIcon icon={faBurger} />
             &nbsp;Happy Meal Leaders&nbsp;
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faPlus}
               color={ColorConstants.link}
               cursor={"pointer"}
               onClick={() => setSubmitModalVisible(true)}
-            />
+            /> */}
           </h2>
           <FormControlLabel
             control={
