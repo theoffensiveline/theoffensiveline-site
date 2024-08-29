@@ -31,6 +31,12 @@ const GridItem = styled.button`
     color: ${ColorConstants.newsBlue}; /* Set the desired text color */
 `;
 
+const BannerImage = styled.img`
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+`;
+
 function Home() {
     const navigate = useNavigate();
 
@@ -53,21 +59,24 @@ function Home() {
     };
 
     return (
-        <GridContainer>
-            {mostRecentIssue.map((issue) => (
-                <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
-                    {issue}
-                </RecentGridItem>
-            ))}
-            {newsletterIssues.map((issue) => (
-                <GridItem key={issue} onClick={() => handleNavigate(issue)}>
-                    {issue}
+        <div>
+            <BannerImage src="/banner_logo.png" alt="Banner Logo" />
+            <GridContainer>
+                {mostRecentIssue.map((issue) => (
+                    <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
+                        {issue}
+                    </RecentGridItem>
+                ))}
+                {newsletterIssues.map((issue) => (
+                    <GridItem key={issue} onClick={() => handleNavigate(issue)}>
+                        {issue}
+                    </GridItem>
+                ))}
+                <GridItem onClick={() => navigate("/news")}>
+                    Older News
                 </GridItem>
-            ))}
-            <GridItem onClick={() => navigate("/news")}>
-                Older News
-            </GridItem>
-        </GridContainer>
+            </GridContainer>
+        </div>
     );
 }
 
