@@ -227,7 +227,7 @@ const WeenieMeme = () => {
 const SquirrelMeme = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://media.discordapp.net/attachments/419164550575816704/1190048472565551185/image.png?ex=65a06201&is=658ded01&hm=7bca3dc50abcfe4ebc5163a53e73105335d64f3b7dbda9e1e913d14a39ea67e5&=&format=webp&quality=lossless&width=411&height=624"}>
+            <ArticleImage src={"https://i.imgflip.com/92fci3.jpg"}>
             </ArticleImage>
             <ArticleCaption>Submitted by Cinderella</ArticleCaption>
         </ImageWrapper>
