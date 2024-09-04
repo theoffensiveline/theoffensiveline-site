@@ -63,6 +63,13 @@ const NextSeasonArticle = () => {
             <p>
                 The punishment for 2024 is a 24 hour Fortnite livestream. The full rules are still TBD, but there are some ideas floating around. The one rule that has been determined concretely is that you must be on camera for the entire 24 hours unless you are actively pissing or shitting. The league is considering funding some amount of DoorDash or other food delivery services to maximize screen time, as well as adding a charity element to the livestream to maximize outside viewer engagement, and allow for further punishments to be thrust upon the streamer. Something like donate $10 to make them do pushups, donate $250 to make them shave their head, or some things along those lines. Please send ideas in the chat for any additional rules you would like to add.
             </p>
+            <p>
+                Some changes here at The Offensive Line have taken place too, we've hired a graphic designer who has designed 2 logos thus far, and may be working on some exciting in-season content as well, so keep an eye out for that!
+            </p>
+            <ImageWrapper>
+                <ArticleImage src="https://i.imgflip.com/92fg7h.jpg" />
+                <ArticleCaption>Graphic Designer</ArticleCaption>
+            </ImageWrapper>
             <ArticleSubheader>Previewing The 2024 Season</ArticleSubheader>
             <p>
                 The commissioner, whether people like it or not, has the first pick in the draft tonight. The rest of the draft order was also pretty close to the actual happy meal results; people did not want the later first round picks this year after what felt like a frenzy for them last year. Smitty and Devan are on fully opposite ends of the draft board as they were last year. One league manager is really looking forward to the season:
