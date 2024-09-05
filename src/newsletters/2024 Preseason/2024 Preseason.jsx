@@ -113,6 +113,17 @@ const WaterMeme = () => {
     )
 }
 
+const ReadingMeme = () => {
+    return (
+        <ImageWrapper>
+            <iframe title="Reading Meme" width="100%" height="320" src="https://www.youtube.com/embed/BohXQF4dWT0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen> </iframe>
+            <ArticleCaption>"The Entire League" - Submitted by Commish</ArticleCaption>
+        </ImageWrapper>
+    )
+}
+
 const closingArticle = () => {
     return (
         <div>
@@ -148,6 +159,10 @@ export const articles = [
     },
     {
         id: 6,
+        content: ReadingMeme,
+    },
+    {
+        id: 7,
         content: closingArticle,
     },
 ];
