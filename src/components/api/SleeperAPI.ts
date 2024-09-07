@@ -1,6 +1,21 @@
 // SleeperAPI.ts
 const BASE_URL = "https://api.sleeper.app/v1";
 
+// Function to get league
+export const getLeague = async (leagueId: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/league/${leagueId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch league");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching league:", error);
+    throw error;
+  }
+};
+
 // Function to get all users in a league
 export const getUsers = async (leagueId: string) => {
   try {

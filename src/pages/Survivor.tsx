@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  getLeague,
   getMatchups,
   getState,
   getUsers,
@@ -8,9 +9,9 @@ import {
 import playerData from "../components/api/sleeper_players.json"; // Adjust path as necessary
 
 interface Matchup {
-  starters: string[]; // Array of starter player IDs and team names
+  starters: Array<{ id: string; position: string }>; // Array of objects with ID and position
   roster_id: number; // Roster ID
-  players: string[]; // Array of player IDs and team names
+  players: string[]; // Array of player IDs
   matchup_id: number; // Matchup ID
   points: number; // Total points for the team
   custom_points: number | null; // Custom points if overridden
@@ -49,6 +50,13 @@ interface User {
   };
 }
 
+interface League {
+  league_id: string;
+  roster_positions: string[]; // Array of roster position names
+  name: string;
+  draft_id: string;
+}
+
 const Survivor: React.FC = () => {
   const [week, setWeek] = useState<number | null>(null);
   const [matchups, setMatchups] = useState<Matchup[]>([]);
@@ -79,6 +87,10 @@ const Survivor: React.FC = () => {
           const rostersData = await getRosters(LEAGUE_ID);
           const usersData = await getUsers(LEAGUE_ID);
 
+          // Fetch league data to get roster positions
+          const leagueData = await getLeague(LEAGUE_ID);
+          const rosterPositions = leagueData.roster_positions;
+
           // Map rosters to teams
           const teamMap = rostersData.reduce(
             (map: Record<number, Team>, roster: Roster) => {
@@ -88,10 +100,10 @@ const Survivor: React.FC = () => {
               if (user) {
                 map[roster.roster_id] = {
                   team_id: roster.owner_id,
-                  team_name: user.metadata.team_name || user.username, // Use metadata.team_name if available
+                  team_name: user.metadata.team_name || user.username,
                   team_logo: user.metadata.avatar
                     ? `${user.metadata.avatar}`
-                    : "default-avatar.png", // Use metadata.avatar if available
+                    : "default-avatar.png",
                 };
               }
               return map;
@@ -99,6 +111,17 @@ const Survivor: React.FC = () => {
             {}
           );
           setTeams(teamMap);
+
+          // Update the matchups to include roster positions
+          const updatedMatchups = matchupsData.map((matchup: Matchup) => {
+            const { starters } = matchup;
+            const startersWithPositions = starters.map((id, index) => ({
+              id,
+              position: rosterPositions[index] || "Unknown",
+            }));
+            return { ...matchup, starters: startersWithPositions };
+          });
+          setMatchups(updatedMatchups);
         }
       } catch (err) {
         setError("Failed to load data");
@@ -131,8 +154,8 @@ const Survivor: React.FC = () => {
             if (matchups.length < 2) return null; // Ensure there are two matchups to display side by side
 
             const [team1, team2] = matchups;
-            const team1StartersSet = new Set(team1.starters);
-            const team2StartersSet = new Set(team2.starters);
+            const team1StartersSet = new Set(team1.starters.map((s) => s.id));
+            const team2StartersSet = new Set(team2.starters.map((s) => s.id));
             const team1BenchPlayers = team1.players.filter(
               (id) => !team1StartersSet.has(id)
             );
@@ -170,13 +193,13 @@ const Survivor: React.FC = () => {
                       }}
                     />
                     <div>
-                      {team1.starters.map((id) => (
+                      {team1.starters.map(({ id, position }) => (
                         <div
                           key={id}
                           style={{ display: "flex", alignItems: "center" }}
                         >
                           <div style={{ width: "150px" }}>
-                            {playerMap[id] || id}
+                            {position}: {playerMap[id] || id}
                           </div>
                         </div>
                       ))}
@@ -200,13 +223,13 @@ const Survivor: React.FC = () => {
                       }}
                     />
                     <div>
-                      {team2.starters.map((id) => (
+                      {team2.starters.map(({ id, position }) => (
                         <div
                           key={id}
                           style={{ display: "flex", alignItems: "center" }}
                         >
                           <div style={{ width: "150px" }}>
-                            {playerMap[id] || id}
+                            {position}: {playerMap[id] || id}
                           </div>
                         </div>
                       ))}
