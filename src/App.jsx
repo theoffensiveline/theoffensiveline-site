@@ -12,12 +12,14 @@ import CommissionerNote from './league/commishNote1';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 import Eaterboard from "./pages/Eaterboard";
+import Survivor from "./pages/Survivor";
 import { ColorConstants } from "./components/constants/ColorConstants";
 
 const BackgroundWrapper = styled.div`
   background: ${ColorConstants.background};
   min-height: 100vh;
 `;
+
 
 function App() {
     return (
@@ -34,6 +36,7 @@ function App() {
                         <Route path="bylaws" element={<Bylaws />} />
                         <Route path="newsletter" element={<Newsletter />} />
                         <Route path="leaderboard" element={<Eaterboard />} />
+                        <Route path="survivor" element={<Survivor />} />
                         <Route path="*" element={<Default />} />
                         <Route path="league/commishNote1" element={<CommissionerNote />} />
                     </Route>
