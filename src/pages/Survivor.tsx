@@ -6,6 +6,7 @@ import {
   getUsers,
   getRosters,
 } from "../components/api/SleeperAPI";
+import { Roster, User } from "../types/sleeperTypes";
 import playerData from "../components/api/sleeper_players.json"; // Adjust path as necessary
 
 interface Matchup {
@@ -21,40 +22,6 @@ interface Team {
   team_id: string;
   team_name: string;
   team_logo: string;
-}
-
-interface Roster {
-  roster_id: number;
-  owner_id: string;
-  starters: string[];
-  players: string[];
-  settings: {
-    wins: number;
-    losses: number;
-    ties: number;
-    fpts: number;
-    fpts_decimal: number;
-    fpts_against: number;
-    fpts_against_decimal: number;
-  };
-}
-
-interface User {
-  user_id: string;
-  username: string;
-  display_name: string;
-  avatar: string;
-  metadata: {
-    team_name: string;
-    avatar: string;
-  };
-}
-
-interface League {
-  league_id: string;
-  roster_positions: string[]; // Array of roster position names
-  name: string;
-  draft_id: string;
 }
 
 const Survivor: React.FC = () => {
