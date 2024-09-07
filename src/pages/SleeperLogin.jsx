@@ -106,6 +106,8 @@ function SleeperLogin() {
     };
 
     const handleLeagueSelect = (league) => {
+        localStorage.setItem('selectedLeagueId', league.league_id);
+
         if (league.league_id === '1124831356770058240') {
             navigate('/home', { state: { league } });
         } else {
