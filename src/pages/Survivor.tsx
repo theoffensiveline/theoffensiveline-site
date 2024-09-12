@@ -29,7 +29,8 @@ const Survivor: React.FC = () => {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [teams, setTeams] = useState<Record<number, Team>>({});
   const [error, setError] = useState<string | null>(null);
-  const LEAGUE_ID = localStorage.getItem("selectedLeagueId");
+  // hardcoded for now so Chris doesn't have to login
+  const LEAGUE_ID = "1124831356770058240"; //localStorage.getItem("selectedLeagueId");
 
   // Create a map from player ID to player name
   const playerMap = Object.entries(playerData).reduce((map, [id, player]) => {
