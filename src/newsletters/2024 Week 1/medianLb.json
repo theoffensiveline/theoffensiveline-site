@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Cinderella",
+    "W": 2,
+    "L": 0,
+    "PF": 144.22,
+    "PA": 89.54,
+    "PFColor": "#227740",
+    "PAColor": "#70a37c"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 2,
+    "L": 0,
+    "PF": 139.98,
+    "PA": 116.42,
+    "PFColor": "#3f8653",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Pink Pony Kupp",
+    "W": 2,
+    "L": 0,
+    "PF": 136.88,
+    "PA": 103.58,
+    "PFColor": "#589567",
+    "PAColor": "#c3d8c6"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Twin Bowers",
+    "W": 2,
+    "L": 0,
+    "PF": 123.3,
+    "PA": 117.48,
+    "PFColor": "#abc9b1",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 5,
+    "Diff": 2,
+    "Team": "Youngster Joey",
+    "W": 1,
+    "L": 1,
+    "PF": 117.48,
+    "PA": 123.3,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#eeb0ae"
+  },
+  {
+    "Rank": 6,
+    "Diff": 2,
+    "Team": "First Down Syndrome",
+    "W": 1,
+    "L": 1,
+    "PF": 116.42,
+    "PA": 139.98,
+    "PFColor": "#dbe8dd",
+    "PAColor": "#c74850"
+  },
+  {
+    "Rank": 7,
+    "Diff": -2,
+    "Team": "Questionable",
+    "W": 1,
+    "L": 1,
+    "PF": 110.96,
+    "PA": 88.14,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 8,
+    "Diff": -2,
+    "Team": "SUN GOD'S CHOSEN",
+    "W": 1,
+    "L": 1,
+    "PF": 101.26,
+    "PA": 79.16,
+    "PFColor": "#f1bcb9",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 9,
+    "Diff": 0,
+    "Team": "Cook-ing a 0.2",
+    "W": 0,
+    "L": 2,
+    "PF": 103.58,
+    "PA": 136.88,
+    "PFColor": "#f4c7c4",
+    "PAColor": "#d16163"
+  },
+  {
+    "Rank": 10,
+    "Diff": 0,
+    "Team": "Giving Me a Chubb",
+    "W": 0,
+    "L": 2,
+    "PF": 89.54,
+    "PA": 144.22,
+    "PFColor": "#da7878",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "IKEA x50crmov15",
+    "W": 0,
+    "L": 2,
+    "PF": 88.14,
+    "PA": 110.96,
+    "PFColor": "#d66d6e",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 0,
+    "L": 2,
+    "PF": 79.16,
+    "PA": 101.26,
+    "PFColor": "#bc293d",
+    "PAColor": "#b7d1bb"
+  }
+]

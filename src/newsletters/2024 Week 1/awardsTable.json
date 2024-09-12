@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/d8015ffaa274e7a3a048423c75274271.jpg",
+    "name": "Cinderella",
+    "value": "Scored 144.22 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Scored 79.16 points",
+    "description": "This is the #1 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/bbec1499b536f4ec2e79a10fb4765a38.jpg",
+    "name": "SUN GOD'S CHOSEN",
+    "value": "Scored 101.26 points in their win",
+    "description": "This is the #1 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Scored 117.48 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/d8015ffaa274e7a3a048423c75274271.jpg",
+    "name": "Cinderella",
+    "value": "Defeated Giving Me a Chubb by 54.68 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Defeated Youngster Joey by 5.82 points",
+    "description": "This is the #1 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/bbec1499b536f4ec2e79a10fb4765a38.jpg",
+    "name": "SUN GOD'S CHOSEN",
+    "value": "Left 40 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/d8015ffaa274e7a3a048423c75274271.jpg",
+    "name": "Cinderella",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/11566.jpg",
+    "name": "Jayden Daniels (RB1)",
+    "value": "Scored 28.16 points for SUN GOD'S CHOSEN which was 27.81% of the team total",
+    "description": "This is the #1 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/10222.jpg",
+    "name": "Jayden Reed",
+    "value": "Scored 33.1 points on the bench for Twin Bowers",
+    "description": "This is the #1 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 31.18 points for Just Joshin pt. 2 ",
+    "description": "This is the #1 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 33.2 points for Youngster Joey",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/4039.jpg",
+    "name": "Cooper Kupp (Hot To Go)",
+    "value": "Scored 32 points for Pink Pony Kupp",
+    "description": "This is the #1 WR performance of the season"
+  },
+  {
+    "award": "Tighest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/7553.jpg",
+    "name": "Kyle Pitts (Mr. On The Block)",
+    "value": "Scored 11.6 points for Pink Pony Kupp",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/10937.jpg",
+    "name": "Jake Moody (Mad eye)",
+    "value": "Scored 27.3 points for Cinderella",
+    "description": "This is the #1 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/min.png",
+    "name": "MIN",
+    "value": "Scored 22 points for Twin Bowers",
+    "description": "This is the #1 DEF performance of the season"
+  }
+]

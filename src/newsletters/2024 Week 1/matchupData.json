@@ -1,0 +1,134 @@
+[
+  {
+    "week": 1,
+    "team_name": "Kirk Thuggins & The Boys",
+    "image_or_text": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "matchup_id": 4,
+    "team_points": 79.16,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Pink Pony Kupp",
+    "image_or_text": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "matchup_id": 6,
+    "team_points": 136.88,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "IKEA x50crmov15",
+    "image_or_text": "https://sleepercdn.com/uploads/2f3cafdc1f0a9db950d31d1457e7461d.jpg",
+    "matchup_id": 2,
+    "team_points": 88.14,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "SUN GOD'S CHOSEN",
+    "image_or_text": "https://sleepercdn.com/uploads/bbec1499b536f4ec2e79a10fb4765a38.jpg",
+    "matchup_id": 4,
+    "team_points": 101.26,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Just Joshin pt. 2 ",
+    "image_or_text": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "matchup_id": 1,
+    "team_points": 139.98,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Questionable",
+    "image_or_text": "https://sleepercdn.com/uploads/84bf480458a11dd43da88e61e24a709c.jpg",
+    "matchup_id": 2,
+    "team_points": 110.96,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Cinderella",
+    "image_or_text": "https://sleepercdn.com/uploads/d8015ffaa274e7a3a048423c75274271.jpg",
+    "matchup_id": 5,
+    "team_points": 144.22,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Youngster Joey",
+    "image_or_text": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "matchup_id": 3,
+    "team_points": 117.48,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Giving Me a Chubb",
+    "image_or_text": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "matchup_id": 5,
+    "team_points": 89.54,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Cook-ing a 0.2",
+    "image_or_text": "https://sleepercdn.com/uploads/326769a5d8cca475c2395a0b1812437e",
+    "matchup_id": 6,
+    "team_points": 103.58,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "Twin Bowers",
+    "image_or_text": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "matchup_id": 3,
+    "team_points": 123.3,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  },
+  {
+    "week": 1,
+    "team_name": "First Down Syndrome",
+    "image_or_text": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "matchup_id": 1,
+    "team_points": 116.42,
+    "Average": 112.5767,
+    "Median": 113.69,
+    "Maximum": 144.22,
+    "Minimum": 79.16
+  }
+]

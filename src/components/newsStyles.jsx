@@ -171,6 +171,76 @@ export const AwardsTable = ({ awardsData }) => {
     );
 };
 
+export const AwardsGridV2 = ({ awardsData }) => {
+    return (
+        <AwardsContainer>
+            {awardsData.map((award, index) => (
+                <Award key={index}>
+                    <img src={award.photo} alt={award.name} />
+                    <h2>{award.award}</h2>
+                    <h3>{award.name}</h3>
+                    <h4>{award.value}</h4>
+                    <p>{award.description}</p>
+                </Award>
+            ))}
+        </AwardsContainer>
+    )
+}
+
+const AwardsContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+
+    @media (max-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+`;
+
+const Award = styled.div`
+    border: 1px solid ${ColorConstants.text};
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    h2 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 1.5rem; /* 28px in relative units */
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 550;
+        font-size: 1.2rem; /* 20px in relative units */
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    h4 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 400;
+        font-size: 1rem; /* 16px in relative units */
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    p {
+        font-family: 'Playfair Display', serif;
+        font-weight: 200;
+        font-size: 0.8rem; /* 16px in relative units */
+        text-align: center;
+        margin: 10px 0;
+    }
+`;
+
 export const EfficiencyChart = ({ chartData }) => {
     const teamNames = chartData.map(item => item.team_name);
     const maxPoints = chartData.map(item => item.max_points);
@@ -508,6 +578,7 @@ export const MatchupPlot = ({ data, matchupId }) => {
                                     full_name: entry.full_name,
                                     label: `${entry.points}`,
                                     position: entry.position,
+                                    nickname: entry.nickname,
                                     index, // Adding index for unique key
                                 }))
                         )
@@ -526,7 +597,7 @@ export const MatchupPlot = ({ data, matchupId }) => {
                                 },
                                 labels: { fill: '#000' },
                             }}
-                            labels={({ datum }) => `${datum.full_name} ${datum.label}`}
+                            labels={({ datum }) => `${datum.full_name} ${datum.label} ${datum.nickname}`}
                             labelComponent={<CustomLabel />}
                         />
                     ))}
@@ -540,8 +611,18 @@ export const MatchupPlot = ({ data, matchupId }) => {
 const CustomLabel = (props) => {
     const { x, y, datum } = props;
 
-    // Check if both full_name and label are defined before concatenating
-    const labelContent = datum.full_name && datum.label ? `${datum.full_name} - ${datum.label}` : '';
+    // Customize the label content based on the provided data
+    const hasLabel = datum.label && datum.full_name;
+    let fullName = hasLabel ? datum.full_name : '';
+    let nickname = hasLabel && datum.nickname ? ` (${datum.nickname})` : '';
+    const label = hasLabel ? ` - ${datum.label}` : '';
+
+    // Special case: "Jake Bates" and nickname "Master"
+    if (fullName === 'Jake Bates' && datum.nickname === 'Master') {
+        // Split fullName into "Jake" and "Bates"
+        fullName = 'Jake';
+        nickname = 'Master';
+    }
 
     // Assuming points represent the height of the bar segment
     const points = datum.label || 0; // Use the points value from the label or default to 0
@@ -554,12 +635,28 @@ const CustomLabel = (props) => {
 
     return (
         <g transform={`translate(${x}, ${yPos})`}>
+            {/* Render the full name, nickname inline with smaller font, and label */}
             <text textAnchor="middle" fontSize={10} fill="#000">
-                {labelContent}
+                {fullName === 'Jake' ? (
+                    <>
+                        {/* Special case for "Jake (Master) Bates" */}
+                        <tspan>{fullName}</tspan>
+                        <tspan fontSize={7}> ({nickname}) </tspan>
+                        <tspan>Bates</tspan>
+                    </>
+                ) : (
+                    <>
+                        {/* Regular case for other names */}
+                        <tspan>{fullName}</tspan>
+                        {nickname && <tspan fontSize={8}>{nickname}</tspan>}
+                    </>
+                )}
+                <tspan>{label}</tspan>
             </text>
         </g>
     );
 };
+
 
 export const MotwTable = ({ motwHistoryData }) => {
     return (
@@ -887,3 +984,53 @@ const getOpponentList = (records, teamName) => {
         : 'N/A';
 };
 
+export const DangerTable = ({ data }) => {
+    // Extract headers from the keys of the first object in the data array
+    const headers = Object.keys(data[0]).filter(header => !header.endsWith('_color') && header !== 'Team');
+
+    // Map for tooltips
+    const headerToolTips = {
+        'NPG': 'Next Possible Game',
+        'RPA': 'Remaining Possible Appearances',
+        'DM': 'Danger Metric',
+    };
+
+    return (
+        <div>
+            <StyledTable>
+                <thead>
+                    <tr>
+                        {['Team', ...headers].map((header) => (
+                            <th key={header} title={headerToolTips[header]}>
+                                {header}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((team) => (
+                        <tr key={team.Team}>
+                            {['Team', ...headers].map((header) => {
+                                const cellValue = team[header];
+                                const colorColumn = `${header}_color`;
+                                const backgroundColor = header === 'Team' ? 'transparent' : team[colorColumn];
+
+                                return (
+                                    <td
+                                        key={header}
+                                        style={{
+                                            backgroundColor: backgroundColor || 'transparent',
+                                            textAlign: header === 'Team' ? 'left' : 'center',
+                                        }}
+                                    >
+                                        {cellValue}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </StyledTable>
+        </div>
+    );
+};

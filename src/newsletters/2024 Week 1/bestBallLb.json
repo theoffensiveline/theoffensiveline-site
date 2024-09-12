@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 3,
+    "Team": "Twin Bowers",
+    "W": 1,
+    "L": 0,
+    "PF": 161.8,
+    "PA": 133.98,
+    "PFColor": "#227740",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 1,
+    "L": 0,
+    "PF": 154.58,
+    "PA": 147.52,
+    "PFColor": "#589567",
+    "PAColor": "#e38f8d"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Pink Pony Kupp",
+    "W": 1,
+    "L": 0,
+    "PF": 149.08,
+    "PA": 109.98,
+    "PFColor": "#7cab86",
+    "PAColor": "#7cab86"
+  },
+  {
+    "Rank": 4,
+    "Diff": -3,
+    "Team": "Cinderella",
+    "W": 1,
+    "L": 0,
+    "PF": 144.22,
+    "PA": 114.04,
+    "PFColor": "#94ba9b",
+    "PAColor": "#94ba9b"
+  },
+  {
+    "Rank": 5,
+    "Diff": 1,
+    "Team": "SUN GOD'S CHOSEN",
+    "W": 1,
+    "L": 0,
+    "PF": 141.26,
+    "PA": 115.36,
+    "PFColor": "#abc9b1",
+    "PAColor": "#9fc2a6"
+  },
+  {
+    "Rank": 6,
+    "Diff": -1,
+    "Team": "Questionable",
+    "W": 1,
+    "L": 0,
+    "PF": 123.96,
+    "PA": 96.94,
+    "PFColor": "#f9dddc",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 7,
+    "Diff": 1,
+    "Team": "First Down Syndrome",
+    "W": 0,
+    "L": 1,
+    "PF": 147.52,
+    "PA": 154.58,
+    "PFColor": "#88b290",
+    "PAColor": "#d16163"
+  },
+  {
+    "Rank": 8,
+    "Diff": -1,
+    "Team": "Youngster Joey",
+    "W": 0,
+    "L": 1,
+    "PF": 133.98,
+    "PA": 161.8,
+    "PFColor": "#dbe8dd",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 9,
+    "Diff": 3,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 0,
+    "L": 1,
+    "PF": 115.36,
+    "PA": 141.26,
+    "PFColor": "#eaa5a3",
+    "PAColor": "#eeb0ae"
+  },
+  {
+    "Rank": 10,
+    "Diff": 0,
+    "Team": "Giving Me a Chubb",
+    "W": 0,
+    "L": 1,
+    "PF": 114.04,
+    "PA": 144.22,
+    "PFColor": "#e79a98",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 11,
+    "Diff": -2,
+    "Team": "Cook-ing a 0.2",
+    "W": 0,
+    "L": 1,
+    "PF": 109.98,
+    "PA": 149.08,
+    "PFColor": "#df8482",
+    "PAColor": "#df8482"
+  },
+  {
+    "Rank": 12,
+    "Diff": -1,
+    "Team": "IKEA x50crmov15",
+    "W": 0,
+    "L": 1,
+    "PF": 96.94,
+    "PA": 123.96,
+    "PFColor": "#bc293d",
+    "PAColor": "#dbe8dd"
+  }
+]

@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "Cinderella",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Cook-ing a 0.2",
+      "team2_list": ["Cinderella", "Kirk Thuggins & The Boys", "Questionable", "SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Cinderella", "IKEA x50crmov15", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "team2_list": ["Questionable", "SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "IKEA x50crmov15",
+      "team2_list": ["SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Questionable",
+      "team2_list": ["Cinderella", "IKEA x50crmov15", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "SUN GOD'S CHOSEN",
+      "team2_list": ["Cinderella", "Kirk Thuggins & The Boys", "Questionable", "SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "team2_list": ["Cinderella", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "team2_list": ["Cinderella", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "Cinderella",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Cook-ing a 0.2",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Pink Pony Kupp", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "Just Joshin pt. 2 ", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "IKEA x50crmov15",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "team2_list": ["Giving Me a Chubb"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "team2_list": ["Cinderella", "Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Questionable", "SUN GOD'S CHOSEN", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "team2_list": ["First Down Syndrome", "Giving Me a Chubb"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Questionable",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "Just Joshin pt. 2 ", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "SUN GOD'S CHOSEN",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "IKEA x50crmov15", "Just Joshin pt. 2 ", "Pink Pony Kupp", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "team2_list": ["Cook-ing a 0.2", "First Down Syndrome", "Giving Me a Chubb", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "Cinderella",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Cook-ing a 0.2",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "IKEA x50crmov15",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Questionable",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "SUN GOD'S CHOSEN",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    }
+  ]
+}
