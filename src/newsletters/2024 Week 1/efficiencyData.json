@@ -1,0 +1,86 @@
+[
+  {
+    "week": 1,
+    "team_name": "Cinderella",
+    "actual_points": 144.22,
+    "max_points": 144.22,
+    "percentage": 100
+  },
+  {
+    "week": 1,
+    "team_name": "Just Joshin pt. 2 ",
+    "actual_points": 139.98,
+    "max_points": 154.58,
+    "percentage": 90.5551
+  },
+  {
+    "week": 1,
+    "team_name": "Pink Pony Kupp",
+    "actual_points": 136.88,
+    "max_points": 149.08,
+    "percentage": 91.8165
+  },
+  {
+    "week": 1,
+    "team_name": "Twin Bowers",
+    "actual_points": 123.3,
+    "max_points": 161.8,
+    "percentage": 76.2052
+  },
+  {
+    "week": 1,
+    "team_name": "Youngster Joey",
+    "actual_points": 117.48,
+    "max_points": 133.98,
+    "percentage": 87.6847
+  },
+  {
+    "week": 1,
+    "team_name": "First Down Syndrome",
+    "actual_points": 116.42,
+    "max_points": 147.52,
+    "percentage": 78.9181
+  },
+  {
+    "week": 1,
+    "team_name": "Questionable",
+    "actual_points": 110.96,
+    "max_points": 123.96,
+    "percentage": 89.5127
+  },
+  {
+    "week": 1,
+    "team_name": "Cook-ing a 0.2",
+    "actual_points": 103.58,
+    "max_points": 109.98,
+    "percentage": 94.1808
+  },
+  {
+    "week": 1,
+    "team_name": "SUN GOD'S CHOSEN",
+    "actual_points": 101.26,
+    "max_points": 141.26,
+    "percentage": 71.6834
+  },
+  {
+    "week": 1,
+    "team_name": "Giving Me a Chubb",
+    "actual_points": 89.54,
+    "max_points": 114.04,
+    "percentage": 78.5163
+  },
+  {
+    "week": 1,
+    "team_name": "IKEA x50crmov15",
+    "actual_points": 88.14,
+    "max_points": 96.94,
+    "percentage": 90.9222
+  },
+  {
+    "week": 1,
+    "team_name": "Kirk Thuggins & The Boys",
+    "actual_points": 79.16,
+    "max_points": 115.36,
+    "percentage": 68.62
+  }
+]
