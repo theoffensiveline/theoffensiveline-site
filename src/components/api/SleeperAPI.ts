@@ -64,7 +64,7 @@ export const getMatchups = async (leagueId: string, week: number) => {
 };
 
 // Function to get the NFL state
-export const getState = async () => {
+export const getNflState = async () => {
   try {
     const response = await fetch(`${BASE_URL}/state/nfl`);
     if (!response.ok) {
@@ -74,6 +74,32 @@ export const getState = async () => {
     return data;
   } catch (error) {
     console.error("Error fetching slate:", error);
+    throw error;
+  }
+};
+
+// Function to get projections for a list of players
+export const getPlayerProjections = async (
+  week: number,
+  season: number,
+  playerIds: string[]
+) => {
+  try {
+    const projections = await Promise.all(
+      playerIds.map(async (playerId) => {
+        const response = await fetch(
+          `https://api.sleeper.com/projections/nfl/${playerId}?season_type=regular&season=${season}&week=${week}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch player projections");
+        }
+        const data = await response.json();
+        return { pts: data.stats.pts_ppr, playerId };
+      })
+    );
+    return projections;
+  } catch (error) {
+    console.error("Error fetching player projections:", error);
     throw error;
   }
 };

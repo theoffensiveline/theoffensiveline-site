@@ -11,7 +11,11 @@ export const ColorConstants = {
   newsBlue: "#20A4F4",
 };
 
-export const colorsByPosition = {
+interface ColorsByPosition {
+  [key: string]: string;
+}
+
+export const colorsByPosition: ColorsByPosition = {
   QB: "#E1676F",
   RB: "#11D677",
   WR: "#4DB6F0",

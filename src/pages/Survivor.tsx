@@ -2,12 +2,24 @@ import React, { useState, useEffect } from "react";
 import {
   getLeague,
   getMatchups,
-  getState,
+  getNflState,
   getUsers,
   getRosters,
 } from "../components/api/SleeperAPI";
 import { Roster, User } from "../types/sleeperTypes";
 import playerData from "../components/api/sleeper_players.json"; // Adjust path as necessary
+import {
+  SurvivorContainer,
+  SurvivorTitle,
+  SurvivorMatchupContainer,
+  SurvivorMatchupTitle,
+  SurvivorMatchupTeamRow,
+  SurvivorMatchupTeamInfo,
+  SurvivorMatchupPlayerRows,
+  SurvivorMatchupPositions,
+  SurvivorMatchupVs,
+  SurvivorMatchupPosition,
+} from "../components/survivorStyles";
 
 interface Matchup {
   starters: Array<{ id: string; position: string }>; // Array of objects with ID and position
@@ -29,6 +41,7 @@ const Survivor: React.FC = () => {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [teams, setTeams] = useState<Record<number, Team>>({});
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   // hardcoded for now so Chris doesn't have to login
   const LEAGUE_ID = "1124831356770058240"; //localStorage.getItem("selectedLeagueId");
 
@@ -42,7 +55,7 @@ const Survivor: React.FC = () => {
     const fetchWeekAndMatchups = async () => {
       try {
         // Fetch the state to get the week number
-        const stateData = await getState();
+        const stateData = await getNflState();
         const currentWeek = stateData["week"];
         setWeek(currentWeek);
 
@@ -93,6 +106,8 @@ const Survivor: React.FC = () => {
         }
       } catch (err) {
         setError("Failed to load data");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -110,12 +125,12 @@ const Survivor: React.FC = () => {
   }, {} as Record<number, Matchup[]>);
 
   return (
-    <div>
-      <h1>Survivor - Week {week} Matchups</h1>
+    <SurvivorContainer>
+      <SurvivorTitle>Week {week} Matchups</SurvivorTitle>
+      {loading && <p>Loading data...</p>}{" "}
+      {/* Show loading message while data is being fetched */}
       {error && <p>{error}</p>} {/* Show error if any */}
-      {week === null ? (
-        <p>Loading week data...</p>
-      ) : Object.keys(groupedMatchups).length > 0 ? (
+      {!loading && week !== null && Object.keys(groupedMatchups).length > 0 ? (
         <div>
           {Object.keys(groupedMatchups).map((matchupId) => {
             const matchups = groupedMatchups[parseInt(matchupId, 10)];
@@ -141,84 +156,83 @@ const Survivor: React.FC = () => {
             };
 
             return (
-              <div
-                key={matchupId}
-                style={{ paddingLeft: "20px", marginBottom: "20px" }}
-              >
-                <h2>Matchup {matchupId}</h2>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div style={{ width: "45%" }}>
+              <SurvivorMatchupContainer key={matchupId}>
+                {/* Matchup Title (Spanning all 3 columns) */}
+                <SurvivorMatchupTitle>Matchup {matchupId}</SurvivorMatchupTitle>
+
+                {/* First row for Team Names and Images */}
+                <SurvivorMatchupTeamRow>
+                  <SurvivorMatchupTeamInfo>
                     <h3>{team1Details.team_name}</h3>
                     <img
                       src={team1Details.team_logo}
                       alt={team1Details.team_name}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                      }}
                     />
-                    <div>
-                      {team1.starters.map(({ id, position }) => (
-                        <div
-                          key={id}
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <div style={{ width: "150px" }}>
-                            {position}: {playerMap[id] || id}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <h4>Bench</h4>
-                    <div>
-                      {team1BenchPlayers.map((id) => (
-                        <div key={id}>{playerMap[id] || id}</div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ width: "45%" }}>
+                  </SurvivorMatchupTeamInfo>
+                  <SurvivorMatchupVs>VS</SurvivorMatchupVs>
+                  <SurvivorMatchupTeamInfo>
                     <h3>{team2Details.team_name}</h3>
                     <img
                       src={team2Details.team_logo}
                       alt={team2Details.team_name}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                      }}
                     />
-                    <div>
-                      {team2.starters.map(({ id, position }) => (
-                        <div
-                          key={id}
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <div style={{ width: "150px" }}>
-                            {position}: {playerMap[id] || id}
-                          </div>
-                        </div>
-                      ))}
+                  </SurvivorMatchupTeamInfo>
+                </SurvivorMatchupTeamRow>
+
+                {/* Second row for Starters */}
+                <SurvivorMatchupPlayerRows>
+                  <h4>Starters</h4>
+                  {team1.starters.map(({ id }) => (
+                    <div
+                      key={id}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <div>{playerMap[id] || "N/A"}</div>
                     </div>
-                    <h4>Bench</h4>
-                    <div>
-                      {team2BenchPlayers.map((id) => (
-                        <div key={id}>{playerMap[id] || id}</div>
-                      ))}
+                  ))}
+                </SurvivorMatchupPlayerRows>
+                <SurvivorMatchupPositions>
+                  <h4>Positions</h4>
+                  {team1.starters.map(({ position }, index) => (
+                    <SurvivorMatchupPosition key={index} position={position}>
+                      {position}
+                    </SurvivorMatchupPosition>
+                  ))}
+                </SurvivorMatchupPositions>
+                <SurvivorMatchupPlayerRows>
+                  <h4>Starters</h4>
+                  {team2.starters.map(({ id }) => (
+                    <div
+                      key={id}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <div>{playerMap[id] || "N/A"}</div>
                     </div>
-                  </div>
-                </div>
-                <hr />
-              </div>
+                  ))}
+                </SurvivorMatchupPlayerRows>
+
+                {/* Third row for Bench */}
+                <SurvivorMatchupPlayerRows>
+                  <h4>Bench</h4>
+                  {team1BenchPlayers.map((id) => (
+                    <div key={id}>{playerMap[id] || id}</div>
+                  ))}
+                </SurvivorMatchupPlayerRows>
+                <SurvivorMatchupPositions />
+                <SurvivorMatchupPlayerRows>
+                  <h4>Bench</h4>
+                  {team2BenchPlayers.map((id) => (
+                    <div key={id}>{playerMap[id] || id}</div>
+                  ))}
+                </SurvivorMatchupPlayerRows>
+              </SurvivorMatchupContainer>
             );
           })}
         </div>
-      ) : (
-        <p>Loading matchups...</p>
-      )}
-    </div>
+      ) : !loading ? (
+        <p>No matchups available for this week.</p>
+      ) : null}
+    </SurvivorContainer>
   );
 };
 

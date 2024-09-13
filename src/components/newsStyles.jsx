@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter, VictoryContainer } from 'victory';
 import React from 'react';
-import { ColorConstants, colorsByPosition } from '../components/constants/ColorConstants.js';
+import { ColorConstants, colorsByPosition } from '../components/constants/ColorConstants.ts';
 
 export const NewsletterContainer = styled.div`
     max-width: 100%;

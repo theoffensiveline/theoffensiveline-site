@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { VictoryChart, VictoryAxis, VictoryLabel, VictoryLine, VictoryScatter, VictoryContainer } from 'victory';
-import { ColorConstants } from '../components/constants/ColorConstants.js';
+import { ColorConstants } from '../components/constants/ColorConstants.ts';
 import { CustomDataComponent, ArticleSubheader, StyledTable } from './newsStyles.jsx';
 import PropTypes from 'prop-types';
 
