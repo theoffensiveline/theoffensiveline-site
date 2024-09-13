@@ -147,3 +147,12 @@ export const SurvivorMatchupSectionTitle = styled.h3`
   margin: 0 auto;
   grid-column: 1 / span 3;
 `;
+
+export const SurvivorSelectTeamButton = styled.button`
+  padding: 10px 20px;
+  background-color: ${ColorConstants.newsBlue};
+  border: none;
+  border-radius: 5px;
+  color: ${ColorConstants.background};
+  cursor: pointer;
+`;

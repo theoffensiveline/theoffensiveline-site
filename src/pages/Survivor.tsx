@@ -19,6 +19,7 @@ import {
   SurvivorMatchupPositions,
   SurvivorMatchupVs,
   SurvivorMatchupPosition,
+  SurvivorSelectTeamButton,
 } from "../components/survivorStyles";
 
 interface Matchup {
@@ -50,6 +51,13 @@ const Survivor: React.FC = () => {
     map[id] = `${player.first_name} ${player.last_name}`;
     return map;
   }, {} as Record<string, string>);
+
+  const handleTeamSelect = (teamId: number) => {
+    const team = teams[teamId];
+    alert(
+      `You want to select ${team.team_name}? This doesn't work yet, please text Matt Smith your submission until further notice.`
+    );
+  };
 
   useEffect(() => {
     const fetchWeekAndMatchups = async () => {
@@ -168,6 +176,11 @@ const Survivor: React.FC = () => {
                       src={team1Details.team_logo}
                       alt={team1Details.team_name}
                     />
+                    <SurvivorSelectTeamButton
+                      onClick={() => handleTeamSelect(team1.roster_id)}
+                    >
+                      Select
+                    </SurvivorSelectTeamButton>
                   </SurvivorMatchupTeamInfo>
                   <SurvivorMatchupVs>VS</SurvivorMatchupVs>
                   <SurvivorMatchupTeamInfo>
@@ -176,6 +189,11 @@ const Survivor: React.FC = () => {
                       src={team2Details.team_logo}
                       alt={team2Details.team_name}
                     />
+                    <SurvivorSelectTeamButton
+                      onClick={() => handleTeamSelect(team2.roster_id)}
+                    >
+                      Select
+                    </SurvivorSelectTeamButton>
                   </SurvivorMatchupTeamInfo>
                 </SurvivorMatchupTeamRow>
 
