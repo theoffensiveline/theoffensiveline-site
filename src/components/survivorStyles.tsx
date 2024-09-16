@@ -94,9 +94,14 @@ export const SurvivorMatchupTeamInfo = styled.div`
 export const SurvivorMatchupPlayerRows = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin-bottom: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
+
+  h4 {
+    text-align: center;
+    display: block;
+  }
 `;
 
 export const SurvivorMatchupPositions = styled.div`

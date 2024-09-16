@@ -105,3 +105,57 @@ interface ScoringSettings {
   pts_allow_7_13: number;
   st_ff: number;
 }
+
+export interface Player {
+  last_name: string;
+  oddsjam_id: any;
+  search_last_name: string;
+  full_name: string | null;
+  injury_start_date: string | null;
+  college: string | null;
+  sport: string | null;
+  injury_notes: string | null;
+  first_name: string;
+  espn_id: number | null;
+  practice_participation: string | null;
+  number: number | null;
+  metadata: any;
+  active: boolean;
+  injury_body_part: string | null;
+  gsis_id: string | null;
+  years_exp: number | null;
+  player_id: string;
+  fantasy_positions: string[] | null;
+  rotowire_id: number | null;
+  team: string | null;
+  status: string | null;
+  practice_description: string | null;
+  height: string | null;
+  team_abbr: string | null;
+  competitions: any[]; // Adjust type if more specific type is known
+  depth_chart_order: number | null;
+  birth_country: string | null;
+  high_school: string | null;
+  team_changed_at: string | null;
+  rotoworld_id: any;
+  search_rank: number | null;
+  birth_state: string | null;
+  age: number | null;
+  depth_chart_position: string | null;
+  birth_city: string | null;
+  swish_id: any;
+  stats_id: number | null;
+  opta_id: string | null;
+  birth_date: string | null;
+  news_updated: any;
+  weight: string | null;
+  fantasy_data_id: number | null;
+  search_full_name: string;
+  position: string | null;
+  pandascore_id: string | null;
+  hashtag: string | null;
+  sportradar_id: string | null;
+  yahoo_id: number | null;
+  search_first_name: string;
+  injury_status: string | null;
+}

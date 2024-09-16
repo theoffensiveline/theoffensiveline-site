@@ -6,7 +6,7 @@ import {
   getUsers,
   getRosters,
 } from "../components/api/SleeperAPI";
-import { Roster, User } from "../types/sleeperTypes";
+import { Roster, User, Player } from "../types/sleeperTypes";
 import playerData from "../components/api/sleeper_players.json"; // Adjust path as necessary
 import {
   SurvivorContainer,
@@ -57,10 +57,20 @@ const Survivor: React.FC = () => {
   const LEAGUE_ID = "1124831356770058240"; //localStorage.getItem("selectedLeagueId");
 
   // Create a map from player ID to player name
-  const playerMap = Object.entries(playerData).reduce((map, [id, player]) => {
-    map[id] = `${player.first_name} ${player.last_name}`;
+  const playerMap = Object.entries(
+    playerData as unknown as Record<string, Player>
+  ).reduce((map, [id, player]) => {
+    let playerName: string | null = null;
+    if (player.position === "DEF") {
+      playerName = player.team; // This assumes player.team is a string or null
+    } else {
+      playerName = `${player.first_name} ${player.last_name}`;
+    }
+    if (playerName !== null) {
+      map[id] = playerName;
+    }
     return map;
-  }, {} as Record<string, string>);
+  }, {} as Record<string, string | null>);
 
   const handleTeamSelect = (teamId: number) => {
     const team = teams[teamId];
@@ -319,9 +329,18 @@ const Survivor: React.FC = () => {
                   {team1.starters.map(({ id }) => (
                     <div
                       key={id}
-                      style={{ display: "flex", alignItems: "center" }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      <div>{playerMap[id] || "N/A"}</div>
+                      <div style={{ textAlign: "left" }}>
+                        {playerMap[id] || "N/A"}
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        {team1.players_points[id] || "0"}
+                      </div>
                     </div>
                   ))}
                 </SurvivorMatchupPlayerRows>
@@ -338,9 +357,18 @@ const Survivor: React.FC = () => {
                   {team2.starters.map(({ id }) => (
                     <div
                       key={id}
-                      style={{ display: "flex", alignItems: "center" }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      <div>{playerMap[id] || "N/A"}</div>
+                      <div style={{ textAlign: "left" }}>
+                        {team2.players_points[id] || "0"}
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        {playerMap[id] || "N/A"}
+                      </div>
                     </div>
                   ))}
                 </SurvivorMatchupPlayerRows>
