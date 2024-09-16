@@ -19,26 +19,36 @@ import {
   SurvivorMatchupPositions,
   SurvivorMatchupVs,
   SurvivorMatchupPosition,
-  SurvivorSelectTeamButton,
+  SurvivorButton,
+  SurvivorWeekNav,
+  LoadingSpinner,
+  TeamPointsRow,
 } from "../components/survivorStyles";
 
 interface Matchup {
-  starters: Array<{ id: string; position: string }>; // Array of objects with ID and position
+  starters: Array<{ id: string; position: string; points: number }>; // Array of objects with ID and position
   roster_id: number; // Roster ID
   players: string[]; // Array of player IDs
   matchup_id: number; // Matchup ID
   points: number; // Total points for the team
   custom_points: number | null; // Custom points if overridden
+  players_points: Record<string, number>; // Points for each player
 }
 
 interface Team {
   team_id: string;
   team_name: string;
   team_logo: string;
+  team_wins: number;
+  team_losses: number;
+  team_ties: number;
+  team_points_for: number;
+  team_points_against: number;
 }
 
 const Survivor: React.FC = () => {
   const [week, setWeek] = useState<number | null>(null);
+  const [currentWeek, setCurrentWeek] = useState<number | null>(null);
   const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [teams, setTeams] = useState<Record<number, Team>>({});
   const [error, setError] = useState<string | null>(null);
@@ -60,67 +70,118 @@ const Survivor: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchWeekAndMatchups = async () => {
+    const fetchInitialData = async () => {
       try {
-        // Fetch the state to get the week number
-        const stateData = await getNflState();
-        const currentWeek = stateData["week"];
-        setWeek(currentWeek);
-
-        // Fetch matchups using the fetched week number
-        if (currentWeek !== null && LEAGUE_ID) {
-          const matchupsData = await getMatchups(LEAGUE_ID, currentWeek);
-          setMatchups(matchupsData);
-
-          // Fetch team rosters and users
-          const rostersData = await getRosters(LEAGUE_ID);
-          const usersData = await getUsers(LEAGUE_ID);
-
-          // Fetch league data to get roster positions
-          const leagueData = await getLeague(LEAGUE_ID);
-          const rosterPositions = leagueData.roster_positions;
-
-          // Map rosters to teams
-          const teamMap = rostersData.reduce(
-            (map: Record<number, Team>, roster: Roster) => {
-              const user = usersData.find(
-                (user: User) => user.user_id === roster.owner_id
-              );
-              if (user) {
-                map[roster.roster_id] = {
-                  team_id: roster.owner_id,
-                  team_name: user.metadata.team_name || user.username,
-                  team_logo: user.metadata.avatar
-                    ? `${user.metadata.avatar}`
-                    : "default-avatar.png",
-                };
-              }
-              return map;
-            },
-            {}
-          );
-          setTeams(teamMap);
-
-          // Update the matchups to include roster positions
-          const updatedMatchups = matchupsData.map((matchup: Matchup) => {
-            const { starters } = matchup;
-            const startersWithPositions = starters.map((id, index) => ({
-              id,
-              position: rosterPositions[index] || "Unknown",
-            }));
-            return { ...matchup, starters: startersWithPositions };
-          });
-          setMatchups(updatedMatchups);
-        }
+        const currentWeek = await fetchWeekFromSleeper();
+        await fetchMatchups(currentWeek, currentWeek);
       } catch (err) {
-        setError("Failed to load data");
+        setError("Failed to fetch initial data");
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchWeekAndMatchups();
+    if (LEAGUE_ID) {
+      fetchInitialData();
+    }
   }, [LEAGUE_ID]);
+
+  const fetchWeekFromSleeper = async () => {
+    try {
+      // Fetch the state to get the week number
+      const stateData = await getNflState();
+      const currentWeek = stateData["week"];
+      setWeek(currentWeek);
+      setCurrentWeek(currentWeek);
+      return currentWeek;
+    } catch (error) {
+      console.error("Failed to fetch NFL state:", error);
+      throw error;
+    }
+  };
+
+  const fetchMatchups = async (weekNumber: number, currentWeek: number) => {
+    try {
+      setLoading(true);
+
+      if (weekNumber !== null && LEAGUE_ID) {
+        // Fetch matchups using the fetched week number
+        const matchupsData = await getMatchups(LEAGUE_ID, weekNumber);
+        setMatchups(matchupsData);
+
+        // Fetch team rosters and users
+        const rostersData = await getRosters(LEAGUE_ID);
+        const usersData = await getUsers(LEAGUE_ID);
+
+        // Fetch league data to get roster positions
+        const leagueData = await getLeague(LEAGUE_ID);
+        const rosterPositions = leagueData.roster_positions;
+
+        // Map rosters to teams
+        const teamMap = rostersData.reduce(
+          (map: Record<number, Team>, roster: Roster) => {
+            const user = usersData.find(
+              (user: User) => user.user_id === roster.owner_id
+            );
+            if (user) {
+              map[roster.roster_id] = {
+                team_id: roster.owner_id,
+                team_name: user.metadata.team_name || user.username,
+                team_logo: user.metadata.avatar
+                  ? `${user.metadata.avatar}`
+                  : "default-avatar.png",
+                team_wins: roster.settings.wins,
+                team_losses: roster.settings.losses,
+                team_ties: roster.settings.ties,
+                team_points_for:
+                  roster.settings.fpts + roster.settings.fpts_decimal / 100,
+                team_points_against:
+                  roster.settings.fpts_against +
+                  roster.settings.fpts_against_decimal / 100,
+              };
+            }
+            return map;
+          },
+          {}
+        );
+        setTeams(teamMap);
+
+        // Update the matchups to include roster positions
+        const updatedMatchups = matchupsData.map((matchup: Matchup) => {
+          const { starters, players_points } = matchup;
+          const startersWithPositions = starters.map((id, index) => ({
+            id,
+            position: rosterPositions[index] || "Unknown",
+            points: players_points[id.id] || 0,
+          }));
+          return { ...matchup, starters: startersWithPositions };
+        });
+        setMatchups(updatedMatchups);
+      }
+    } catch (err) {
+      setError("Failed to load matchups data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePreviousWeek = (currentWeek: number) => {
+    if (week && week > 1) {
+      const newWeek = week - 1;
+      setWeek(newWeek);
+      fetchMatchups(newWeek, currentWeek); // Fetch matchups for the new week
+    }
+  };
+
+  const handleNextWeek = (currentWeek: number) => {
+    if (week && week < 14) {
+      const newWeek = week + 1;
+      setWeek(newWeek);
+      fetchMatchups(newWeek, currentWeek); // Fetch matchups for the new week
+    }
+  };
 
   // Group matchups by matchup_id
   const groupedMatchups = matchups.reduce((groups, matchup) => {
@@ -134,11 +195,34 @@ const Survivor: React.FC = () => {
 
   return (
     <SurvivorContainer>
-      <SurvivorTitle>Week {week} Matchups</SurvivorTitle>
-      {loading && <p>Loading data...</p>}{" "}
+      {!loading && week !== null && currentWeek !== null && (
+        <>
+          <SurvivorWeekNav>
+            {week > 1 && (
+              <SurvivorButton
+                style={{ position: "absolute", left: "0", margin: "10px" }}
+                onClick={() => handlePreviousWeek(currentWeek)}
+              >
+                Previous Week
+              </SurvivorButton>
+            )}
+            <SurvivorButton
+              style={{ position: "absolute", right: "0", margin: "10px" }}
+              onClick={() => handleNextWeek(currentWeek)}
+            >
+              Next Week
+            </SurvivorButton>
+          </SurvivorWeekNav>
+          <SurvivorTitle>Week {week} Matchups</SurvivorTitle>
+        </>
+      )}
+      {loading ? <LoadingSpinner /> : null}
       {/* Show loading message while data is being fetched */}
       {error && <p>{error}</p>} {/* Show error if any */}
-      {!loading && week !== null && Object.keys(groupedMatchups).length > 0 ? (
+      {!loading &&
+      week !== null &&
+      currentWeek !== null &&
+      Object.keys(groupedMatchups).length > 0 ? (
         <div>
           {Object.keys(groupedMatchups).map((matchupId) => {
             const matchups = groupedMatchups[parseInt(matchupId, 10)];
@@ -163,6 +247,13 @@ const Survivor: React.FC = () => {
               team_logo: "default-avatar.png",
             };
 
+            const buildRecord = (details: Team) => {
+              const { team_wins, team_losses, team_ties } = details;
+              return `${team_wins} - ${team_losses}${
+                team_ties > 0 ? ` - ${team_ties}` : ""
+              }`;
+            };
+
             return (
               <SurvivorMatchupContainer key={matchupId}>
                 {/* Matchup Title (Spanning all 3 columns) */}
@@ -176,11 +267,20 @@ const Survivor: React.FC = () => {
                       src={team1Details.team_logo}
                       alt={team1Details.team_name}
                     />
-                    <SurvivorSelectTeamButton
-                      onClick={() => handleTeamSelect(team1.roster_id)}
-                    >
-                      Select
-                    </SurvivorSelectTeamButton>
+                    <p>
+                      Record: {buildRecord(team1Details)}
+                      <br />
+                      PF: {team1Details.team_points_for}
+                      <br />
+                      PA: {team1Details.team_points_against}
+                    </p>
+                    {week >= currentWeek && (
+                      <SurvivorButton
+                        onClick={() => handleTeamSelect(team1.roster_id)}
+                      >
+                        Select
+                      </SurvivorButton>
+                    )}
                   </SurvivorMatchupTeamInfo>
                   <SurvivorMatchupVs>VS</SurvivorMatchupVs>
                   <SurvivorMatchupTeamInfo>
@@ -189,13 +289,29 @@ const Survivor: React.FC = () => {
                       src={team2Details.team_logo}
                       alt={team2Details.team_name}
                     />
-                    <SurvivorSelectTeamButton
-                      onClick={() => handleTeamSelect(team2.roster_id)}
-                    >
-                      Select
-                    </SurvivorSelectTeamButton>
+                    <p>
+                      Record: {buildRecord(team2Details)}
+                      <br />
+                      PF: {team2Details.team_points_for}
+                      <br />
+                      PA: {team2Details.team_points_against}
+                    </p>
+                    {week >= currentWeek && (
+                      <SurvivorButton
+                        onClick={() => handleTeamSelect(team2.roster_id)}
+                      >
+                        Select
+                      </SurvivorButton>
+                    )}
                   </SurvivorMatchupTeamInfo>
                 </SurvivorMatchupTeamRow>
+
+                {/* Team Points Row */}
+                <TeamPointsRow>
+                  <div>{team1.points}</div>
+                  <div>Points</div>
+                  <div>{team2.points}</div>
+                </TeamPointsRow>
 
                 {/* Second row for Starters */}
                 <SurvivorMatchupPlayerRows>

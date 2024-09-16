@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import {
   ColorConstants,
   colorsByPosition,
@@ -27,18 +27,10 @@ export const SurvivorTitle = styled.h1`
 
 export const SurvivorMatchupContainer = styled.div`
   display: grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   grid-template-columns: 45% 10% 45%;
   align-items: center;
   margin-bottom: 20px;
-`;
-
-export const SurvivorMatchupGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 16px;
-  justify-content: center;
-  padding: 20px;
 `;
 
 export const SurvivorMatchupTitle = styled.h2`
@@ -68,6 +60,7 @@ export const SurvivorMatchupTeamInfo = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 10px;
+  margin-bottom: 10px;
 
   img {
     width: 75px;
@@ -80,6 +73,17 @@ export const SurvivorMatchupTeamInfo = styled.div`
     font-size: 24px;
     box-sizing: border-box;
     padding: 10px 0 10px 0;
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    display: block;
+    margin: 0 auto;
+  }
+
+  p {
+    font-weight: 500;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 0 0 10px 0;
     text-align: center;
     font-family: "Playfair Display", serif;
     display: block;
@@ -148,11 +152,62 @@ export const SurvivorMatchupSectionTitle = styled.h3`
   grid-column: 1 / span 3;
 `;
 
-export const SurvivorSelectTeamButton = styled.button`
+export const SurvivorButton = styled.button`
   padding: 10px 20px;
   background-color: ${ColorConstants.newsBlue};
   border: none;
   border-radius: 5px;
   color: ${ColorConstants.background};
   cursor: pointer;
+`;
+
+export const SurvivorWeekNav = styled.div`
+  position: relative;
+  width: 100%;
+  height: 40px;
+`;
+
+// Keyframes for the spinning animation
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+// Styled spinner component
+const Spinner = styled.div`
+  border: 8px solid #f3f3f3; /* Light grey background */
+  border-top: 8px solid ${ColorConstants.newsBlue}; /* Blue spinner */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: ${spin} 1s linear infinite;
+`;
+
+// Container to center the spinner
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+`;
+
+export const LoadingSpinner = () => (
+  <SpinnerContainer>
+    <Spinner />
+  </SpinnerContainer>
+);
+
+// Updated Team Points Row
+export const TeamPointsRow = styled.div`
+  display: contents;
+  justify-content: center; /* Center items horizontally */
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 5px;
+
+  div {
+    text-align: center;
+  }
 `;
