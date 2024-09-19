@@ -13,7 +13,6 @@ import shotsDistData from './shotsDist.json';
 import starterData from './starters.json';
 import dangerTable from './dangerTable.json';
 import motwFuture from './motwFuture.png';
-import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { ColorConstants } from '../../components/constants/ColorConstants';
 
 export const newsDate = '2024-09-19';
