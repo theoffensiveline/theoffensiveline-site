@@ -1,0 +1,24 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "Poor Management",
+    "Winner Score": 110.96,
+    "Loser Score": 88.14,
+    "Loser Team": "Hot Dog Enjoyer",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#eeb0ae",
+    "LoserScoreColor": "#cc545a",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "First Down Syndrome",
+    "Winner Score": 122.12,
+    "Loser Score": 121.1,
+    "Loser Team": "Poor Management",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#f9dddc",
+    "LoserScoreColor": "#f9dddc",
+    "ShotsDogsColor": "#227740"
+  }
+]
