@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Scored 177.12 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Scored 92.38 points",
+    "description": "This is the #4 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Scored 98.76 points in their win",
+    "description": "This is the #1 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/6b0dcd9c07931564d97dd5fcdf04ca2e.jpg",
+    "name": "Friendship is Magic",
+    "value": "Scored 139.44 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Defeated Twin Bowers by 68.42 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Defeated Poor Management by 1.02 points",
+    "description": "This is the #1 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Poor Management",
+    "value": "Left 42.1 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4035.jpg",
+    "name": "Alvin Kamara",
+    "value": "Scored 44 points for Kirk Thuggins & The Boys which was 24.84% of the team total",
+    "description": "This is the #2 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/9488.jpg",
+    "name": "Jaxon Smith-Njigba",
+    "value": "Scored 23.7 points on the bench for Poor Management",
+    "description": "This is the #4 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/5849.jpg",
+    "name": "Kyler Murray (Rotom)",
+    "value": "Scored 28.54 points for Youngster Joey",
+    "description": "This is the #2 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4035.jpg",
+    "name": "Alvin Kamara",
+    "value": "Scored 44 points for Kirk Thuggins & The Boys",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/11628.jpg",
+    "name": "Marvin Harrison (Slugma)",
+    "value": "Scored 29 points for Youngster Joey",
+    "description": "This is the #2 WR performance of the season"
+  },
+  {
+    "award": "Tighest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/4217.jpg",
+    "name": "George Kittle",
+    "value": "Scored 20.6 points for First Down Syndrome",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/3451.jpg",
+    "name": "Ka'imi Fairbairn (Mr. Boot)",
+    "value": "Scored 22.5 points for Giving Me a Chubb",
+    "description": "This is the #2 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/buf.png",
+    "name": "BUF",
+    "value": "Scored 18 points for Kirk Thuggins & The Boys",
+    "description": "This is the #2 DEF performance of the season"
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 6,
+    "Team": "Poor Management",
+    "W": 2,
+    "L": 0,
+    "PF": 287.16,
+    "PA": 222.16,
+    "PFColor": "#589567",
+    "PAColor": "#3f8653"
+  },
+  {
+    "Rank": 2,
+    "Diff": -1,
+    "Team": "Cinderella",
+    "W": 2,
+    "L": 0,
+    "PF": 286.1,
+    "PA": 215.1,
+    "PFColor": "#589567",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 3,
+    "Diff": 2,
+    "Team": "Friendship is Magic",
+    "W": 2,
+    "L": 0,
+    "PF": 282.8,
+    "PA": 256.5,
+    "PFColor": "#649c71",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 4,
+    "Diff": -2,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 2,
+    "L": 0,
+    "PF": 263.94,
+    "PA": 252.36,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#c3d8c6"
+  },
+  {
+    "Rank": 5,
+    "Diff": -1,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 1,
+    "L": 1,
+    "PF": 297.7,
+    "PA": 264.76,
+    "PFColor": "#227740",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 6,
+    "Diff": 2,
+    "Team": "Twin Bowers",
+    "W": 1,
+    "L": 1,
+    "PF": 285.3,
+    "PA": 316.32,
+    "PFColor": "#649c71",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 2,
+    "Team": "Pink Pony Kupp",
+    "W": 1,
+    "L": 1,
+    "PF": 258.2,
+    "PA": 248.62,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 8,
+    "Diff": 2,
+    "Team": "Giving Me a Chubb",
+    "W": 1,
+    "L": 1,
+    "PF": 252.68,
+    "PA": 253.34,
+    "PFColor": "#e7efe8",
+    "PAColor": "#c3d8c6"
+  },
+  {
+    "Rank": 9,
+    "Diff": -6,
+    "Team": "Youngster Joey",
+    "W": 0,
+    "L": 2,
+    "PF": 275.12,
+    "PA": 303.34,
+    "PFColor": "#88b290",
+    "PAColor": "#d66d6e"
+  },
+  {
+    "Rank": 10,
+    "Diff": -4,
+    "Team": "First Down Syndrome",
+    "W": 0,
+    "L": 2,
+    "PF": 272.74,
+    "PA": 317.78,
+    "PFColor": "#94ba9b",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "Calvin’s Cold Streak",
+    "W": 0,
+    "L": 2,
+    "PF": 211.04,
+    "PA": 290.96,
+    "PFColor": "#cc545a",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Hot Dog Enjoyer",
+    "W": 0,
+    "L": 2,
+    "PF": 201.78,
+    "PA": 233.32,
+    "PFColor": "#bc293d",
+    "PAColor": "#70a37c"
+  }
+]

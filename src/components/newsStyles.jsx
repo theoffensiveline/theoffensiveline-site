@@ -338,7 +338,7 @@ export const StackedHistogram = ({ chartData }) => {
     const minScore = Math.floor(Math.min(...chartData.map(entry => entry.team_points)));
 
     const bins = [];
-    for (let i = minScore - 5; i <= maxScore; i += 5) {
+    for (let i = minScore - 5; i <= maxScore + 5; i += 5) {
         bins.push(Math.round(i / 5) * 5);
     }
 
@@ -544,17 +544,21 @@ export const MatchupPlot = ({ data, matchupId }) => {
         .filter((position) => filteredData.some((team) => team.entries.some((entry) => entry.position === position)))
         .reverse();
 
+    // Calculate total points for each team
+    const totalPointsByTeam = filteredData.map((team) => ({
+        team_name: team.team_name,
+        totalPoints: parseFloat(
+            team.entries.reduce((sum, entry) => sum + entry.points, 0).toFixed(2)
+        )
+    }));
+
     return (
         <div>
             <VictoryChart
                 containerComponent={
-                    <VictoryContainer
-                        style={{
-                            touchAction: "auto"
-                        }}
-                    />
+                    <VictoryContainer />
                 }
-                domainPadding={{ x: 90 }} // Adjust the x and y domainPadding values
+                domainPadding={{ x: 100, y: 20 }} // Adjust the x and y domainPadding values
                 padding={{ top: 10, bottom: 30, left: 40, right: 20 }}
             >
                 <VictoryAxis
@@ -602,6 +606,16 @@ export const MatchupPlot = ({ data, matchupId }) => {
                         />
                     ))}
                 </VictoryStack>
+                {/* Render total points for each team on top of the stack */}
+                {totalPointsByTeam.map((team, index) => (
+                    <VictoryLabel
+                        key={index}
+                        x={(index + 0.64) * 188} // Adjust the x position to align with each team's bar
+                        y={20} // Adjust the y position to place the label on top
+                        text={`${team.totalPoints}`}
+                        style={{ fontSize: 13, fontWeight: 'bold', fill: ColorConstants.text }}
+                    />
+                ))}
             </VictoryChart>
         </div>
     );
