@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "Calvin’s Cold Streak",
+      "team2_list": ["Friendship is Magic", "Just Joshin pt. 2 "],
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Cinderella",
+      "team2_list": ["Giving Me a Chubb", "Hot Dog Enjoyer", "Just Joshin pt. 2 "],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Cinderella", "Hot Dog Enjoyer", "Kirk Thuggins & The Boys", "Poor Management"],
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Friendship is Magic",
+      "team2_list": ["Cinderella", "Kirk Thuggins & The Boys", "Poor Management"],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "team2_list": ["Poor Management"],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Hot Dog Enjoyer",
+      "team2_list": ["Friendship is Magic", "Giving Me a Chubb"],
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "team2_list": ["Cinderella", "Hot Dog Enjoyer", "Just Joshin pt. 2 "],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "team2_list": ["Calvin’s Cold Streak", "Cinderella", "First Down Syndrome", "Friendship is Magic", "Giving Me a Chubb", "Hot Dog Enjoyer", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Poor Management", "Twin Bowers", "Youngster Joey"],
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "team2_list": ["Cinderella", "Friendship is Magic", "Hot Dog Enjoyer", "Just Joshin pt. 2 ", "Pink Pony Kupp"],
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Poor Management",
+      "team2_list": ["Hot Dog Enjoyer"],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "team2_list": ["Hot Dog Enjoyer", "Just Joshin pt. 2 "],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "team2_list": ["Cinderella", "Friendship is Magic", "Hot Dog Enjoyer", "Just Joshin pt. 2 ", "Pink Pony Kupp", "Poor Management"],
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "Calvin’s Cold Streak",
+      "team2_list": ["Calvin’s Cold Streak", "First Down Syndrome", "Pink Pony Kupp", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Cinderella",
+      "team2_list": ["Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Calvin’s Cold Streak", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Friendship is Magic",
+      "team2_list": ["Youngster Joey"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "team2_list": ["Youngster Joey"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Hot Dog Enjoyer",
+      "team2_list": ["Calvin’s Cold Streak", "Cinderella", "Kirk Thuggins & The Boys", "Poor Management", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "team2_list": ["Calvin’s Cold Streak", "Kirk Thuggins & The Boys", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "team2_list": ["Calvin’s Cold Streak", "Cinderella", "First Down Syndrome", "Friendship is Magic", "Giving Me a Chubb", "Hot Dog Enjoyer", "Just Joshin pt. 2 ", "Kirk Thuggins & The Boys", "Pink Pony Kupp", "Poor Management", "Twin Bowers", "Youngster Joey"],
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "team2_list": ["Calvin’s Cold Streak", "First Down Syndrome", "Giving Me a Chubb", "Kirk Thuggins & The Boys", "Poor Management", "Twin Bowers", "Youngster Joey"],
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Poor Management",
+      "team2_list": ["Calvin’s Cold Streak", "First Down Syndrome", "Twin Bowers", "Youngster Joey"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "team2_list": ["Calvin’s Cold Streak", "First Down Syndrome"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "team2_list": ["Twin Bowers"],
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "Calvin’s Cold Streak",
+      "wins": 0,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Cinderella",
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Friendship is Magic",
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Hot Dog Enjoyer",
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "wins": 3,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "wins": 2,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Poor Management",
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "wins": 1,
+      "losses": 2,
+      "ties": 0
+    }
+  ]
+}

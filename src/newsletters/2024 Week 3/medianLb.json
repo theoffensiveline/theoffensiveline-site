@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 5,
+    "L": 1,
+    "PF": 357.06,
+    "PA": 298.98,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#70a37c"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 4,
+    "L": 2,
+    "PF": 398.44,
+    "PA": 331.84,
+    "PFColor": "#227740",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Cinderella",
+    "W": 4,
+    "L": 2,
+    "PF": 384.18,
+    "PA": 301.26,
+    "PFColor": "#649c71",
+    "PAColor": "#70a37c"
+  },
+  {
+    "Rank": 4,
+    "Diff": 3,
+    "Team": "Youngster Joey",
+    "W": 4,
+    "L": 2,
+    "PF": 380.5,
+    "PA": 404.9,
+    "PFColor": "#70a37c",
+    "PAColor": "#d16163"
+  },
+  {
+    "Rank": 5,
+    "Diff": -1,
+    "Team": "Friendship is Magic",
+    "W": 4,
+    "L": 2,
+    "PF": 367.86,
+    "PA": 309.02,
+    "PFColor": "#9fc2a6",
+    "PAColor": "#88b290"
+  },
+  {
+    "Rank": 6,
+    "Diff": -1,
+    "Team": "Giving Me a Chubb",
+    "W": 4,
+    "L": 2,
+    "PF": 351.56,
+    "PA": 338.7,
+    "PFColor": "#dbe8dd",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 7,
+    "Diff": -1,
+    "Team": "Pink Pony Kupp",
+    "W": 4,
+    "L": 2,
+    "PF": 343.92,
+    "PA": 335.7,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 8,
+    "Diff": 2,
+    "Team": "First Down Syndrome",
+    "W": 3,
+    "L": 3,
+    "PF": 302.98,
+    "PA": 367.36,
+    "PFColor": "#d16163",
+    "PAColor": "#f4c7c4"
+  },
+  {
+    "Rank": 9,
+    "Diff": -1,
+    "Team": "Twin Bowers",
+    "W": 2,
+    "L": 4,
+    "PF": 320.72,
+    "PA": 421.76,
+    "PFColor": "#eaa5a3",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 10,
+    "Diff": -1,
+    "Team": "Poor Management",
+    "W": 1,
+    "L": 5,
+    "PF": 319.56,
+    "PA": 328.58,
+    "PFColor": "#eaa5a3",
+    "PAColor": "#c3d8c6"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "Hot Dog Enjoyer",
+    "W": 1,
+    "L": 5,
+    "PF": 289.48,
+    "PA": 274.16,
+    "PFColor": "#bc293d",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Calvin’s Cold Streak",
+    "W": 0,
+    "L": 6,
+    "PF": 302.74,
+    "PA": 406.74,
+    "PFColor": "#d16163",
+    "PAColor": "#d16163"
+  }
+]

@@ -497,7 +497,8 @@ export const WeeklyScoringChart = ({ chartData }) => {
                 tickValues={[50, 70, 90, 110, 130, 150, 170, 190]}
             />
             <VictoryAxis
-                tickCount={data.length / 12}
+                tickCount={data.length / 18}
+                tickFormat={(t) => Math.round(t)}
             />
             <VictoryLine
                 data={data}
