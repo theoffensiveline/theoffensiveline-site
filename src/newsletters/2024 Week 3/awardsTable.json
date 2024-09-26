@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Scored 142.16 points",
+    "description": "This is the #3 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 64.44 points",
+    "description": "This is the #1 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/b02f0109c72f5d179842edcd25379a7e.jpg",
+    "name": "Hot Dog Enjoyer",
+    "value": "Scored 106.28 points in their win",
+    "description": "This is the #3 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Scored 121.88 points in their loss",
+    "description": "This is the #2 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/b02f0109c72f5d179842edcd25379a7e.jpg",
+    "name": "Hot Dog Enjoyer",
+    "value": "Defeated First Down Syndrome by 41.84 points",
+    "description": "This is the #3 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Defeated Cinderella by 11.98 points",
+    "description": "This is the #5 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/d8015ffaa274e7a3a048423c75274271.jpg",
+    "name": "Cinderella",
+    "value": "Left 49.6 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Left 5.1 points on the bench",
+    "description": "This is the #7 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 30.92 points for Just Joshin pt. 2  which was 26.13% of the team total",
+    "description": "This is the #2 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7049.jpg",
+    "name": "Jauan Jennings",
+    "value": "Scored 46.5 points on the bench for Youngster Joey",
+    "description": "This is the #1 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 30.92 points for Just Joshin pt. 2 ",
+    "description": "This is the #2 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 33.6 points for Youngster Joey",
+    "description": "This is the #2 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/7564.jpg",
+    "name": "Ja'Marr Chase",
+    "value": "Scored 29.8 points for Calvin’s Cold Streak",
+    "description": "This is the #2 WR performance of the season"
+  },
+  {
+    "award": "Tighest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8110.jpg",
+    "name": "Jake Ferguson",
+    "value": "Scored 15.5 points for Poor Management",
+    "description": "This is the #5 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/4227.jpg",
+    "name": "Harrison Butker",
+    "value": "Scored 12.7 points for Poor Management",
+    "description": "This is the #9 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/gb.png",
+    "name": "GB",
+    "value": "Scored 21 points for Just Joshin pt. 2 ",
+    "description": "This is the #2 DEF performance of the season"
+  }
+]

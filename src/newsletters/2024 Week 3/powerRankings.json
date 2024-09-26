@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 1,
+    "Team": "Youngster Joey",
+    "Play All W": 25,
+    "Play All L": 8,
+    "Team Ability": 75.97,
+    "Str of Sched": 84.97,
+    "TaColor": "#227740",
+    "SosColor": "#bc293d"
+  },
+  {
+    "P Rank": 2,
+    "Trend": 5,
+    "Team": "Kirk Thuggins & The Boys",
+    "Play All W": 22,
+    "Play All L": 11,
+    "Team Ability": 66.97,
+    "Str of Sched": 46,
+    "TaColor": "#70a37c",
+    "SosColor": "#b7d1bb"
+  },
+  {
+    "P Rank": 3,
+    "Trend": -2,
+    "Team": "Cinderella",
+    "Play All W": 23,
+    "Play All L": 10,
+    "Team Ability": 70.03,
+    "Str of Sched": 30.97,
+    "TaColor": "#589567",
+    "SosColor": "#4c8d5d"
+  },
+  {
+    "P Rank": 4,
+    "Trend": 0,
+    "Team": "Friendship is Magic",
+    "Play All W": 21,
+    "Play All L": 12,
+    "Team Ability": 64,
+    "Str of Sched": 37,
+    "TaColor": "#88b290",
+    "SosColor": "#7cab86"
+  },
+  {
+    "P Rank": 5,
+    "Trend": 4,
+    "Team": "Giving Me a Chubb",
+    "Play All W": 19,
+    "Play All L": 14,
+    "Team Ability": 57.97,
+    "Str of Sched": 43.03,
+    "TaColor": "#b7d1bb",
+    "SosColor": "#abc9b1"
+  },
+  {
+    "P Rank": 6,
+    "Trend": -3,
+    "Team": "Just Joshin pt. 2 ",
+    "Play All W": 20,
+    "Play All L": 13,
+    "Team Ability": 61.03,
+    "Str of Sched": 25.03,
+    "TaColor": "#9fc2a6",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 3,
+    "Team": "Pink Pony Kupp",
+    "Play All W": 15,
+    "Play All L": 18,
+    "Team Ability": 46,
+    "Str of Sched": 46,
+    "TaColor": "#fbe8e7",
+    "SosColor": "#b7d1bb"
+  },
+  {
+    "P Rank": 8,
+    "Trend": -2,
+    "Team": "Twin Bowers",
+    "Play All W": 14,
+    "Play All L": 19,
+    "Team Ability": 43.03,
+    "Str of Sched": 82,
+    "TaColor": "#f7d2d0",
+    "SosColor": "#c74850"
+  },
+  {
+    "P Rank": 9,
+    "Trend": -4,
+    "Team": "First Down Syndrome",
+    "Play All W": 12,
+    "Play All L": 21,
+    "Team Ability": 37,
+    "Str of Sched": 61.03,
+    "TaColor": "#eaa5a3",
+    "SosColor": "#f7d2d0"
+  },
+  {
+    "P Rank": 10,
+    "Trend": -2,
+    "Team": "Poor Management",
+    "Play All W": 11,
+    "Play All L": 22,
+    "Team Ability": 34.03,
+    "Str of Sched": 43.03,
+    "TaColor": "#e38f8d",
+    "SosColor": "#abc9b1"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 0,
+    "Team": "Calvin’s Cold Streak",
+    "Play All W": 9,
+    "Play All L": 24,
+    "Team Ability": 28,
+    "Str of Sched": 82,
+    "TaColor": "#d16163",
+    "SosColor": "#c74850"
+  },
+  {
+    "P Rank": 12,
+    "Trend": 0,
+    "Team": "Hot Dog Enjoyer",
+    "Play All W": 7,
+    "Play All L": 26,
+    "Team Ability": 21.97,
+    "Str of Sched": 25.03,
+    "TaColor": "#bc293d",
+    "SosColor": "#227740"
+  }
+]

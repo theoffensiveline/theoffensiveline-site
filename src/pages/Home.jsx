@@ -41,10 +41,11 @@ function Home() {
     const navigate = useNavigate();
 
     const mostRecentIssue = [
-        '2024 Week 2',
+        '2024 Week 3',
     ]
 
     const newsletterIssues = [
+        '2024 Week 2',
         '2024 Week 1',
         '2024 Preseason',
         '2024 Offseason',
