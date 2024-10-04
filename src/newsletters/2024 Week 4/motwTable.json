@@ -1,0 +1,46 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "Poor Management",
+    "Winner Score": 110.96,
+    "Loser Score": 88.14,
+    "Loser Team": "Hot Dog Enjoyer",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#f7d2d0",
+    "LoserScoreColor": "#df8482",
+    "ShotsDogsColor": "#f1bcb9"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "First Down Syndrome",
+    "Winner Score": 122.12,
+    "Loser Score": 121.1,
+    "Loser Team": "Poor Management",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#f3f7f3",
+    "LoserScoreColor": "#f3f7f3",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 3,
+    "Winner Team": "Hot Dog Enjoyer",
+    "Winner Score": 106.28,
+    "Loser Score": 64.44,
+    "Loser Team": "First Down Syndrome",
+    "# of Shots/Dogs": 6,
+    "WinnerScoreColor": "#f4c7c4",
+    "LoserScoreColor": "#bc293d",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 4,
+    "Winner Team": "Cinderella",
+    "Winner Score": 157.54,
+    "Loser Score": 123.22,
+    "Loser Team": "Hot Dog Enjoyer",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#70a37c",
+    "LoserScoreColor": "#f3f7f3",
+    "ShotsDogsColor": "#227740"
+  }
+]
