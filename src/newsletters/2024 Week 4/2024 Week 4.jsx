@@ -303,7 +303,7 @@ const LeagueBuzzArticle = () => {
                 <ArticleCaption>Submitted by Hot Dog Enjoyer</ArticleCaption>
             </ImageWrapper>
             <p>
-                Hot Dog Enjoyer made two trades this week. One of them was pretty fair for both sides, as Hot Dog Enjoyer took a downgrade at RB to get a solid TE to replace the awful Mark Andrews. The other trade was shocking to the entire league, and many managers dropped clown emoji reactions on the trade. Youngster Joey traded away Raheem Mostert, last seasons #2 overall RB, for Falcons kicker Younghoe Koo.
+                Hot Dog Enjoyer made two trades this week. One of them was pretty fair for both sides, as Hot Dog Enjoyer took a downgrade at RB to get a solid TE to replace the awful Mark Andrews. The other trade was shocking to the entire league, and many managers dropped clown emoji reactions on the trade. Youngster Joey traded away Raheem Mostert, last seasons #3 overall RB, for Falcons kicker Younghoe Koo.
             </p>
             <LeagueQuote>
                 "Fleeced"<br />- AntDiCarlo on Sleeper
