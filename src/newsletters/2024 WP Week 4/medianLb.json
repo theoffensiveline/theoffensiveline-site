@@ -1,0 +1,156 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "walterpicks",
+    "W": 7,
+    "L": 1,
+    "PF": 562.48,
+    "PA": 466.72,
+    "PFColor": "#4c8d5d",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "bderr",
+    "W": 6,
+    "L": 2,
+    "PF": 574.42,
+    "PA": 504.18,
+    "PFColor": "#227740",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "joshea0",
+    "W": 6,
+    "L": 2,
+    "PF": 572.54,
+    "PA": 501.48,
+    "PFColor": "#227740",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 4,
+    "Diff": 1,
+    "Team": "') DROP TABLE players; --",
+    "W": 6,
+    "L": 2,
+    "PF": 553.12,
+    "PA": 521.1,
+    "PFColor": "#649c71",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 5,
+    "Diff": -3,
+    "Team": "Handsomer Brock Purdy",
+    "W": 6,
+    "L": 2,
+    "PF": 516.62,
+    "PA": 445.76,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#327e4a"
+  },
+  {
+    "Rank": 6,
+    "Diff": 6,
+    "Team": "Jerry Jeudy Is Bad",
+    "W": 4,
+    "L": 4,
+    "PF": 531.72,
+    "PA": 631.1,
+    "PFColor": "#abc9b1",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 0,
+    "Team": "IamMarkT",
+    "W": 4,
+    "L": 4,
+    "PF": 492.46,
+    "PA": 500.8,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 8,
+    "Diff": -2,
+    "Team": "Suttonly I see",
+    "W": 3,
+    "L": 5,
+    "PF": 517.7,
+    "PA": 542.24,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#fbe8e7"
+  },
+  {
+    "Rank": 9,
+    "Diff": 4,
+    "Team": "AveryRousos",
+    "W": 3,
+    "L": 5,
+    "PF": 484.58,
+    "PA": 543.5,
+    "PFColor": "#f4c7c4",
+    "PAColor": "#fbe8e7"
+  },
+  {
+    "Rank": 10,
+    "Diff": -2,
+    "Team": "LaPorta-Potty",
+    "W": 3,
+    "L": 5,
+    "PF": 471.54,
+    "PA": 477.38,
+    "PFColor": "#e79a98",
+    "PAColor": "#7cab86"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "lukesemenza",
+    "W": 3,
+    "L": 5,
+    "PF": 461.68,
+    "PA": 459.6,
+    "PFColor": "#df8482",
+    "PAColor": "#589567"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Chillin w/ Mahomies",
+    "W": 2,
+    "L": 6,
+    "PF": 494.12,
+    "PA": 570.54,
+    "PFColor": "#f9dddc",
+    "PAColor": "#eeb0ae"
+  },
+  {
+    "Rank": 13,
+    "Diff": -4,
+    "Team": "Lamb with a side of Rice",
+    "W": 2,
+    "L": 6,
+    "PF": 462.92,
+    "PA": 437.56,
+    "PFColor": "#df8482",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 14,
+    "Diff": 0,
+    "Team": "bensloneker",
+    "W": 1,
+    "L": 7,
+    "PF": 434.56,
+    "PA": 528.5,
+    "PFColor": "#bc293d",
+    "PAColor": "#e7efe8"
+  }
+]

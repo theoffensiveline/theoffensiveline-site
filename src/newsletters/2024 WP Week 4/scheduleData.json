@@ -1,0 +1,288 @@
+{
+  "best_records": [
+    {
+      "team1": "') DROP TABLE players; --",
+      "team2_list": ["Handsomer Brock Purdy", "IamMarkT", "LaPorta-Potty", "Lamb with a side of Rice"],
+      "wins": 4,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "AveryRousos",
+      "team2_list": ["Handsomer Brock Purdy"],
+      "wins": 4,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Chillin w/ Mahomies",
+      "team2_list": ["Handsomer Brock Purdy", "Lamb with a side of Rice"],
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Handsomer Brock Purdy",
+      "team2_list": ["Lamb with a side of Rice"],
+      "wins": 4,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "IamMarkT",
+      "team2_list": ["') DROP TABLE players; --", "AveryRousos", "Handsomer Brock Purdy", "IamMarkT", "Jerry Jeudy Is Bad", "LaPorta-Potty", "Lamb with a side of Rice", "bderr", "bensloneker", "joshea0", "lukesemenza", "walterpicks"],
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Jerry Jeudy Is Bad",
+      "team2_list": ["AveryRousos", "Handsomer Brock Purdy", "LaPorta-Potty", "Lamb with a side of Rice", "bderr", "walterpicks"],
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "LaPorta-Potty",
+      "team2_list": ["Handsomer Brock Purdy"],
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Lamb with a side of Rice",
+      "team2_list": ["walterpicks"],
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Suttonly I see",
+      "team2_list": ["Handsomer Brock Purdy", "IamMarkT", "Lamb with a side of Rice", "bensloneker"],
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "bderr",
+      "team2_list": ["Handsomer Brock Purdy", "LaPorta-Potty", "Lamb with a side of Rice", "lukesemenza", "walterpicks"],
+      "wins": 4,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "bensloneker",
+      "team2_list": ["walterpicks"],
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "joshea0",
+      "team2_list": ["') DROP TABLE players; --", "Handsomer Brock Purdy", "IamMarkT", "LaPorta-Potty", "Lamb with a side of Rice", "bensloneker", "joshea0", "lukesemenza", "walterpicks"],
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "lukesemenza",
+      "team2_list": ["') DROP TABLE players; --", "Lamb with a side of Rice", "bderr", "bensloneker", "joshea0", "lukesemenza", "walterpicks"],
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "walterpicks",
+      "team2_list": ["Handsomer Brock Purdy", "IamMarkT", "walterpicks"],
+      "wins": 4,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "') DROP TABLE players; --",
+      "team2_list": ["Chillin w/ Mahomies", "Suttonly I see", "joshea0"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "AveryRousos",
+      "team2_list": ["Jerry Jeudy Is Bad"],
+      "wins": 0,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Chillin w/ Mahomies",
+      "team2_list": ["') DROP TABLE players; --", "Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "bensloneker"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Handsomer Brock Purdy",
+      "team2_list": ["') DROP TABLE players; --", "Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "Suttonly I see", "joshea0"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "IamMarkT",
+      "team2_list": ["Chillin w/ Mahomies", "Suttonly I see"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Jerry Jeudy Is Bad",
+      "team2_list": ["Chillin w/ Mahomies", "Jerry Jeudy Is Bad"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "LaPorta-Potty",
+      "team2_list": ["Jerry Jeudy Is Bad"],
+      "wins": 0,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Lamb with a side of Rice",
+      "team2_list": ["Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "Suttonly I see"],
+      "wins": 0,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Suttonly I see",
+      "team2_list": ["AveryRousos", "Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "bderr", "joshea0"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "bderr",
+      "team2_list": ["Jerry Jeudy Is Bad"],
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "bensloneker",
+      "team2_list": ["AveryRousos", "Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "LaPorta-Potty", "bderr"],
+      "wins": 0,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "joshea0",
+      "team2_list": ["AveryRousos", "Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "Suttonly I see", "bderr"],
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "lukesemenza",
+      "team2_list": ["AveryRousos"],
+      "wins": 0,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "walterpicks",
+      "team2_list": ["AveryRousos", "Chillin w/ Mahomies", "Jerry Jeudy Is Bad", "bderr", "joshea0"],
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "') DROP TABLE players; --",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "AveryRousos",
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Chillin w/ Mahomies",
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Handsomer Brock Purdy",
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "IamMarkT",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Jerry Jeudy Is Bad",
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "LaPorta-Potty",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Lamb with a side of Rice",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Suttonly I see",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "bderr",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "bensloneker",
+      "wins": 1,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "joshea0",
+      "wins": 3,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "lukesemenza",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "walterpicks",
+      "wins": 4,
+      "losses": 0,
+      "ties": 0
+    }
+  ]
+}
