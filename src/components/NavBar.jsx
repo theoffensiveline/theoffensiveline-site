@@ -30,7 +30,7 @@ function NavBar() {
     };
 
     // Check if the current location is "/" or "/coming-soon" - which are accessible to anyone
-    const shouldHidePages = location.pathname === '/' || location.pathname === '/coming-soon';
+    const shouldHidePages = location.pathname === '/' || location.pathname === '/coming-soon' || location.pathname === '/walterPicks' || location.pathname === '/newsletterWalterPicks';
 
     return (
         <AppBar position="static">

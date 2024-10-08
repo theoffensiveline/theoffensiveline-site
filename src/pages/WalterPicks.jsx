@@ -52,7 +52,7 @@ function WalterPicksHome() {
     ]
 
     const handleNavigate = (issue) => {
-        navigate(`/newsletter`, { state: { issue } });
+        navigate(`/newsletterWalterPicks`, { state: { issue } });
         console.log({ issue });
     };
 
