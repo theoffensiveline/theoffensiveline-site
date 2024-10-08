@@ -48,7 +48,7 @@ const MatchupArticleTwo = () => {
             <ArticleHeader>Matchup #2</ArticleHeader>
             <ArticleSubheader>Luke Started His Best Players</ArticleSubheader>
             <p>
-                Luke was the top scorer this week, putting up 148.56 points. He was led by Stroud, his RB duo, and the top DEF this week in SF. His defense was his leading scorer. He didn't leave any points on his bench this week, impressive stuff. Luke moves to 3-5 this season.
+                Luke was the 2nd highest scorer this week, putting up 148.56 points. He was led by Stroud, his RB duo, and the top DEF this week in SF. His defense was his leading scorer. He didn't leave any points on his bench this week, impressive stuff. Luke moves to 3-5 this season.
             </p>
             <p>
                 Sam put up exactly 114 points this week, which was near the bottom of the league. Calvin Ridley was disappointing, as were Harrison Butker and MIA DEF. Sam drops to 2-6 this season, tied with Trevor.
