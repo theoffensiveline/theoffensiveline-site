@@ -30,31 +30,25 @@ const GridItem = styled.button`
     color: ${ColorConstants.newsBlue}; /* Set the desired text color */
 `;
 
-const BannerImage = styled.img`
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-`;
-
-function Home() {
+function WalterPicksHome() {
     const navigate = useNavigate();
 
     const mostRecentIssue = [
-        '2024 Week 4',
+        '2024 WP Week 4',
     ]
 
     const newsletterIssues = [
-        '2024 Week 3',
-        '2024 Week 2',
-        '2024 Week 1',
-        '2024 Preseason',
-        '2024 Offseason',
-        '2023 Season Recap',
-        '2023 Week 17',
-        '2023 Week 16',
-        '2023 Week 15',
-        '2023 Week 14',
-        '2023 Week 13',
+        // '2024 Week 3',
+        // '2024 Week 2',
+        // '2024 Week 1',
+        // '2024 Preseason',
+        // '2024 Offseason',
+        // '2023 Season Recap',
+        // '2023 Week 17',
+        // '2023 Week 16',
+        // '2023 Week 15',
+        // '2023 Week 14',
+        // '2023 Week 13',
     ]
 
     const handleNavigate = (issue) => {
@@ -64,7 +58,6 @@ function Home() {
 
     return (
         <div>
-            <BannerImage src="/banner_logo.png" alt="Banner Logo" />
             <GridContainer>
                 {mostRecentIssue.map((issue) => (
                     <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
@@ -76,12 +69,9 @@ function Home() {
                         {issue}
                     </GridItem>
                 ))}
-                <GridItem onClick={() => navigate("/news")}>
-                    Older News
-                </GridItem>
             </GridContainer>
         </div>
     );
 }
 
-export default Home;
+export default WalterPicksHome;

@@ -110,6 +110,9 @@ function SleeperLogin() {
 
         if (league.league_id === '1124831356770058240') {
             navigate('/home', { state: { league } });
+        }
+        if (league.league_id === '1131328201495646208') {
+            navigate('/walterPicks', { state: { league } });
         } else {
             navigate('/coming-soon', { state: { league } });
         }

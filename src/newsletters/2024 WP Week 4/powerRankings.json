@@ -1,0 +1,156 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 1,
+    "Team": "bderr",
+    "Play All W": 40,
+    "Play All L": 12,
+    "Team Ability": 77.2,
+    "Str of Sched": 56.2,
+    "TaColor": "#227740",
+    "SosColor": "#fbe8e7"
+  },
+  {
+    "P Rank": 2,
+    "Trend": 1,
+    "Team": "walterpicks",
+    "Play All W": 36,
+    "Play All L": 16,
+    "Team Ability": 69.5,
+    "Str of Sched": 31.5,
+    "TaColor": "#649c71",
+    "SosColor": "#4c8d5d"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 1,
+    "Team": "') DROP TABLE players; --",
+    "Play All W": 34,
+    "Play All L": 18,
+    "Team Ability": 65.7,
+    "Str of Sched": 52.4,
+    "TaColor": "#7cab86",
+    "SosColor": "#f3f7f3"
+  },
+  {
+    "P Rank": 4,
+    "Trend": 2,
+    "Team": "joshea0",
+    "Play All W": 34,
+    "Play All L": 18,
+    "Team Ability": 65.7,
+    "Str of Sched": 54.3,
+    "TaColor": "#7cab86",
+    "SosColor": "#fdf4f3"
+  },
+  {
+    "P Rank": 5,
+    "Trend": -4,
+    "Team": "Jerry Jeudy Is Bad",
+    "Play All W": 31,
+    "Play All L": 21,
+    "Team Ability": 60.0,
+    "Str of Sched": 79.1,
+    "TaColor": "#9fc2a6",
+    "SosColor": "#bc293d"
+  },
+  {
+    "P Rank": 6,
+    "Trend": 3,
+    "Team": "Handsomer Brock Purdy",
+    "Play All W": 27,
+    "Play All L": 25,
+    "Team Ability": 52.4,
+    "Str of Sched": 27.7,
+    "TaColor": "#dbe8dd",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 5,
+    "Team": "IamMarkT",
+    "Play All W": 24,
+    "Play All L": 28,
+    "Team Ability": 46.7,
+    "Str of Sched": 41.0,
+    "TaColor": "#fdf4f3",
+    "SosColor": "#94ba9b"
+  },
+  {
+    "P Rank": 8,
+    "Trend": 0,
+    "Team": "Suttonly I see",
+    "Play All W": 25,
+    "Play All L": 27,
+    "Team Ability": 48.6,
+    "Str of Sched": 61.9,
+    "TaColor": "#f3f7f3",
+    "SosColor": "#f1bcb9"
+  },
+  {
+    "P Rank": 9,
+    "Trend": -2,
+    "Team": "Chillin w/ Mahomies",
+    "Play All W": 25,
+    "Play All L": 27,
+    "Team Ability": 48.6,
+    "Str of Sched": 75.3,
+    "TaColor": "#f3f7f3",
+    "SosColor": "#cc545a"
+  },
+  {
+    "P Rank": 10,
+    "Trend": -5,
+    "Team": "AveryRousos",
+    "Play All W": 26,
+    "Play All L": 26,
+    "Team Ability": 50.5,
+    "Str of Sched": 63.8,
+    "TaColor": "#e7efe8",
+    "SosColor": "#eaa5a3"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 3,
+    "Team": "lukesemenza",
+    "Play All W": 18,
+    "Play All L": 34,
+    "Team Ability": 35.3,
+    "Str of Sched": 41.0,
+    "TaColor": "#eaa5a3",
+    "SosColor": "#94ba9b"
+  },
+  {
+    "P Rank": 12,
+    "Trend": -1,
+    "Team": "LaPorta-Potty",
+    "Play All W": 19,
+    "Play All L": 33,
+    "Team Ability": 37.2,
+    "Str of Sched": 39.1,
+    "TaColor": "#eeb0ae",
+    "SosColor": "#88b290"
+  },
+  {
+    "P Rank": 13,
+    "Trend": -3,
+    "Team": "Lamb with a side of Rice",
+    "Play All W": 16,
+    "Play All L": 36,
+    "Team Ability": 31.5,
+    "Str of Sched": 33.4,
+    "TaColor": "#e38f8d",
+    "SosColor": "#589567"
+  },
+  {
+    "P Rank": 14,
+    "Trend": -1,
+    "Team": "bensloneker",
+    "Play All W": 9,
+    "Play All L": 43,
+    "Team Ability": 18.1,
+    "Str of Sched": 50.5,
+    "TaColor": "#bc293d",
+    "SosColor": "#e7efe8"
+  }
+]

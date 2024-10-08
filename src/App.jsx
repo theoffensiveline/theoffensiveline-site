@@ -13,6 +13,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 import Eaterboard from "./pages/Eaterboard";
 import Survivor from "./pages/Survivor";
+import WalterPicks from "./pages/WalterPicks";
 import { ColorConstants } from "./components/constants/ColorConstants";
 
 const BackgroundWrapper = styled.div`
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/">
                         <Route path="/" element={<SleeperLogin />} />
                         <Route path="/home" element={<Home />} />
+                        <Route path="/walterPicks" element={<WalterPicks />} />
                         <Route path="/coming-soon" element={<ComingSoon />} />
                         <Route path="news" element={<News />} />
                         <Route path="submit" element={<Submit />} />
