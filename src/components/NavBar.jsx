@@ -29,8 +29,11 @@ function NavBar() {
         window.location.href = page.toLowerCase();
     };
 
-    // Check if the current location is "/" or "/coming-soon" - which are accessible to anyone
-    const shouldHidePages = location.pathname === '/' || location.pathname === '/coming-soon' || location.pathname === '/walterPicks' || location.pathname === '/newsletterWalterPicks';
+    // Check if the current location is accessible to non-league members
+    const shouldHidePages = location.pathname === '/' ||
+        location.pathname === '/coming-soon' ||
+        location.pathname === '/walterPicks' ||
+        location.pathname === '/newsletterWalterPicks';
 
     return (
         <AppBar position="static">
