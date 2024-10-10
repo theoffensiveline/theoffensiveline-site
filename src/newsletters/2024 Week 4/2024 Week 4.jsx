@@ -413,7 +413,7 @@ const Meme7 = () => {
         <ImageWrapper>
             <ArticleImage src={"https://i.imgflip.com/95koj4.jpg"}>
             </ArticleImage>
-            <ArticleCaption>Submitted The Offensive Line</ArticleCaption>
+            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
     )
 }

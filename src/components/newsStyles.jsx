@@ -533,6 +533,107 @@ export const WeeklyScoringChart = ({ chartData }) => {
     );
 };
 
+export const WeeklyMarginChart = ({ chartData }) => {
+    const data = chartData.map(({ week, team_points, margin_of_victory, image_or_text }) => ({
+        week,
+        team_points,
+        margin_of_victory,
+        image_or_text,
+    }));
+
+    return (
+        <VictoryChart
+            containerComponent={
+                <VictoryContainer
+                    style={{
+                        touchAction: "auto"
+                    }}
+                />
+            }
+        >
+            <VictoryAxis dependentAxis
+                tickValues={[-75, -50, -25, 0, 25, 50, 75]}
+            />
+            <VictoryAxis
+                tickCount={data.length / 18}
+                tickFormat={(t) => Math.round(t)}
+                margin={{ top: 20, bottom: 20, right: 50, left: 50 }}
+            />
+            <VictoryScatter
+                data={data}
+                x="week"
+                y="margin_of_victory"
+                dataComponent={<CustomDataComponent />}
+            />
+        </VictoryChart>
+    );
+};
+
+export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
+    // Find unique weeks
+    const weeks = [...new Set(matchupData.map(week => week.week))];
+
+    // Find unique teams and merge them with leaderboard data
+    const teamsWithRecords = leaderboardData.map((teamRecord) => {
+        return {
+            team_name: teamRecord.Team,
+            W: teamRecord.W,
+            L: teamRecord.L,
+            PF: teamRecord.PF,
+        };
+    });
+
+    // Sort the teams by W and then by PF
+    teamsWithRecords.sort((a, b) => {
+        if (a.W === b.W) {
+            return b.PF - a.PF;  // Sort by PF if W is the same
+        }
+        return b.W - a.W;  // Sort by W (descending)
+    });
+
+    return (
+        <StyledTable>
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>W</th>
+                    <th>L</th>
+                    {weeks.map((week) => (
+                        <th key={week}>Wk {week}</th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {teamsWithRecords.map((teamRecord) => {
+                    const { team_name, W, L } = teamRecord;
+
+                    return (
+                        <tr key={team_name}>
+                            <td className="wrap-cell">{team_name}</td>
+                            <td className="center-column">{W}</td>
+                            <td className="center-column">{L}</td>
+                            {weeks.map((week) => {
+                                const weekData = matchupData.find(
+                                    (data) => data.team_name === team_name && data.week === week
+                                );
+                                return (
+                                    <td className="center-column" key={week}
+                                        style={{
+                                            backgroundColor: weekData ? weekData.mov_color : "transparent"
+                                        }}>
+                                        {weekData ? weekData.margin_of_victory : "N/A"}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </StyledTable>
+    );
+};
+
+
 // Define the order for sorting positions
 const positionOrder = ["QB", "RB", "WR", "TE", "K", "DEF"];
 

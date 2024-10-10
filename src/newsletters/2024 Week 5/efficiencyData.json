@@ -1,0 +1,86 @@
+[
+  {
+    "week": 5,
+    "team_name": "Calvin’s Cold Streak",
+    "actual_points": 148.36,
+    "max_points": 151.86,
+    "percentage": 97.6952
+  },
+  {
+    "week": 5,
+    "team_name": "Crashee Rice",
+    "actual_points": 137.52,
+    "max_points": 152.82,
+    "percentage": 89.9882
+  },
+  {
+    "week": 5,
+    "team_name": "Twin Bowers",
+    "actual_points": 135.16,
+    "max_points": 162.3,
+    "percentage": 83.2779
+  },
+  {
+    "week": 5,
+    "team_name": "Kirk Thuggins & The Boys",
+    "actual_points": 127.58,
+    "max_points": 131.38,
+    "percentage": 97.1076
+  },
+  {
+    "week": 5,
+    "team_name": "Just Joshin pt. 2 ",
+    "actual_points": 126.34,
+    "max_points": 126.34,
+    "percentage": 100
+  },
+  {
+    "week": 5,
+    "team_name": "First Down Syndrome",
+    "actual_points": 125.26,
+    "max_points": 128.66,
+    "percentage": 97.3574
+  },
+  {
+    "week": 5,
+    "team_name": "Pink Pony Kupp",
+    "actual_points": 125.18,
+    "max_points": 129.18,
+    "percentage": 96.9035
+  },
+  {
+    "week": 5,
+    "team_name": "Poor Management",
+    "actual_points": 123.94,
+    "max_points": 147.54,
+    "percentage": 84.0043
+  },
+  {
+    "week": 5,
+    "team_name": "Giving Me a Chubb",
+    "actual_points": 120.44,
+    "max_points": 144.96,
+    "percentage": 83.085
+  },
+  {
+    "week": 5,
+    "team_name": "Cinderella",
+    "actual_points": 114.42,
+    "max_points": 142.62,
+    "percentage": 80.2272
+  },
+  {
+    "week": 5,
+    "team_name": "Youngster Joey",
+    "actual_points": 103.7,
+    "max_points": 116.8,
+    "percentage": 88.7842
+  },
+  {
+    "week": 5,
+    "team_name": "Hot Dog Enjoyer",
+    "actual_points": 96.66,
+    "max_points": 116.66,
+    "percentage": 82.8562
+  }
+]
