@@ -318,7 +318,7 @@ const LeagueBuzzArticle = () => {
                 "Proof: 11.80 + 0.00 {'>'} 16.40 ∴ Fleeced QED"<br />- Anonymous League Manager
             </LeagueQuote>
             <p>
-                Not sure if this math is correct, but Jake himself does believe he got fleeced.
+                Edit: this quote was actually about another trade, but the manager who submit it did not make that clear. Do with that what you will.
             </p>
             <LeagueQuote>
                 "Alec fleeced me on Aaron Jones"<br />- Jake
