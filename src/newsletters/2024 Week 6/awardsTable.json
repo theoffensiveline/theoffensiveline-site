@@ -49,11 +49,18 @@
     "description": "This is the #7 warmest bench this season"
   },
   {
-    "award": "Heaviest Top",
+    "award": "Heaviest Top 1",
     "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
     "name": "Pink Pony Kupp",
-    "value": "Costo Guys",
-    "description": "Left 0 points on the bench"
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 2",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
   },
   {
     "award": "MVP",
