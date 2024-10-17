@@ -1,0 +1,121 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Scored 153.12 points",
+    "description": "This is the #3 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Scored 85.16 points",
+    "description": "This is the #4 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Scored 113.4 points in their win",
+    "description": "This is the #6 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Giving Me a Chubb",
+    "value": "Scored 133.74 points in their loss",
+    "description": "This is the #2 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Defeated Youngster Joey by 30.56 points",
+    "description": "This is the #12 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Defeated First Down Syndrome by 3.04 points",
+    "description": "This is the #4 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/4e63527e8f52f5e2645bf2a96d12882d",
+    "name": "Crashee Rice",
+    "value": "Left 38.4 points on the bench",
+    "description": "This is the #7 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Costo Guys",
+    "description": "Left 0 points on the bench"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4037.jpg",
+    "name": "Chris Godwin",
+    "value": "Scored 35.5 points for Kirk Thuggins & The Boys which was 28.13% of the team total",
+    "description": "This is the #2 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4892.jpg",
+    "name": "Baker Mayfield",
+    "value": "Scored 25.9 points on the bench for Twin Bowers",
+    "description": "This is the #8 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/11560.jpg",
+    "name": "Caleb Williams (Prodigy)",
+    "value": "Scored 28.64 points for Giving Me a Chubb",
+    "description": "This is the #6 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4018.jpg",
+    "name": "Joe Mixon",
+    "value": "Scored 27.2 points for Hot Dog Enjoyer",
+    "description": "This is the #11 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/4037.jpg",
+    "name": "Chris Godwin",
+    "value": "Scored 35.5 points for Kirk Thuggins & The Boys",
+    "description": "This is the #2 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/6826.jpg",
+    "name": "Cole Kmet",
+    "value": "Scored 24 points for Crashee Rice",
+    "description": "This is the #2 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/1945.jpg",
+    "name": "Chris Boswell",
+    "value": "Scored 19.4 points for Costo Guys",
+    "description": "This is the #5 K performance of the season"
+  },
+  {
+    "award": "Biggest D 1",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/hou.png",
+    "name": "HOU",
+    "value": "Scored 13 points for Hot Dog Enjoyer",
+    "description": "This is the #12 DEF performance of the season"
+  },
+  {
+    "award": "Biggest D 2",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/pit.png",
+    "name": "PIT",
+    "value": "Scored 13 points for First Down Syndrome",
+    "description": "This is the #12 DEF performance of the season"
+  }
+]

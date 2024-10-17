@@ -1,0 +1,647 @@
+[
+  {
+    "team_name": "Calvin’s Cold Streak",
+    "matchup_id": 4,
+    "entries": [
+      {
+        "full_name": "Justin Tucker",
+        "position": "K",
+        "points": 14.6
+      },
+      {
+        "full_name": "Geno Smith",
+        "position": "QB",
+        "points": 12.48
+      },
+      {
+        "full_name": "Stefon Diggs",
+        "position": "WR",
+        "points": 19.7
+      },
+      {
+        "full_name": "Hunter Henry",
+        "position": "TE",
+        "points": 13.1
+      },
+      {
+        "full_name": "Calvin Ridley",
+        "position": "WR",
+        "points": 0.9
+      },
+      {
+        "full_name": "Josh Jacobs",
+        "position": "RB",
+        "points": 12
+      },
+      {
+        "full_name": "Najee Harris",
+        "position": "RB",
+        "points": 20.2
+      },
+      {
+        "full_name": "Ja'Marr Chase",
+        "position": "WR",
+        "points": 12.2
+      },
+      {
+        "full_name": "NYJ",
+        "position": "DEF",
+        "points": 3
+      }
+    ]
+  },
+  {
+    "team_name": "Costo Guys",
+    "matchup_id": 6,
+    "entries": [
+      {
+        "full_name": "Chris Boswell",
+        "position": "K",
+        "points": 19.4
+      },
+      {
+        "full_name": "David Njoku",
+        "nickname": "Anchor pt3",
+        "position": "TE",
+        "points": 8.1
+      },
+      {
+        "full_name": "Lamar Jackson",
+        "position": "QB",
+        "points": 18.92
+      },
+      {
+        "full_name": "Ray-Ray McCloud",
+        "position": "WR",
+        "points": 4.3
+      },
+      {
+        "full_name": "Diontae Johnson",
+        "position": "WR",
+        "points": 19.8
+      },
+      {
+        "full_name": "Chuba Hubbard",
+        "position": "RB",
+        "points": 15.3
+      },
+      {
+        "full_name": "Alec Pierce",
+        "position": "WR",
+        "points": 0
+      },
+      {
+        "full_name": "Breece Hall",
+        "position": "RB",
+        "points": 21.9
+      },
+      {
+        "full_name": "SF",
+        "position": "DEF",
+        "points": 8
+      }
+    ]
+  },
+  {
+    "team_name": "Crashee Rice",
+    "matchup_id": 2,
+    "entries": [
+      {
+        "full_name": "Jayden Daniels",
+        "position": "QB",
+        "points": 20.96
+      },
+      {
+        "full_name": "Tee Higgins",
+        "position": "WR",
+        "points": 14.7
+      },
+      {
+        "full_name": "Brandon Aiyuk",
+        "nickname": "Catch a ball retard",
+        "position": "WR",
+        "points": 5.7
+      },
+      {
+        "full_name": "Cole Kmet",
+        "position": "TE",
+        "points": 24
+      },
+      {
+        "full_name": "Travis Etienne",
+        "position": "RB",
+        "points": -0.1
+      },
+      {
+        "full_name": "Amon-Ra St. Brown",
+        "nickname": "Please save me",
+        "position": "WR",
+        "points": 13.7
+      },
+      {
+        "full_name": "Evan McPherson",
+        "position": "K",
+        "points": 5.7
+      },
+      {
+        "full_name": "James Cook",
+        "position": "RB",
+        "points": 0
+      },
+      {
+        "full_name": "DEN",
+        "position": "DEF",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "team_name": "First Down Syndrome",
+    "matchup_id": 1,
+    "entries": [
+      {
+        "full_name": "Jaleel McLaughlin",
+        "position": "RB",
+        "points": 4.5
+      },
+      {
+        "full_name": "Rome Odunze",
+        "position": "WR",
+        "points": 6
+      },
+      {
+        "full_name": "Tyler Lockett",
+        "position": "WR",
+        "points": 16.5
+      },
+      {
+        "full_name": "George Kittle",
+        "position": "TE",
+        "points": 22.8
+      },
+      {
+        "full_name": "Tony Pollard",
+        "position": "RB",
+        "points": 17.8
+      },
+      {
+        "full_name": "Jalen Hurts",
+        "position": "QB",
+        "points": 21.86
+      },
+      {
+        "full_name": "Tyler Bass",
+        "position": "K",
+        "points": 3
+      },
+      {
+        "full_name": "Jameson Williams",
+        "position": "WR",
+        "points": 17.7
+      },
+      {
+        "full_name": "PIT",
+        "position": "DEF",
+        "points": 13
+      }
+    ]
+  },
+  {
+    "team_name": "Giving Me a Chubb",
+    "matchup_id": 5,
+    "entries": [
+      {
+        "full_name": "Caleb Williams",
+        "nickname": "Prodigy",
+        "position": "QB",
+        "points": 28.64
+      },
+      {
+        "full_name": "Amari Cooper",
+        "nickname": "Pooper w/ Bidet",
+        "position": "WR",
+        "points": 8.2
+      },
+      {
+        "full_name": "Derrick Henry",
+        "nickname": "Tank",
+        "position": "RB",
+        "points": 25.2
+      },
+      {
+        "full_name": "Ka'imi Fairbairn",
+        "nickname": "Mr. Boot",
+        "position": "K",
+        "points": 12.5
+      },
+      {
+        "full_name": "Jakobi Meyers",
+        "nickname": "Davante Adams 2.0",
+        "position": "WR",
+        "points": 0
+      },
+      {
+        "full_name": "Trey McBride",
+        "nickname": "White Guy",
+        "position": "TE",
+        "points": 17.6
+      },
+      {
+        "full_name": "Jordan Mason",
+        "nickname": "The New CMC",
+        "position": "RB",
+        "points": 9.2
+      },
+      {
+        "full_name": "Zay Flowers",
+        "nickname": "Zay his name",
+        "position": "WR",
+        "points": 22.4
+      },
+      {
+        "full_name": "CHI",
+        "nickname": "Da Bears",
+        "position": "DEF",
+        "points": 10
+      }
+    ]
+  },
+  {
+    "team_name": "Hot Dog Enjoyer",
+    "matchup_id": 4,
+    "entries": [
+      {
+        "full_name": "Cairo Santos",
+        "position": "K",
+        "points": 4
+      },
+      {
+        "full_name": "Joe Mixon",
+        "position": "RB",
+        "points": 27.2
+      },
+      {
+        "full_name": "Terry McLaurin",
+        "position": "WR",
+        "points": 23.3
+      },
+      {
+        "full_name": "CeeDee Lamb",
+        "position": "WR",
+        "points": 16.1
+      },
+      {
+        "full_name": "Javonte Williams",
+        "position": "RB",
+        "points": 4.6
+      },
+      {
+        "full_name": "Chris Olave",
+        "position": "WR",
+        "points": -0.5
+      },
+      {
+        "full_name": "Brock Purdy",
+        "position": "QB",
+        "points": 24.1
+      },
+      {
+        "full_name": "Tucker Kraft",
+        "position": "TE",
+        "points": 3.5
+      },
+      {
+        "full_name": "HOU",
+        "position": "DEF",
+        "points": 13
+      }
+    ]
+  },
+  {
+    "team_name": "Just Joshin pt. 2 ",
+    "matchup_id": 2,
+    "entries": [
+      {
+        "full_name": "James Conner",
+        "position": "RB",
+        "points": 6.6
+      },
+      {
+        "full_name": "DJ Moore",
+        "position": "WR",
+        "points": 6
+      },
+      {
+        "full_name": "Josh Allen",
+        "position": "QB",
+        "points": 24.4
+      },
+      {
+        "full_name": "Chase McLaughlin",
+        "position": "K",
+        "points": 9
+      },
+      {
+        "full_name": "DeVonta Smith",
+        "position": "WR",
+        "points": 15.4
+      },
+      {
+        "full_name": "Cade Otton",
+        "position": "TE",
+        "points": 9.5
+      },
+      {
+        "full_name": "Wan'Dale Robinson",
+        "position": "WR",
+        "points": 10
+      },
+      {
+        "full_name": "Bijan Robinson",
+        "position": "RB",
+        "points": 25.5
+      },
+      {
+        "full_name": "LAC",
+        "position": "DEF",
+        "points": 7
+      }
+    ]
+  },
+  {
+    "team_name": "Kirk Thuggins & The Boys",
+    "matchup_id": 1,
+    "entries": [
+      {
+        "full_name": "Dalton Kincaid",
+        "position": "TE",
+        "points": 11.1
+      },
+      {
+        "full_name": "Brandon Aubrey",
+        "position": "K",
+        "points": 13.1
+      },
+      {
+        "full_name": "Kirk Cousins",
+        "nickname": "Kirktoberfest",
+        "position": "QB",
+        "points": 12.5
+      },
+      {
+        "full_name": "Alvin Kamara",
+        "nickname": "📸 ",
+        "position": "RB",
+        "points": 17.4
+      },
+      {
+        "full_name": "Chris Godwin",
+        "position": "WR",
+        "points": 35.5
+      },
+      {
+        "full_name": "DK Metcalf",
+        "position": "WR",
+        "points": 7.8
+      },
+      {
+        "full_name": "Drake London",
+        "position": "WR",
+        "points": 19.4
+      },
+      {
+        "full_name": "Tank Bigsby",
+        "position": "RB",
+        "points": 2.4
+      },
+      {
+        "full_name": "BUF",
+        "position": "DEF",
+        "points": 7
+      }
+    ]
+  },
+  {
+    "team_name": "Pink Pony Kupp",
+    "matchup_id": 3,
+    "entries": [
+      {
+        "full_name": "Bucky Irving",
+        "nickname": "Can actually run",
+        "position": "RB",
+        "points": 18.5
+      },
+      {
+        "full_name": "David Montgomery",
+        "nickname": "Lions RB1",
+        "position": "RB",
+        "points": 21
+      },
+      {
+        "full_name": "Austin Seibert",
+        "nickname": "Commie",
+        "position": "K",
+        "points": 15.6
+      },
+      {
+        "full_name": "Joe Burrow",
+        "nickname": "Joe Brrrr",
+        "position": "QB",
+        "points": 19.82
+      },
+      {
+        "full_name": "Darnell Mooney",
+        "nickname": "Moon Pie",
+        "position": "WR",
+        "points": 6.8
+      },
+      {
+        "full_name": "Kyle Pitts",
+        "nickname": "Kyle",
+        "position": "TE",
+        "points": 10
+      },
+      {
+        "full_name": "Jahmyr Gibbs",
+        "nickname": "Tony’s Favorite",
+        "position": "RB",
+        "points": 12.1
+      },
+      {
+        "full_name": "Tank Dell",
+        "nickname": "Nathaniel",
+        "position": "WR",
+        "points": 18.7
+      },
+      {
+        "full_name": "IND",
+        "nickname": "Round 2",
+        "position": "DEF",
+        "points": 4
+      }
+    ]
+  },
+  {
+    "team_name": "Poor Management",
+    "matchup_id": 3,
+    "entries": [
+      {
+        "full_name": "Mike Evans",
+        "position": "WR",
+        "points": 5.4
+      },
+      {
+        "full_name": "Austin Ekeler",
+        "position": "RB",
+        "points": 10.8
+      },
+      {
+        "full_name": "Darius Slayton",
+        "position": "WR",
+        "points": 11.7
+      },
+      {
+        "full_name": "Matthew Wright",
+        "position": "K",
+        "points": 13.6
+      },
+      {
+        "full_name": "J.K. Dobbins",
+        "position": "RB",
+        "points": 18.2
+      },
+      {
+        "full_name": "Jake Ferguson",
+        "position": "TE",
+        "points": 4.1
+      },
+      {
+        "full_name": "Jaxon Smith-Njigba",
+        "position": "WR",
+        "points": 10.3
+      },
+      {
+        "full_name": "C.J. Stroud",
+        "position": "QB",
+        "points": 18.38
+      },
+      {
+        "full_name": "GB",
+        "position": "DEF",
+        "points": 9
+      }
+    ]
+  },
+  {
+    "team_name": "Twin Bowers",
+    "matchup_id": 5,
+    "entries": [
+      {
+        "full_name": "Jayden Reed",
+        "position": "WR",
+        "points": 14.8
+      },
+      {
+        "full_name": "Brock Bowers",
+        "nickname": "🅱️ush’s Least Favorite",
+        "position": "TE",
+        "points": 16.1
+      },
+      {
+        "full_name": "Jason Myers",
+        "position": "K",
+        "points": 6
+      },
+      {
+        "full_name": "A.J. Brown",
+        "position": "WR",
+        "points": 23.6
+      },
+      {
+        "full_name": "D'Andre Swift",
+        "position": "RB",
+        "points": 21.9
+      },
+      {
+        "full_name": "Jordan Love",
+        "position": "QB",
+        "points": 25.62
+      },
+      {
+        "full_name": "Garrett Wilson",
+        "position": "WR",
+        "points": 24.7
+      },
+      {
+        "full_name": "Chase Brown",
+        "position": "RB",
+        "points": 14.4
+      },
+      {
+        "full_name": "PHI",
+        "position": "DEF",
+        "points": 6
+      }
+    ]
+  },
+  {
+    "team_name": "Youngster Joey",
+    "matchup_id": 6,
+    "entries": [
+      {
+        "full_name": "Marvin Harrison",
+        "nickname": "Slugma",
+        "position": "WR",
+        "points": 0
+      },
+      {
+        "full_name": "Younghoe Koo",
+        "nickname": "Flygon",
+        "position": "K",
+        "points": 12.6
+      },
+      {
+        "full_name": "Saquon Barkley",
+        "nickname": "Lopunny",
+        "position": "RB",
+        "points": 7.4
+      },
+      {
+        "full_name": "Dalton Schultz",
+        "nickname": "Sneasler",
+        "position": "TE",
+        "points": 6.7
+      },
+      {
+        "full_name": "Courtland Sutton",
+        "nickname": "Natu",
+        "position": "WR",
+        "points": 15.3
+      },
+      {
+        "full_name": "Kyler Murray",
+        "nickname": "Rotom",
+        "position": "QB",
+        "points": 11.96
+      },
+      {
+        "full_name": "George Pickens",
+        "nickname": "Vaporeon",
+        "position": "WR",
+        "points": 8.3
+      },
+      {
+        "full_name": "Kenneth Walker",
+        "nickname": "Wailmer",
+        "position": "RB",
+        "points": 20.9
+      },
+      {
+        "full_name": "SEA",
+        "nickname": "Albatox",
+        "position": "DEF",
+        "points": 2
+      }
+    ]
+  }
+]
