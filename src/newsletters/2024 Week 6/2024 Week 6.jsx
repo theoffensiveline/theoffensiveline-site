@@ -100,7 +100,7 @@ const MatchupArticleThree = () => {
             </p>
             <MatchupPlot data={starterData} matchupId={2} />
             <p>
-                Just Joshin pt. 2 will play against Kirk Thuggins & The Boys in week 6, and Crashee Rice gets matched up against First Down Syndrome.
+                Just Joshin pt. 2 will play against Kirk Thuggins & The Boys in week 7, and Crashee Rice gets matched up against First Down Syndrome.
             </p>
         </div>
     )
@@ -122,7 +122,7 @@ const MatchupArticleFour = () => {
             </p>
             <MatchupPlot data={starterData} matchupId={4} />
             <p>
-                Hot Dog Enjoyer will play against Pink Pony Kupp in MotW in week 6, and Calvin's Cold Streak gets matched up against Poor Management.
+                Hot Dog Enjoyer will play against Pink Pony Kupp in MotW in week 7, and Calvin's Cold Streak gets matched up against Poor Management.
             </p>
         </div>
     )
@@ -311,7 +311,7 @@ const LeagueBuzzArticle = () => {
             <p>
                 It appears some managers don't even know what FAAB is or how Lazard was traded for such currency. This league can be illiterate at times, which is ironic with how much written content is made available to them every week. There is a meme about just how illiterate this league can be in the meme section.
             </p>
-            <ArticleSubheader>Embarring Standings</ArticleSubheader>
+            <ArticleSubheader>Embarrassing Standings</ArticleSubheader>
             <LeagueQuote>
                 "I'm embarrassed to have the same record as Alec"<br />- Anthony
             </LeagueQuote>

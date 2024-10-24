@@ -733,11 +733,13 @@ const CustomLabel = (props) => {
     let nickname = hasLabel && datum.nickname ? ` (${datum.nickname})` : '';
     const label = hasLabel ? ` - ${datum.label}` : '';
 
-    // Special case: "Jake Bates" and nickname "Master"
-    if (fullName === 'Jake Bates' && datum.nickname === 'Master') {
-        // Split fullName into "Jake" and "Bates"
-        fullName = 'Jake';
-        nickname = 'Master';
+    // Split full name into first and last name based on the first space
+    let firstName = '';
+    let lastName = '';
+    if (fullName) {
+        const nameParts = fullName.split(' ');
+        firstName = nameParts[0];
+        lastName = nameParts.slice(1).join(' '); // Join the remaining parts in case of multiple last names
     }
 
     // Assuming points represent the height of the bar segment
@@ -753,18 +755,12 @@ const CustomLabel = (props) => {
         <g transform={`translate(${x}, ${yPos})`}>
             {/* Render the full name, nickname inline with smaller font, and label */}
             <text textAnchor="middle" fontSize={10} fill="#000">
-                {fullName === 'Jake' ? (
+                {fullName && (
                     <>
-                        {/* Special case for "Jake (Master) Bates" */}
-                        <tspan>{fullName}</tspan>
-                        <tspan fontSize={7}> ({nickname}) </tspan>
-                        <tspan>Bates</tspan>
-                    </>
-                ) : (
-                    <>
-                        {/* Regular case for other names */}
-                        <tspan>{fullName}</tspan>
+                        {/* Always insert the nickname in the middle */}
+                        <tspan>{firstName}</tspan>
                         {nickname && <tspan fontSize={8}>{nickname}</tspan>}
+                        {lastName && <tspan> {lastName}</tspan>}
                     </>
                 )}
                 <tspan>{label}</tspan>

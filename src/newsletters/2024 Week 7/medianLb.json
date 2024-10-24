@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Costo Guys",
+    "W": 10,
+    "L": 4,
+    "PF": 902.1,
+    "PA": 745.58,
+    "PFColor": "#227740",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "Giving Me a Chubb",
+    "W": 9,
+    "L": 5,
+    "PF": 849.6,
+    "PA": 829.28,
+    "PFColor": "#9fc2a6",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 3,
+    "Diff": 2,
+    "Team": "Pink Pony Kupp",
+    "W": 9,
+    "L": 5,
+    "PF": 837.24,
+    "PA": 845.84,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#eeb0ae"
+  },
+  {
+    "Rank": 4,
+    "Diff": -2,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 9,
+    "L": 5,
+    "PF": 809.42,
+    "PA": 748.06,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 5,
+    "Diff": -1,
+    "Team": "Twin Bowers",
+    "W": 8,
+    "L": 6,
+    "PF": 841.56,
+    "PA": 899.5,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 6,
+    "Diff": 1,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 7,
+    "L": 7,
+    "PF": 873.74,
+    "PA": 856.66,
+    "PFColor": "#649c71",
+    "PAColor": "#e38f8d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 1,
+    "Team": "Youngster Joey",
+    "W": 7,
+    "L": 7,
+    "PF": 806.24,
+    "PA": 840.74,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 8,
+    "Diff": -2,
+    "Team": "ACL Hospital Ward",
+    "W": 7,
+    "L": 7,
+    "PF": 793.28,
+    "PA": 721.5,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 9,
+    "Diff": 3,
+    "Team": "First Down Syndrome",
+    "W": 6,
+    "L": 8,
+    "PF": 719.98,
+    "PA": 828.06,
+    "PFColor": "#bc293d",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 10,
+    "Diff": -1,
+    "Team": "MOTW Prophecy Believer",
+    "W": 5,
+    "L": 9,
+    "PF": 780.86,
+    "PA": 778.86,
+    "PFColor": "#f1bcb9",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "Calvin’s Cold Streak",
+    "W": 4,
+    "L": 10,
+    "PF": 756.6,
+    "PA": 840.06,
+    "PFColor": "#df8482",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 12,
+    "Diff": -1,
+    "Team": "Poor Management",
+    "W": 3,
+    "L": 11,
+    "PF": 768.02,
+    "PA": 804.5,
+    "PFColor": "#e79a98",
+    "PAColor": "#e7efe8"
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/7c688496641551d7b7b78614a01d2fb7.jpg",
+    "name": "MOTW Prophecy Believer",
+    "value": "Scored 156.2 points",
+    "description": "This is the #3 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 81.16 points",
+    "description": "This is the #3 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/4a9fbc385d999be4b4c4d6a2e170543d",
+    "name": "Calvin’s Cold Streak",
+    "value": "Scored 104.58 points in their win",
+    "description": "This is the #4 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Scored 118.54 points in their loss",
+    "description": "This is the #11 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/7c688496641551d7b7b78614a01d2fb7.jpg",
+    "name": "MOTW Prophecy Believer",
+    "value": "Defeated Pink Pony Kupp by 37.66 points",
+    "description": "This is the #6 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/4a9fbc385d999be4b4c4d6a2e170543d",
+    "name": "Calvin’s Cold Streak",
+    "value": "Defeated Poor Management by 4.14 points",
+    "description": "This is the #6 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Left 32.7 points on the bench",
+    "description": "This is the #10 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Left 0.9 points on the bench",
+    "description": "This is the #8 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4881.jpg",
+    "name": "Lamar Jackson",
+    "value": "Scored 34.44 points for Costo Guys which was 26.44% of the team total",
+    "description": "This is the #6 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/8136.jpg",
+    "name": "Rachaad White",
+    "value": "Scored 29.1 points on the bench for Twin Bowers",
+    "description": "This is the #3 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4881.jpg",
+    "name": "Lamar Jackson",
+    "value": "Scored 34.44 points for Costo Guys",
+    "description": "This is the #1 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/9221.jpg",
+    "name": "Jahmyr Gibbs (Sonic)",
+    "value": "Scored 32 points for Pink Pony Kupp",
+    "description": "This is the #6 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "name": "Amon-Ra St. Brown (Please save me)",
+    "value": "Scored 25.2 points for ACL Hospital Ward",
+    "description": "This is the #20 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/4033.jpg",
+    "name": "David Njoku (Anchor pt3)",
+    "value": "Scored 23.6 points for Costo Guys",
+    "description": "This is the #4 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/8259.jpg",
+    "name": "Cameron Dicker",
+    "value": "Scored 22.6 points for MOTW Prophecy Believer",
+    "description": "This is the #2 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/den.png",
+    "name": "DEN",
+    "value": "Scored 20 points for ACL Hospital Ward",
+    "description": "This is the #4 DEF performance of the season"
+  }
+]
