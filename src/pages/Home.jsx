@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ColorConstants } from '../components/constants/ColorConstants';
 
 const GridContainer = styled.div`
     display: grid;
@@ -11,23 +10,23 @@ const GridContainer = styled.div`
 `;
 
 const RecentGridItem = styled.button`
-    background-color: ${ColorConstants.newsBlue};
-    border: 1px solid ${ColorConstants.newsBlue};
+    background-color: ${({ theme }) => theme.newsBlue};
+    border: 1px solid ${({ theme }) => theme.newsBlue};
     border-radius: 50px;
     padding: 20px;
     cursor: pointer;
     text-align: center;
-    color: ${ColorConstants.background}; /* Set the desired text color */
+    color: ${({ theme }) => theme.background};
 `;
 
 const GridItem = styled.button`
-    background-color: ${ColorConstants.background};
-    border: 1px solid ${ColorConstants.newsBlue};
+    background-color: ${({ theme }) => theme.background};
+    border: 1px solid ${({ theme }) => theme.newsBlue};
     border-radius: 50px;
     padding: 20px;
     cursor: pointer;
     text-align: center;
-    color: ${ColorConstants.newsBlue}; /* Set the desired text color */
+    color: ${({ theme }) => theme.newsBlue};
 `;
 
 const BannerImage = styled.img`
@@ -40,10 +39,11 @@ function Home() {
     const navigate = useNavigate();
 
     const mostRecentIssue = [
-        '2024 Week 7',
+        '2024 Week 8',
     ]
 
     const newsletterIssues = [
+        '2024 Week 7',
         '2024 Week 6',
         '2024 Week 5',
         '2024 Week 4',

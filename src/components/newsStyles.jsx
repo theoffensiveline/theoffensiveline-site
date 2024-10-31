@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { VictoryChart, VictoryHistogram, VictoryStack, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryLine, VictoryScatter, VictoryContainer } from 'victory';
 import React from 'react';
 import { ColorConstants, colorsByPosition } from '../components/constants/ColorConstants.ts';
@@ -9,8 +9,8 @@ export const NewsletterContainer = styled.div`
     padding: 4px;
     font-family: 'Playfair Display', sans-serif;
     font-size: 14px;
-    color: ${ColorConstants.text};
-    background-color: ${ColorConstants.background};
+    color: ${({ theme }) => theme.text};
+    background-color: ${({ theme }) => theme.background};
 `;
 
 export const NewsletterTitle = styled.h1`
@@ -31,8 +31,8 @@ export const NewsletterTitle = styled.h1`
 
 export const DateBar = styled.div`
     text-transform: uppercase;
-    border-bottom: 2px solid ${ColorConstants.text};
-    border-top: 2px solid ${ColorConstants.text};
+    border-bottom: 2px solid ${({ theme }) => theme.text};
+    border-top: 2px solid ${({ theme }) => theme.text};
     padding: 12px 0 12px 0;
     text-align: center;
 `;
@@ -62,7 +62,7 @@ export const ArticleSubheader = styled.div`
     margin: 0 auto;
 
     &:before {
-        border-top: 1px solid ${ColorConstants.text};
+        border-top: 1px solid ${({ theme }) => theme.text};
         content: '';
         width: 250px;
         height: 7px;
@@ -71,7 +71,7 @@ export const ArticleSubheader = styled.div`
     }
 
     &:after {
-        border-bottom: 1px solid ${ColorConstants.text};
+        border-bottom: 1px solid ${({ theme }) => theme.text};
         content: '';
         width: 250px;
         height: 7px;
@@ -90,12 +90,17 @@ export const StyledTable = styled.table`
     th, td {
         border: 1px solid #000;
         padding: 5px;
-        text-align: left;
+        color: ${({ theme }) => theme.text};
     }
 
     th {
-        color: ${ColorConstants.text};
-        background-color: #d6d6d6;
+        color: ${({ theme }) => theme.background};
+        background-color: ${({ theme }) => theme.text};
+        text-align: center;
+    }
+
+    td {
+        text-align: left;
     }
 
     .wrap-cell {
@@ -147,7 +152,7 @@ export const ArticleCaption = styled.figcaption`
     font-style: italic;
     font-size: 12px;
     font-family: 'Playfair Display', serif;
-    color: ${ColorConstants.text};
+    color: ${({ theme }) => theme.text};
 `;
 
 export const AwardsTable = ({ awardsData }) => {
@@ -198,7 +203,7 @@ const AwardsContainer = styled.div`
 `;
 
 const Award = styled.div`
-    border: 1px solid ${ColorConstants.text};
+    border: 1px solid ${({ theme }) => theme.text};
     border-radius: 8px;
     overflow: hidden;
     width: 100%;
@@ -242,6 +247,7 @@ const Award = styled.div`
 `;
 
 export const EfficiencyChart = ({ chartData }) => {
+    const theme = useTheme();
     const teamNames = chartData.map(item => item.team_name);
     const maxPoints = chartData.map(item => item.max_points);
     const actualPoints = chartData.map(item => item.actual_points);
@@ -277,7 +283,10 @@ export const EfficiencyChart = ({ chartData }) => {
         >
             <VictoryAxis
                 dependentAxis
-                style={{ axis: { width: 0, height: 0 } }}
+                style={{
+                    axis: { width: 0, height: 0 },
+                    tickLabels: { fill: theme.text },
+                }}
                 tickValues={bins}
                 gridComponent={<line
                     style={{ stroke: 'grey', strokeDasharray: '4 4' }}
@@ -287,14 +296,20 @@ export const EfficiencyChart = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'Actual Points', symbol: { fill: ColorConstants.newsBlue } },
-                    { name: 'Max Points', symbol: { fill: ColorConstants.neutral3 } },
+                    { name: 'Actual Points', symbol: { fill: theme.newsBlue } },
+                    { name: 'Max Points', symbol: { fill: theme.neutral3 } },
                 ]}
+                style={{
+                    labels: { fill: theme.text },
+                }}
             />
             <VictoryBar
                 barWidth={15}
                 cornerRadius={3}
-                style={{ data: { fill: ColorConstants.neutral3 } }}
+                style={{
+                    data: { fill: theme.neutral3 },
+                    labels: { fill: theme.text },
+                }}
                 data={data}
                 x="team_name"
                 y="Max Points"
@@ -305,7 +320,7 @@ export const EfficiencyChart = ({ chartData }) => {
             <VictoryBar
                 barWidth={15}
                 cornerRadius={3}
-                style={{ data: { fill: ColorConstants.newsBlue } }}
+                style={{ data: { fill: theme.newsBlue } }}
                 data={data}
                 x="team_name"
                 y="Actual Points"
@@ -334,6 +349,7 @@ export const MotWRules = () => {
 }
 
 export const StackedHistogram = ({ chartData }) => {
+    const theme = useTheme();
     const maxScore = Math.ceil(Math.max(...chartData.map(entry => entry.team_points)));
     const minScore = Math.floor(Math.min(...chartData.map(entry => entry.team_points)));
 
@@ -363,12 +379,18 @@ export const StackedHistogram = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'This Week', symbol: { fill: ColorConstants.newsBlue } },
-                    { name: 'Historic', symbol: { fill: ColorConstants.neutral3 } },
+                    { name: 'This Week', symbol: { fill: theme.newsBlue } },
+                    { name: 'Historic', symbol: { fill: theme.neutral3 } },
                 ]}
+                style={{
+                    labels: { fill: theme.text },
+                }}
             />
             <VictoryAxis
                 tickCount={Math.round(bins.length / 2.5)}
+                style={{
+                    tickLabels: { fill: theme.text },
+                }}
             />
             <VictoryAxis
                 dependentAxis
@@ -376,16 +398,19 @@ export const StackedHistogram = ({ chartData }) => {
                 gridComponent={<line
                     style={{ stroke: 'grey', strokeDasharray: '4 4' }}
                 />}
+                style={{
+                    tickLabels: { fill: theme.text },
+                }}
             />
             <VictoryStack colorScale="qualitative">
                 <VictoryHistogram
-                    style={{ data: { fill: ColorConstants.newsBlue } }}
+                    style={{ data: { fill: theme.newsBlue } }}
                     cornerRadius={3}
                     data={thisWeekData}
                     x="team_points"
                     bins={bins} />
                 <VictoryHistogram
-                    style={{ data: { fill: ColorConstants.neutral3 } }}
+                    style={{ data: { fill: theme.neutral3 } }}
                     cornerRadius={3}
                     data={historicData}
                     x="team_points"
@@ -397,6 +422,7 @@ export const StackedHistogram = ({ chartData }) => {
 };
 
 export const ShotsDistributionChart = ({ chartData }) => {
+    const theme = useTheme();
     // Assuming bins is an array of your desired bin values
     const bins = [1, 2, 3, 4, 5, 6, 7, 8, 9]; // Update with your actual bin values
 
@@ -417,13 +443,12 @@ export const ShotsDistributionChart = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'MotW', symbol: { fill: ColorConstants.newsBlue } },
-                    { name: 'Not MotW', symbol: { fill: ColorConstants.neutral3 } },
+                    { name: 'MotW', symbol: { fill: theme.newsBlue } },
+                    { name: 'Not MotW', symbol: { fill: theme.neutral3 } },
                 ]}
-            />
-            <VictoryAxis
-                tickValues={bins}
-                tickFormat={() => ''}
+                style={{
+                    labels: { fill: theme.text },
+                }}
             />
             <VictoryAxis
                 dependentAxis
@@ -431,17 +456,22 @@ export const ShotsDistributionChart = ({ chartData }) => {
                 gridComponent={<line
                     style={{ stroke: 'grey', strokeDasharray: '4 4' }}
                 />}
+                style={{
+                    tickLabels: {
+                        fill: theme.text,
+                    }
+                }}
             />
             <VictoryStack colorScale="qualitative">
                 <VictoryHistogram
-                    style={{ data: { fill: ColorConstants.newsBlue } }}
+                    style={{ data: { fill: theme.newsBlue } }}
                     cornerRadius={3}
                     data={chartData.filter(entry => entry.group === 'MotW')}
                     x="x"
                     bins={bins}
                 />
                 <VictoryHistogram
-                    style={{ data: { fill: ColorConstants.neutral3 } }}
+                    style={{ data: { fill: theme.neutral3 } }}
                     cornerRadius={3}
                     data={chartData.filter(entry => entry.group === 'Not MotW')}
                     x="x"
@@ -455,6 +485,7 @@ export const ShotsDistributionChart = ({ chartData }) => {
                     x={index * 49.2 + 62.5} // Adjust this value for proper positioning
                     y={287} // Adjust this value for proper vertical positioning
                     textAnchor="middle"
+                    style={{ fill: theme.text }}
                 />
             ))}
         </VictoryChart>
@@ -462,6 +493,7 @@ export const ShotsDistributionChart = ({ chartData }) => {
 };
 
 export const WeeklyScoringChart = ({ chartData }) => {
+    const theme = useTheme();
     const data = chartData.map(({ week, team_points, Average, Median, Maximum, Minimum }) => ({
         week,
         team_points,
@@ -487,47 +519,59 @@ export const WeeklyScoringChart = ({ chartData }) => {
                 orientation="horizontal"
                 gutter={20}
                 data={[
-                    { name: 'Maximum', symbol: { fill: ColorConstants.newsBlue } },
-                    { name: 'Average', symbol: { fill: ColorConstants.neutral4 } },
-                    { name: 'Median', symbol: { fill: ColorConstants.neutral1 } },
-                    { name: 'Minimum', symbol: { fill: ColorConstants.newsRed } },
+                    { name: 'Maximum', symbol: { fill: theme.newsBlue } },
+                    { name: 'Average', symbol: { fill: theme.neutral4 } },
+                    { name: 'Median', symbol: { fill: theme.neutral1 } },
+                    { name: 'Minimum', symbol: { fill: theme.newsRed } },
                 ]}
+                style={{
+                    labels: { fill: theme.text },
+                }}
             />
             <VictoryAxis dependentAxis
                 tickValues={[50, 70, 90, 110, 130, 150, 170, 190]}
+                style={{
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
+                }}
             />
             <VictoryAxis
                 tickCount={data.length / 18}
                 tickFormat={(t) => Math.round(t)}
+                style={{
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
+                }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Maximum"
-                style={{ data: { stroke: ColorConstants.newsBlue, strokeWidth: 2 } }}
+                style={{ data: { stroke: theme.newsBlue, strokeWidth: 2 } }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Average"
-                style={{ data: { stroke: ColorConstants.neutral4, strokeWidth: 2 } }}
+                style={{ data: { stroke: theme.neutral4, strokeWidth: 2 } }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Median"
-                style={{ data: { stroke: ColorConstants.neutral1, strokeWidth: 2 } }}
+                style={{ data: { stroke: theme.neutral1, strokeWidth: 2 } }}
             />
             <VictoryLine
                 data={data}
                 x="week"
                 y="Minimum"
-                style={{ data: { stroke: ColorConstants.newsRed, strokeWidth: 2 } }}
+                style={{ data: { stroke: theme.newsRed, strokeWidth: 2 } }}
             />
             <VictoryScatter
                 data={data}
                 x="week"
                 y="team_points"
+                style={{ data: { fill: theme.text } }}
             />
         </VictoryChart>
     );
@@ -619,7 +663,8 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
                                 return (
                                     <td className="center-column" key={week}
                                         style={{
-                                            backgroundColor: weekData ? weekData.mov_color : "transparent"
+                                            backgroundColor: weekData.mov_color,
+                                            color: ColorConstants['light'].text
                                         }}>
                                         {weekData ? weekData.margin_of_victory : "N/A"}
                                     </td>
@@ -638,6 +683,7 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
 const positionOrder = ["QB", "RB", "WR", "TE", "K", "DEF"];
 
 export const MatchupPlot = ({ data, matchupId }) => {
+    const theme = useTheme();
     // Filter data based on the provided matchupId
     const filteredData = data.filter((team) => team.matchup_id === matchupId);
 
@@ -666,12 +712,14 @@ export const MatchupPlot = ({ data, matchupId }) => {
                 <VictoryAxis
                     tickValues={filteredData.map((team, index) => index + 0.5)}
                     tickFormat={filteredData.map((team) => team.team_name)}
+                    style={{ tickLabels: { fill: theme.text } }}
                 />
                 <VictoryAxis
                     dependentAxis
                     gridComponent={<line
                         style={{ stroke: 'grey', strokeDasharray: '4 4' }}
                     />}
+                    style={{ tickLabels: { fill: theme.text } }}
                 />
                 <VictoryStack colorScale={Object.values(colorsByPosition)}>
                     {uniquePositions.flatMap((position) =>
@@ -700,8 +748,7 @@ export const MatchupPlot = ({ data, matchupId }) => {
                                     fill: colorsByPosition[entry.position],
                                     stroke: '#000',
                                     strokeWidth: 1,
-                                },
-                                labels: { fill: '#000' },
+                                }
                             }}
                             labels={({ datum }) => `${datum.full_name} ${datum.label} ${datum.nickname}`}
                             labelComponent={<CustomLabel />}
@@ -715,7 +762,7 @@ export const MatchupPlot = ({ data, matchupId }) => {
                         x={(index + 0.64) * 188} // Adjust the x position to align with each team's bar
                         y={20} // Adjust the y position to place the label on top
                         text={`${team.totalPoints}`}
-                        style={{ fontSize: 13, fontWeight: 'bold', fill: ColorConstants.text }}
+                        style={{ fontSize: 13, fontWeight: 'bold', fill: theme.text }}
                     />
                 ))}
             </VictoryChart>
@@ -792,19 +839,22 @@ export const MotwTable = ({ motwHistoryData }) => {
                         </td>
                         <td className="center-column"
                             style={{
-                                backgroundColor: weekData.WinnerScoreColor
+                                backgroundColor: weekData.WinnerScoreColor,
+                                color: ColorConstants['light'].text
                             }}>
                             {weekData["Winner Score"]}
                         </td>
                         <td className="center-column"
                             style={{
-                                backgroundColor: weekData.LoserScoreColor
+                                backgroundColor: weekData.LoserScoreColor,
+                                color: ColorConstants['light'].text
                             }}>
                             {weekData["Loser Score"]}</td>
                         <td className="wrap-cell">{weekData["Loser Team"]}</td>
                         <td className="center-column"
                             style={{
-                                backgroundColor: weekData.ShotsDogsColor
+                                backgroundColor: weekData.ShotsDogsColor,
+                                color: ColorConstants['light'].text
                             }}>
                             {weekData["# of Shots/Dogs"]}</td>
                     </tr>
@@ -839,10 +889,10 @@ export const LeaderboardTable = ({ leaderboardData }) => {
                         <td className="center-column">{teamData.W}</td>
                         <td className="center-column">{teamData.L}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.PFColor }}
+                            style={{ backgroundColor: teamData.PFColor, color: ColorConstants['light'].text }}
                         >{teamData.PF}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.PAColor }}
+                            style={{ backgroundColor: teamData.PAColor, color: ColorConstants['light'].text }}
                         >{teamData.PA}</td>
                     </tr>
                 ))}
@@ -876,10 +926,10 @@ export const PowerRankingsTable = ({ powerRankingsData }) => {
                         <td className="center-column">{teamData['Play All W']}</td>
                         <td className="center-column">{teamData['Play All L']}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.TaColor }}
+                            style={{ backgroundColor: teamData.TaColor, color: ColorConstants['light'].text }}
                         >{teamData['Team Ability']}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.SosColor }}
+                            style={{ backgroundColor: teamData.SosColor, color: ColorConstants['light'].text }}
                         >{teamData['Str of Sched']}</td>
                     </tr>
                 ))}
@@ -911,18 +961,24 @@ export const PlayoffTable = ({ playoffData }) => {
                         <td className="center-column">{teamData.W}</td>
                         <td className="center-column">{teamData.L}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.PlayoffColor }}
+                            style={{
+                                backgroundColor: teamData.PlayoffColor,
+                                color: ColorConstants['light'].text
+                            }}
                         >{teamData['Play-off %']}</td>
-                        <td className="wrap-cell"
+                        <td className="center-column"
                             style={{
                                 backgroundColor: teamData.PlayoffMagicColor,
                                 whiteSpace: 'nowrap', // Prevent text wrapping
                             }}
                         >{teamData['Play-off #']}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.LastColor }}
+                            style={{
+                                backgroundColor: teamData.LastColor,
+                                color: ColorConstants['light'].text
+                            }}
                         >{teamData['Last %']}</td>
-                        <td className="wrap-cell"
+                        <td className="center-column"
                             style={{
                                 backgroundColor: teamData.LastMagicColor,
                                 whiteSpace: 'nowrap', // Prevent text wrapping
@@ -953,6 +1009,22 @@ export const CustomDataComponent = (props) => {
 };
 
 export const PfPaScatter = ({ leaderboardData }) => {
+    const theme = useTheme();
+
+    // Find min/max values for PF and PA to set label positions
+    const minPF = Math.min(...leaderboardData.map((d) => d.PF));
+    const maxPF = Math.max(...leaderboardData.map((d) => d.PF));
+    const minPA = Math.min(...leaderboardData.map((d) => d.PA));
+    const maxPA = Math.max(...leaderboardData.map((d) => d.PA));
+
+    // Corner labels with text color and padding for each word
+    const cornerLabels = [
+        { lines: ["Unlucky", "and", "Bad"], colors: [theme.newsRed, theme.text, theme.newsRed], x: minPF, y: maxPA, dx: 10, dy: 20 },
+        { lines: ["Unlucky", "and", "Good"], colors: [theme.newsRed, theme.text, theme.newsBlue], x: maxPF, y: maxPA, dx: -10, dy: 20 },
+        { lines: ["Lucky", "and", "Bad"], colors: [theme.newsBlue, theme.text, theme.newsRed], x: minPF, y: minPA, dx: 10, dy: 10 },
+        { lines: ["Lucky", "and", "Good"], colors: [theme.newsBlue, theme.text, theme.newsBlue], x: maxPF, y: minPA, dx: -10, dy: 10 },
+    ];
+
     return (
         <VictoryChart
             containerComponent={
@@ -967,8 +1039,8 @@ export const PfPaScatter = ({ leaderboardData }) => {
         >
             <VictoryLine
                 data={[
-                    { x: Math.min(...leaderboardData.map((d) => d.PF)), y: Math.min(...leaderboardData.map((d) => d.PA)) },
-                    { x: Math.max(...leaderboardData.map((d) => d.PF)), y: Math.max(...leaderboardData.map((d) => d.PA)) },
+                    { x: minPF, y: minPA },
+                    { x: maxPF, y: maxPA },
                 ]}
                 style={{
                     data: { stroke: 'grey', strokeWidth: 0.5, strokeDasharray: '4, 4' },
@@ -984,7 +1056,9 @@ export const PfPaScatter = ({ leaderboardData }) => {
             <VictoryAxis
                 label="Points For"
                 style={{
-                    axisLabel: { padding: 30 },
+                    axisLabel: { padding: 30, fill: theme.text },
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
                 }}
             />
             {/* Y-axis */}
@@ -992,8 +1066,32 @@ export const PfPaScatter = ({ leaderboardData }) => {
                 dependentAxis
                 label="Points Against"
                 style={{
-                    axisLabel: { padding: 50 },
+                    axisLabel: { padding: 50, fill: theme.text },
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
                 }}
+            />
+            {/* Corner labels using multi-line labels with different colors */}
+            <VictoryScatter
+                data={cornerLabels}
+                x="x"
+                y="y"
+                size={0}
+                labels={({ datum }) => datum.lines}
+                style={{
+                    data: { fill: theme.background }
+                }}
+                labelComponent={
+                    <VictoryLabel
+                        dx={({ datum }) => datum.dx}
+                        dy={({ datum }) => datum.dy}
+                        style={[
+                            { fill: ({ datum }) => datum.colors[0] },
+                            { fill: ({ datum }) => datum.colors[1] },
+                            { fill: ({ datum }) => datum.colors[2] },
+                        ]}
+                    />
+                }
             />
         </VictoryChart>
     );
@@ -1024,10 +1122,10 @@ export const AltLeaderboardTable = ({ data }) => {
                         <td className="center-column">{teamData.W}</td>
                         <td className="center-column">{teamData.L}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.PFColor }}
+                            style={{ backgroundColor: teamData.PFColor, color: ColorConstants['light'].text }}
                         >{teamData.PF}</td>
                         <td className="center-column"
-                            style={{ backgroundColor: teamData.PAColor }}
+                            style={{ backgroundColor: teamData.PAColor, color: ColorConstants['light'].text }}
                         >{teamData.PA}</td>
                     </tr>
                 ))}
@@ -1097,6 +1195,8 @@ const getOpponentList = (records, teamName) => {
 };
 
 export const DangerTable = ({ data }) => {
+    const theme = useTheme();
+
     // Extract headers from the keys of the first object in the data array
     const headers = Object.keys(data[0]).filter(header => !header.endsWith('_color') && header !== 'Team');
 
@@ -1133,6 +1233,7 @@ export const DangerTable = ({ data }) => {
                                         style={{
                                             backgroundColor: backgroundColor || 'transparent',
                                             textAlign: header === 'Team' ? 'left' : 'center',
+                                            color: header === 'Team' ? theme.text : ColorConstants['light'].text
                                         }}
                                     >
                                         {cellValue}

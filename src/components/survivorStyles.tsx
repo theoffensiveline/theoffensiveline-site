@@ -10,8 +10,8 @@ export const SurvivorContainer = styled.div`
   padding: 4px;
   font-family: "Playfair Display", sans-serif;
   font-size: 16px;
-  color: ${ColorConstants.text};
-  background-color: ${ColorConstants.background};
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.background};
 `;
 
 export const SurvivorTitle = styled.h1`
@@ -125,7 +125,7 @@ export const SurvivorMatchupPosition = styled.div<{ position: string }>`
           ${colorsByPosition.TE} 100%
         )
       `
-      : colorsByPosition[props.position] || ColorConstants.background};
+      : colorsByPosition[props.position] || ColorConstants["light"].background};
   width: 100%;
 `;
 
@@ -159,10 +159,10 @@ export const SurvivorMatchupSectionTitle = styled.h3`
 
 export const SurvivorButton = styled.button`
   padding: 10px 20px;
-  background-color: ${ColorConstants.newsBlue};
+  background-color: ${ColorConstants["light"].newsBlue};
   border: none;
   border-radius: 5px;
-  color: ${ColorConstants.background};
+  color: ${ColorConstants["light"].background};
   cursor: pointer;
 `;
 
@@ -181,7 +181,7 @@ const spin = keyframes`
 // Styled spinner component
 const Spinner = styled.div`
   border: 8px solid #f3f3f3; /* Light grey background */
-  border-top: 8px solid ${ColorConstants.newsBlue}; /* Blue spinner */
+  border-top: 8px solid ${ColorConstants["light"].newsBlue}; /* Blue spinner */
   border-radius: 50%;
   width: 60px;
   height: 60px;

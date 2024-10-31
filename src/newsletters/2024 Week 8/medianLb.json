@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 1,
+    "Team": "Costo Guys",
+    "W": 11,
+    "L": 5,
+    "PF": 1035.46,
+    "PA": 895.6,
+    "PFColor": "#227740",
+    "PAColor": "#589567"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "Pink Pony Kupp",
+    "W": 11,
+    "L": 5,
+    "PF": 976.62,
+    "PA": 949.28,
+    "PFColor": "#abc9b1",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 3,
+    "Diff": -2,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 11,
+    "L": 5,
+    "PF": 959.44,
+    "PA": 881.42,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#327e4a"
+  },
+  {
+    "Rank": 4,
+    "Diff": 1,
+    "Team": "Giving Me a Chubb",
+    "W": 9,
+    "L": 7,
+    "PF": 950.74,
+    "PA": 956.22,
+    "PFColor": "#e7efe8",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 5,
+    "Diff": -1,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 8,
+    "L": 8,
+    "PF": 990.28,
+    "PA": 967.86,
+    "PFColor": "#88b290",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 6,
+    "Diff": 0,
+    "Team": "Twin Bowers",
+    "W": 8,
+    "L": 8,
+    "PF": 945,
+    "PA": 1038.88,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 4,
+    "Team": "First Down Syndrome",
+    "W": 8,
+    "L": 8,
+    "PF": 846.92,
+    "PA": 929.2,
+    "PFColor": "#bc293d",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 8,
+    "Diff": -1,
+    "Team": "League Camera Prophecy ",
+    "W": 7,
+    "L": 9,
+    "PF": 941.66,
+    "PA": 876.7,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "Youngster Joey",
+    "W": 7,
+    "L": 9,
+    "PF": 921.42,
+    "PA": 962.62,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#fbe8e7"
+  },
+  {
+    "Rank": 10,
+    "Diff": -2,
+    "Team": "Just a Hospital Ward",
+    "W": 7,
+    "L": 9,
+    "PF": 891.12,
+    "PA": 882.3,
+    "PFColor": "#e38f8d",
+    "PAColor": "#327e4a"
+  },
+  {
+    "Rank": 11,
+    "Diff": -2,
+    "Team": "Calvin’s Cold Streak",
+    "W": 6,
+    "L": 10,
+    "PF": 878.48,
+    "PA": 955.24,
+    "PFColor": "#da7878",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Fortnite Master Builder",
+    "W": 3,
+    "L": 13,
+    "PF": 879.22,
+    "PA": 921.04,
+    "PFColor": "#da7878",
+    "PAColor": "#9fc2a6"
+  }
+]

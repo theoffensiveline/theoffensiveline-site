@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/fcee09bed6308689d4624049e906320d.jpg",
+    "name": "League Camera Prophecy ",
+    "value": "Scored 160.8 points",
+    "description": "This is the #2 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3496bf9d13b82c5fab803ed9afeaceb7",
+    "name": "Just a Hospital Ward",
+    "value": "Scored 97.84 points",
+    "description": "This is the #18 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Scored 116.54 points in their win",
+    "description": "This is the #12 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Scored 133.36 points in their loss",
+    "description": "This is the #3 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/fcee09bed6308689d4624049e906320d.jpg",
+    "name": "League Camera Prophecy ",
+    "value": "Defeated Just a Hospital Ward by 62.96 points",
+    "description": "This is the #2 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Defeated Fortnite Master Builder by 5.34 points",
+    "description": "This is the #7 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Giving Me a Chubb",
+    "value": "Left 50.84 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Left 0.48 points on the bench",
+    "description": "This is the #7 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/6904.jpg",
+    "name": "Jalen Hurts",
+    "value": "Scored 35.14 points for First Down Syndrome which was 27.68% of the team total",
+    "description": "This is the #5 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/11563.jpg",
+    "name": "Bo Nix (fraud)",
+    "value": "Scored 29.76 points on the bench for Just a Hospital Ward",
+    "description": "This is the #3 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/6904.jpg",
+    "name": "Jalen Hurts",
+    "value": "Scored 35.14 points for First Down Syndrome",
+    "description": "This is the #1 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/8138.jpg",
+    "name": "James Cook",
+    "value": "Scored 28.3 points for Just a Hospital Ward",
+    "description": "This is the #12 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/6786.jpg",
+    "name": "CeeDee Lamb",
+    "value": "Scored 39.6 points for League Camera Prophecy ",
+    "description": "This is the #2 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8111.jpg",
+    "name": "Cade Otton",
+    "value": "Scored 29.1 points for Just Joshin pt. 2 ",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/1945.jpg",
+    "name": "Chris Boswell",
+    "value": "Scored 14.1 points for Costo Guys",
+    "description": "This is the #19 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/det.png",
+    "name": "DET",
+    "value": "Scored 17 points for Just Joshin pt. 2 ",
+    "description": "This is the #7 DEF performance of the season"
+  }
+]

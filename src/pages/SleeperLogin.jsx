@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ColorConstants } from '../components/constants/ColorConstants';
 
 const Container = styled.div`
     display: flex;
@@ -26,18 +25,18 @@ const Input = styled.input`
 
 const Button = styled.button`
     padding: 10px 20px;
-    background-color: ${ColorConstants.neutral3};
+    background-color: ${({ theme }) => theme.neutral3};
     border: none;
     border-radius: 5px;
-    color: ${ColorConstants.background};
+    color:${({ theme }) => theme.background};
     cursor: pointer;
 `;
 
 const LeagueItem = styled.div`
     display: flex;
     align-items: center;
-    background-color: ${ColorConstants.background};
-    border: 1px solid ${ColorConstants.neutral3};
+    background-color: ${({ theme }) => theme.background};
+    border: 1px solid ${({ theme }) => theme.neutral3};
     border-radius: 10px;
     padding: 15px;
     margin: 10px 0;
@@ -55,7 +54,7 @@ const LeaguePhoto = styled.img`
 
 const LeagueName = styled.span`
     font-size: 18px;
-    color: ${ColorConstants.text};
+    color: ${({ theme }) => theme.text};
     flex-grow: 1;
 `;
 

@@ -10,11 +10,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useTheme } from '../ThemeContext';
 
 const pages = ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor'];
 
 function NavBar() {
     const location = useLocation();
+    const { theme, toggleTheme } = useTheme(); // Get theme state and toggle function from context
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -134,9 +138,14 @@ function NavBar() {
                             </Button>
                         ))}
                     </Box>
+                    {/* Theme toggle button in the top-right corner */}
+                    <IconButton onClick={toggleTheme} color="inherit">
+                        {theme === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+                    </IconButton>
                 </Toolbar>
             </Container>
         </AppBar>
     );
 }
+
 export default NavBar;

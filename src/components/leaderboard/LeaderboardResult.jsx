@@ -5,7 +5,6 @@ const ResultContainer = styled.div`
     width: 100%;
     height: 3rem;
     align-items: center;
-    color: black;
     display: flex;
     border-top: 2px solid indianred;
 `;
