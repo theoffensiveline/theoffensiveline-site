@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 2,
+    "Team": "Just Joshin pt. 2 ",
+    "Play All W": 59,
+    "Play All L": 40,
+    "Team Ability": 60.04,
+    "Str of Sched": 45.01,
+    "TaColor": "#7cab86",
+    "SosColor": "#9fc2a6"
+  },
+  {
+    "P Rank": 2,
+    "Trend": -1,
+    "Team": "Costo Guys",
+    "Play All W": 64,
+    "Play All L": 35,
+    "Team Ability": 64.99,
+    "Str of Sched": 44.02,
+    "TaColor": "#227740",
+    "SosColor": "#94ba9b"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 3,
+    "Team": "Giving Me a Chubb",
+    "Play All W": 59,
+    "Play All L": 40,
+    "Team Ability": 60.04,
+    "Str of Sched": 55.99,
+    "TaColor": "#7cab86",
+    "SosColor": "#f9dddc"
+  },
+  {
+    "P Rank": 4,
+    "Trend": 1,
+    "Team": "League Camera Prophecy ",
+    "Play All W": 51,
+    "Play All L": 48,
+    "Team Ability": 52.03,
+    "Str of Sched": 35.02,
+    "TaColor": "#f3f7f3",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 5,
+    "Trend": -3,
+    "Team": "Pink Pony Kupp",
+    "Play All W": 56,
+    "Play All L": 43,
+    "Team Ability": 56.98,
+    "Str of Sched": 52.03,
+    "TaColor": "#abc9b1",
+    "SosColor": "#f3f7f3"
+  },
+  {
+    "P Rank": 6,
+    "Trend": 1,
+    "Team": "Twin Bowers",
+    "Play All W": 50,
+    "Play All L": 49,
+    "Team Ability": 51.04,
+    "Str of Sched": 71.02,
+    "TaColor": "#fbe8e7",
+    "SosColor": "#bc293d"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 1,
+    "Team": "Youngster Joey",
+    "Play All W": 49,
+    "Play All L": 50,
+    "Team Ability": 49.96,
+    "Str of Sched": 55,
+    "TaColor": "#f9dddc",
+    "SosColor": "#fbe8e7"
+  },
+  {
+    "P Rank": 8,
+    "Trend": -4,
+    "Team": "Kirk Thuggins & The Boys",
+    "Play All W": 51,
+    "Play All L": 48,
+    "Team Ability": 52.03,
+    "Str of Sched": 62.02,
+    "TaColor": "#f3f7f3",
+    "SosColor": "#e79a98"
+  },
+  {
+    "P Rank": 9,
+    "Trend": 0,
+    "Team": "Calvin’s Cold Streak",
+    "Play All W": 40,
+    "Play All L": 59,
+    "Team Ability": 40.96,
+    "Str of Sched": 51.04,
+    "TaColor": "#cc545a",
+    "SosColor": "#e7efe8"
+  },
+  {
+    "P Rank": 10,
+    "Trend": 2,
+    "Team": "Fortnite Master Builder",
+    "Play All W": 39,
+    "Play All L": 60,
+    "Team Ability": 39.97,
+    "Str of Sched": 43.03,
+    "TaColor": "#c23946",
+    "SosColor": "#88b290"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 0,
+    "Team": "First Down Syndrome",
+    "Play All W": 38,
+    "Play All L": 61,
+    "Team Ability": 38.98,
+    "Str of Sched": 45.01,
+    "TaColor": "#bc293d",
+    "SosColor": "#9fc2a6"
+  },
+  {
+    "P Rank": 12,
+    "Trend": -2,
+    "Team": "Just a Hospital Ward",
+    "Play All W": 38,
+    "Play All L": 61,
+    "Team Ability": 38.98,
+    "Str of Sched": 46.99,
+    "TaColor": "#bc293d",
+    "SosColor": "#b7d1bb"
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Fortnite Master Builder",
+    "value": "Scored 173.4 points",
+    "description": "This is the #2 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3496bf9d13b82c5fab803ed9afeaceb7",
+    "name": "Just a Hospital Ward",
+    "value": "Scored 95.36 points",
+    "description": "This is the #16 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 123 points in their win",
+    "description": "This is the #20 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Scored 136.1 points in their loss",
+    "description": "This is the #2 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Fortnite Master Builder",
+    "value": "Defeated Just a Hospital Ward by 78.04 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Giving Me a Chubb",
+    "value": "Defeated Just Joshin pt. 2  by 4.04 points",
+    "description": "This is the #6 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Left 28.98 points on the bench",
+    "description": "This is the #17 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/4a9fbc385d999be4b4c4d6a2e170543d",
+    "name": "Calvin's Cold Streak",
+    "value": "Left 1.3 points on the bench",
+    "description": "This is the #10 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 32.9 points for Youngster Joey which was 26.04% of the team total",
+    "description": "This is the #9 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/6806.jpg",
+    "name": "J.K. Dobbins",
+    "value": "Scored 24.5 points on the bench for Fortnite Master Builder",
+    "description": "This is the #12 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/6904.jpg",
+    "name": "Jalen Hurts",
+    "value": "Scored 29.9 points for First Down Syndrome",
+    "description": "This is the #7 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 32.9 points for Youngster Joey",
+    "description": "This is the #6 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/9488.jpg",
+    "name": "Jaxon Smith-Njigba",
+    "value": "Scored 37 points for Fortnite Master Builder",
+    "description": "This is the #3 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/1466.jpg",
+    "name": "Travis Kelce",
+    "value": "Scored 22 points for Calvin's Cold Streak",
+    "description": "This is the #10 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/7042.jpg",
+    "name": "Tyler Bass",
+    "value": "Scored 15 points for First Down Syndrome",
+    "description": "This is the #15 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/lac.png",
+    "name": "LAC",
+    "value": "Scored 19 points for League Camera Prophecy ",
+    "description": "This is the #5 DEF performance of the season"
+  }
+]

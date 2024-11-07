@@ -121,6 +121,29 @@ export const StyledTable = styled.table`
     }
 `;
 
+export const StickyTable = styled(StyledTable)`
+  overflow-x: auto; /* Enable horizontal scrolling for the table */
+  display: block; /* Allows horizontal scrolling within this element */
+
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  /* Sticky styles for the first three columns */
+  tbody td:nth-child(1), thead th:nth-child(1) {
+    position: sticky;
+    left: 0;
+    background-color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.background};
+    z-index: 2;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+`;
+
 export const ArticleBlock = styled.div`
     padding: 4px;
     margin: 4px;
@@ -636,7 +659,7 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
     });
 
     return (
-        <StyledTable>
+        <StickyTable>
             <thead>
                 <tr>
                     <th>Team</th>
@@ -674,7 +697,7 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
                     );
                 })}
             </tbody>
-        </StyledTable>
+        </StickyTable>
     );
 };
 

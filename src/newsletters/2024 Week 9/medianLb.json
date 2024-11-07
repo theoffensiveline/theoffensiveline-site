@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 12,
+    "L": 6,
+    "PF": 1095.54,
+    "PA": 1021.56,
+    "PFColor": "#abc9b1",
+    "PAColor": "#88b290"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Costo Guys",
+    "W": 11,
+    "L": 7,
+    "PF": 1151.36,
+    "PA": 1018.6,
+    "PFColor": "#227740",
+    "PAColor": "#88b290"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Giving Me a Chubb",
+    "W": 11,
+    "L": 7,
+    "PF": 1091.48,
+    "PA": 1092.32,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#f4c7c4"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Pink Pony Kupp",
+    "W": 11,
+    "L": 7,
+    "PF": 1084.26,
+    "PA": 1075.62,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#fdf4f3"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "League Camera Prophecy ",
+    "W": 9,
+    "L": 9,
+    "PF": 1068.86,
+    "PA": 976.08,
+    "PFColor": "#e7efe8",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 6,
+    "Diff": 3,
+    "Team": "Youngster Joey",
+    "W": 9,
+    "L": 9,
+    "PF": 1047.76,
+    "PA": 1070.26,
+    "PFColor": "#f9dddc",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 7,
+    "Diff": 4,
+    "Team": "First Down Syndrome",
+    "W": 9,
+    "L": 9,
+    "PF": 969.92,
+    "PA": 1045.7,
+    "PFColor": "#bc293d",
+    "PAColor": "#c3d8c6"
+  },
+  {
+    "Rank": 8,
+    "Diff": -1,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 8,
+    "L": 10,
+    "PF": 1089.66,
+    "PA": 1095.06,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#f4c7c4"
+  },
+  {
+    "Rank": 9,
+    "Diff": -1,
+    "Team": "Twin Bowers",
+    "W": 8,
+    "L": 10,
+    "PF": 1060.22,
+    "PA": 1165.1,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 10,
+    "Diff": -4,
+    "Team": "Calvin’s Cold Streak",
+    "W": 8,
+    "L": 10,
+    "PF": 1004.7,
+    "PA": 1070.46,
+    "PFColor": "#df8482",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "Just a Hospital Ward",
+    "W": 7,
+    "L": 11,
+    "PF": 986.48,
+    "PA": 1055.7,
+    "PFColor": "#cc545a",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Fortnite Master Builder",
+    "W": 5,
+    "L": 13,
+    "PF": 1052.62,
+    "PA": 1016.4,
+    "PFColor": "#fbe8e7",
+    "PAColor": "#7cab86"
+  }
+]

@@ -148,9 +148,6 @@ const MatchupArticleSix = () => {
             <p>
                 Youngster Joey usually relies on his RBs to score big to win, and that didn't happen this week. Saquon was the top RB scorer with 12.1 points, and had 3 TDs vultured by Jalen Hurts. Marvin Harrison and Kyler Murray played well, both scoring over 22 points, but they can't be the only ones cooking if this team wants to win games. Mark Andrews extended his TD streak for National Tight End Day, but that was one of the few highlights from this team. George Pickens nearly had 2 TDs in his MNF game, but ended up with 0 TDs instead. If either of those had counted, Youngster Joey would've won this matchup.
             </p>
-            <p>
-                No managers picked either team in this matchup to win in the survivor pool.
-            </p>
             <MatchupPlot data={starterData} matchupId={6} />
             <p>
                 Calvin's Cold Streak will play against Twin Bowers in week 9. Youngster Joey will play against Pink Pony Kupp in week 9.
