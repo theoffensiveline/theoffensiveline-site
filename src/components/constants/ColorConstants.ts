@@ -10,6 +10,7 @@ export const ColorConstants = {
     neutral5: "#C2C299",
     newsRed: "#FF3366",
     newsBlue: "#20A4F4",
+    yahoo: "#400090",
   },
   dark: {
     link: "#1976d2",
@@ -22,6 +23,7 @@ export const ColorConstants = {
     neutral5: "#C2C299",
     newsRed: "#FF3366",
     newsBlue: "#20A4F4",
+    yahoo: "#400090",
   },
 };
 

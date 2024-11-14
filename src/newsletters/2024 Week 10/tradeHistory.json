@@ -1,0 +1,98 @@
+[
+  {
+    "week": 1,
+    "sleeper_trades_2024": 0,
+    "non_faab_sleeper_2024": 0,
+    "sleeper_trades_2023": 0,
+    "yahoo_trades": 0,
+    "vetoed_yahoo_trades": 0
+  },
+  {
+    "week": 2,
+    "sleeper_trades_2024": 0,
+    "non_faab_sleeper_2024": 0,
+    "sleeper_trades_2023": 1,
+    "yahoo_trades": 0,
+    "vetoed_yahoo_trades": 0
+  },
+  {
+    "week": 3,
+    "sleeper_trades_2024": 0,
+    "non_faab_sleeper_2024": 0,
+    "sleeper_trades_2023": 2,
+    "yahoo_trades": 1,
+    "vetoed_yahoo_trades": 0
+  },
+  {
+    "week": 4,
+    "sleeper_trades_2024": 3,
+    "non_faab_sleeper_2024": 3,
+    "sleeper_trades_2023": 3,
+    "yahoo_trades": 2,
+    "vetoed_yahoo_trades": 0
+  },
+  {
+    "week": 5,
+    "sleeper_trades_2024": 3,
+    "non_faab_sleeper_2024": 3,
+    "sleeper_trades_2023": 4,
+    "yahoo_trades": 2,
+    "vetoed_yahoo_trades": 0
+  },
+  {
+    "week": 6,
+    "sleeper_trades_2024": 5,
+    "non_faab_sleeper_2024": 3,
+    "sleeper_trades_2023": 4,
+    "yahoo_trades": 4,
+    "vetoed_yahoo_trades": 5
+  },
+  {
+    "week": 7,
+    "sleeper_trades_2024": 14,
+    "non_faab_sleeper_2024": 8,
+    "sleeper_trades_2023": 5,
+    "yahoo_trades": 4,
+    "vetoed_yahoo_trades": 5
+  },
+  {
+    "week": 8,
+    "sleeper_trades_2024": 17,
+    "non_faab_sleeper_2024": 11,
+    "sleeper_trades_2023": 5,
+    "yahoo_trades": 7,
+    "vetoed_yahoo_trades": 6
+  },
+  {
+    "week": 9,
+    "sleeper_trades_2024": 19,
+    "non_faab_sleeper_2024": 13,
+    "sleeper_trades_2023": 8,
+    "yahoo_trades": 10,
+    "vetoed_yahoo_trades": 6
+  },
+  {
+    "week": 10,
+    "sleeper_trades_2024": 23,
+    "non_faab_sleeper_2024": 16,
+    "sleeper_trades_2023": 8,
+    "yahoo_trades": 13,
+    "vetoed_yahoo_trades": 6
+  },
+  {
+    "week": 11,
+    "sleeper_trades_2024": null,
+    "non_faab_sleeper_2024": null,
+    "sleeper_trades_2023": 12,
+    "yahoo_trades": 16,
+    "vetoed_yahoo_trades": 7
+  },
+  {
+    "week": 12,
+    "sleeper_trades_2024": null,
+    "non_faab_sleeper_2024": null,
+    "sleeper_trades_2023": 12,
+    "yahoo_trades": 17,
+    "vetoed_yahoo_trades": 7
+  }
+]

@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "Calvin’s Cold Streak",
+      "team2_list": ["Calvin’s Cold Streak", "Fortnite Master Builder"],
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "team2_list": ["League Camera Prophecy "],
+      "wins": 9,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Costo Guys", "League Camera Prophecy "],
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Fortnite Master Builder",
+      "team2_list": ["Costo Guys", "League Camera Prophecy "],
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "team2_list": ["Fortnite Master Builder"],
+      "wins": 8,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "team2_list": ["Costo Guys"],
+      "wins": 9,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Just a Hospital Ward",
+      "team2_list": ["Costo Guys", "Fortnite Master Builder"],
+      "wins": 5,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "team2_list": ["Fortnite Master Builder"],
+      "wins": 7,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "League Camera Prophecy ",
+      "team2_list": ["Pink Pony Kupp"],
+      "wins": 7,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "team2_list": ["First Down Syndrome", "Fortnite Master Builder"],
+      "wins": 7,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "team2_list": ["Just Joshin pt. 2 ", "League Camera Prophecy "],
+      "wins": 7,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "team2_list": ["Pink Pony Kupp"],
+      "wins": 7,
+      "losses": 3,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "Calvin’s Cold Streak",
+      "team2_list": ["Giving Me a Chubb"],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "team2_list": ["Twin Bowers"],
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Twin Bowers"],
+      "wins": 0,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "Fortnite Master Builder",
+      "team2_list": ["Calvin’s Cold Streak"],
+      "wins": 2,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "team2_list": ["Twin Bowers"],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "team2_list": ["Calvin’s Cold Streak", "Twin Bowers"],
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Just a Hospital Ward",
+      "team2_list": ["Youngster Joey"],
+      "wins": 2,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "team2_list": ["Just Joshin pt. 2 "],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "League Camera Prophecy ",
+      "team2_list": ["Fortnite Master Builder"],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "team2_list": ["Twin Bowers"],
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "team2_list": ["Giving Me a Chubb", "Kirk Thuggins & The Boys"],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "team2_list": ["Twin Bowers"],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "Calvin’s Cold Streak",
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Fortnite Master Builder",
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Giving Me a Chubb",
+      "wins": 5,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin pt. 2 ",
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Just a Hospital Ward",
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Kirk Thuggins & The Boys",
+      "wins": 5,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "League Camera Prophecy ",
+      "wins": 5,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Pink Pony Kupp",
+      "wins": 6,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Twin Bowers",
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Youngster Joey",
+      "wins": 5,
+      "losses": 5,
+      "ties": 0
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "Fortnite Master Builder",
+    "Winner Score": 110.96,
+    "Loser Score": 88.14,
+    "Loser Team": "League Camera Prophecy ",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#f9dddc",
+    "LoserScoreColor": "#e38f8d",
+    "ShotsDogsColor": "#f1bcb9"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "First Down Syndrome",
+    "Winner Score": 122.12,
+    "Loser Score": 121.1,
+    "Loser Team": "Fortnite Master Builder",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#f3f7f3",
+    "LoserScoreColor": "#f3f7f3",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 3,
+    "Winner Team": "League Camera Prophecy ",
+    "Winner Score": 106.28,
+    "Loser Score": 64.44,
+    "Loser Team": "First Down Syndrome",
+    "# of Shots/Dogs": 6,
+    "WinnerScoreColor": "#f7d2d0",
+    "LoserScoreColor": "#c23946",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 4,
+    "Winner Team": "Costo Guys",
+    "Winner Score": 157.54,
+    "Loser Score": 123.22,
+    "Loser Team": "League Camera Prophecy ",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#70a37c",
+    "LoserScoreColor": "#e7efe8",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 5,
+    "Winner Team": "Fortnite Master Builder",
+    "Winner Score": 123.94,
+    "Loser Score": 114.42,
+    "Loser Team": "Costo Guys",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#e7efe8",
+    "LoserScoreColor": "#fbe8e7",
+    "ShotsDogsColor": "#b7d1bb"
+  },
+  {
+    "Week": 6,
+    "Winner Team": "Pink Pony Kupp",
+    "Winner Score": 126.52,
+    "Loser Score": 101.48,
+    "Loser Team": "Fortnite Master Builder",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#dbe8dd",
+    "LoserScoreColor": "#f1bcb9",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 7,
+    "Winner Team": "League Camera Prophecy ",
+    "Winner Score": 156.2,
+    "Loser Score": 118.54,
+    "Loser Team": "Pink Pony Kupp",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#70a37c",
+    "LoserScoreColor": "#fdf4f3",
+    "ShotsDogsColor": "#b7d1bb"
+  },
+  {
+    "Week": 8,
+    "Winner Team": "League Camera Prophecy ",
+    "Winner Score": 160.8,
+    "Loser Score": 97.84,
+    "Loser Team": "Just a Hospital Ward",
+    "# of Shots/Dogs": 6,
+    "WinnerScoreColor": "#649c71",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 9,
+    "Winner Team": "League Camera Prophecy ",
+    "Winner Score": 127.2,
+    "Loser Score": 99.38,
+    "Loser Team": "Kirk Thuggins & The Boys",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#dbe8dd",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#b7d1bb"
+  },
+  {
+    "Week": 10,
+    "Winner Team": "Youngster Joey",
+    "Winner Score": 140.64,
+    "Loser Score": 98.52,
+    "Loser Team": "League Camera Prophecy ",
+    "# of Shots/Dogs": 6,
+    "WinnerScoreColor": "#abc9b1",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#bc293d"
+  }
+]

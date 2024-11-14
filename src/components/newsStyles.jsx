@@ -367,6 +367,7 @@ export const MotWRules = () => {
             <p>4. In the case of a tie (pls no), both teams will complete their respective shots or dogs, and
                 both
                 teams will be the incumbent members in the next week's Matchups of the Week.</p>
+            <p>5. Nikhil Clause - If you are granted an extension, and do not meet the extended deadline, the extension is revoked and you owe the full amount of shots or dogs as if it was a normal late penalty.</p>
         </div>
     )
 }
@@ -1268,5 +1269,84 @@ export const DangerTable = ({ data }) => {
                 </tbody>
             </StyledTable>
         </div>
+    );
+};
+
+export const TradesLineChart = ({ tradeHistory }) => { // Destructure tradeHistory from props
+    const theme = useTheme();
+
+    return (
+        <VictoryChart>
+            <VictoryAxis
+                label="Week"
+                style={{
+                    axisLabel: { padding: 30, fill: theme.text },
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
+                }}
+            />
+            <VictoryAxis
+                dependentAxis
+                label="Total Trades"
+                style={{
+                    axisLabel: { padding: 30, fill: theme.text },
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
+                }}
+            />
+            <VictoryLegend
+                orientation="horizontal"
+                x={50}
+                gutter={20}
+                data={[
+                    { name: "2022", symbol: { fill: theme.yahoo } },
+                    { name: "2023", symbol: { fill: theme.neutral3 } },
+                    { name: "2024", symbol: { fill: theme.newsBlue } },
+                    {
+                        name: "2024 w/ Player",
+                        symbol: {
+                            fill: theme.background,
+                            strokeDasharray: "3,3",
+                            strokeWidth: 2,
+                            stroke: theme.newsBlue
+                        }
+                    }
+                    // {name: "Vetoed Yahoo", symbol: {fill: "#FF3366" } }
+                ]}
+                style={{
+                    labels: { fill: theme.text },
+                }}
+            />
+            <VictoryLine
+                data={tradeHistory}
+                x="week"
+                y="yahoo_trades"
+                style={{ data: { stroke: theme.yahoo } }}
+            />
+            <VictoryLine
+                data={tradeHistory}
+                x="week"
+                y="sleeper_trades_2023"
+                style={{ data: { stroke: theme.neutral3 } }}
+            />
+            <VictoryLine
+                data={tradeHistory}
+                x="week"
+                y="non_faab_sleeper_2024"
+                style={{ data: { stroke: theme.newsBlue, strokeDasharray: "3,3" } }}
+            />
+            <VictoryLine
+                data={tradeHistory}
+                x="week"
+                y="sleeper_trades_2024"
+                style={{ data: { stroke: theme.newsBlue } }}
+            />
+            {/* <VictoryLine
+                data={tradeHistory}
+                x="week"
+                y="vetoed_yahoo_trades"
+                style={{ data: { stroke: "#FF3366" } }}
+            /> */}
+        </VictoryChart>
     );
 };

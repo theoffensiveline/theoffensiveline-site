@@ -1,0 +1,86 @@
+[
+  {
+    "week": 10,
+    "team_name": "Costo Guys",
+    "actual_points": 146.6,
+    "max_points": 154.3,
+    "percentage": 95.0097
+  },
+  {
+    "week": 10,
+    "team_name": "Youngster Joey",
+    "actual_points": 140.64,
+    "max_points": 147.34,
+    "percentage": 95.4527
+  },
+  {
+    "week": 10,
+    "team_name": "Calvin’s Cold Streak",
+    "actual_points": 138.08,
+    "max_points": 138.68,
+    "percentage": 99.5673
+  },
+  {
+    "week": 10,
+    "team_name": "Just Joshin pt. 2 ",
+    "actual_points": 121.7,
+    "max_points": 135.5,
+    "percentage": 89.8155
+  },
+  {
+    "week": 10,
+    "team_name": "Pink Pony Kupp",
+    "actual_points": 121.22,
+    "max_points": 130.62,
+    "percentage": 92.8036
+  },
+  {
+    "week": 10,
+    "team_name": "Kirk Thuggins & The Boys",
+    "actual_points": 120.94,
+    "max_points": 127.24,
+    "percentage": 95.0487
+  },
+  {
+    "week": 10,
+    "team_name": "Fortnite Master Builder",
+    "actual_points": 103.82,
+    "max_points": 112.68,
+    "percentage": 92.137
+  },
+  {
+    "week": 10,
+    "team_name": "Twin Bowers",
+    "actual_points": 101.94,
+    "max_points": 113.44,
+    "percentage": 89.8625
+  },
+  {
+    "week": 10,
+    "team_name": "Giving Me a Chubb",
+    "actual_points": 99.04,
+    "max_points": 99.04,
+    "percentage": 100
+  },
+  {
+    "week": 10,
+    "team_name": "League Camera Prophecy ",
+    "actual_points": 98.52,
+    "max_points": 109.22,
+    "percentage": 90.2033
+  },
+  {
+    "week": 10,
+    "team_name": "First Down Syndrome",
+    "actual_points": 82.58,
+    "max_points": 93.18,
+    "percentage": 88.6242
+  },
+  {
+    "week": 10,
+    "team_name": "Just a Hospital Ward",
+    "actual_points": 61.58,
+    "max_points": 73.28,
+    "percentage": 84.0338
+  }
+]
