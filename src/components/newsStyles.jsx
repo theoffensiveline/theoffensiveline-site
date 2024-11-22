@@ -971,7 +971,8 @@ export const PlayoffTable = ({ playoffData }) => {
                     <th>Team</th>
                     <th>W</th>
                     <th>L</th>
-                    <th>Play-off %</th>
+                    <th>Playoff %</th>
+                    <th>WP Playoff %</th>
                     <th>Play-off #</th>
                     <th>Last %</th>
                     <th>Last #</th>
@@ -990,6 +991,12 @@ export const PlayoffTable = ({ playoffData }) => {
                                 color: ColorConstants['light'].text
                             }}
                         >{teamData['Play-off %']}</td>
+                        <td className="center-column"
+                            style={{
+                                backgroundColor: teamData.WPPlayoffColor,
+                                color: ColorConstants['light'].text
+                            }}
+                        >{teamData['WP Playoff %']}</td>
                         <td className="center-column"
                             style={{
                                 backgroundColor: teamData.PlayoffMagicColor,

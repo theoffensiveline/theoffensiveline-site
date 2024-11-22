@@ -39,10 +39,11 @@ function Home() {
     const navigate = useNavigate();
 
     const mostRecentIssue = [
-        '2024 Week 10',
+        '2024 Week 11',
     ]
 
     const newsletterIssues = [
+        '2024 Week 10',
         '2024 Week 9',
         '2024 Week 8',
         '2024 Week 7',

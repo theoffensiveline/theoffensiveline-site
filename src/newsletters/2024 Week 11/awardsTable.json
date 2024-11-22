@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Scored 160.28 points",
+    "description": "This is the #4 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Scored 77.22 points",
+    "description": "This is the #3 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 116.86 points in their win",
+    "description": "This is the #14 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/fcee09bed6308689d4624049e906320d.jpg",
+    "name": "League Camera Prophecy ",
+    "value": "Scored 124.46 points in their loss",
+    "description": "This is the #8 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Defeated Kirk Thuggins & The Boys by 83.06 points",
+    "description": "This is the #2 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Defeated Calvin’s Cold Streak by 2.82 points",
+    "description": "This is the #5 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/fcee09bed6308689d4624049e906320d.jpg",
+    "name": "League Camera Prophecy ",
+    "value": "Left 45.5 points on the bench",
+    "description": "This is the #4 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Left 2.8421709430404e-14 points on the bench",
+    "description": "This is the #8 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4381.jpg",
+    "name": "Taysom Hill",
+    "value": "Scored 41.52 points for First Down Syndrome which was 35.53% of the team total",
+    "description": "This is the #2 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4144.jpg",
+    "name": "Jonnu Smith",
+    "value": "Scored 28.1 points on the bench for League Camera Prophecy ",
+    "description": "This is the #7 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/6770.jpg",
+    "name": "Joe Burrow (Joe Brrrr)",
+    "value": "Scored 29.04 points for Pink Pony Kupp",
+    "description": "This is the #13 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4018.jpg",
+    "name": "Joe Mixon",
+    "value": "Scored 35.3 points for League Camera Prophecy ",
+    "description": "This is the #3 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "name": "Amon-Ra St. Brown",
+    "value": "Scored 38.7 points for Costo Guys",
+    "description": "This is the #4 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/4381.jpg",
+    "name": "Taysom Hill",
+    "value": "Scored 41.52 points for First Down Syndrome",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/1945.jpg",
+    "name": "Chris Boswell",
+    "value": "Scored 25.3 points for Costo Guys",
+    "description": "This is the #2 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/hou.png",
+    "name": "HOU",
+    "value": "Scored 20 points for Pink Pony Kupp",
+    "description": "This is the #4 DEF performance of the season"
+  }
+]

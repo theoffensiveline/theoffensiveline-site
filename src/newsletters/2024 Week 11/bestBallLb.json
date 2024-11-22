@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 9,
+    "Team": "Just a Hospital Ward",
+    "W": 8,
+    "L": 3,
+    "PF": 1346.82,
+    "PA": 1410.24,
+    "PFColor": "#cc545a",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 2,
+    "Diff": -1,
+    "Team": "Costo Guys",
+    "W": 7,
+    "L": 4,
+    "PF": 1601.74,
+    "PA": 1344.4,
+    "PFColor": "#227740",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 3,
+    "Diff": 6,
+    "Team": "Giving Me a Chubb",
+    "W": 7,
+    "L": 4,
+    "PF": 1469.46,
+    "PA": 1442.54,
+    "PFColor": "#e7efe8",
+    "PAColor": "#fdf4f3"
+  },
+  {
+    "Rank": 4,
+    "Diff": 2,
+    "Team": "Twin Bowers",
+    "W": 6,
+    "L": 5,
+    "PF": 1505.52,
+    "PA": 1537.64,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 5,
+    "Diff": 2,
+    "Team": "League Camera Prophecy ",
+    "W": 6,
+    "L": 5,
+    "PF": 1470.32,
+    "PA": 1448.1,
+    "PFColor": "#e7efe8",
+    "PAColor": "#fbe8e7"
+  },
+  {
+    "Rank": 6,
+    "Diff": -4,
+    "Team": "Pink Pony Kupp",
+    "W": 6,
+    "L": 5,
+    "PF": 1469.54,
+    "PA": 1427.8,
+    "PFColor": "#e7efe8",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 7,
+    "Diff": -3,
+    "Team": "Youngster Joey",
+    "W": 6,
+    "L": 5,
+    "PF": 1459.9,
+    "PA": 1457.58,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 8,
+    "Diff": -5,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 5,
+    "L": 6,
+    "PF": 1513.24,
+    "PA": 1466.4,
+    "PFColor": "#abc9b1",
+    "PAColor": "#f4c7c4"
+  },
+  {
+    "Rank": 9,
+    "Diff": 3,
+    "Team": "Fortnite Master Builder",
+    "W": 4,
+    "L": 7,
+    "PF": 1452.18,
+    "PA": 1421.62,
+    "PFColor": "#fbe8e7",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 10,
+    "Diff": -2,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 4,
+    "L": 7,
+    "PF": 1432.24,
+    "PA": 1488.98,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 11,
+    "Diff": -6,
+    "Team": "Calvin’s Cold Streak",
+    "W": 4,
+    "L": 7,
+    "PF": 1388.94,
+    "PA": 1472.86,
+    "PFColor": "#e79a98",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 12,
+    "Diff": -1,
+    "Team": "First Down Syndrome",
+    "W": 3,
+    "L": 8,
+    "PF": 1318.98,
+    "PA": 1510.72,
+    "PFColor": "#bc293d",
+    "PAColor": "#d66d6e"
+  }
+]
