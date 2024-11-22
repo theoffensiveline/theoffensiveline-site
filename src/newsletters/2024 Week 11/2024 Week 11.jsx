@@ -422,6 +422,26 @@ const Meme8 = () => {
     )
 }
 
+const Meme9 = () => {
+    return (
+        <ImageWrapper>
+            <ArticleImage src={"https://i.imgflip.com/9aooxz.jpg"}>
+            </ArticleImage>
+            <ArticleCaption>Submitted by Anthony</ArticleCaption>
+        </ImageWrapper>
+    )
+}
+
+const Meme10 = () => {
+    return (
+        <ImageWrapper>
+            <ArticleImage src={"https://i.imgflip.com/9b9zah.jpg"}>
+            </ArticleImage>
+            <ArticleCaption>Submitted by Greg</ArticleCaption>
+        </ImageWrapper>
+    )
+}
+
 export const articles = [
     {
         id: 1,
@@ -522,6 +542,14 @@ export const articles = [
     {
         id: 25,
         content: Meme8,
+    },
+    {
+        id: 26,
+        content: Meme9,
+    },
+    {
+        id: 27,
+        content: Meme10,
     },
     {
         id: 30,
