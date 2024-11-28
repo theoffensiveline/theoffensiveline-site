@@ -1,0 +1,121 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Scored 150.18 points",
+    "description": "This is the #8 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Scored 93.92 points",
+    "description": "This is the #18 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Scored 108.46 points in their win",
+    "description": "This is the #7 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/4a9fbc385d999be4b4c4d6a2e170543d",
+    "name": "Calvin’s Cold Streak",
+    "value": "Scored 123.96 points in their loss",
+    "description": "This is the #10 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Defeated Twin Bowers by 34.78 points",
+    "description": "This is the #16 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Defeated First Down Syndrome by 1.2 points",
+    "description": "This is the #2 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Left 29.42 points on the bench",
+    "description": "This is the #18 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top 1",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 2",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 46.2 points for Youngster Joey which was 35.9% of the team total",
+    "description": "This is the #2 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7526.jpg",
+    "name": "Jaylen Waddle",
+    "value": "Scored 28.4 points on the bench for League Camera Prophecy ",
+    "description": "This is the #7 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/11566.jpg",
+    "name": "Jayden Daniels",
+    "value": "Scored 30.4 points for Just a Hospital Ward",
+    "description": "This is the #9 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 46.2 points for Youngster Joey",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/9756.jpg",
+    "name": "Jordan Addison",
+    "value": "Scored 30.2 points for Calvin’s Cold Streak",
+    "description": "This is the #10 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8130.jpg",
+    "name": "Trey McBride (White Guy)",
+    "value": "Scored 25.3 points for Giving Me a Chubb",
+    "description": "This is the #4 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/3678.jpg",
+    "name": "Wil Lutz",
+    "value": "Scored 24.3 points for Fortnite Master Builder",
+    "description": "This is the #3 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/sea.png",
+    "name": "SEA (Albatox)",
+    "value": "Scored 20 points for Youngster Joey",
+    "description": "This is the #4 DEF performance of the season"
+  }
+]

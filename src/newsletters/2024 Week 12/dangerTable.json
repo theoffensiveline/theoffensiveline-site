@@ -1,0 +1,54 @@
+[
+  {
+    "Team": "Just a Hospital Ward",
+    "NPG": 13,
+    "RPA": 2,
+    "DM": 75,
+    "Youngster Joey Win DM": 0,
+    "Just a Hospital Ward Win DM": 50,
+    "NPG_color": "#bc293d",
+    "RPA_color": "#bc293d",
+    "DM_color": "#bc293d",
+    "Youngster Joey Win DM_color": "#227740",
+    "Just a Hospital Ward Win DM_color": "#bc293d"
+  },
+  {
+    "Team": "Youngster Joey",
+    "NPG": 13,
+    "RPA": 2,
+    "DM": 75,
+    "Youngster Joey Win DM": 50,
+    "Just a Hospital Ward Win DM": 0,
+    "NPG_color": "#bc293d",
+    "RPA_color": "#bc293d",
+    "DM_color": "#bc293d",
+    "Youngster Joey Win DM_color": "#bc293d",
+    "Just a Hospital Ward Win DM_color": "#227740"
+  },
+  {
+    "Team": "Kirk Thuggins & The Boys",
+    "NPG": 14,
+    "RPA": 1,
+    "DM": 25,
+    "Youngster Joey Win DM": 50,
+    "Just a Hospital Ward Win DM": 0,
+    "NPG_color": "#227740",
+    "RPA_color": "#227740",
+    "DM_color": "#227740",
+    "Youngster Joey Win DM_color": "#bc293d",
+    "Just a Hospital Ward Win DM_color": "#227740"
+  },
+  {
+    "Team": "Twin Bowers",
+    "NPG": 14,
+    "RPA": 1,
+    "DM": 25,
+    "Youngster Joey Win DM": 0,
+    "Just a Hospital Ward Win DM": 50,
+    "NPG_color": "#227740",
+    "RPA_color": "#227740",
+    "DM_color": "#227740",
+    "Youngster Joey Win DM_color": "#227740",
+    "Just a Hospital Ward Win DM_color": "#bc293d"
+  }
+]

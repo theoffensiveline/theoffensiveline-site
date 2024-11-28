@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Pink Pony Kupp",
+    "W": 17,
+    "L": 7,
+    "PF": 1504.5,
+    "PA": 1402.34,
+    "PFColor": "#7cab86",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Costo Guys",
+    "W": 15,
+    "L": 9,
+    "PF": 1564.52,
+    "PA": 1286.36,
+    "PFColor": "#227740",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Youngster Joey",
+    "W": 15,
+    "L": 9,
+    "PF": 1446.38,
+    "PA": 1386.78,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 14,
+    "L": 10,
+    "PF": 1445.88,
+    "PA": 1415.74,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#fbe8e7"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "Giving Me a Chubb",
+    "W": 13,
+    "L": 11,
+    "PF": 1414.82,
+    "PA": 1444.08,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 6,
+    "Diff": 3,
+    "Team": "League Camera Prophecy ",
+    "W": 11,
+    "L": 13,
+    "PF": 1406.42,
+    "PA": 1396.48,
+    "PFColor": "#fbe8e7",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 7,
+    "Diff": -1,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 11,
+    "L": 13,
+    "PF": 1399.08,
+    "PA": 1458.28,
+    "PFColor": "#f9dddc",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 8,
+    "Diff": -1,
+    "Team": "Calvin’s Cold Streak",
+    "W": 11,
+    "L": 13,
+    "PF": 1380.78,
+    "PA": 1459.2,
+    "PFColor": "#f4c7c4",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "Twin Bowers",
+    "W": 10,
+    "L": 14,
+    "PF": 1392.12,
+    "PA": 1522.08,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 10,
+    "Diff": 1,
+    "Team": "First Down Syndrome",
+    "W": 10,
+    "L": 14,
+    "PF": 1276.62,
+    "PA": 1389.42,
+    "PFColor": "#bc293d",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 11,
+    "Diff": -3,
+    "Team": "Fortnite Master Builder",
+    "W": 9,
+    "L": 15,
+    "PF": 1424.24,
+    "PA": 1362.2,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Just a Hospital Ward",
+    "W": 8,
+    "L": 16,
+    "PF": 1276.5,
+    "PA": 1408.9,
+    "PFColor": "#bc293d",
+    "PAColor": "#fdf4f3"
+  }
+]
