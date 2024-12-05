@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Scored 158.32 points",
+    "description": "This is the #5 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Scored 98.38 points",
+    "description": "This is the #25 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Giving Me a Chubb",
+    "value": "Scored 111.74 points in their win",
+    "description": "This is the #11 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/a245e54037dc499725dcab05fb9ebbad.jpg",
+    "name": "League Loser Prophecy",
+    "value": "Scored 134.78 points in their loss",
+    "description": "This is the #3 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Defeated Kirk Thuggins & The Boys by 42.66 points",
+    "description": "This is the #7 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Giving Me a Chubb",
+    "value": "Defeated Pink Pony Kupp by 4.48 points",
+    "description": "This is the #11 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Left 57.5 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Njorkin da Tenis",
+    "value": "Left 1.5 points on the bench",
+    "description": "This is the #18 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/2216.jpg",
+    "name": "Mike Evans",
+    "value": "Scored 25.8 points for Fortnite Master Builder which was 21.1% of the team total",
+    "description": "This is the #50 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/6783.jpg",
+    "name": "Jerry Jeudy",
+    "value": "Scored 40.5 points on the bench for Kirk Thuggins & The Boys",
+    "description": "This is the #2 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 28.42 points for Just Joshin pt. 2 ",
+    "description": "This is the #22 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/11584.jpg",
+    "name": "Bucky Irving (Can actually run)",
+    "value": "Scored 27.5 points for Pink Pony Kupp",
+    "description": "This is the #21 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/5927.jpg",
+    "name": "Terry McLaurin",
+    "value": "Scored 27.3 points for League Loser Prophecy",
+    "description": "This is the #28 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/11604.jpg",
+    "name": "Brock Bowers (🅱️ush’s Least Favorite)",
+    "value": "Scored 30.2 points for Twin Bowers",
+    "description": "This is the #3 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/1945.jpg",
+    "name": "Chris Boswell",
+    "value": "Scored 15.4 points for Costo Guys",
+    "description": "This is the #19 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/den.png",
+    "name": "DEN",
+    "value": "Scored 20 points for Twin Bowers",
+    "description": "This is the #4 DEF performance of the season"
+  }
+]

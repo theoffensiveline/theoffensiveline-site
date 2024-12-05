@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 1,
+    "Team": "Pink Pony Kupp",
+    "Play All W": 87,
+    "Play All L": 56,
+    "Team Ability": 61.21,
+    "Str of Sched": 47.35,
+    "TaColor": "#3f8653",
+    "SosColor": "#9fc2a6"
+  },
+  {
+    "P Rank": 2,
+    "Trend": 2,
+    "Team": "Just Joshin pt. 2 ",
+    "Play All W": 86,
+    "Play All L": 57,
+    "Team Ability": 60.58,
+    "Str of Sched": 51.58,
+    "TaColor": "#3f8653",
+    "SosColor": "#e7efe8"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 0,
+    "Team": "Youngster Joey",
+    "Play All W": 81,
+    "Play All L": 62,
+    "Team Ability": 57.07,
+    "Str of Sched": 50.14,
+    "TaColor": "#70a37c",
+    "SosColor": "#cfe0d2"
+  },
+  {
+    "P Rank": 4,
+    "Trend": -3,
+    "Team": "Costo Guys",
+    "Play All W": 89,
+    "Play All L": 54,
+    "Team Ability": 62.65,
+    "Str of Sched": 40.42,
+    "TaColor": "#227740",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 5,
+    "Trend": 1,
+    "Team": "League Loser Prophecy",
+    "Play All W": 74,
+    "Play All L": 69,
+    "Team Ability": 52.21,
+    "Str of Sched": 52.21,
+    "TaColor": "#b7d1bb",
+    "SosColor": "#f3f7f3"
+  },
+  {
+    "P Rank": 6,
+    "Trend": -1,
+    "Team": "Giving Me a Chubb",
+    "Play All W": 76,
+    "Play All L": 67,
+    "Team Ability": 53.65,
+    "Str of Sched": 50.86,
+    "TaColor": "#9fc2a6",
+    "SosColor": "#dbe8dd"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 2,
+    "Team": "Twin Bowers",
+    "Play All W": 73,
+    "Play All L": 70,
+    "Team Ability": 51.58,
+    "Str of Sched": 64.72,
+    "TaColor": "#c3d8c6",
+    "SosColor": "#bc293d"
+  },
+  {
+    "P Rank": 8,
+    "Trend": -1,
+    "Team": "Fortnite Master Builder",
+    "Play All W": 67,
+    "Play All L": 76,
+    "Team Ability": 47.35,
+    "Str of Sched": 43.21,
+    "TaColor": "#fdf4f3",
+    "SosColor": "#589567"
+  },
+  {
+    "P Rank": 9,
+    "Trend": -1,
+    "Team": "Calvin’s Cold Streak",
+    "Play All W": 63,
+    "Play All L": 80,
+    "Team Ability": 44.65,
+    "Str of Sched": 50.86,
+    "TaColor": "#f7d2d0",
+    "SosColor": "#dbe8dd"
+  },
+  {
+    "P Rank": 10,
+    "Trend": 0,
+    "Team": "Kirk Thuggins & The Boys",
+    "Play All W": 64,
+    "Play All L": 79,
+    "Team Ability": 45.28,
+    "Str of Sched": 60.58,
+    "TaColor": "#f9dddc",
+    "SosColor": "#da7878"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 1,
+    "Team": "Njorkin da Tenis",
+    "Play All W": 53,
+    "Play All L": 90,
+    "Team Ability": 37.72,
+    "Str of Sched": 48.79,
+    "TaColor": "#da7878",
+    "SosColor": "#b7d1bb"
+  },
+  {
+    "P Rank": 12,
+    "Trend": -1,
+    "Team": "First Down Syndrome",
+    "Play All W": 45,
+    "Play All L": 98,
+    "Team Ability": 32.14,
+    "Str of Sched": 45.28,
+    "TaColor": "#bc293d",
+    "SosColor": "#7cab86"
+  }
+]

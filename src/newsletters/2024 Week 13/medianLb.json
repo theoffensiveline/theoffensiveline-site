@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Pink Pony Kupp",
+    "W": 17,
+    "L": 9,
+    "PF": 1611.86,
+    "PA": 1514.08,
+    "PFColor": "#70a37c",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "Just Joshin pt. 2 ",
+    "W": 16,
+    "L": 10,
+    "PF": 1604.2,
+    "PA": 1550.52,
+    "PFColor": "#7cab86",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 3,
+    "Diff": 1,
+    "Team": "Youngster Joey",
+    "W": 16,
+    "L": 10,
+    "PF": 1568.28,
+    "PA": 1522.72,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#fdf4f3"
+  },
+  {
+    "Rank": 4,
+    "Diff": -1,
+    "Team": "Costo Guys",
+    "W": 15,
+    "L": 11,
+    "PF": 1662.9,
+    "PA": 1405.1,
+    "PFColor": "#227740",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "Giving Me a Chubb",
+    "W": 14,
+    "L": 12,
+    "PF": 1526.56,
+    "PA": 1551.34,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 6,
+    "Diff": 2,
+    "Team": "Twin Bowers",
+    "W": 12,
+    "L": 14,
+    "PF": 1541.88,
+    "PA": 1629.18,
+    "PFColor": "#dbe8dd",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 4,
+    "Team": "League Loser Prophecy",
+    "W": 12,
+    "L": 14,
+    "PF": 1541.2,
+    "PA": 1554.8,
+    "PFColor": "#dbe8dd",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 8,
+    "Diff": -2,
+    "Team": "Calvin’s Cold Streak",
+    "W": 12,
+    "L": 14,
+    "PF": 1499.52,
+    "PA": 1557.68,
+    "PFColor": "#f9dddc",
+    "PAColor": "#eeb0ae"
+  },
+  {
+    "Rank": 9,
+    "Diff": -2,
+    "Team": "Fortnite Master Builder",
+    "W": 11,
+    "L": 15,
+    "PF": 1546.5,
+    "PA": 1461.62,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#94ba9b"
+  },
+  {
+    "Rank": 10,
+    "Diff": -1,
+    "Team": "Kirk Thuggins & The Boys",
+    "W": 11,
+    "L": 15,
+    "PF": 1506.18,
+    "PA": 1608.04,
+    "PFColor": "#fbe8e7",
+    "PAColor": "#cc545a"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "Njorkin da Tenis",
+    "W": 10,
+    "L": 16,
+    "PF": 1412.44,
+    "PA": 1530.8,
+    "PFColor": "#d16163",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "First Down Syndrome",
+    "W": 10,
+    "L": 16,
+    "PF": 1376.04,
+    "PA": 1511.68,
+    "PFColor": "#bc293d",
+    "PAColor": "#f3f7f3"
+  }
+]
