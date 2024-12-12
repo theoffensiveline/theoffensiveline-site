@@ -363,11 +363,13 @@ export const MotWRules = () => {
             <p>2. The loser must count their starters below 10 points, and add another for any under 0 points,
                 and
                 do that number of shots or eat that number of hotdogs.</p>
+            <p style={{ textIndent: "2em" }}>2a. If the loser fails to submit their video on time, they must add 1 extra shot or hotdog for the first week it's late, 2 extra for the second week, 3 extra for the third week, and so on. The additional penalty grows each week, and all penalties are added to their original total.</p>
+            <p style={{ textIndent: "2em" }}>2b. Nikhil Clause - If you are granted an extension, and do not meet the extended deadline, the extension is revoked and you owe the full amount of shots or dogs as if it was a normal late penalty.</p>
             <p>3. The winner will be the incumbent champion in next week's Matchup of the Week.</p>
             <p>4. In the case of a tie (pls no), both teams will complete their respective shots or dogs, and
                 both
                 teams will be the incumbent members in the next week's Matchups of the Week.</p>
-            <p>5. Nikhil Clause - If you are granted an extension, and do not meet the extended deadline, the extension is revoked and you owe the full amount of shots or dogs as if it was a normal late penalty.</p>
+
         </div>
     )
 }
