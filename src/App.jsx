@@ -19,6 +19,7 @@ import WalterPicks from "./pages/WalterPicks";
 import NewsletterWalter from "./pages/NewsletterWalterPicks";
 import { createGlobalStyle } from "styled-components";
 import styled from 'styled-components';
+import { Box } from '@mui/material';
 
 const BackgroundWrapper = styled.div`
   background: ${({ background }) => background};
@@ -41,40 +42,43 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const ThemeWithStyledThemeProvider = () => {
-    const { theme } = useTheme();
-    const currentTheme = ColorConstants[theme];
+  const { theme } = useTheme();
+  const currentTheme = ColorConstants[theme];
 
-    return (
-        <StyledThemeProvider theme={currentTheme}>
-            <GlobalStyle />
-            <BackgroundWrapper background={currentTheme.background}>
-                <BrowserRouter>
-                    <NavBar />
-                    <Routes>
-                        <Route path="/" element={<SleeperLogin />} />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/walterPicks" element={<WalterPicks />} />
-                        <Route path="/newsletterWalterPicks" element={<NewsletterWalter />} />
-                        <Route path="/coming-soon" element={<ComingSoon />} />
-                        <Route path="/news" element={<News />} />
-                        <Route path="/submit" element={<Submit />} />
-                        <Route path="/bylaws" element={<Bylaws />} />
-                        <Route path="/newsletter" element={<Newsletter />} />
-                        <Route path="/leaderboard" element={<Eaterboard />} />
-                        <Route path="/survivor" element={<Survivor />} />
-                        <Route path="*" element={<Default />} />
-                        <Route path="/league/commishNote1" element={<CommissionerNote />} />
-                    </Routes>
-                </BrowserRouter>
-            </BackgroundWrapper>
-        </StyledThemeProvider>
-    );
+  return (
+    <StyledThemeProvider theme={currentTheme}>
+      <GlobalStyle />
+      <BackgroundWrapper background={currentTheme.background}>
+        <BrowserRouter>
+          <NavBar />
+          <Box sx={{ paddingTop: '64px' }}>
+            <Routes>
+              <Route path="/" element={<SleeperLogin />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/walterPicks" element={<WalterPicks />} />
+              <Route path="/newsletterWalterPicks" element={<NewsletterWalter />} />
+              <Route path="/coming-soon" element={<ComingSoon />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/submit" element={<Submit />} />
+              <Route path="/bylaws" element={<Bylaws />} />
+              <Route path="/newsletter" element={<Newsletter />} />
+              <Route path="/leaderboard" element={<Eaterboard />} />
+              <Route path="/survivor" element={<Survivor />} />
+              <Route path="*" element={<Default />} />
+              <Route path="/league/commishNote1" element={<CommissionerNote />} />
+            </Routes>
+          </Box>
+        </BrowserRouter>
+
+      </BackgroundWrapper>
+    </StyledThemeProvider>
+  );
 }
 
 const App = () => (
-    <CustomThemeProvider>
-        <ThemeWithStyledThemeProvider />
-    </CustomThemeProvider>
+  <CustomThemeProvider>
+    <ThemeWithStyledThemeProvider />
+  </CustomThemeProvider>
 );
 
 export default App;

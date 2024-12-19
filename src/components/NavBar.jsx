@@ -18,8 +18,32 @@ const pages = ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor'];
 
 function NavBar() {
     const location = useLocation();
-    const { theme, toggleTheme } = useTheme(); // Get theme state and toggle function from context
+    const { theme, toggleTheme } = useTheme();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+    const [isVisible, setIsVisible] = React.useState(true);
+    const [lastScrollY, setLastScrollY] = React.useState(0);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // Hide navbar when scrolling down after 100px
+                setIsVisible(false);
+            } else {
+                // Show navbar when scrolling up
+                setIsVisible(true);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [lastScrollY]);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -33,17 +57,21 @@ function NavBar() {
         window.location.href = page.toLowerCase();
     };
 
-    // Check if the current location is accessible to non-league members
     const shouldHidePages = location.pathname === '/' ||
         location.pathname === '/coming-soon' ||
         location.pathname === '/walterPicks' ||
         location.pathname === '/newsletterWalterPicks';
 
     return (
-        <AppBar position="static">
+        <AppBar
+            position="fixed"
+            sx={{
+                top: isVisible ? '0' : '-100px',
+                transition: 'top 0.3s',
+            }}
+        >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    {/* Conditionally render the logo on non-mobile view */}
                     {!shouldHidePages && (
                         <Box
                             component="img"
@@ -127,7 +155,6 @@ function NavBar() {
                         The Offensive Line
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {/* Conditionally render the pages */}
                         {!shouldHidePages && pages.map((page) => (
                             <Button
                                 key={page}
@@ -138,7 +165,6 @@ function NavBar() {
                             </Button>
                         ))}
                     </Box>
-                    {/* Theme toggle button in the top-right corner */}
                     <IconButton onClick={toggleTheme} color="inherit">
                         {theme === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
                     </IconButton>
