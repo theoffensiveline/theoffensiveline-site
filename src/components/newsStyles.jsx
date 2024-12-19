@@ -644,21 +644,19 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
     const weeks = [...new Set(matchupData.map(week => week.week))];
 
     // Find unique teams and merge them with leaderboard data
-    const teamsWithRecords = leaderboardData.map((teamRecord) => {
-        return {
-            team_name: teamRecord.Team,
-            W: teamRecord.W,
-            L: teamRecord.L,
-            PF: teamRecord.PF,
-        };
-    });
+    const teamsWithRecords = leaderboardData.map((teamRecord) => ({
+        team_name: teamRecord.Team,
+        W: teamRecord.W,
+        L: teamRecord.L,
+        PF: teamRecord.PF,
+    }));
 
     // Sort the teams by W and then by PF
     teamsWithRecords.sort((a, b) => {
         if (a.W === b.W) {
-            return b.PF - a.PF;  // Sort by PF if W is the same
+            return b.PF - a.PF;
         }
-        return b.W - a.W;  // Sort by W (descending)
+        return b.W - a.W;
     });
 
     return (
@@ -687,12 +685,15 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
                                     (data) => data.team_name === team_name && data.week === week
                                 );
                                 return (
-                                    <td className="center-column" key={week}
+                                    <td
+                                        className="center-column"
+                                        key={week}
                                         style={{
-                                            backgroundColor: weekData.mov_color,
-                                            color: ColorConstants['light'].text
-                                        }}>
-                                        {weekData ? weekData.margin_of_victory : "N/A"}
+                                            backgroundColor: weekData?.mov_color || 'transparent', // Default to transparent if mov_color is missing
+                                            color: weekData ? ColorConstants['light'].text : 'inherit', // Default to inherit color if weekData is missing
+                                        }}
+                                    >
+                                        {weekData?.margin_of_victory || "N/A"}
                                     </td>
                                 );
                             })}
@@ -703,6 +704,7 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
         </StickyTable>
     );
 };
+
 
 
 // Define the order for sorting positions

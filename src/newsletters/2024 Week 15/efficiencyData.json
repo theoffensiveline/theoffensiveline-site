@@ -1,0 +1,58 @@
+[
+  {
+    "week": 15,
+    "team_name": "Costo Guys",
+    "actual_points": 192.3,
+    "max_points": 196.5,
+    "percentage": 97.8626
+  },
+  {
+    "week": 15,
+    "team_name": "Kirk Thuggins & The Boys",
+    "actual_points": 145.42,
+    "max_points": 146.22,
+    "percentage": 99.4529
+  },
+  {
+    "week": 15,
+    "team_name": "Twin Bowers",
+    "actual_points": 139.66,
+    "max_points": 142.66,
+    "percentage": 97.8971
+  },
+  {
+    "week": 15,
+    "team_name": "Calvin’s Cold Streak",
+    "actual_points": 127.16,
+    "max_points": 128.26,
+    "percentage": 99.1424
+  },
+  {
+    "week": 15,
+    "team_name": "Fortnite Master Builder",
+    "actual_points": 120.84,
+    "max_points": 148.3,
+    "percentage": 81.4835
+  },
+  {
+    "week": 15,
+    "team_name": "Njorkin da Tenis",
+    "actual_points": 115.74,
+    "max_points": 137.54,
+    "percentage": 84.1501
+  },
+  {
+    "week": 15,
+    "team_name": "Giving Me a Chubb",
+    "actual_points": 92.56,
+    "max_points": 111.56,
+    "percentage": 82.9688
+  },
+  {
+    "week": 15,
+    "team_name": "Youngster Joey",
+    "actual_points": 76.96,
+    "max_points": 89.7,
+    "percentage": 85.7971
+  }
+]

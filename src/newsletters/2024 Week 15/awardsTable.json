@@ -1,0 +1,121 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Scored 192.3 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "name": "Youngster Joey",
+    "value": "Scored 76.96 points",
+    "description": "This is the #4 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Fortnite Master Builder",
+    "value": "Scored 120.84 points in their win",
+    "description": "This is the #25 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Scored 139.66 points in their loss",
+    "description": "This is the #2 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Defeated Giving Me a Chubb by 99.74 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Fortnite Master Builder",
+    "value": "Defeated Njorkin da Tenis by 5.1 points",
+    "description": "This is the #13 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Fortnite Master Builder",
+    "value": "Left 27.46 points on the bench",
+    "description": "This is the #26 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Left 0.8 points on the bench",
+    "description": "This is the #18 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/3163.jpg",
+    "name": "Jared Goff",
+    "value": "Scored 41.06 points for Calvin’s Cold Streak which was 32.29% of the team total",
+    "description": "This is the #5 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/9508.jpg",
+    "name": "Tyjae Spears (RB1 when Henry becomes QB)",
+    "value": "Scored 27.2 points on the bench for Njorkin da Tenis",
+    "description": "This is the #14 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/3163.jpg",
+    "name": "Jared Goff",
+    "value": "Scored 41.06 points for Calvin’s Cold Streak",
+    "description": "This is the #2 QB performance of the season"
+  },
+  {
+    "award": "Running Wild 1",
+    "photo": "https://sleepercdn.com/content/nfl/players/8138.jpg",
+    "name": "James Cook",
+    "value": "Scored 26.3 points for Costo Guys",
+    "description": "This is the #32 RB performance of the season"
+  },
+  {
+    "award": "Running Wild 2",
+    "photo": "https://sleepercdn.com/content/nfl/players/9224.jpg",
+    "name": "Chase Brown (Chase Green)",
+    "value": "Scored 26.3 points for Twin Bowers",
+    "description": "This is the #32 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "name": "Amon-Ra St. Brown",
+    "value": "Scored 37.3 points for Costo Guys",
+    "description": "This is the #8 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8130.jpg",
+    "name": "Trey McBride (McHandsome)",
+    "value": "Scored 17.7 points for Giving Me a Chubb",
+    "description": "This is the #37 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/11533.jpg",
+    "name": "Brandon Aubrey",
+    "value": "Scored 15.8 points for Kirk Thuggins & The Boys",
+    "description": "This is the #19 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/kc.png",
+    "name": "KC",
+    "value": "Scored 22 points for Costo Guys",
+    "description": "This is the #2 DEF performance of the season"
+  }
+]
