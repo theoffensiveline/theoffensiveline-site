@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Fortnite Master Builder",
+    "value": "Scored 166.14 points",
+    "description": "This is the #6 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Giving Me a Chubb",
+    "value": "Scored 99.9 points",
+    "description": "This is the #35 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Scored 114.18 points in their win",
+    "description": "This is the #15 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "name": "Kirk Thuggins & The Boys",
+    "value": "Scored 141.32 points in their loss",
+    "description": "This is the #2 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/a245e54037dc499725dcab05fb9ebbad.jpg",
+    "name": "League Loser Prophecy",
+    "value": "Defeated Njorkin da Tenis by 26.6 points",
+    "description": "This is the #34 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Defeated First Down Syndrome by 10.04 points",
+    "description": "This is the #27 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Left 36.7 points on the bench",
+    "description": "This is the #12 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Left 1 points on the bench",
+    "description": "This is the #20 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4866.jpg",
+    "name": "Saquon Barkley (Lopunny)",
+    "value": "Scored 27 points for Youngster Joey which was 23.52% of the team total",
+    "description": "This is the #32 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/5872.jpg",
+    "name": "Deebo Samuel (Weebo)",
+    "value": "Scored 25.1 points on the bench for Twin Bowers",
+    "description": "This is the #23 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/11566.jpg",
+    "name": "Jayden Daniels",
+    "value": "Scored 34.42 points for Njorkin da Tenis",
+    "description": "This is the #7 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/6813.jpg",
+    "name": "Jonathan Taylor",
+    "value": "Scored 39.8 points for Kirk Thuggins & The Boys",
+    "description": "This is the #3 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/6794.jpg",
+    "name": "Justin Jefferson",
+    "value": "Scored 36.4 points for Fortnite Master Builder",
+    "description": "This is the #11 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/11604.jpg",
+    "name": "Brock Bowers (🅱️ush’s Least Favorite)",
+    "value": "Scored 20.9 points for Twin Bowers",
+    "description": "This is the #22 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/11533.jpg",
+    "name": "Brandon Aubrey",
+    "value": "Scored 23.8 points for Kirk Thuggins & The Boys",
+    "description": "This is the #4 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/atl.png",
+    "name": "ATL",
+    "value": "Scored 25 points for Pink Pony Kupp",
+    "description": "This is the #1 DEF performance of the season"
+  }
+]
