@@ -328,6 +328,27 @@ const LeagueBuzzArticle = () => {
             <p>
                 Nikhil had so much fun in Rochester last weekend that he already started planning for 4th of July 2025. It looks like we might have trouble finding a big enough place if we wait much longer, so everyone be sure to let him know soon if you're planning on attending or not. We should also plan in advance if we want to do something during that time to decide the draft order, as well as vote on any rule changes, punishments, etc. during that time to save ourselves the headache come Labor Day Weekend.
             </p>
+            <ArticleHeader>Fortnite Livestream</ArticleHeader>
+            <ArticleSubheader>Livestream Schedule Announcement From Alec</ArticleSubheader>
+            <p>
+                On Sunday, December 29, 2024, at 8:00 PM EST, I'll be going live on Twitch to play Fortnite for 24 straight hours. While this started as a punishment, I'm turning it into a night (and day) of fun, packed with special guests, activities, and plenty of surprises.
+            </p>
+            <p>
+                I'm inviting everyone to join in, whether you want to cheer me on, challenge me in the game, or just witness the joy of Fortnite. This might be a punishment, but I'm determined to make it a great time for everyone watching.
+            </p>
+            <p>
+                Event Details:
+                <ul>
+                    <li>When: Sunday, December 29, 2024, at 8:00 PM EST to Monday, December 30, 2024, at 8:00 PM EST</li>
+                    <li>Where: link to be sent Sunday prior to the event</li>
+                    <li>What to Expect: 24 hours of Fortnite gameplay, guest appearances, and interactive activities for viewers.</li>
+                </ul>
+            </p>
+            <ImageWrapper>
+                <ArticleImage src={"https://i.imgflip.com/9f0yca.jpg"}>
+                </ArticleImage>
+                <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+            </ImageWrapper>
         </div>
     )
 }
