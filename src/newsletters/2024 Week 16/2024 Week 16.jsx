@@ -347,7 +347,7 @@ const LeagueBuzzArticle = () => {
             <ImageWrapper>
                 <ArticleImage src={"https://i.imgflip.com/9f0yca.jpg"}>
                 </ArticleImage>
-                <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+                <ArticleCaption>Submitted by Alec Maxwell</ArticleCaption>
             </ImageWrapper>
         </div>
     )
