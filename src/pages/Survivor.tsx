@@ -186,7 +186,7 @@ const Survivor: React.FC = () => {
   };
 
   const handleNextWeek = (currentWeek: number) => {
-    if (week && week < 14) {
+    if (week && week < 17) {
       const newWeek = week + 1;
       setWeek(newWeek);
       fetchMatchups(newWeek, currentWeek); // Fetch matchups for the new week
@@ -236,7 +236,8 @@ const Survivor: React.FC = () => {
         <div>
           {Object.keys(groupedMatchups).map((matchupId) => {
             const matchups = groupedMatchups[parseInt(matchupId, 10)];
-            if (matchups.length < 2) return null; // Ensure there are two matchups to display side by side
+            // Ensure matchups is defined and has at least two elements
+            if (!matchups || matchups.length < 2) return null;
 
             const [team1, team2] = matchups;
             const team1StartersSet = new Set(team1.starters.map((s) => s.id));
@@ -377,14 +378,18 @@ const Survivor: React.FC = () => {
                 <SurvivorMatchupPlayerRows>
                   <h4>Bench</h4>
                   {team1BenchPlayers.map((id) => (
-                    <div key={id}>{playerMap[id] || id}</div>
+                    <div key={id} style={{ textAlign: "left" }}>
+                      {playerMap[id] || id}
+                    </div>
                   ))}
                 </SurvivorMatchupPlayerRows>
                 <SurvivorMatchupPositions />
                 <SurvivorMatchupPlayerRows>
                   <h4>Bench</h4>
                   {team2BenchPlayers.map((id) => (
-                    <div key={id}>{playerMap[id] || id}</div>
+                    <div key={id} style={{ textAlign: "right" }}>
+                      {playerMap[id] || id}
+                    </div>
                   ))}
                 </SurvivorMatchupPlayerRows>
               </SurvivorMatchupContainer>
