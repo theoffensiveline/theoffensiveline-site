@@ -1,0 +1,58 @@
+[
+  {
+    "week": 17,
+    "team_name": "Pink Pony Kupp",
+    "actual_points": 155.08,
+    "max_points": 160.98,
+    "percentage": 96.3349
+  },
+  {
+    "week": 17,
+    "team_name": "Costo Guys",
+    "actual_points": 147.42,
+    "max_points": 147.72,
+    "percentage": 99.7969
+  },
+  {
+    "week": 17,
+    "team_name": "Njorkin da Tenis",
+    "actual_points": 137.88,
+    "max_points": 160.68,
+    "percentage": 85.8103
+  },
+  {
+    "week": 17,
+    "team_name": "Just Joshin pt. 2 ",
+    "actual_points": 137.18,
+    "max_points": 186.78,
+    "percentage": 73.4447
+  },
+  {
+    "week": 17,
+    "team_name": "First Down Syndrome",
+    "actual_points": 130.14,
+    "max_points": 137.94,
+    "percentage": 94.3454
+  },
+  {
+    "week": 17,
+    "team_name": "Calvin’s Cold Streak",
+    "actual_points": 122.8,
+    "max_points": 165.62,
+    "percentage": 74.1456
+  },
+  {
+    "week": 17,
+    "team_name": "League Loser Prophecy",
+    "actual_points": 18.4,
+    "max_points": 26.3,
+    "percentage": 69.962
+  },
+  {
+    "week": 17,
+    "team_name": "Twin Bowers",
+    "actual_points": 9.9,
+    "max_points": 113.2,
+    "percentage": 8.7456
+  }
+]

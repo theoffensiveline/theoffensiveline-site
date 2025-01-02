@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Scored 155.08 points",
+    "description": "This is the #12 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Scored 9.9 points",
+    "description": "This is the #1 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/a245e54037dc499725dcab05fb9ebbad.jpg",
+    "name": "League Loser Prophecy",
+    "value": "Scored 18.4 points in their win",
+    "description": "This is the #1 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Scored 147.42 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "name": "Just Joshin pt. 2 ",
+    "value": "Defeated Calvin’s Cold Streak by 14.38 points",
+    "description": "This is the #62 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "name": "Pink Pony Kupp",
+    "value": "Defeated Costo Guys by 7.66 points",
+    "description": "This is the #23 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "name": "Twin Bowers",
+    "value": "Left 103.3 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Left 0.3 points on the bench",
+    "description": "This is the #13 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/8259.jpg",
+    "name": "Cameron Dicker",
+    "value": "Scored 18.4 points for League Loser Prophecy which was 100% of the team total",
+    "description": "This is the #1 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7525.jpg",
+    "name": "DeVonta Smith",
+    "value": "Scored 30 points on the bench for Just Joshin pt. 2 ",
+    "description": "This is the #5 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/6770.jpg",
+    "name": "Joe Burrow (🥶)",
+    "value": "Scored 36.98 points for Pink Pony Kupp",
+    "description": "This is the #3 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/9221.jpg",
+    "name": "Jahmyr Gibbs (Sonic)",
+    "value": "Scored 26.3 points for Pink Pony Kupp",
+    "description": "This is the #38 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/6801.jpg",
+    "name": "Tee Higgins (My dick biggins)",
+    "value": "Scored 40.1 points for Njorkin da Tenis",
+    "description": "This is the #5 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/1466.jpg",
+    "name": "Travis Kelce",
+    "value": "Scored 22.4 points for Calvin’s Cold Streak",
+    "description": "This is the #16 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/8259.jpg",
+    "name": "Cameron Dicker",
+    "value": "Scored 18.4 points for League Loser Prophecy",
+    "description": "This is the #12 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/phi.png",
+    "name": "PHI",
+    "value": "Scored 19 points for Costo Guys",
+    "description": "This is the #12 DEF performance of the season"
+  }
+]
