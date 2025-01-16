@@ -15,7 +15,12 @@ function formatDate(inputDate) {
     return date.toLocaleDateString(undefined, options);
 }
 
-export const TeamContext = React.createContext(null);
+export const TeamContext = React.createContext(
+    {
+        selectedTeam: null,
+        setSelectedTeam: () => { },
+    }
+);
 
 function Newsletter() {
     const currentLocation = useLocation();
@@ -35,13 +40,14 @@ function Newsletter() {
     }, [issue]);
 
     return (
-        <NewsStyles.NewsletterContainer>
-            <NewsStyles.NewsletterTitle>The Offensive Line</NewsStyles.NewsletterTitle>
-            <NewsStyles.DateBar>
-                {content && formatDate(content.newsDate)}
-            </NewsStyles.DateBar>
-            <div>
-                <TeamContext.Provider value={{ selectedTeam: selectedTeam, setSelectedTeam: setSelectedTeam }}>
+        <TeamContext.Provider value={{ selectedTeam: selectedTeam, setSelectedTeam: setSelectedTeam }}>
+            <NewsStyles.NewsletterContainer>
+                <NewsStyles.NewsletterTitle>The Offensive Line</NewsStyles.NewsletterTitle>
+                <NewsStyles.DateBar>
+                    {content && formatDate(content.newsDate)}
+                </NewsStyles.DateBar>
+                <div>
+
                     {content ? (
                         <ResponsiveMasonry columnsCountBreakPoints={{ 500: 1, 1000: 2, 1500: 3, 2000: 4, 2500: 5 }}>
                             <Masonry>
@@ -55,9 +61,10 @@ function Newsletter() {
                     ) : (
                         <p>Loading...</p>
                     )}
-                </TeamContext.Provider>
-            </div>
-        </NewsStyles.NewsletterContainer>
+
+                </div>
+            </NewsStyles.NewsletterContainer>
+        </TeamContext.Provider >
     );
 }
 

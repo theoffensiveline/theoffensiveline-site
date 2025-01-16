@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Pink Pony Kupp",
+    "photo": "https://sleepercdn.com/uploads/3cdeac6447a59d22994c88379ba9bce8",
+    "award": "League Champion",
+    "value": "Defeated Costo Guys in the championship",
+    "description": "Congrats to Pink Pony Kupp on a hard fought victory"
+  },
+  {
+    "name": "League Loser Prophecy",
+    "photo": "https://sleepercdn.com/uploads/a245e54037dc499725dcab05fb9ebbad.jpg",
+    "award": "Sucks At Fantasy Football",
+    "value": "5-9 Record",
+    "description": "They have completed 50% of this league's last place punishments"
+  },
+  {
+    "name": "Joe Burrow",
+    "photo": "https://sleepercdn.com/content/nfl/players/6770.jpg",
+    "award": "Finals MVP",
+    "value": "36.98 points",
+    "description": "Burrow put up nearly 37 points in the championship win, not bad for a 9th round pick"
+  },
+  {
+    "name": "Lamar Jackson",
+    "photo": "https://sleepercdn.com/content/nfl/players/4881.jpg",
+    "award": "League MVP",
+    "value": "407.40 points - 25.46 ppg",
+    "description": "Should this have been Josh Allen? Probably, but we won't get into that debate here"
+  },
+  {
+    "name": "Just Joshin pt. 2",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "award": "Offensive Team of The Year",
+    "value": "1772.88 PF",
+    "description": "Scored the most points to earn the #1 seed"
+  },
+  {
+    "name": "Costo Guys",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "award": "Defensive Team of The Year",
+    "value": "1527.96 PA",
+    "description": "This is 130 more PA than last year's winner, Just Joshin"
+  },
+  {
+    "name": "Youngster Joey",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "award": "Best MotW Manager",
+    "value": "3-1 record",
+    "description": "7:1 Hot Dog/Shot Given:Taken Ratio"
+  },
+  {
+    "name": "Twin Bowers",
+    "photo": "https://sleepercdn.com/uploads/1bd211e3f19b67fc2cad3efb8ca5544a.jpg",
+    "award": "Worst MotW Manager",
+    "value": "0-2 record",
+    "description": "0:10 Hot Dog/Shot Given:Taken Ratio"
+  },
+  {
+    "name": "Brock Bowers",
+    "photo": "https://sleepercdn.com/content/nfl/players/11604.jpg",
+    "award": "Best Draft Pick",
+    "value": "221.3 points - 15.81 ppg",
+    "description": "Pick 9.11 by Twin Bowers, finished as our leagues TE1 in total points"
+  },
+  {
+    "name": "Patrick Mahomes",
+    "photo": "https://sleepercdn.com/content/nfl/players/4046.jpg",
+    "award": "Worst Draft Pick",
+    "value": "238.84 points - 17.06 ppg",
+    "description": "Pick 3.12 by Giving Me a Chubb, 7 picks ahead of League MVP Lamar Jackson"
+  },
+  {
+    "name": "Bucky Irving",
+    "photo": "https://sleepercdn.com/content/nfl/players/11584.jpg",
+    "award": "Best Waiver Pickup",
+    "value": "122.8 points - 17.54 ppg",
+    "description": "Pink Pony Kupp spent $102 FAAB - scored 23 and 16.4 points in playoff games"
+  },
+  {
+    "name": "Jaleel McLaughlin",
+    "photo": "https://sleepercdn.com/content/nfl/players/11439.jpg",
+    "award": "Worst Waiver Pickup",
+    "value": "33.1 points - 4.73 ppg",
+    "description": "Lowest ppg of any player started more than 3 times"
+  },
+  {
+    "name": "First Down Syndrome",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "award": "Best Start/Sits",
+    "value": "19 incorrect decisions - 179.3 points lost",
+    "description": "Clutched up when it counted to avoid last place"
+  },
+  {
+    "name": "Just Joshin pt. 2",
+    "photo": "https://sleepercdn.com/uploads/f266ea37455022ae9a07a2c6644ace5e.jpg",
+    "award": "Worst Start/Sits",
+    "value": "31 incorrect decisions - 334.32 points lost",
+    "description": "Could've won the championship if not for mismanagement"
+  },
+  {
+    "name": "Kirk Thuggins & The Boys",
+    "photo": "https://sleepercdn.com/uploads/4a648c2339b3183b3287cbff2364efc3.jpg",
+    "award": "Best Trader",
+    "value": "3-0 record in trades - Netted 226 points",
+    "description": "'Fleeced' to get Jonathan Taylor and Baker Mayfield"
+  },
+  {
+    "name": "Youngster Joey",
+    "photo": "https://sleepercdn.com/uploads/006bf4340223cac66abcf1f51402875e",
+    "award": "Worst Trader",
+    "value": "3-3 record in trades - Netted -178.7 points",
+    "description": "Back-to-back winner of this award"
+  }
+]

@@ -11,6 +11,8 @@ export const ColorConstants = {
     newsRed: "#FF3366",
     newsBlue: "#20A4F4",
     yahoo: "#400090",
+    button: "#555555",
+    buttonText: "#e7e7e7",
   },
   dark: {
     link: "#1976d2",
@@ -24,6 +26,8 @@ export const ColorConstants = {
     newsRed: "#FF3366",
     newsBlue: "#20A4F4",
     yahoo: "#400090",
+    button: "#e7e7e7",
+    buttonText: "#555555",
   },
 };
 

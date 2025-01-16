@@ -39,6 +39,7 @@ function Home() {
     const navigate = useNavigate();
 
     const mostRecentIssue = [
+        '2024 Season Recap',
         '2024 Week 17',
     ]
 
@@ -71,7 +72,6 @@ function Home() {
 
     const handleNavigate = (issue) => {
         navigate(`/newsletter`, { state: { issue } });
-        console.log({ issue });
     };
 
     return (

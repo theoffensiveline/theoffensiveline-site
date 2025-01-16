@@ -1,0 +1,2333 @@
+[
+  {
+    "player_id": "5185",
+    "adds": 7,
+    "unique_owners": 4,
+    "full_name": "Allen Lazard",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5185.jpg",
+    "adds_color": "#227740",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "KC",
+    "adds": 7,
+    "unique_owners": 5,
+    "full_name": "KC",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/kc.png",
+    "adds_color": "#227740",
+    "unique_owners_color": "#7cab86"
+  },
+  {
+    "player_id": "CIN",
+    "adds": 6,
+    "unique_owners": 6,
+    "full_name": "CIN",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/cin.png",
+    "adds_color": "#649c71",
+    "unique_owners_color": "#227740"
+  },
+  {
+    "player_id": "NO",
+    "adds": 6,
+    "unique_owners": 4,
+    "full_name": "NO",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/no.png",
+    "adds_color": "#649c71",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "11647",
+    "adds": 5,
+    "unique_owners": 4,
+    "full_name": "Kimani Vidal",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11647.jpg",
+    "adds_color": "#9fc2a6",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "3163",
+    "adds": 5,
+    "unique_owners": 4,
+    "full_name": "Jared Goff",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3163.jpg",
+    "adds_color": "#9fc2a6",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "6768",
+    "adds": 5,
+    "unique_owners": 4,
+    "full_name": "Tua Tagovailoa",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6768.jpg",
+    "adds_color": "#9fc2a6",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "WAS",
+    "adds": 5,
+    "unique_owners": 5,
+    "full_name": "WAS",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/was.png",
+    "adds_color": "#9fc2a6",
+    "unique_owners_color": "#7cab86"
+  },
+  {
+    "player_id": "11575",
+    "adds": 4,
+    "unique_owners": 4,
+    "full_name": "Ray Davis",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11575.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "1339",
+    "adds": 4,
+    "unique_owners": 4,
+    "full_name": "Zach Ertz",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1339.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "4040",
+    "adds": 4,
+    "unique_owners": 2,
+    "full_name": "JuJu Smith-Schuster",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4040.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4666",
+    "adds": 4,
+    "unique_owners": 3,
+    "full_name": "Younghoe Koo",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4666.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "5001",
+    "adds": 4,
+    "unique_owners": 3,
+    "full_name": "Dalton Schultz",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5001.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "559",
+    "adds": 4,
+    "unique_owners": 5,
+    "full_name": "Tim Tebow",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/559.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#7cab86"
+  },
+  {
+    "player_id": "6219",
+    "adds": 4,
+    "unique_owners": 2,
+    "full_name": "Austin Seibert",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6219.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6268",
+    "adds": 4,
+    "unique_owners": 3,
+    "full_name": "Matthew Wright",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6268.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "8228",
+    "adds": 4,
+    "unique_owners": 5,
+    "full_name": "Jaylen Warren",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8228.jpg",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#7cab86"
+  },
+  {
+    "player_id": "BAL",
+    "adds": 4,
+    "unique_owners": 5,
+    "full_name": "BAL",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/bal.png",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#7cab86"
+  },
+  {
+    "player_id": "HOU",
+    "adds": 4,
+    "unique_owners": 4,
+    "full_name": "HOU",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/hou.png",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "IND",
+    "adds": 4,
+    "unique_owners": 2,
+    "full_name": "IND",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/ind.png",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "LAC",
+    "adds": 4,
+    "unique_owners": 5,
+    "full_name": "LAC",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/lac.png",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#7cab86"
+  },
+  {
+    "player_id": "LV",
+    "adds": 4,
+    "unique_owners": 3,
+    "full_name": "LV",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/lv.png",
+    "adds_color": "#dbe8dd",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "10235",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Roschon Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10235.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "10937",
+    "adds": 3,
+    "unique_owners": 4,
+    "full_name": "Jake Moody",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10937.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "11586",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Blake Corum",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11586.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "11589",
+    "adds": 3,
+    "unique_owners": 2,
+    "full_name": "Trey Benson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11589.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "1234",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Russell Wilson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1234.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "2197",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Brandin Cooks",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2197.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "3294",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Dak Prescott",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3294.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "3678",
+    "adds": 3,
+    "unique_owners": 2,
+    "full_name": "Wil Lutz",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3678.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4943",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Sam Darnold",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4943.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "4993",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Mike Gesicki",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4993.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "536",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Antonio Brown",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/536.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "5857",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Noah Fant",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5857.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "6130",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Devin Singletary",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6130.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "6826",
+    "adds": 3,
+    "unique_owners": 2,
+    "full_name": "Cole Kmet",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6826.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6938",
+    "adds": 3,
+    "unique_owners": 4,
+    "full_name": "Cam Akers",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6938.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "6963",
+    "adds": 3,
+    "unique_owners": 2,
+    "full_name": "Patrick Taylor",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6963.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7553",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Kyle Pitts",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7553.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "7591",
+    "adds": 3,
+    "unique_owners": 2,
+    "full_name": "Justin Fields",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7591.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8131",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Isaiah Likely",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8131.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "8143",
+    "adds": 3,
+    "unique_owners": 2,
+    "full_name": "Jerome Ford",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8143.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8408",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Jordan Mason",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8408.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "9500",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Josh Downs",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9500.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "9501",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "DeMario Douglas",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9501.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "9754",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "Quentin Johnston",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9754.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "9758",
+    "adds": 3,
+    "unique_owners": 3,
+    "full_name": "C.J. Stroud",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9758.jpg",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "GB",
+    "adds": 3,
+    "unique_owners": 4,
+    "full_name": "GB",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/gb.png",
+    "adds_color": "#f9dddc",
+    "unique_owners_color": "#cfe0d2"
+  },
+  {
+    "player_id": "10219",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Chris Rodriguez",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10219.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "10444",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Cedric Tillman",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10444.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11563",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Bo Nix",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11563.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "11576",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Braelon Allen",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11576.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "11623",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Jordan Whittington",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11623.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11637",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Keon Coleman",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11637.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11646",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Jalen Coker",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11646.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11651",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Isaac Guerendo",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11651.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "1166",
+    "adds": 2,
+    "unique_owners": 1,
+    "full_name": "Kirk Cousins",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1166.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11792",
+    "adds": 2,
+    "unique_owners": 1,
+    "full_name": "Will Reichard",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11792.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11949",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Brayden Narveson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11949.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "1433",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Brandon McManus",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1433.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "19",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Joe Flacco",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/19.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "2020",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Cairo Santos",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2020.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "2133",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Davante Adams",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2133.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "2306",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Jameis Winston",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2306.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "2359",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Ameer Abdullah",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2359.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "2747",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Jason Myers",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2747.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "2749",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Raheem Mostert",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2749.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "3164",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Ezekiel Elliott",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3164.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "3200",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Sterling Shepard",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3200.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "3214",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Hunter Henry",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3214.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "3286",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Demarcus Robinson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/3286.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4037",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Chris Godwin",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4037.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4147",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Samaje Perine",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4147.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4195",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Jake Elliott",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4195.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4227",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Harrison Butker",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4227.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4663",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Austin Ekeler",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4663.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4892",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Baker Mayfield",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4892.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "5022",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Dallas Goedert",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5022.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "5096",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Ray-Ray McCloud",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5096.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "5119",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Jason Sanders",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5119.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "5248",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Gus Edwards",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5248.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "5995",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Justice Hill",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5995.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "6039",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Ty Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6039.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "6083",
+    "adds": 2,
+    "unique_owners": 1,
+    "full_name": "Matt Gay",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6083.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6694",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "D'Ernest Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6694.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6945",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Antonio Gibson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6945.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7002",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Juwan Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7002.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7526",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "Jaylen Waddle",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7526.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "7562",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Tutu Atwell",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7562.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7571",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Rashod Bateman",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7571.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7596",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Elijah Moore",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7596.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7608",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Khalil Herbert",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7608.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7670",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Joshua Palmer",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7670.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7828",
+    "adds": 2,
+    "unique_owners": 1,
+    "full_name": "Noah Gray",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7828.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7839",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Evan McPherson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7839.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8129",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Dameon Pierce",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8129.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8132",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Tyler Allgeier",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8132.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8142",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Alec Pierce",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8142.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8147",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "John Metchie",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8147.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9480",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Brenton Strange",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9480.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9502",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Tank Dell",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9502.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9506",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Sean Tucker",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9506.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9511",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Keaton Mitchell",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9511.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9757",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "Kendre Miller",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9757.jpg",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "ARI",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "ARI",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/ari.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "ATL",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "ATL",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/atl.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "CLE",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "CLE",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/cle.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "DET",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "DET",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/det.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "JAX",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "JAX",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/jax.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "LAR",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "LAR",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/lar.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "MIA",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "MIA",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/mia.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "NE",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "NE",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/ne.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "TB",
+    "adds": 2,
+    "unique_owners": 3,
+    "full_name": "TB",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/tb.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#f7d2d0"
+  },
+  {
+    "player_id": "TEN",
+    "adds": 2,
+    "unique_owners": 2,
+    "full_name": "TEN",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/ten.png",
+    "adds_color": "#eaa5a3",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "10213",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tre Tucker",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10213.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "10229",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Rashee Rice",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10229.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "10231",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Elijah Higgins",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10231.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "10232",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Michael Wilson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10232.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "10859",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Sam LaPorta",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10859.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "10871",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Luke Schoonmaker",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/10871.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11058",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Blake Grupe",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11058.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11292",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tommy DeVito",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11292.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11435",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Emanuel Wilson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11435.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11439",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Jaleel McLaughlin",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11439.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11539",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jake Bates",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11539.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11571",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Isaiah Davis",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11571.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11579",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Audric Estime",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11579.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11582",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Carson Steele",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11582.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11583",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jonathon Brooks",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11583.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11584",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Bucky Irving",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11584.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11597",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Theo Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11597.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11600",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Ja'Tavion Sanders",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11600.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11616",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jacob Cowing",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11616.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11618",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Jalen McMillan",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11618.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11619",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Ja'Lynn Polk",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11619.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11624",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Xavier Worthy",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11624.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11625",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Adonai Mitchell",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11625.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11626",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Xavier Legette",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11626.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "11627",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Troy Franklin",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11627.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11638",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Ricky Pearsall",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11638.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11643",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jaylen Wright",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11643.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11748",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Bub Means",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11748.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11786",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Cam Little",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11786.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11834",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Devaughn Vele",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11834.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11895",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Mason Tipton",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11895.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "12185",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Spencer Shrader",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/12185.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "1348",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Dustin Hopkins",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1348.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "17",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Matt Prater",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/17.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "1945",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Chris Boswell",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1945.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "2028",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Derek Carr",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2028.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "2078",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Odell Beckham",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2078.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "2307",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Marcus Mariota",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2307.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "2449",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Stefon Diggs",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/2449.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4018",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Joe Mixon",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4018.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4029",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Dalvin Cook",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4029.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4033",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "David Njoku",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4033.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "4034",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Christian McCaffrey",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4034.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4066",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Evan Engram",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4066.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4068",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Mike Williams",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4068.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4082",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Curtis Samuel",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4082.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4098",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Kareem Hunt",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4098.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4144",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jonnu Smith",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4144.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4149",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jamaal Williams",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4149.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4199",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Aaron Jones",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4199.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "421",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Matthew Stafford",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/421.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4234",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Noah Brown",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4234.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4950",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Christian Kirk",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4950.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5012",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Mark Andrews",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5012.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "5045",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Courtland Sutton",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5045.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "5086",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Marquez Valdes-Scantling",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5086.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "5133",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tyler Conklin",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5133.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5209",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Mike Boone",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5209.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5272",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Greg Joseph",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5272.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5284",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jeff Wilson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5284.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5848",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Hollywood Brown",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5848.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5906",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Dawson Knox",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5906.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5927",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Terry McLaurin",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5927.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5937",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Diontae Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5937.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5967",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tony Pollard",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5967.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5970",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Greg Dortch",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5970.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5987",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Alexander Mattison",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5987.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6012",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Travis Homer",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6012.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6149",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Darius Slayton",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6149.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "650",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Nick Folk",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/650.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6659",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Craig Reynolds",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6659.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6786",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "CeeDee Lamb",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6786.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6797",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Justin Herbert",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6797.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6803",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Brandon Aiyuk",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6803.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6806",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "J.K. Dobbins",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6806.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6813",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Jonathan Taylor",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6813.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "6820",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Clyde Edwards-Helaire",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6820.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6845",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Zack Moss",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6845.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6865",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Colby Parkinson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6865.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6904",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jalen Hurts",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6904.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6943",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Gabe Davis",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6943.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6960",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tyler Johnson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6960.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7021",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Rico Dowdle",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7021.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7042",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Tyler Bass",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7042.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7090",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Darnell Mooney",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7090.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7496",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Nick Westbrook-Ikhine",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7496.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7523",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Trevor Lawrence",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7523.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7547",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Amon-Ra St. Brown",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "7567",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Kenneth Gainwell",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7567.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7588",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Javonte Williams",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7588.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7593",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Trey Sermon",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7593.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7607",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Michael Carter",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7607.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7611",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Rhamondre Stevenson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7611.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8110",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Jake Ferguson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8110.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8117",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Jalen Tolbert",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8117.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8123",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Hassan Haskins",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8123.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8126",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Wan'Dale Robinson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8126.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8138",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "James Cook",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8138.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8139",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Zamir White",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8139.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8144",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Chris Olave",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8144.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8167",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Christian Watson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8167.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8183",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Brock Purdy",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8183.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8207",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tyler Goodson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8207.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8220",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Sincere McCormick",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8220.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8230",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Ty Chandler",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8230.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8254",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Julius Chestnut",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8254.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8259",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Cameron Dicker",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8259.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "8670",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "John Parker Romo",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8670.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8676",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Rashid Shaheed",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8676.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9225",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Tank Bigsby",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9225.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9227",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Israel Abanikanda",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9227.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9229",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Anthony Richardson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9229.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9481",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Luke Musgrave",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9481.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9482",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Michael Mayer",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9482.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9484",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Tucker Kraft",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9484.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9486",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Dontayvion Wicks",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9486.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9487",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Parker Washington",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9487.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9492",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Trey Palmer",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9492.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9493",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Puka Nacua",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9493.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "9495",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Rakim Jarrett",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9495.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "9508",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "Tyjae Spears",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/9508.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "96",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "Aaron Rodgers",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/96.jpg",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "CHI",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "CHI",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/chi.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "DAL",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "DAL",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/dal.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "DEN",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "DEN",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/den.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "MIN",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "MIN",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/min.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "NYG",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "NYG",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/nyg.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "NYJ",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "NYJ",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/nyj.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "PHI",
+    "adds": 1,
+    "unique_owners": 2,
+    "full_name": "PHI",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/phi.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#df8482"
+  },
+  {
+    "player_id": "PIT",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "PIT",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/pit.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "SEA",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "SEA",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/sea.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "SF",
+    "adds": 1,
+    "unique_owners": 1,
+    "full_name": "SF",
+    "player_photo": "https://sleepercdn.com/images/team_logos/nfl/sf.png",
+    "adds_color": "#d66d6e",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "11729",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Sione Vaki",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/11729.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "1373",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Geno Smith",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/1373.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "167",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Tom Brady",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/167.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4351",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Tim Patrick",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4351.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "4718",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Dare Ogunbowale",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/4718.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5010",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Will Dissly",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5010.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "5095",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Daniel Carlson",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/5095.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6650",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Chase McLaughlin",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6650.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "6789",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Henry Ruggs",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/6789.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "7049",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Jauan Jennings",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/7049.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8111",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Cade Otton",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8111.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8210",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Chigoziem Okonkwo",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8210.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  },
+  {
+    "player_id": "8255",
+    "adds": 0,
+    "unique_owners": 1,
+    "full_name": "Raheem Blackshear",
+    "player_photo": "https://sleepercdn.com/content/nfl/players/8255.jpg",
+    "adds_color": "#bc293d",
+    "unique_owners_color": "#bc293d"
+  }
+]

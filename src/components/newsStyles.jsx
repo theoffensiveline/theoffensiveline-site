@@ -200,6 +200,10 @@ export const AwardsTable = ({ awardsData }) => {
 };
 
 export const AwardsGridV2 = ({ awardsData }) => {
+    if (!awardsData || awardsData.length === 0) {
+        return <p>No awards data available</p>;
+    }
+
     return (
         <AwardsContainer>
             {awardsData.map((award, index) => (
@@ -212,8 +216,8 @@ export const AwardsGridV2 = ({ awardsData }) => {
                 </Award>
             ))}
         </AwardsContainer>
-    )
-}
+    );
+};
 
 const AwardsContainer = styled.div`
     display: grid;

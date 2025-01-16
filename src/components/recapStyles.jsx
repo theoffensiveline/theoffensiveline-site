@@ -1,9 +1,11 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import React, { useState } from 'react';
 import { VictoryChart, VictoryAxis, VictoryLabel, VictoryLine, VictoryScatter, VictoryContainer } from 'victory';
 import { ColorConstants } from '../components/constants/ColorConstants.ts';
 import { CustomDataComponent, ArticleSubheader, StyledTable } from './newsStyles.jsx';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 // recap stuff
 export const RecapPositionTable = ({ data, selectedTeam }) => {
@@ -23,6 +25,8 @@ const calculateAverage = (arr) => {
 };
 
 export const KickerDefenseChart = ({ data }) => {
+    const theme = useTheme();
+
     const averagePPG = calculateAverage(data.map(entry => entry.ppg));
     const averageCount = calculateAverage(data.map(entry => entry.count));
 
@@ -58,7 +62,7 @@ export const KickerDefenseChart = ({ data }) => {
                     { x: Math.max(...data.map(entry => entry.count)) + 0.5, y: averagePPG }
                 ]}
                 style={{
-                    data: { stroke: 'grey', strokeWidth: 0.5, strokeDasharray: '4, 4' },
+                    data: { stroke: theme.text, strokeWidth: 0.5, strokeDasharray: '4, 4' },
                 }}
             />
             <VictoryLine
@@ -67,7 +71,7 @@ export const KickerDefenseChart = ({ data }) => {
                     { y: Math.max(...data.map(entry => entry.ppg)) + 0.5, x: averageCount }
                 ]}
                 style={{
-                    data: { stroke: 'grey', strokeWidth: 0.5, strokeDasharray: '4, 4' },
+                    data: { stroke: theme.text, strokeWidth: 0.5, strokeDasharray: '4, 4' },
                 }}
             />
             <VictoryScatter
@@ -76,14 +80,16 @@ export const KickerDefenseChart = ({ data }) => {
                 y="ppg"
                 dataComponent={<CustomDataComponent />}
                 labels={({ datum }) => shouldRenderLabel(datum, data) ? datum.team_name : ''}
-                labelComponent={<VictoryLabel dx={50} dy={0} angle={-45} labelPlacement="parallel" style={{ fontSize: 8 }} />}
+                labelComponent={<VictoryLabel dx={50} dy={0} angle={-45} labelPlacement="parallel" style={{ fontSize: 8, fill: theme.text }} />}
             />
             {/* X-axis */}
             <VictoryAxis
                 label="Unique Players Started"
                 tickFormat={(tick) => `${tick}`}
                 style={{
-                    axisLabel: { padding: 30 },
+                    axisLabel: { padding: 30, fill: theme.text },
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
                 }}
             />
             {/* Y-axis */}
@@ -91,27 +97,30 @@ export const KickerDefenseChart = ({ data }) => {
                 dependentAxis
                 label="Average PPG"
                 style={{
-                    axisLabel: { padding: 30 },
+                    axisLabel: { padding: 30, fill: theme.text },
+                    tickLabels: { fill: theme.text },
+                    axis: { stroke: theme.text },
                 }}
             />
         </VictoryChart>
     );
 };
 
-export const WorstStartSitsTable = ({ bestBallBenchData, selectedTeam }) => {
+export const WorstStartSitsTable = ({ bestBallBenchData, selectedTeam, showCount }) => {
     const columns = [
         { label: 'Team Name', sortKey: 'team_name' },
         { label: 'Week', sortKey: 'week', center: true },
+        { label: 'Points Missed', sortKey: 'points_over_starter', center: true, colorKey: 'color_points_over_starter' },
         { label: 'Bench Player', sortKey: 'full_name' },
         { label: 'Points', sortKey: 'points', center: true, colorKey: 'color_bench' },
         { label: 'Starter Points', sortKey: 'points_starter', center: true, colorKey: 'color_starter' },
         { label: 'Starter', sortKey: 'full_name_starter' },
     ];
 
-    return <GenericRecapTable data={bestBallBenchData} selectedTeam={selectedTeam} columns={columns} />;
+    return <GenericRecapTable data={bestBallBenchData} selectedTeam={selectedTeam} columns={columns} showCount={showCount} />;
 }
 
-export const FreeAgentTable = ({ data, selectedTeam }) => {
+export const FreeAgentTable = ({ data, selectedTeam, showCount }) => {
     const columns = [
         { label: 'Week', sortKey: 'week', center: true },
         { label: 'Team Name', sortKey: 'team_name' },
@@ -121,7 +130,7 @@ export const FreeAgentTable = ({ data, selectedTeam }) => {
         { label: 'Full Name', sortKey: 'full_name' },
     ];
 
-    return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} />;
+    return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} showCount={showCount} />;
 }
 
 const StyledButton = styled.button`
@@ -139,7 +148,6 @@ const StyledButton = styled.button`
         cursor: not-allowed;
     }
 `;
-
 
 export const DualTableViewer = ({ data, selectedTeam }) => {
     // Initialize state based on whether data is available
@@ -194,76 +202,41 @@ export const DualTableViewer = ({ data, selectedTeam }) => {
                     Next Trade
                 </StyledButton>
             </div>
-
             <div>
-                <ArticleSubheader>Winner - Players Acquired</ArticleSubheader>
-                {/* Winner table */}
-                <GenericRecapTable data={currentTransactionData.filter(item => item.winner === 1)} selectedTeam={selectedTeam} columns={columns} />;
+                {currentTransactionData.some(item => item.winner === 1) && (
+                    <>
+                        <ArticleSubheader>Winner - Players Acquired</ArticleSubheader>
+                        <GenericRecapTable
+                            data={currentTransactionData.filter(item => item.winner === 1)}
+                            selectedTeam={selectedTeam}
+                            columns={columns}
+                        />
+                    </>
+                )}
 
-                <ArticleSubheader>Loser - Players Acquired</ArticleSubheader>
-                {/* Loser table */}
-                <GenericRecapTable data={currentTransactionData.filter(item => item.winner === 0)} selectedTeam={selectedTeam} columns={columns} />;
+                {currentTransactionData.some(item => item.winner === 0) && (
+                    <>
+                        <ArticleSubheader>Loser - Players Acquired</ArticleSubheader>
+                        <GenericRecapTable
+                            data={currentTransactionData.filter(item => item.winner === 0)}
+                            selectedTeam={selectedTeam}
+                            columns={columns}
+                        />
+                    </>
+                )}
+
+                {currentTransactionData.some(item => item.winner == null) && (
+                    <>
+                        <ArticleSubheader>No Winner - Players Acquired</ArticleSubheader>
+                        <GenericRecapTable
+                            data={currentTransactionData.filter(item => item.winner == null)}
+                            selectedTeam={selectedTeam}
+                            columns={columns}
+                        />
+                    </>
+                )}
             </div>
         </div>
-    );
-};
-
-const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Set the number of columns to 2 */
-    gap: 16px;
-`;
-
-const GridItem = styled.div`
-    border: 1px solid ${ColorConstants.text};
-    border-radius: 8px;
-    overflow: hidden;
-    width: 100%;
-
-    img {
-        width: 100%;
-        height: auto;
-    }
-`;
-
-const AwardsTitle = styled.p`
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    font-size: 1.75rem; /* 28px in relative units */
-    text-align: center;
-    font-style: italic;
-    margin: 10px 0;
-`;
-
-const AwardsRecipient = styled.p`
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    font-size: 1.25rem; /* 20px in relative units */
-    text-align: center;
-    margin: 10px 0;
-`;
-
-const AwardDescription = styled.p`
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    font-size: 1rem; /* 16px in relative units */
-    text-align: center;
-    margin: 10px 0;
-`;
-
-export const AwardsGrid = ({ data }) => {
-    return (
-        <GridContainer>
-            {data.map((item, index) => (
-                <GridItem key={index}>
-                    <img src={item.photo} alt={item.name} />
-                    <AwardsTitle>{item.award}</AwardsTitle>
-                    <AwardsRecipient>{item.name}</AwardsRecipient>
-                    <AwardDescription>{item.value}</AwardDescription>
-                    <AwardDescription>{item.description}</AwardDescription>
-                </GridItem>
-            ))}
-        </GridContainer>
     );
 };
 
@@ -279,23 +252,41 @@ export const MotwRecapTable = ({ data, selectedTeam }) => {
     return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} />;
 };
 
-const StyledSortButton = styled.button`
-    background-color: #d6d6d6;
-    color: ${ColorConstants.text};
-    border: none;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    display: inline-block;
-    cursor: pointer;
-    transition: background-color 0.3s;
+const ButtonContainer = styled.button`
+  width: 100%;
+  height: 100%;
+  padding: 0.25rem 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${({ theme }) => theme.button};
+  color: ${({ theme }) => theme.buttonText};
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 `;
 
-export const TableSortButton = ({ onClick, className, children }) => {
+export const TableSortButton = ({
+    direction = null, // Default to null for unsorted
+    onClick,
+    className,
+    children
+}) => {
     return (
-        <StyledSortButton className={`sort-button ${className}`} onClick={onClick}>
-            {children}
-        </StyledSortButton>
+        <ButtonContainer
+            onClick={onClick}
+            className={className}
+        >
+            <span>{children}</span>
+            {direction ? (
+                <FontAwesomeIcon
+                    icon={direction === 'asc' ? faArrowUp : faArrowDown}
+                    aria-label={direction === 'asc' ? "Sorted ascending" : "Sorted descending"}
+                />
+            ) : (
+                <span aria-label="Unsorted"><FontAwesomeIcon icon={faMinus} /></span> // Display a dash if unsorted
+            )}
+        </ButtonContainer>
     );
 };
 
@@ -303,6 +294,7 @@ TableSortButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     className: PropTypes.string,
     children: PropTypes.node.isRequired,
+    direction: PropTypes.oneOf(['asc', 'desc', null]), // Updated prop type
 };
 
 const useSortableData = (items, config = null) => {
@@ -310,13 +302,13 @@ const useSortableData = (items, config = null) => {
 
     const sortedItems = React.useMemo(() => {
         let sortableItems = [...items];
-        if (sortConfig !== null) {
+        if (sortConfig) {
             sortableItems.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                    return sortConfig.direction === 'asc' ? -1 : 1;
                 }
                 if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                    return sortConfig.direction === 'asc' ? 1 : -1;
                 }
                 return 0;
             });
@@ -325,16 +317,15 @@ const useSortableData = (items, config = null) => {
     }, [items, sortConfig]);
 
     const requestSort = key => {
-        let direction = 'descending';
-        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'descending') {
-            direction = 'ascending';
+        let direction = 'desc';
+        if (sortConfig?.key === key && sortConfig.direction === 'desc') {
+            direction = 'asc';
         }
         setSortConfig({ key, direction });
-    }
+    };
 
     return { items: sortedItems, requestSort, sortConfig };
-}
-
+};
 
 export const TeamDropdown = ({ data, onSelectTeam }) => {
     return (
@@ -425,10 +416,18 @@ export const JakeAlecTable = ({ data, selectedTeam }) => {
     ];
 
     return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} />;
-};
+}
 
-const GenericRecapTable = ({ data, selectedTeam, columns }) => {
-    const { items, requestSort } = useSortableData(data);
+const GenericRecapTable = ({ data, selectedTeam, columns, showCount }) => {
+    const { items, requestSort, sortConfig } = useSortableData(data);
+
+    // Apply slicing after sorting if showCount is provided
+    const displayedItems = showCount ? items.slice(0, showCount) : items;
+
+    const getSortDirection = key => {
+        if (!sortConfig) return null;
+        return sortConfig.key === key ? sortConfig.direction : null;
+    };
 
     return (
         <StyledTable>
@@ -438,6 +437,7 @@ const GenericRecapTable = ({ data, selectedTeam, columns }) => {
                         <th key={index} className='wrap-cell'>
                             <TableSortButton
                                 onClick={() => requestSort(column.sortKey)}
+                                direction={getSortDirection(column.sortKey)}
                                 children={column.label}
                             />
                         </th>
@@ -445,7 +445,7 @@ const GenericRecapTable = ({ data, selectedTeam, columns }) => {
                 </tr>
             </thead>
             <tbody>
-                {items.map((item, index) => (
+                {displayedItems.map((item, index) => (
                     <tr key={index}>
                         {columns.map((column, columnIndex) => {
                             const colorCondition = column.colorKey ? true : false;
@@ -458,10 +458,12 @@ const GenericRecapTable = ({ data, selectedTeam, columns }) => {
                                     style={{
                                         background:
                                             column.sortKey === 'team_name' && item.team_name === selectedTeam
-                                                ? ColorConstants.newsBlue
+                                                ? ColorConstants.dark.newsBlue
                                                 : colorCondition && item[column.colorKey]
                                                     ? item[column.colorKey] // Use the correct color value from the item data
                                                     : 'transparent',
+                                        color:
+                                            !colorCondition ? 'inherit' : ColorConstants['light'].text
                                     }}
                                 >
                                     {item[column.sortKey]}
@@ -480,7 +482,9 @@ export const TransactionRecapTable = ({ data, selectedTeam }) => {
         { label: 'Team Name', sortKey: 'team_name' },
         { label: 'Unique Starters', sortKey: 'distinct_starters', center: true, colorKey: 'distinct_starters_color' },
         { label: 'Completed Waiver Claims', sortKey: 'completed_waivers', center: true, colorKey: 'completed_waivers_color' },
+        { label: 'FAAB Spent', sortKey: 'total_faab_spent', center: true, colorKey: 'total_faab_spent_color' },
         { label: 'Failed Waiver Claims', sortKey: 'failed_waivers', center: true, colorKey: 'failed_waivers_color' },
+        { label: 'FAAB Failed', sortKey: 'total_faab_failed', center: true, colorKey: 'total_faab_failed_color' },
         { label: 'Free Agent Adds', sortKey: 'free_agent_adds', center: true, colorKey: 'free_agent_adds_color' },
         { label: 'Drops', sortKey: 'drops', center: true, colorKey: 'drops_color' },
         { label: 'Trades', sortKey: 'trades', center: true, colorKey: 'trades_color' }
@@ -501,13 +505,22 @@ export const TradeRecapTable = ({ data, selectedTeam }) => {
     return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} />;
 }
 
-
-export const StartSitRecapTable = ({ data, selectedTeam }) => {
+export const StartSitRecapTable = ({ data, selectedTeam, showCount }) => {
     const columns = [
         { label: 'Team Name', sortKey: 'team_name' },
         { label: 'Wrong Start Sits', sortKey: 'wrong_start_sits', center: true, colorKey: 'wrong_start_sits_color' },
         { label: 'Points Lost From Them', sortKey: 'points_lost_from_wrong_start_sits', center: true, colorKey: 'points_lost_from_wrong_start_sits_color' },
     ];
 
-    return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} />;
+    return <GenericRecapTable data={data} selectedTeam={selectedTeam} columns={columns} showCount={showCount} />;
+}
+
+export const MostTransactedPlayersTable = ({ data, showCount }) => {
+    const columns = [
+        { label: 'Player', sortKey: 'full_name' },
+        { label: 'Total Adds', sortKey: 'adds', center: true, colorKey: 'adds_color' },
+        { label: 'Unique Owners', sortKey: 'unique_owners', center: true, colorKey: 'unique_owners_color' },
+    ];
+
+    return <GenericRecapTable data={data} columns={columns} showCount={showCount} />;
 }

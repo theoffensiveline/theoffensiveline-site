@@ -53,7 +53,6 @@ function WalterPicksHome() {
 
     const handleNavigate = (issue) => {
         navigate(`/newsletterWalterPicks`, { state: { issue } });
-        console.log({ issue });
     };
 
     return (
