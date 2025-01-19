@@ -152,7 +152,7 @@
     "motw_wins_color": "#e79a98",
     "motw_losses_color": "#b7d1bb",
     "shots_dogs_given_out_color": "#d66d6e",
-    "trade_wins_color": "#df8482",
+    "trade_wins_color": "#e79a98",
     "trade_losses_color": "#94ba9b",
     "total_trade_for_points_color": "#70a37c",
     "total_trade_away_points_color": "#df8482"
@@ -310,7 +310,7 @@
     "motw_wins_color": "#227740",
     "motw_losses_color": "#bc293d",
     "shots_dogs_given_out_color": "#649c71",
-    "trade_wins_color": "#f7d2d0",
+    "trade_wins_color": "#fdf4f3",
     "trade_losses_color": "#227740",
     "total_trade_for_points_color": "#dbe8dd",
     "total_trade_away_points_color": "#7cab86"
@@ -468,7 +468,7 @@
     "motw_wins_color": "#bc293d",
     "motw_losses_color": "#227740",
     "shots_dogs_given_out_color": "#bc293d",
-    "trade_wins_color": "#df8482",
+    "trade_wins_color": "#e79a98",
     "trade_losses_color": "#227740",
     "total_trade_for_points_color": "#fbe8e7",
     "total_trade_away_points_color": "#589567"
@@ -547,14 +547,14 @@
     "motw_wins_color": "#bc293d",
     "motw_losses_color": "#f1bcb9",
     "shots_dogs_given_out_color": "#bc293d",
-    "trade_wins_color": "#cfe0d2",
+    "trade_wins_color": "#94ba9b",
     "trade_losses_color": "#fdf4f3",
     "total_trade_for_points_color": "#7cab86",
     "total_trade_away_points_color": "#3f8653"
   },
   {
     "team_name": "League Loser Prophecy",
-    "trade_wins": 5,
+    "trade_wins": 4,
     "trade_losses": 4,
     "total_trade_for_points": 301.9,
     "total_trade_away_points": 360.3,
@@ -633,7 +633,7 @@
   },
   {
     "team_name": "Njorkin da Tenis",
-    "trade_wins": 3,
+    "trade_wins": 2,
     "trade_losses": 3,
     "total_trade_for_points": 290.9,
     "total_trade_away_points": 270.2,
@@ -705,14 +705,14 @@
     "motw_wins_color": "#fdf4f3",
     "motw_losses_color": "#f1bcb9",
     "shots_dogs_given_out_color": "#f1bcb9",
-    "trade_wins_color": "#cfe0d2",
+    "trade_wins_color": "#fdf4f3",
     "trade_losses_color": "#e79a98",
     "total_trade_for_points_color": "#327e4a",
     "total_trade_away_points_color": "#e79a98"
   },
   {
     "team_name": "Pink Pony Kupp",
-    "trade_wins": 4,
+    "trade_wins": 2,
     "trade_losses": 4,
     "total_trade_for_points": 102.6,
     "total_trade_away_points": 225.4,
@@ -784,14 +784,14 @@
     "motw_wins_color": "#e79a98",
     "motw_losses_color": "#b7d1bb",
     "shots_dogs_given_out_color": "#d66d6e",
-    "trade_wins_color": "#7cab86",
+    "trade_wins_color": "#fdf4f3",
     "trade_losses_color": "#bc293d",
     "total_trade_for_points_color": "#f1bcb9",
     "total_trade_away_points_color": "#f4c7c4"
   },
   {
     "team_name": "Twin Bowers",
-    "trade_wins": 4,
+    "trade_wins": 1,
     "trade_losses": 4,
     "total_trade_for_points": 2.3,
     "total_trade_away_points": 45,
@@ -863,14 +863,14 @@
     "motw_wins_color": "#bc293d",
     "motw_losses_color": "#f1bcb9",
     "shots_dogs_given_out_color": "#bc293d",
-    "trade_wins_color": "#7cab86",
+    "trade_wins_color": "#e79a98",
     "trade_losses_color": "#bc293d",
     "total_trade_for_points_color": "#bc293d",
     "total_trade_away_points_color": "#589567"
   },
   {
     "team_name": "Youngster Joey",
-    "trade_wins": 5,
+    "trade_wins": 4,
     "trade_losses": 4,
     "total_trade_for_points": 161.6,
     "total_trade_away_points": 340.3,

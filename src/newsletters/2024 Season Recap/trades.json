@@ -602,6 +602,7 @@
     "points": 0,
     "full_name": "Tim Tebow",
     "total_points": 0,
+    "winner": 0,
     "ppg_color": "#bc293d",
     "points_color": "#bc293d",
     "games_played_color": "#bc293d"
@@ -616,6 +617,7 @@
     "points": 0,
     "full_name": "D'Ernest Johnson",
     "total_points": 0,
+    "winner": 0,
     "ppg_color": "#bc293d",
     "points_color": "#bc293d",
     "games_played_color": "#bc293d"
