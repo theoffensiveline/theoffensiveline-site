@@ -11,7 +11,7 @@ import Submit from "./pages/Submit";
 import Default from "./pages/Default";
 import Bylaws from './pages/Bylaws';
 import Newsletter from "./pages/Newsletter";
-import ComingSoon from "./pages/ComingSoon";
+import GenericLeagueLandingPage from "./pages/GenericLeagueLandingPage";
 import CommissionerNote from './league/commishNote1';
 import Eaterboard from "./pages/Eaterboard";
 import Survivor from "./pages/Survivor";
@@ -57,7 +57,7 @@ const ThemeWithStyledThemeProvider = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/walterPicks" element={<WalterPicks />} />
               <Route path="/newsletterWalterPicks" element={<NewsletterWalter />} />
-              <Route path="/coming-soon" element={<ComingSoon />} />
+              <Route path="/sleeper/:leagueId" element={<GenericLeagueLandingPage />} />
               <Route path="/news" element={<News />} />
               <Route path="/submit" element={<Submit />} />
               <Route path="/bylaws" element={<Bylaws />} />

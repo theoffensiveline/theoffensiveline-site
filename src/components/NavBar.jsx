@@ -14,8 +14,6 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useTheme } from '../ThemeContext';
 
-const pages = ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor'];
-
 function NavBar() {
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
@@ -53,14 +51,23 @@ function NavBar() {
         setAnchorElNav(null);
     };
 
-    const redirect = (page) => {
-        window.location.href = page.toLowerCase();
-    };
-
     const shouldHidePages = location.pathname === '/' ||
-        location.pathname === '/coming-soon' ||
+        location.pathname.startsWith('/sleeper') ||
         location.pathname === '/walterPicks' ||
         location.pathname === '/newsletterWalterPicks';
+
+    const pages = shouldHidePages
+        ? ['Home']
+        : ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor'];
+
+    const redirect = (page) => {
+        if (page === 'Home') {
+            // If shouldHidePages is true, redirect to root, otherwise to /home
+            window.location.href = shouldHidePages ? '/' : '/home';
+        } else {
+            window.location.href = page.toLowerCase();
+        }
+    };
 
     return (
         <AppBar
@@ -72,65 +79,33 @@ function NavBar() {
         >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    {!shouldHidePages && (
-                        <Box
-                            component="img"
-                            sx={{
-                                height: 40,
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                            }}
-                            alt="Logo"
-                            src="/logo.png"
-                        />
-                    )}
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
+                    <Box
+                        component="img"
                         sx={{
+                            height: 40,
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            color: 'inherit',
-                            textDecoration: 'none',
                         }}
-                    >
-                        The Offensive Line
-                    </Typography>
-
+                        alt="Logo"
+                        src="/logo.png"
+                    />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
                             <MenuIcon />
                         </IconButton>
                         <Menu
-                            id="menu-appbar"
                             anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {!shouldHidePages && pages.map((page) => (
+                            {pages.map((page) => (
                                 <MenuItem key={page} onClick={() => redirect(page)}>
                                     <Typography textAlign="center">{page}</Typography>
                                 </MenuItem>
@@ -155,7 +130,7 @@ function NavBar() {
                         The Offensive Line
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {!shouldHidePages && pages.map((page) => (
+                        {pages.map((page) => (
                             <Button
                                 key={page}
                                 onClick={() => redirect(page)}

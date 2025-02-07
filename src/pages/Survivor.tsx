@@ -5,9 +5,9 @@ import {
   getNflState,
   getUsers,
   getRosters,
-} from "../components/api/SleeperAPI";
+} from "../utils/api/SleeperAPI";
 import { Roster, User, Player } from "../types/sleeperTypes";
-import playerData from "../components/api/sleeper_players.json"; // Adjust path as necessary
+import playerData from "../utils/api/sleeper_players.json"; // Adjust path as necessary
 import {
   SurvivorContainer,
   SurvivorTitle,
