@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArticleCaption, ArticleHeader, ArticleImage, ArticleSubheader, LeagueQuote } from '../../components/newsStyles';
+import { ArticleCaption, ArticleHeader, ArticleImage, ArticleSubheader, LeagueQuote } from '../../components/newsletters/newsStyles';
 import img2920 from './IMG_2920.jpeg';
 
 export const newsDate = '2024-04-25';

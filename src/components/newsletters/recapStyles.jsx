@@ -1,4 +1,4 @@
-import { ColorConstants } from '../components/constants/ColorConstants.ts';
+import { ColorConstants } from '../constants/ColorConstants.ts';
 
 export const TeamDropdown = ({ data, onSelectTeam }) => {
     return (
@@ -42,5 +42,5 @@ export const StyledSlider = ({ value, onChange, min, max }) => (
     />
 );
 
-export * from './tableStyles';
-export * from './chartStyles';
+export * from './tableStyles.jsx';
+export * from './chartStyles.jsx';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArticleCaption, ArticleHeader, ArticleImage, ArticleSubheader, LeagueQuote, ImageWrapper } from '../../components/newsStyles';
+import { ArticleCaption, ArticleHeader, ArticleImage, ArticleSubheader, LeagueQuote, ImageWrapper } from '../../components/newsletters/newsStyles';
 import tyrantMatt from './Tyrant_Matt.png';
 
 export const newsDate = '2024-09-04';

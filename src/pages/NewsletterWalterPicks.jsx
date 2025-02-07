@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import * as NewsStyles from '../components/newsStyles';
+import * as NewsStyles from '../components/newsletters/newsStyles';
 
 function formatDate(inputDate) {
     const options = {

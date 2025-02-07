@@ -1,4 +1,4 @@
-import { ArticleHeader, ArticleSubheader, StackedHistogram, MatchupPlot, LeaderboardTable, ArticleCaption, AwardsGridV2, WeeklyScoringChart, PowerRankingsTable } from '../../components/newsStyles';
+import { ArticleHeader, ArticleSubheader, StackedHistogram, MatchupPlot, LeaderboardTable, ArticleCaption, AwardsGridV2, WeeklyScoringChart, PowerRankingsTable } from '../../components/newsletters/newsStyles';
 import awardsData from './awardsTable.json';
 // import bestBallLbData from './bestBallLb.json';
 // import efficiencyData from './efficiencyData.json';

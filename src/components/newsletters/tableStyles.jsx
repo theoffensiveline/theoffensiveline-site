@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorConstants } from './constants/ColorConstants.ts';
+import { ColorConstants } from '../constants/ColorConstants.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown, faMinus } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';

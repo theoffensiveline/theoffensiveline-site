@@ -1,6 +1,6 @@
 import { useTheme } from 'styled-components';
 import { VictoryChart, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryContainer, VictoryStack, VictoryHistogram, VictoryLine, VictoryScatter } from 'victory';
-import { colorsByPosition } from '../components/constants/ColorConstants.ts';
+import { colorsByPosition } from '../constants/ColorConstants.ts';
 
 // Common style configurations
 const getCommonChartStyles = (theme) => ({

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorConstants } from './constants/ColorConstants.ts';
+import { ColorConstants } from '../constants/ColorConstants.ts';
 import React from 'react';
 
 export const NewsletterContainer = styled.div`
@@ -216,5 +216,5 @@ export const MotWRules = () => {
     )
 }
 
-export * from './tableStyles';
-export * from './chartStyles';
+export * from './tableStyles.jsx';
+export * from './chartStyles.jsx';

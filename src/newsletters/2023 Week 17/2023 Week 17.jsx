@@ -1,5 +1,5 @@
 import React from 'react';
-import { MotWRules, AwardsTable, ArticleHeader, ImageWrapper, ArticleImage, ArticleSubheader, EfficiencyChart, StackedHistogram, WeeklyScoringChart, MatchupPlot, ArticleCaption, LeagueQuote, MotwTable, ShotsDistributionChart } from '../../components/newsStyles';
+import { MotWRules, AwardsTable, ArticleHeader, ImageWrapper, ArticleImage, ArticleSubheader, EfficiencyChart, StackedHistogram, WeeklyScoringChart, MatchupPlot, ArticleCaption, LeagueQuote, MotwTable, ShotsDistributionChart } from '../../components/newsletters/newsStyles';
 import awardsData from './awardsTable.json';
 import efficiencyData from './efficiencyData.json';
 import matchupData from './matchupData.json';

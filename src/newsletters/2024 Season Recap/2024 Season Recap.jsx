@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { RecapPositionTable, KickerDefenseChart, WorstStartSitsTable, FreeAgentTable, DualTableViewer, MotwRecapTable, TeamDropdown, BestWorstGameRecapTable, BestWorstTeamRecapTable, BlowoutRecapTable, TransactionRecapTable, TradeRecapTable, StartSitRecapTable, StyledSlider, MostTransactedPlayersTable } from '../../components/recapStyles';
-import { ArticleHeader, ArticleSubheader, ArticleCaption } from '../../components/newsStyles';
+import { RecapPositionTable, KickerDefenseChart, WorstStartSitsTable, FreeAgentTable, DualTableViewer, MotwRecapTable, TeamDropdown, BestWorstGameRecapTable, BestWorstTeamRecapTable, BlowoutRecapTable, TransactionRecapTable, TradeRecapTable, StartSitRecapTable, StyledSlider, MostTransactedPlayersTable } from '../../components/newsletters/recapStyles';
+import { ArticleHeader, ArticleSubheader, ArticleCaption } from '../../components/newsletters/newsStyles';
 import starterData from './startersPPG.json';
 import kickerDefenseData from './kickerDef.json';
 import bestBallBenchData from './bestBallBench.json';
@@ -10,7 +10,7 @@ import recapData from './recapData.json';
 import awardsData from './awards.json';
 import transactionData from './mostTransacted.json';
 import { TeamContext } from '../../pages/Newsletter';
-import { AwardsGridV2 } from '../../components/newsStyles';
+import { AwardsGridV2 } from '../../components/newsletters/newsStyles';
 
 export const newsDate = '2025-01-15';
 
