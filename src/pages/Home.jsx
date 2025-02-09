@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const GridContainer = styled.div`
@@ -31,66 +31,109 @@ const GridItem = styled.button`
 
 const BannerImage = styled.img`
     width: 100%;
+
     display: block;
     margin-bottom: 10px;
 `;
 
 function Home() {
     const navigate = useNavigate();
+    const { leagueId } = useParams();
 
-    const mostRecentIssue = [
-        '2024 Season Recap',
-        '2024 Week 17',
-    ]
+    const mainLeagueId = "1124831356770058240"
+    const walterPicksLeagueId = "1131328201495646208"
 
-    const newsletterIssues = [
-        '2024 Week 16',
-        '2024 Week 15',
-        '2024 Week 14',
-        '2024 Week 13',
-        '2024 Week 12',
-        '2024 Week 11',
-        '2024 Week 10',
-        '2024 Week 9',
-        '2024 Week 8',
-        '2024 Week 7',
-        '2024 Week 6',
-        '2024 Week 5',
-        '2024 Week 4',
-        '2024 Week 3',
-        '2024 Week 2',
-        '2024 Week 1',
-        '2024 Preseason',
-        '2024 Offseason',
-        '2023 Season Recap',
-        '2023 Week 17',
-        '2023 Week 16',
-        '2023 Week 15',
-        '2023 Week 14',
-        '2023 Week 13',
-    ]
+    // Newsletter content for league ID '1124831356770058240'
+    const newsletterContent = {
+        mostRecentIssue: [
+            '2024 Season Recap',
+            '2024 Week 17',
+        ],
+        newsletterIssues: [
+            '2024 Week 16',
+            '2024 Week 15',
+            '2024 Week 14',
+            '2024 Week 13',
+            '2024 Week 12',
+            '2024 Week 11',
+            '2024 Week 10',
+            '2024 Week 9',
+            '2024 Week 8',
+            '2024 Week 7',
+            '2024 Week 6',
+            '2024 Week 5',
+            '2024 Week 4',
+            '2024 Week 3',
+            '2024 Week 2',
+            '2024 Week 1',
+            '2024 Preseason',
+            '2024 Offseason',
+            '2023 Season Recap',
+            '2023 Week 17',
+            '2023 Week 16',
+            '2023 Week 15',
+            '2023 Week 14',
+            '2023 Week 13',
+        ]
+    };
 
-    const handleNavigate = (issue) => {
-        navigate(`/newsletter`, { state: { issue } });
+    // Walter Picks content for league ID '1131328201495646208'
+    const walterPicksContent = {
+        mostRecentIssue: [
+            '2024 WP Week 4',
+        ]
+    };
+
+    // Default content for all leagues
+    const defaultContent = {
+        sections: [
+            'League Overview',
+            'Recent Activity',
+        ]
+    };
+
+    // Select content based on league ID from URL params
+    const content = leagueId === mainLeagueId ? newsletterContent :
+        leagueId === walterPicksLeagueId ? walterPicksContent :
+            { mostRecentIssue: [], newsletterIssues: [] };  // Empty newsletter content for other leagues
+
+    const handleNavigate = (destination, isDefault = false) => {
+        if (isDefault) {
+            navigate(`/league/${leagueId}/${destination.toLowerCase().replace(' ', '-')}`);
+        } else {
+            navigate(`/newsletter/${leagueId}`, { state: { issue: destination } });
+        }
     };
 
     return (
         <div>
-            <BannerImage src="/banner_logo.png" alt="Banner Logo" />
+            {leagueId === mainLeagueId && (
+                <BannerImage src="/banner_logo.png" alt="Banner Logo" />
+            )}
             <GridContainer>
-                {mostRecentIssue.map((issue) => (
+                {/* Default league sections shown for all leagues */}
+                {defaultContent.sections.map((section) => (
+                    <GridItem key={section} onClick={() => handleNavigate(section, true)}>
+                        {section}
+                    </GridItem>
+                ))}
+
+                {/* Newsletter content if available */}
+                {content.mostRecentIssue.length > 0 && content.mostRecentIssue.map((issue) => (
                     <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
                         {issue}
                     </RecentGridItem>
                 ))}
-                {newsletterIssues.map((issue) => (
+                {content.newsletterIssues?.map((issue) => (
                     <GridItem key={issue} onClick={() => handleNavigate(issue)}>
                         {issue}
                     </GridItem>
                 ))}
-                <GridItem onClick={() => navigate("/news")}>
-                    Older News
-                </GridItem>
+                {(content.mostRecentIssue.length > 0 || content.newsletterIssues?.length > 0) && (
+                    <GridItem onClick={() => navigate("/news")}>
+                        Older News
+                    </GridItem>
+                )}
             </GridContainer>
         </div>
     );

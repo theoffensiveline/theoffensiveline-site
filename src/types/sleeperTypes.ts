@@ -7,6 +7,8 @@ export interface League {
     playoff_teams: number;
     num_teams: number;
     playoff_week_start: number;
+    last_scored_leg: number;
+    last_report: number;
   };
   season_type: string;
   season: string;
@@ -26,6 +28,7 @@ export interface Matchup {
   matchup_id: number;
   points: number;
   custom_points: number | null;
+  week?: number;
 }
 
 export interface Roster {
@@ -158,4 +161,38 @@ export interface Player {
   yahoo_id: number | null;
   search_first_name: string;
   injury_status: string | null;
+}
+
+export interface Transactions {
+  type: "trade" | "free_agent" | "waiver";
+  transaction_id: string;
+  status_updated: number; // unix timestamp
+  status: "complete" | string;
+  settings: null | {
+    waiver_bid?: number;
+  };
+  roster_ids: number[]; // roster_ids involved in transaction
+  metadata: null | Record<string, any>; // can contain waiver notes
+  leg: number; // in football, represents the week
+  drops: null | {
+    [playerId: string]: number; // player_id -> roster_id mapping
+  };
+  draft_picks: {
+    season: string;
+    round: number;
+    roster_id: number; // original owner's roster_id
+    previous_owner_id: number;
+    owner_id: number; // new owner after trade
+  }[];
+  creator: string; // user id who initiated the transaction
+  created: number; // unix timestamp
+  consenter_ids: number[]; // roster_ids of people who agreed
+  adds: null | {
+    [playerId: string]: number; // player_id -> roster_id mapping
+  };
+  waiver_budget: {
+    sender: number;
+    receiver: number;
+    amount: number;
+  }[];
 }

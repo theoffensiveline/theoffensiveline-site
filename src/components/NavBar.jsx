@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,12 +14,35 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useTheme } from '../ThemeContext';
 
 function NavBar() {
-    const location = useLocation();
     const { theme, toggleTheme } = useTheme();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-
     const [isVisible, setIsVisible] = React.useState(true);
     const [lastScrollY, setLastScrollY] = React.useState(0);
+    const [leagueId, setLeagueId] = React.useState(null);
+
+    // Update leagueId state when localStorage changes or URL changes
+    React.useEffect(() => {
+        const handleStorageChange = () => {
+            const storedLeagueId = localStorage.getItem('selectedLeagueId');
+            setLeagueId(storedLeagueId);
+        };
+
+        // Initial check and URL-based updates
+        handleStorageChange();
+
+        // Listen for changes in other tabs/windows
+        window.addEventListener('storage', handleStorageChange);
+        // Listen for URL changes
+        window.addEventListener('popstate', handleStorageChange);
+        // Listen for custom league change event
+        window.addEventListener('leagueChange', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('popstate', handleStorageChange);
+            window.removeEventListener('leagueChange', handleStorageChange);
+        };
+    }, []);
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -51,21 +73,25 @@ function NavBar() {
         setAnchorElNav(null);
     };
 
-    const shouldHidePages = location.pathname === '/' ||
-        location.pathname.startsWith('/sleeper') ||
-        location.pathname === '/walterPicks' ||
-        location.pathname === '/newsletterWalterPicks';
+    const getPages = () => {
+        if (!leagueId) {
+            return ['Select League'];
+        }
+        if (leagueId !== "1124831356770058240") {
+            return ['Home', 'Change League'];
+        }
+        return ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor', 'Change League'];
+    };
 
-    const pages = shouldHidePages
-        ? ['Home']
-        : ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor'];
+    const pages = getPages();
 
     const redirect = (page) => {
-        if (page === 'Home') {
-            // If shouldHidePages is true, redirect to root, otherwise to /home
-            window.location.href = shouldHidePages ? '/' : '/home';
+        if (page === 'Select League' || page === 'Change League') {
+            window.location.href = '/';
+        } else if (page === 'Home') {
+            window.location.href = `/home/${leagueId}`;
         } else {
-            window.location.href = page.toLowerCase();
+            window.location.href = `/${page.toLowerCase()}/${leagueId}`;
         }
     };
 
@@ -80,16 +106,24 @@ function NavBar() {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box
-                        component="img"
+                        component="a"
+                        href="/"
                         sx={{
                             height: 40,
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
+                            cursor: 'pointer'
                         }}
-                        alt="Logo"
-                        src="/logo.png"
-                    />
+                    >
+                        <Box
+                            component="img"
+                            sx={{ height: '100%' }}
+                            alt="Logo"
+                            src="/logo.png"
+                        />
+                    </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+
                         <IconButton
                             size="large"
                             onClick={handleOpenNavMenu}

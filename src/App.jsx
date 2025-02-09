@@ -11,15 +11,14 @@ import Submit from "./pages/Submit";
 import Default from "./pages/Default";
 import Bylaws from './pages/Bylaws';
 import Newsletter from "./pages/Newsletter";
-import GenericLeagueLandingPage from "./pages/GenericLeagueLandingPage";
 import CommissionerNote from './league/commishNote1';
 import Eaterboard from "./pages/Eaterboard";
 import Survivor from "./pages/Survivor";
-import WalterPicks from "./pages/WalterPicks";
-import NewsletterWalter from "./pages/NewsletterWalterPicks";
 import { createGlobalStyle } from "styled-components";
 import styled from 'styled-components';
 import { Box } from '@mui/material';
+import { LeagueOverview } from "./pages/LeagueOverview";
+import RecentActivity from "./pages/RecentActivity";
 
 const BackgroundWrapper = styled.div`
   background: ${({ background }) => background};
@@ -54,22 +53,20 @@ const ThemeWithStyledThemeProvider = () => {
           <Box sx={{ paddingTop: '64px' }}>
             <Routes>
               <Route path="/" element={<SleeperLogin />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/walterPicks" element={<WalterPicks />} />
-              <Route path="/newsletterWalterPicks" element={<NewsletterWalter />} />
-              <Route path="/sleeper/:leagueId" element={<GenericLeagueLandingPage />} />
+              <Route path="/home/:leagueId" element={<Home />} />
               <Route path="/news" element={<News />} />
-              <Route path="/submit" element={<Submit />} />
-              <Route path="/bylaws" element={<Bylaws />} />
-              <Route path="/newsletter" element={<Newsletter />} />
-              <Route path="/leaderboard" element={<Eaterboard />} />
-              <Route path="/survivor" element={<Survivor />} />
+              <Route path="/submit/:leagueId" element={<Submit />} />
+              <Route path="/bylaws/:leagueId" element={<Bylaws />} />
+              <Route path="/newsletter/:leagueId" element={<Newsletter />} />
+              <Route path="/leaderboard/:leagueId" element={<Eaterboard />} />
+              <Route path="/survivor/:leagueId" element={<Survivor />} />
               <Route path="*" element={<Default />} />
               <Route path="/league/commishNote1" element={<CommissionerNote />} />
+              <Route path="/league/:leagueId/league-overview" element={<LeagueOverview />} />
+              <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />
             </Routes>
           </Box>
         </BrowserRouter>
-
       </BackgroundWrapper>
     </StyledThemeProvider>
   );

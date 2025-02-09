@@ -1,4 +1,25 @@
-export const ColorConstants = {
+interface ThemeColors {
+  link: string;
+  text: string;
+  background: string;
+  neutral1: string;
+  neutral2: string;
+  neutral3: string;
+  neutral4: string;
+  neutral5: string;
+  newsRed: string;
+  newsBlue: string;
+  yahoo: string;
+  button: string;
+  buttonText: string;
+}
+
+interface ColorConstantsType {
+  light: ThemeColors;
+  dark: ThemeColors;
+}
+
+export const ColorConstants: ColorConstantsType = {
   light: {
     link: "#1976d2",
     text: "#2E2E2E",
@@ -43,3 +64,57 @@ export const colorsByPosition: ColorsByPosition = {
   K: "#D959FF",
   DEF: "#65645A",
 };
+
+export const custom_palette12 = [
+  "#bc293d",
+  "#cc545a",
+  "#da7878",
+  "#e79a98",
+  "#f1bcb9",
+  "#f9dddc",
+  "#dbe8dd",
+  "#b7d1bb",
+  "#94ba9b",
+  "#70a37c",
+  "#4c8d5d",
+  "#227740",
+];
+
+export const custom_palette36 = [
+  "#bc293d",
+  "#c23946",
+  "#c74850",
+  "#cc545a",
+  "#d16163",
+  "#d66d6e",
+  "#da7878",
+  "#df8482",
+  "#e38f8d",
+  "#e79a98",
+  "#eaa5a3",
+  "#eeb0ae",
+  "#f1bcb9",
+  "#f4c7c4",
+  "#f7d2d0",
+  "#f9dddc",
+  "#fbe8e7",
+  "#fdf4f3",
+  "#f3f7f3",
+  "#e7efe8",
+  "#dbe8dd",
+  "#cfe0d2",
+  "#c3d8c6",
+  "#b7d1bb",
+  "#abc9b1",
+  "#9fc2a6",
+  "#94ba9b",
+  "#88b290",
+  "#7cab86",
+  "#70a37c",
+  "#649c71",
+  "#589567",
+  "#4c8d5d",
+  "#3f8653",
+  "#327e4a",
+  "#227740",
+];

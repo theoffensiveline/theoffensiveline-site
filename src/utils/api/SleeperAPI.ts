@@ -103,3 +103,19 @@ export const getPlayerProjections = async (
     throw error;
   }
 };
+
+export const getTransactions = async (leagueId: string, leg: number) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/league/${leagueId}/transactions/${leg}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch transactions");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    throw error;
+  }
+};

@@ -67,6 +67,9 @@ function SleeperLogin() {
 
     // Load the stored username from localStorage when the component mounts
     useEffect(() => {
+        // Clear the league ID when navigating to this page
+        localStorage.removeItem('selectedLeagueId');
+
         const storedUsername = localStorage.getItem('sleeperUsername');
         if (storedUsername) {
             setUsername(storedUsername);
@@ -103,15 +106,14 @@ function SleeperLogin() {
     };
 
     const handleLeagueSelect = (league) => {
+        // First set the localStorage
         localStorage.setItem('selectedLeagueId', league.league_id);
 
-        if (league.league_id === '1124831356770058240') {
-            navigate('/home', { state: { league } });
-        } else if (league.league_id === '1131328201495646208') {
-            navigate('/walterPicks', { state: { league } });
-        } else {
-            navigate(`/sleeper/${league.league_id}`, { state: { league } });
-        }
+        // Dispatch a custom event to notify other components
+        window.dispatchEvent(new Event('leagueChange'));
+
+        // Then navigate
+        navigate(`/home/${league.league_id}`, { state: { league } });
     };
 
     return (
