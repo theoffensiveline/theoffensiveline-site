@@ -34,6 +34,15 @@ const TransactionDetails = styled.div`
   margin-left: 10px;
 `;
 
+const TeamSection = styled.div`
+  margin-bottom: 10px;
+`;
+
+const TeamName = styled.div`
+  font-weight: 600;
+  color: ${({ theme }) => theme.newsBlue};
+`;
+
 const FilterContainer = styled.div`
   margin-bottom: 20px;
   display: flex;
@@ -57,6 +66,36 @@ const LoadMoreButton = styled(FilterButton)`
   margin: 20px auto;
   display: block;
 `;
+
+const PlayerPhoto = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-right: 8px;
+  vertical-align: middle;
+  object-fit: cover;
+
+  /* Add this to handle broken images gracefully */
+  &:error {
+    display: none;
+  }
+`;
+
+const PlayerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+`;
+
+const PlayerName = styled.span`
+  margin-left: 8px;
+`;
+
+const getPlayerPhoto = (playerId: string) => {
+  if (/^\d+$/.test(playerId)) {
+    return `https://sleepercdn.com/content/nfl/players/${playerId}.jpg`;
+  }
+  return `https://sleepercdn.com/images/team_logos/nfl/${playerId.toLowerCase()}.png`;
+};
 
 const RecentActivity = () => {
   const { leagueId } = useParams();
@@ -195,6 +234,79 @@ const RecentActivity = () => {
     return transaction.type === selectedFilter;
   });
 
+  const renderTradeDetails = (transaction: Transactions) => {
+    if (transaction.type !== "trade") return null;
+
+    // Group additions by roster_id
+    const tradesByTeam: {
+      [rosterId: number]: { adds: string[]; picks: any[]; faab: number };
+    } = {};
+
+    // Initialize trade details for each roster
+    transaction.roster_ids.forEach((rosterId) => {
+      tradesByTeam[rosterId] = { adds: [], picks: [], faab: 0 };
+    });
+
+    // Group added players by team
+    if (transaction.adds) {
+      Object.entries(transaction.adds).forEach(([playerId, rosterId]) => {
+        tradesByTeam[rosterId].adds.push(playerId);
+      });
+    }
+
+    // Group draft picks by receiving team
+    transaction.draft_picks.forEach((pick) => {
+      tradesByTeam[pick.owner_id].picks.push(pick);
+    });
+
+    // Calculate FAAB changes - only track positive (receiving) amounts
+    if (transaction.waiver_budget) {
+      transaction.waiver_budget.forEach(({ receiver, amount }) => {
+        tradesByTeam[receiver].faab += amount;
+      });
+    }
+
+    return (
+      <>
+        {Object.entries(tradesByTeam).map(([rosterId, details]) => {
+          const hasContent =
+            details.adds.length > 0 ||
+            details.picks.length > 0 ||
+            details.faab > 0;
+          if (!hasContent) return null;
+
+          return (
+            <TeamSection key={rosterId}>
+              <TeamName>{getTeamName(Number(rosterId))} receives:</TeamName>
+              {details.adds.length > 0 && (
+                <div>
+                  {details.adds.map((playerId) => (
+                    <PlayerContainer key={playerId}>
+                      <PlayerPhoto
+                        src={getPlayerPhoto(playerId)}
+                        alt={getPlayerName(playerId)}
+                      />
+                      <PlayerName>{getPlayerName(playerId)}</PlayerName>
+                    </PlayerContainer>
+                  ))}
+                </div>
+              )}
+              {details.picks.length > 0 && (
+                <div>
+                  Picks:{" "}
+                  {details.picks
+                    .map((pick) => `${pick.season} Round ${pick.round}`)
+                    .join(", ")}
+                </div>
+              )}
+              {details.faab > 0 && <div>FAAB: ${details.faab}</div>}
+            </TeamSection>
+          );
+        })}
+      </>
+    );
+  };
+
   if (loading) {
     return <Container>Loading...</Container>;
   }
@@ -235,31 +347,50 @@ const RecentActivity = () => {
           </TransactionHeader>
           <TransactionDetails>
             <div>{formatDate(transaction.created)}</div>
-            {transaction.adds && (
-              <div>
-                Added:{" "}
-                {Object.keys(transaction.adds)
-                  .map((playerId) => getPlayerName(playerId))
-                  .join(", ")}
-              </div>
+            {transaction.type === "trade" ? (
+              renderTradeDetails(transaction)
+            ) : (
+              <>
+                {transaction.adds && (
+                  <div>
+                    Added:{" "}
+                    {Object.entries(transaction.adds).map(([playerId]) => (
+                      <PlayerContainer key={playerId}>
+                        <PlayerPhoto
+                          src={getPlayerPhoto(playerId)}
+                          alt={getPlayerName(playerId)}
+                        />
+                        <PlayerName>
+                          {getPlayerName(playerId)}
+                          {transaction.type === "waiver" &&
+                            Number(transaction.settings?.waiver_bid) > 0 && (
+                              <span
+                                style={{ color: "gray", marginLeft: "8px" }}
+                              >
+                                (FAAB: ${transaction.settings?.waiver_bid})
+                              </span>
+                            )}
+                        </PlayerName>
+                      </PlayerContainer>
+                    ))}
+                  </div>
+                )}
+                {transaction.drops && (
+                  <div>
+                    Dropped:{" "}
+                    {Object.entries(transaction.drops).map(([playerId]) => (
+                      <PlayerContainer key={playerId}>
+                        <PlayerPhoto
+                          src={getPlayerPhoto(playerId)}
+                          alt={getPlayerName(playerId)}
+                        />
+                        <PlayerName>{getPlayerName(playerId)}</PlayerName>
+                      </PlayerContainer>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
-            {transaction.drops && (
-              <div>
-                Dropped:{" "}
-                {Object.keys(transaction.drops)
-                  .map((playerId) => getPlayerName(playerId))
-                  .join(", ")}
-              </div>
-            )}
-            {transaction.type === "trade" &&
-              transaction.draft_picks.length > 0 && (
-                <div>
-                  Draft Picks Traded:{" "}
-                  {transaction.draft_picks
-                    .map((pick) => `${pick.season} Round ${pick.round}`)
-                    .join(", ")}
-                </div>
-              )}
           </TransactionDetails>
         </TransactionCard>
       ))}
