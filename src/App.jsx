@@ -19,6 +19,8 @@ import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { LeagueOverview } from "./pages/LeagueOverview";
 import RecentActivity from "./pages/RecentActivity";
+import LeagueHistory from "./pages/LeagueHistory";
+import LeagueRosters from "./pages/LeagueRosters";
 
 const BackgroundWrapper = styled.div`
   background: ${({ background }) => background};
@@ -64,6 +66,8 @@ const ThemeWithStyledThemeProvider = () => {
               <Route path="/league/commishNote1" element={<CommissionerNote />} />
               <Route path="/league/:leagueId/league-overview" element={<LeagueOverview />} />
               <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />
+              <Route path="/league/:leagueId/league-history" element={<LeagueHistory />} />
+              <Route path="/league/:leagueId/league-rosters" element={<LeagueRosters />} />
             </Routes>
           </Box>
         </BrowserRouter>

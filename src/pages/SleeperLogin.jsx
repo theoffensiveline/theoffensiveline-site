@@ -65,37 +65,39 @@ function SleeperLogin() {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const navigate = useNavigate();
 
-    // Load the stored username from localStorage when the component mounts
     useEffect(() => {
-        // Clear the league ID when navigating to this page
         localStorage.removeItem('selectedLeagueId');
 
         const storedUsername = localStorage.getItem('sleeperUsername');
         if (storedUsername) {
             setUsername(storedUsername);
-            if (storedUsername === 'AntDicarlo') {
-                navigate('/home');
+            // Check for cached leagues
+            const cachedLeagues = localStorage.getItem(`leagues_${storedUsername}`);
+            if (cachedLeagues) {
+                setLeagues(JSON.parse(cachedLeagues));
+                setHasSubmitted(true);
             }
         }
     }, [navigate]);
 
     const handleUsernameSubmit = async () => {
-        // Disable the button for 3 seconds
         setIsButtonDisabled(true);
         setTimeout(() => {
             setIsButtonDisabled(false);
         }, 3000);
 
-        // Save the username to localStorage
         localStorage.setItem('sleeperUsername', username);
 
-        // Query the Sleeper API to get leagues for the username
         try {
             const userResponse = await fetch(`https://api.sleeper.app/v1/user/${username}`);
             const userData = await userResponse.json();
             const userId = userData.user_id;
             const response = await fetch(`https://api.sleeper.app/v1/user/${userId}/leagues/nfl/2024`);
             const data = await response.json();
+
+            // Cache the results
+            localStorage.setItem(`leagues_${username}`, JSON.stringify(data));
+
             setLeagues(data);
             setHasSubmitted(true);
         } catch (error) {
@@ -131,7 +133,6 @@ function SleeperLogin() {
 
             {hasSubmitted && leagues.length === 0 && (
                 <div>
-                    <h3>You are disabled.</h3>
                     <h3>Are you sure {username} is your Sleeper username?</h3>
                 </div>
             )}
@@ -141,7 +142,12 @@ function SleeperLogin() {
                     <h2>Select a League</h2>
                     {leagues.map((league) => (
                         <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
-                            <LeaguePhoto src={league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : 'default-avatar.png'} alt={league.name} />
+                            {league.avatar && (
+                                <LeaguePhoto
+                                    src={`https://sleepercdn.com/avatars/${league.avatar}`}
+                                    alt={league.name}
+                                />
+                            )}
                             <LeagueName>{league.name}</LeagueName>
                         </LeagueItem>
                     ))}

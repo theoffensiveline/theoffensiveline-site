@@ -1,8 +1,17 @@
 // SleeperAPI.ts
+import type {
+  League,
+  User,
+  Roster,
+  Matchup,
+  Transactions,
+  BracketMatchup,
+} from "../../types/sleeperTypes";
+
 const BASE_URL = "https://api.sleeper.app/v1";
 
 // Function to get league
-export const getLeague = async (leagueId: string) => {
+export const getLeague = async (leagueId: string): Promise<League> => {
   try {
     const response = await fetch(`${BASE_URL}/league/${leagueId}`);
     if (!response.ok) {
@@ -17,7 +26,7 @@ export const getLeague = async (leagueId: string) => {
 };
 
 // Function to get all users in a league
-export const getUsers = async (leagueId: string) => {
+export const getUsers = async (leagueId: string): Promise<User[]> => {
   try {
     const response = await fetch(`${BASE_URL}/league/${leagueId}/users`);
     if (!response.ok) {
@@ -32,7 +41,7 @@ export const getUsers = async (leagueId: string) => {
 };
 
 // Function to get rosters for a specific league
-export const getRosters = async (leagueId: string) => {
+export const getRosters = async (leagueId: string): Promise<Roster[]> => {
   try {
     const response = await fetch(`${BASE_URL}/league/${leagueId}/rosters`);
     if (!response.ok) {
@@ -47,7 +56,10 @@ export const getRosters = async (leagueId: string) => {
 };
 
 // Function to get matchups for a specific league and week
-export const getMatchups = async (leagueId: string, week: number) => {
+export const getMatchups = async (
+  leagueId: string,
+  week: number
+): Promise<Matchup[]> => {
   try {
     const response = await fetch(
       `${BASE_URL}/league/${leagueId}/matchups/${week}`
@@ -64,7 +76,17 @@ export const getMatchups = async (leagueId: string, week: number) => {
 };
 
 // Function to get the NFL state
-export const getNflState = async () => {
+export const getNflState = async (): Promise<{
+  week: number;
+  season: string;
+  season_type: string;
+  season_start_date: string;
+  previous_season: string;
+  leg: number;
+  league_season: string;
+  league_create_season: string;
+  display_week: number;
+}> => {
   try {
     const response = await fetch(`${BASE_URL}/state/nfl`);
     if (!response.ok) {
@@ -83,7 +105,7 @@ export const getPlayerProjections = async (
   week: number,
   season: number,
   playerIds: string[]
-) => {
+): Promise<Array<{ pts: number; playerId: string }>> => {
   try {
     const projections = await Promise.all(
       playerIds.map(async (playerId) => {
@@ -104,7 +126,10 @@ export const getPlayerProjections = async (
   }
 };
 
-export const getTransactions = async (leagueId: string, leg: number) => {
+export const getTransactions = async (
+  leagueId: string,
+  leg: number
+): Promise<Transactions[]> => {
   try {
     const response = await fetch(
       `${BASE_URL}/league/${leagueId}/transactions/${leg}`
@@ -116,6 +141,27 @@ export const getTransactions = async (leagueId: string, leg: number) => {
     return data;
   } catch (error) {
     console.error("Error fetching transactions:", error);
+    throw error;
+  }
+};
+
+export const getBracketMatchups = async (
+  leagueId: string,
+  winnersBracket: boolean
+): Promise<BracketMatchup[]> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/league/${leagueId}/${
+        winnersBracket ? "winners_bracket" : "losers_bracket"
+      }`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch bracket matchups");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching bracket matchups:", error);
     throw error;
   }
 };

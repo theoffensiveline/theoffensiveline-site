@@ -6,7 +6,7 @@ import {
   getUsers,
   getRosters,
 } from "../utils/api/SleeperAPI";
-import { Roster, User, Player } from "../types/sleeperTypes";
+import { Matchup, Roster, User, Player } from "../types/sleeperTypes";
 import playerData from "../utils/api/sleeper_players.json"; // Adjust path as necessary
 import {
   SurvivorContainer,
@@ -25,16 +25,6 @@ import {
   TeamPointsRow,
 } from "../components/survivorStyles";
 
-interface Matchup {
-  starters: Array<{ id: string; position: string; points: number }>; // Array of objects with ID and position
-  roster_id: number; // Roster ID
-  players: string[]; // Array of player IDs
-  matchup_id: number; // Matchup ID
-  points: number; // Total points for the team
-  custom_points: number | null; // Custom points if overridden
-  players_points: Record<string, number>; // Points for each player
-}
-
 interface Team {
   team_id: string;
   team_name: string;
@@ -46,10 +36,22 @@ interface Team {
   team_points_against: number;
 }
 
+// Add this interface near the top with other interfaces
+interface StarterWithPosition {
+  id: string;
+  position: string;
+  points: number;
+}
+
+// Update the Matchup type to include the new starters format
+interface ExtendedMatchup extends Omit<Matchup, "starters"> {
+  starters: StarterWithPosition[];
+}
+
 const Survivor: React.FC = () => {
   const [week, setWeek] = useState<number | null>(null);
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
-  const [matchups, setMatchups] = useState<Matchup[]>([]);
+  const [matchups, setMatchups] = useState<ExtendedMatchup[]>([]);
   const [teams, setTeams] = useState<Record<number, Team>>({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -116,17 +118,31 @@ const Survivor: React.FC = () => {
       setLoading(true);
 
       if (weekNumber !== null && LEAGUE_ID) {
-        // Fetch matchups using the fetched week number
         const matchupsData = await getMatchups(LEAGUE_ID, weekNumber);
-        setMatchups(matchupsData);
-
-        // Fetch team rosters and users
-        const rostersData = await getRosters(LEAGUE_ID);
-        const usersData = await getUsers(LEAGUE_ID);
 
         // Fetch league data to get roster positions
         const leagueData = await getLeague(LEAGUE_ID);
         const rosterPositions = leagueData.roster_positions;
+
+        // Update the matchups to include roster positions
+        const updatedMatchups = (matchupsData as Matchup[]).map(
+          (matchup: Matchup) => {
+            const { starters, players_points } = matchup;
+            const startersWithPositions = starters.map((starterId, index) => ({
+              id: starterId,
+              position: rosterPositions[index] || "Unknown",
+              points: (players_points ?? {})[starterId] || 0,
+            }));
+            return { ...matchup, starters: startersWithPositions };
+          }
+        );
+
+        // Now we can safely set the matchups with the correct type
+        setMatchups(updatedMatchups as ExtendedMatchup[]);
+
+        // Fetch team rosters and users
+        const rostersData = await getRosters(LEAGUE_ID);
+        const usersData = await getUsers(LEAGUE_ID);
 
         // Map rosters to teams
         const teamMap = rostersData.reduce(
@@ -156,18 +172,6 @@ const Survivor: React.FC = () => {
           {}
         );
         setTeams(teamMap);
-
-        // Update the matchups to include roster positions
-        const updatedMatchups = matchupsData.map((matchup: Matchup) => {
-          const { starters, players_points } = matchup;
-          const startersWithPositions = starters.map((id, index) => ({
-            id,
-            position: rosterPositions[index] || "Unknown",
-            points: players_points[id.id] || 0,
-          }));
-          return { ...matchup, starters: startersWithPositions };
-        });
-        setMatchups(updatedMatchups);
       }
     } catch (err) {
       setError("Failed to load matchups data");
@@ -201,7 +205,7 @@ const Survivor: React.FC = () => {
     }
     groups[matchup_id].push(matchup);
     return groups;
-  }, {} as Record<number, Matchup[]>);
+  }, {} as Record<number, ExtendedMatchup[]>);
 
   return (
     <SurvivorContainer>

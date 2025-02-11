@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 const GridContainer = styled.div`
     display: grid;
@@ -39,6 +39,7 @@ const BannerImage = styled.img`
 function Home() {
     const navigate = useNavigate();
     const { leagueId } = useParams();
+    const theme = useTheme();
 
     const mainLeagueId = "1124831356770058240"
     const walterPicksLeagueId = "1131328201495646208"
@@ -88,6 +89,8 @@ function Home() {
     const defaultContent = {
         sections: [
             'League Overview',
+            'League History',
+            'League Rosters',
             'Recent Activity',
         ]
     };
@@ -117,7 +120,8 @@ function Home() {
                         {section}
                     </GridItem>
                 ))}
-
+                {/* Add a divider between sections */}
+                <div style={{ gridColumn: 'span 2', height: '1px', backgroundColor: theme.newsBlue, margin: '20px 0' }} />
                 {/* Newsletter content if available */}
                 {content.mostRecentIssue.length > 0 && content.mostRecentIssue.map((issue) => (
                     <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>

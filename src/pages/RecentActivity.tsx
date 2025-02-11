@@ -1,46 +1,50 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import {
   getTransactions,
   getLeague,
   getRosters,
   getUsers,
 } from "../utils/api/SleeperAPI";
-import { Transactions, League, Player } from "../types/sleeperTypes";
-
-const sleeperPlayers: {
-  [key: string]: Player;
-} = require("../utils/api/sleeper_players.json");
-
-const Container = styled.div`
-  padding: 20px;
-`;
+import { Transactions, League } from "../types/sleeperTypes";
+import { sleeperPlayers, getPlayerPhoto } from '../utils/playerUtils';
+import {
+  PlayerPhoto,
+  PlayerPosition,
+  PlayerName,
+  PlayerRow
+} from '../components/shared/PlayerComponents';
+import { 
+  Container, 
+  LoadingState, 
+  TeamAvatar,
+  TeamHeader,
+  TeamInfo 
+} from '../components/shared/PageComponents';
 
 const TransactionCard = styled.div`
-  background-color: ${({ theme }) => theme.background};
-  border: 1px solid ${({ theme }) => theme.newsBlue};
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid ${({ theme }) => theme.newsBlue };
   border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 15px;
 `;
 
 const TransactionHeader = styled.div`
   font-weight: bold;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const TransactionType = styled.div`
+  color: ${({ theme }) => theme.newsBlue};
+  margin-top: 5px;
 `;
 
 const TransactionDetails = styled.div`
   margin-left: 10px;
-`;
-
-const TeamSection = styled.div`
-  margin-bottom: 10px;
-`;
-
-const TeamName = styled.div`
-  font-weight: 600;
-  color: ${({ theme }) => theme.newsBlue};
 `;
 
 const FilterContainer = styled.div`
@@ -67,38 +71,80 @@ const LoadMoreButton = styled(FilterButton)`
   display: block;
 `;
 
-const PlayerPhoto = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-right: 8px;
-  vertical-align: middle;
-  object-fit: cover;
+const ActionCard = styled.div<{ isAdded: boolean }>`
+  position: relative;
+  margin: 10px 0;
+  padding: 15px;
+  border: 2px solid ${({ isAdded }) => isAdded ? '#4CAF50' : '#F44336'};
+  border-radius: 8px;
+  background-color: ${({ isAdded }) => isAdded ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)'};
 
-  /* Add this to handle broken images gracefully */
-  &:error {
-    display: none;
+  &::before {
+    content: '${({ isAdded }) => isAdded ? '+' : '-'}';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: ${({ isAdded }) => isAdded ? '#4CAF50' : '#F44336'};
   }
 `;
 
-const PlayerContainer = styled.div`
+const ActionContent = styled.div`
+  margin-left: 20px;
+`;
+
+const TradeContainer = styled.div`
   display: flex;
-  align-items: center;
-  margin: 5px 0;
+  gap: 20px;
+  margin-top: 10px;
 `;
 
-const PlayerName = styled.span`
-  margin-left: 8px;
+const TradeTeamSection = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
-const getPlayerPhoto = (playerId: string) => {
-  if (/^\d+$/.test(playerId)) {
-    return `https://sleepercdn.com/content/nfl/players/${playerId}.jpg`;
+const TradeCard = styled.div`
+  position: relative;
+  padding: 15px;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  background-color: rgba(76, 175, 80, 0.1);
+
+  &::before {
+    content: '+';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #4CAF50;
   }
-  return `https://sleepercdn.com/images/team_logos/nfl/${playerId.toLowerCase()}.png`;
-};
+`;
+
+const TradeContent = styled.div`
+  margin-left: 20px;
+`;
+
+const TradePicks = styled.div`
+  margin-top: 10px;
+  padding: 8px;
+  background-color: rgba(76, 175, 80, 0.05);
+  border-radius: 4px;
+`;
+
+const TradeFaab = styled.div`
+  margin-top: 5px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.text};
+`;
 
 const RecentActivity = () => {
   const { leagueId } = useParams();
+  const theme = useTheme();
   const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -124,6 +170,13 @@ const RecentActivity = () => {
     },
     [leagueId]
   );
+
+  const getRosterWithUser = useCallback((rosterId: number) => {
+    const roster = rosters.find(r => r.roster_id === rosterId);
+    if (!roster) return null;
+    const user = users.find(u => u.user_id === roster.owner_id);
+    return { ...roster, user };
+  }, [rosters, users]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -189,25 +242,6 @@ const RecentActivity = () => {
     }
   };
 
-  const getTeamName = (rosterId: number) => {
-    const roster = rosters.find((r) => r.roster_id === rosterId);
-    if (!roster) return "Unknown Team";
-
-    const user = users.find((u) => u.user_id === roster.owner_id);
-    return (
-      roster.team_name ||
-      user?.metadata?.team_name ||
-      user?.display_name ||
-      user?.username ||
-      "Unknown Team"
-    );
-  };
-
-  const getPlayerName = (playerId: string) => {
-    const player: Player | undefined = sleeperPlayers[playerId];
-    return player ? `${player.first_name} ${player.last_name}` : playerId;
-  };
-
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString("en-US", {
       month: "short",
@@ -259,7 +293,7 @@ const RecentActivity = () => {
       tradesByTeam[pick.owner_id].picks.push(pick);
     });
 
-    // Calculate FAAB changes - only track positive (receiving) amounts
+    // Calculate FAAB changes
     if (transaction.waiver_budget) {
       transaction.waiver_budget.forEach(({ receiver, amount }) => {
         tradesByTeam[receiver].faab += amount;
@@ -267,7 +301,7 @@ const RecentActivity = () => {
     }
 
     return (
-      <>
+      <TradeContainer>
         {Object.entries(tradesByTeam).map(([rosterId, details]) => {
           const hasContent =
             details.adds.length > 0 ||
@@ -275,40 +309,59 @@ const RecentActivity = () => {
             details.faab > 0;
           if (!hasContent) return null;
 
+          const rosterWithUser = getRosterWithUser(Number(rosterId));
+          if (!rosterWithUser) return null;
+
           return (
-            <TeamSection key={rosterId}>
-              <TeamName>{getTeamName(Number(rosterId))} receives:</TeamName>
-              {details.adds.length > 0 && (
-                <div>
-                  {details.adds.map((playerId) => (
-                    <PlayerContainer key={playerId}>
-                      <PlayerPhoto
-                        src={getPlayerPhoto(playerId)}
-                        alt={getPlayerName(playerId)}
-                      />
-                      <PlayerName>{getPlayerName(playerId)}</PlayerName>
-                    </PlayerContainer>
-                  ))}
-                </div>
-              )}
-              {details.picks.length > 0 && (
-                <div>
-                  Picks:{" "}
-                  {details.picks
-                    .map((pick) => `${pick.season} Round ${pick.round}`)
-                    .join(", ")}
-                </div>
-              )}
-              {details.faab > 0 && <div>FAAB: ${details.faab}</div>}
-            </TeamSection>
+            <TradeTeamSection key={rosterId}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                <TeamAvatar
+                  src={rosterWithUser.user?.metadata?.avatar || rosterWithUser.user?.avatar}
+                  alt={`${rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name} Avatar`}
+                />
+                <TeamInfo>
+                  <h3>{rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name}</h3>
+                </TeamInfo>
+              </div>
+              <TradeCard>
+                <TradeContent>
+                  {details.adds.length > 0 && (
+                    <div>
+                      {details.adds.map((playerId) => (
+                        <PlayerRow key={playerId}>
+                          <PlayerPosition position={sleeperPlayers[playerId]?.position || 'FLEX'}>
+                            {sleeperPlayers[playerId]?.position || 'FLEX'}
+                          </PlayerPosition>
+                          <PlayerPhoto
+                            src={getPlayerPhoto(playerId)}
+                            alt={sleeperPlayers[playerId]?.full_name || "Unknown Player"}
+                          />
+                          <PlayerName>{sleeperPlayers[playerId]?.full_name}</PlayerName>
+                        </PlayerRow>
+                      ))}
+                    </div>
+                  )}
+                  {details.picks.length > 0 && (
+                    <TradePicks>
+                      {details.picks
+                        .map((pick) => `${pick.season} Round ${pick.round}`)
+                        .join(", ")}
+                    </TradePicks>
+                  )}
+                  {details.faab > 0 && (
+                    <TradeFaab>FAAB: ${details.faab}</TradeFaab>
+                  )}
+                </TradeContent>
+              </TradeCard>
+            </TradeTeamSection>
           );
         })}
-      </>
+      </TradeContainer>
     );
   };
 
   if (loading) {
-    return <Container>Loading...</Container>;
+    return <LoadingState />;
   }
 
   return (
@@ -342,8 +395,24 @@ const RecentActivity = () => {
       {filteredTransactions.map((transaction) => (
         <TransactionCard key={transaction.transaction_id}>
           <TransactionHeader>
-            {transaction.roster_ids.map((id) => getTeamName(id)).join(", ")} -{" "}
-            {getTransactionType(transaction)}
+            <TeamHeader>
+              {transaction.type !== "trade" && transaction.roster_ids.map((rosterId) => {
+                const rosterWithUser = getRosterWithUser(rosterId);
+                if (!rosterWithUser) return null;
+                return (
+                  <div key={rosterId} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <TeamAvatar 
+                      src={rosterWithUser.user?.metadata?.avatar || rosterWithUser.user?.avatar}
+                      alt={`${rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name} Avatar`}
+                    />
+                    <TeamInfo>
+                      <h3>{rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name}</h3>
+                    </TeamInfo>
+                  </div>
+                );
+              })}
+            </TeamHeader>
+            <TransactionType>{getTransactionType(transaction)}</TransactionType>
           </TransactionHeader>
           <TransactionDetails>
             <div>{formatDate(transaction.created)}</div>
@@ -352,42 +421,48 @@ const RecentActivity = () => {
             ) : (
               <>
                 {transaction.adds && (
-                  <div>
-                    Added:{" "}
-                    {Object.entries(transaction.adds).map(([playerId]) => (
-                      <PlayerContainer key={playerId}>
-                        <PlayerPhoto
-                          src={getPlayerPhoto(playerId)}
-                          alt={getPlayerName(playerId)}
-                        />
-                        <PlayerName>
-                          {getPlayerName(playerId)}
-                          {transaction.type === "waiver" &&
-                            Number(transaction.settings?.waiver_bid) > 0 && (
-                              <span
-                                style={{ color: "gray", marginLeft: "8px" }}
-                              >
-                                (FAAB: ${transaction.settings?.waiver_bid})
-                              </span>
-                            )}
-                        </PlayerName>
-                      </PlayerContainer>
-                    ))}
-                  </div>
+                  <ActionCard isAdded={true}>
+                    <ActionContent>
+                      {Object.entries(transaction.adds).map(([playerId]) => (
+                        <PlayerRow key={playerId}>
+                          <PlayerPosition position={sleeperPlayers[playerId]?.position || 'FLEX'}>
+                            {sleeperPlayers[playerId]?.position || 'FLEX'}
+                          </PlayerPosition>
+                          <PlayerPhoto
+                            src={getPlayerPhoto(playerId)}
+                            alt={sleeperPlayers[playerId]?.full_name || "Unknown Player"}
+                          />
+                          <PlayerName>
+                            {sleeperPlayers[playerId]?.full_name}
+                            {transaction.type === "waiver" &&
+                              Number(transaction.settings?.waiver_bid) > 0 && (
+                                <span style={{ color: theme.text, marginLeft: "8px" }}>
+                                  (FAAB: ${transaction.settings?.waiver_bid})
+                                </span>
+                              )}
+                          </PlayerName>
+                        </PlayerRow>
+                      ))}
+                    </ActionContent>
+                  </ActionCard>
                 )}
                 {transaction.drops && (
-                  <div>
-                    Dropped:{" "}
-                    {Object.entries(transaction.drops).map(([playerId]) => (
-                      <PlayerContainer key={playerId}>
-                        <PlayerPhoto
-                          src={getPlayerPhoto(playerId)}
-                          alt={getPlayerName(playerId)}
-                        />
-                        <PlayerName>{getPlayerName(playerId)}</PlayerName>
-                      </PlayerContainer>
-                    ))}
-                  </div>
+                  <ActionCard isAdded={false}>
+                    <ActionContent>
+                      {Object.entries(transaction.drops).map(([playerId]) => (
+                        <PlayerRow key={playerId}>
+                          <PlayerPosition position={sleeperPlayers[playerId]?.position || 'FLEX'}>
+                            {sleeperPlayers[playerId]?.position || 'FLEX'}
+                          </PlayerPosition>
+                          <PlayerPhoto
+                            src={getPlayerPhoto(playerId)}
+                            alt={sleeperPlayers[playerId]?.full_name || "Unknown Player"}
+                          />
+                          <PlayerName>{sleeperPlayers[playerId]?.full_name}</PlayerName>
+                        </PlayerRow>
+                      ))}
+                    </ActionContent>
+                  </ActionCard>
                 )}
               </>
             )}

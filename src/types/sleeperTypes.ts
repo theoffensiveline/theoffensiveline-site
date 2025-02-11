@@ -19,15 +19,22 @@ export interface League {
   league_id: string;
   draft_id: string;
   avatar: string;
+  metadata: {
+    auto_continue: "on" | "off";
+    keeper_deadline: string;
+    latest_league_winner_roster_id: string;
+  };
 }
 
 export interface Matchup {
-  starters: string[];
-  roster_id: number;
-  players: string[];
-  matchup_id: number;
   points: number;
+  players: string[];
+  roster_id: number;
   custom_points: number | null;
+  matchup_id: number;
+  starters: string[];
+  starters_points: number[];
+  players_points: Record<string, number>;
   week?: number;
 }
 
@@ -195,4 +202,32 @@ export interface Transactions {
     receiver: number;
     amount: number;
   }[];
+}
+
+interface BracketMatchupFrom {
+  w?: number; // winner of match id
+  l?: number; // loser of match id
+}
+
+export interface BracketMatchup {
+  r: number; // round number
+  m: number; // match id
+  t1: number | null; // roster_id of team 1 or null
+  t2: number | null; // roster_id of team 2 or null
+  w: number | null; // roster_id of winner
+  l: number | null; // roster_id of loser
+  t1_from?: BracketMatchupFrom; // where team 1 comes from
+  t2_from?: BracketMatchupFrom; // where team 2 comes from
+  p?: number; // optional placement/position
+}
+
+export interface LeagueHistory {
+  leagues: League[];
+  rosters: Record<string, Roster[]>; // league_id -> rosters
+  users: Record<string, User[]>; // league_id -> users
+  metadata: {
+    startYear: string;
+    endYear: string;
+    totalSeasons: number;
+  };
 }
