@@ -22,6 +22,7 @@ import RecentActivity from "./pages/RecentActivity";
 import LeagueHistory from "./pages/LeagueHistory";
 import LeagueRosters from "./pages/LeagueRosters";
 import LeaderboardsHome from "./components/leaderboard/LeaderboardsHome";
+import Leaderboard from "./components/leaderboard/Leaderboard";
 
 const BackgroundWrapper = styled.div`
   background: ${({ background }) => background};
@@ -61,7 +62,8 @@ const ThemeWithStyledThemeProvider = () => {
               <Route path="/submit/:leagueId" element={<Submit />} />
               <Route path="/bylaws/:leagueId" element={<Bylaws />} />
               <Route path="/newsletter/:leagueId" element={<Newsletter />} />
-              <Route path="/leaderboard/:leagueId" element={<LeaderboardsHome />} />
+              <Route path="/leaderboards/:leagueId" element={<LeaderboardsHome />} />
+              <Route path="/leaderboard/:leaderboardId" element={<Leaderboard />} />
               <Route path="/survivor/:leagueId" element={<Survivor />} />
               <Route path="*" element={<Default />} />
               <Route path="/league/commishNote1" element={<CommissionerNote />} />

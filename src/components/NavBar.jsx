@@ -80,7 +80,7 @@ function NavBar() {
         if (leagueId !== "1124831356770058240") {
             return ['Home', 'Change League'];
         }
-        return ['Home', 'Submit', 'Bylaws', 'Leaderboard', 'Survivor', 'Change League'];
+        return ['Home', 'Submit', 'Bylaws', 'Leaderboards', 'Survivor', 'Change League'];
     };
 
     const pages = getPages();
