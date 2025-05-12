@@ -33,6 +33,13 @@ const YearTitle = styled.h2`
     color: #333;
 `;
 
+const LeaderboardList = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+`;
+
 const LeaderboardsHome = () => {
   const [leaderboards, setLeaderboards] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -76,14 +83,18 @@ const LeaderboardsHome = () => {
 
   return (
     <Container>
-      {Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a)).map((year) => (
-        <YearGroup key={year}>
-          <YearTitle>{year}</YearTitle>
-          {groupedByYear[year].map((leaderboard) => (
-            <LeaderboardCard key={leaderboard.id} leaderboard={leaderboard} />
-          ))}
-        </YearGroup>
-      ))}
+      {Object.keys(groupedByYear)
+        .sort((a, b) => Number(b) - Number(a))
+        .map((year) => (
+          <YearGroup key={year}>
+            <YearTitle>{year}</YearTitle>
+            <LeaderboardList>
+              {groupedByYear[year].map((leaderboard) => (
+                <LeaderboardCard key={leaderboard.id} leaderboard={leaderboard} />
+              ))}
+            </LeaderboardList>
+          </YearGroup>
+        ))}
     </Container>
   );
 };
