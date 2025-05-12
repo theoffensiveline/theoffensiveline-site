@@ -61,13 +61,6 @@ const LeaderboardsHome = () => {
     }
   }, [LEAGUE_ID]);
 
-  useEffect(() => {
-    // Sort the leaderboards by year descending
-    setLeaderboards((prev) =>
-      [...prev].sort((a, b) => b.year - a.year)
-    );
-  }, [leaderboards]);
-
   if (loading) return <Message>Loading...</Message>;
   if (!leaderboards.length) return <Message>No leaderboards found.</Message>;
 
