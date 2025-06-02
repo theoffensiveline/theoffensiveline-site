@@ -15,6 +15,7 @@ const Container = styled.div`
   align-items: center;
   margin-top: 20px;
   gap: 16px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const TitleContainer = styled.div`
@@ -35,8 +36,8 @@ const SubmitButton = styled.button`
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  background-color: #007acc;
-  color: white;
+  background-color: ${({ theme }) => theme.newsBlue};
+  color: ${({ theme }) => theme.background};
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -44,15 +45,16 @@ const SubmitButton = styled.button`
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #005fa3;
+    background-color: ${({ theme }) => theme.newsBlue}dd;
   }
 `;
 
 const RulesButton = styled(SubmitButton)`
-  background-color: #4a4a4a;
+  background-color: ${({ theme }) => theme.button};
+  color: ${({ theme }) => theme.buttonText};
 
   &:hover {
-    background-color: #333333;
+    background-color: ${({ theme }) => theme.button}dd;
   }
 `;
 
@@ -60,10 +62,11 @@ const Title = styled.h1`
   font-size: 2em;
   font-weight: 700;
   text-align: center;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Card = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 16px;
   border-radius: 12px;
   width: 100%;
@@ -73,6 +76,7 @@ const Card = styled.div`
   justify-content: space-between;
   transition: transform 0.2s ease;
   cursor: pointer;
+  border: 1px solid ${({ theme }) => theme.newsBlue};
 
   &:hover {
     transform: translateY(-4px);
@@ -83,11 +87,12 @@ const Position = styled.div`
   font-size: 1.2em;
   font-weight: 600;
   min-width: 40px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Name = styled.div`
   font-size: 1.1em;
-  color: #333;
+  color: ${({ theme }) => theme.text};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -96,13 +101,13 @@ const Name = styled.div`
 
 const SubmissionDate = styled.div`
   font-size: 0.8em;
-  color: #888;
+  color: ${({ theme }) => theme.text}99;
 `;
 
 const Score = styled.div`
   font-size: 1.1em;
   font-weight: 500;
-  color: #333;
+  color: ${({ theme }) => theme.text};
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -111,7 +116,7 @@ const Score = styled.div`
 
 const Points = styled.div`
   font-size: 0.8em;
-  color: ${props => props.hasPoints ? '#007acc' : '#666'};
+  color: ${props => props.hasPoints ? props.theme.newsBlue : props.theme.text}99;
   font-weight: ${props => props.hasPoints ? '500' : '400'};
 `;
 
@@ -120,7 +125,7 @@ const ConfirmationModalContent = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -129,16 +134,18 @@ const ConfirmationModalContent = styled.div`
   gap: 16px;
   max-width: 400px;
   width: 90%;
+  color: ${({ theme }) => theme.text};
 `;
 
 const ModalTitle = styled.h3`
   font-size: 1.2em;
   margin: 0;
+  color: ${({ theme }) => theme.text};
 `;
 
 const ModalText = styled.p`
   margin: 0;
-  color: #555;
+  color: ${({ theme }) => theme.text}99;
 `;
 
 const ButtonContainer = styled.div`
@@ -158,20 +165,20 @@ const Button = styled.button`
 `;
 
 const CancelButton = styled(Button)`
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: ${({ theme }) => theme.button};
+  color: ${({ theme }) => theme.buttonText};
 
   &:hover {
-    background-color: #d0d0d0;
+    background-color: ${({ theme }) => theme.button}dd;
   }
 `;
 
 const ContinueButton = styled(Button)`
-  background-color: #007acc;
-  color: white;
+  background-color: ${({ theme }) => theme.newsBlue};
+  color: ${({ theme }) => theme.background};
 
   &:hover {
-    background-color: #005fa3;
+    background-color: ${({ theme }) => theme.newsBlue}dd;
   }
 `;
 
@@ -185,7 +192,7 @@ const ToggleContainer = styled.div`
 
 const ToggleLabel = styled.span`
   font-size: 0.9em;
-  color: ${props => props.active ? '#007acc' : '#666'};
+  color: ${props => props.active ? props.theme.newsBlue : props.theme.text}99;
   font-weight: ${props => props.active ? '600' : '400'};
 `;
 

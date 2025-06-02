@@ -13,11 +13,12 @@ const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
   max-width: 400px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Message = styled.p`
   font-size: 1.2em;
-  color: #555;
+  color: ${({ theme }) => theme.text}99;
 `;
 
 const YearGroup = styled.div`
@@ -30,7 +31,7 @@ const YearTitle = styled.h2`
   font-weight: 700;
   margin-bottom: 12px;
   text-align: center;
-  color: #333;
+  color: ${({ theme }) => theme.text};
 `;
 
 const LeaderboardList = styled.div`

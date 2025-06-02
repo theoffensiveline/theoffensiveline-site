@@ -20,23 +20,73 @@ const NiceBox = styled(Box)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: indianred;
-  border: 2px solid #000;
-  color: white;
+  background: ${({ theme }) => theme.background};
+  border: 2px solid ${({ theme }) => theme.newsBlue};
+  color: ${({ theme }) => theme.text};
   max-width: 350px;
   padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  h3, h4 {
+    color: ${({ theme }) => theme.text};
+    margin-bottom: 8px;
+  }
+
+  .MuiInputLabel-root {
+    color: ${({ theme }) => theme.text}99;
+  }
+
+  .MuiOutlinedInput-root {
+    color: ${({ theme }) => theme.text};
+    
+    .MuiOutlinedInput-notchedOutline {
+      border-color: ${({ theme }) => theme.text}33;
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: ${({ theme }) => theme.text}66;
+    }
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: ${({ theme }) => theme.newsBlue};
+    }
+  }
+
+  .MuiSelect-icon {
+    color: ${({ theme }) => theme.text}99;
+  }
+
+  .MuiMenuItem-root {
+    color: ${({ theme }) => theme.text};
+    
+    &:hover {
+      background-color: ${({ theme }) => theme.newsBlue}22;
+    }
+  }
 `;
 
 const ButtonButton = styled.button`
-  border: 1px solid saddlebrown;
-  border-radius: 1px;
-  background: whitesmoke;
+  border: 1px solid ${({ theme }) => theme.newsBlue};
+  border-radius: 8px;
+  background: ${({ theme }) => theme.newsBlue};
   height: 3rem;
   width: 5rem;
-  color: black;
+  color: ${({ theme }) => theme.background};
   margin-top: 1rem;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.newsBlue}dd;
+  }
+
+  &:disabled {
+    background: ${({ theme }) => theme.text}33;
+    border-color: ${({ theme }) => theme.text}33;
+    cursor: not-allowed;
+  }
 `;
 
 const LeaderboardSubmitModal = ({ props }) => {

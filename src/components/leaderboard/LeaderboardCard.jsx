@@ -16,7 +16,7 @@ import {
 import { db } from "../../firebase";
 
 const Card = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 16px;
   border-radius: 12px;
   width: 100%;
@@ -27,6 +27,7 @@ const Card = styled.div`
   margin-bottom: 8px;
   display: flex;
   flex-direction: column;
+  border: 1px solid ${({ theme }) => theme.newsBlue};
 
   &:hover {
     transform: translateY(-4px);
@@ -38,6 +39,7 @@ const Title = styled.h3`
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 8px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const TopEntriesContainer = styled.div`
@@ -60,10 +62,11 @@ const Position = styled.div`
   align-items: center;
   width: 20px;
   font-weight: 500;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Name = styled.div`
-  color: #333;
+  color: ${({ theme }) => theme.text};
   flex-grow: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -73,14 +76,14 @@ const Name = styled.div`
 
 const Score = styled.div`
   font-weight: 500;
-  color: #555;
+  color: ${({ theme }) => theme.newsBlue};
   font-size: 0.85em;
   text-align: right;
 `;
 
 const Message = styled.div`
   font-size: 0.85em;
-  color: #777;
+  color: ${({ theme }) => theme.text}99;
   text-align: center;
   margin-top: 8px;
 `;

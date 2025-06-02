@@ -10,6 +10,7 @@ const Container = styled.div`
   align-items: center;
   margin-top: 20px;
   gap: 16px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Title = styled.h1`
@@ -17,10 +18,11 @@ const Title = styled.h1`
   font-weight: 700;
   text-align: center;
   margin-bottom: 16px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Card = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.background};
   padding: 16px;
   border-radius: 12px;
   width: 100%;
@@ -29,6 +31,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  border: 1px solid ${({ theme }) => theme.newsBlue};
 `;
 
 const CardHeader = styled.div`
@@ -41,11 +44,12 @@ const Position = styled.div`
   font-size: 1.2em;
   font-weight: 600;
   width: 40px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Name = styled.div`
   font-size: 1.1em;
-  color: #333;
+  color: ${({ theme }) => theme.text};
   flex-grow: 1;
   margin: 0 16px;
 `;
@@ -53,14 +57,14 @@ const Name = styled.div`
 const Score = styled.div`
   font-size: 1.1em;
   font-weight: 500;
-  color: #007acc;
+  color: ${({ theme }) => theme.newsBlue};
   width: 60px;
   text-align: right;
 `;
 
 const Stats = styled.div`
   font-size: 0.9em;
-  color: #666;
+  color: ${({ theme }) => theme.text}99;
   margin-top: 4px;
   display: flex;
   flex-direction: column;
@@ -75,12 +79,12 @@ const StatRow = styled.div`
 
 const StatLabel = styled.span`
   font-weight: 500;
-  color: #444;
+  color: ${({ theme }) => theme.text};
   min-width: 80px;
 `;
 
 const StatValue = styled.span`
-  color: #666;
+  color: ${({ theme }) => theme.text}99;
 `;
 
 const ChallengeList = styled.div`
@@ -90,11 +94,11 @@ const ChallengeList = styled.div`
 `;
 
 const ChallengeTag = styled.span`
-  background-color: #f0f0f0;
+  background-color: ${({ theme }) => theme.newsBlue}22;
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 0.85em;
-  color: #555;
+  color: ${({ theme }) => theme.newsBlue};
 `;
 
 const OverallLeaderboard = () => {
