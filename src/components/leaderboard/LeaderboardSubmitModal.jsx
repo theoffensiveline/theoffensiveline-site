@@ -11,7 +11,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { sendDiscordNotification } from "../../utils/api/discord";
 
@@ -103,6 +103,7 @@ const LeaderboardSubmitModal = ({ props }) => {
   const [canSave, setCanSave] = useState(false);
   const [leagueMembers, setLeagueMembers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [leaderboardName, setLeaderboardName] = useState("");
 
   const isEmpty = (val) => val === "" || val === null || val === undefined;
 
@@ -159,6 +160,26 @@ const LeaderboardSubmitModal = ({ props }) => {
       fetchLeagueMembers();
     }
   }, [visible]);
+
+  useEffect(() => {
+    const fetchLeaderboardName = async () => {
+      if (leaderboardId) {
+        try {
+          const leaderboardRef = doc(db, "leaderboards", leaderboardId);
+          const leaderboardSnap = await getDoc(leaderboardRef);
+          if (leaderboardSnap.exists()) {
+            setLeaderboardName(leaderboardSnap.data().name);
+          }
+        } catch (error) {
+          console.error("Error fetching leaderboard name:", error);
+        }
+      }
+    };
+
+    if (visible) {
+      fetchLeaderboardName();
+    }
+  }, [visible, leaderboardId]);
 
   const checkIfTopThree = (submission) => {
     if (submission.dnf) return false;
@@ -230,7 +251,7 @@ const LeaderboardSubmitModal = ({ props }) => {
 
           const discordMessage = {
             name: name,
-            content: `New Top 3 Leaderboard Submission:\nResult: ${result}${link ? `\nLink: ${link}` : ''}`
+            content: `New Top 3 Leaderboard Submission for ${leaderboardName}:\nResult: ${result}${link ? `\nLink: ${link}` : ''}`
           };
 
           try {
