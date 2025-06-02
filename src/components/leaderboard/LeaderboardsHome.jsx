@@ -81,6 +81,18 @@ const LeaderboardsHome = () => {
     return acc;
   }, {});
 
+  // Add Overall Leaderboard to 2025 if it exists
+  if (groupedByYear["2025"]) {
+    groupedByYear["2025"].unshift({
+      id: "overall",
+      name: "All Challenges",
+      year: "2025",
+      sort: "high_score",
+      can_submit: "false",
+      creator: "Overall",
+    });
+  }
+
   return (
     <Container>
       {Object.keys(groupedByYear)

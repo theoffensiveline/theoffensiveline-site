@@ -21,6 +21,7 @@ import LeagueHistory from "./pages/LeagueHistory";
 import LeagueRosters from "./pages/LeagueRosters";
 import LeaderboardsHome from "./components/leaderboard/LeaderboardsHome";
 import Leaderboard from "./components/leaderboard/Leaderboard";
+import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
 
 const BackgroundWrapper = styled.div`
   background: ${({ background }) => background};
@@ -67,6 +68,10 @@ const ThemeWithStyledThemeProvider = () => {
               <Route
                 path="/leaderboard/:leaderboardId"
                 element={<Leaderboard />}
+              />
+              <Route
+                path="/leaderboard/overall"
+                element={<OverallLeaderboard />}
               />
               <Route path="/survivor/:leagueId" element={<Survivor />} />
               <Route path="*" element={<Default />} />
