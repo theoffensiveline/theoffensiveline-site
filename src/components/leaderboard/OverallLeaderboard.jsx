@@ -98,89 +98,93 @@ const ChallengeTag = styled.span`
 `;
 
 const OverallLeaderboard = () => {
-    const [standings, setStandings] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const LEAGUE_ID = "1124831356770058240";
+  const [standings, setStandings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const LEAGUE_ID = "1124831356770058240";
 
-    const calculateStandings = useCallback(async () => {
-        try {
-            setLoading(true);
+  const calculateStandings = useCallback(async () => {
+    try {
+      setLoading(true);
 
-            // Get all leaderboards
-            const leaderboardsQuery = query(
-                collection(db, "leaderboards"),
-                where("league_id", "==", LEAGUE_ID),
-                where("year", "==", "2025")
-            );
-            const leaderboardsSnapshot = await getDocs(leaderboardsQuery);
-            const leaderboards = leaderboardsSnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
+      // Get all leaderboards
+      const leaderboardsQuery = query(
+        collection(db, "leaderboards"),
+        where("league_id", "==", LEAGUE_ID),
+        where("year", "==", "2025")
+      );
+      const leaderboardsSnapshot = await getDocs(leaderboardsQuery);
+      const leaderboards = leaderboardsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
-            // Get all results for these leaderboards
-            const leaderboardIds = leaderboards.map(l => l.id);
-            const resultsQuery = query(
-                collection(db, "leaderboard-results"),
-                where("leaderboard_id", "in", leaderboardIds)
-            );
-            const resultsSnapshot = await getDocs(resultsQuery);
-            const allResults = resultsSnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
+      // Get all results for these leaderboards
+      const leaderboardIds = leaderboards.map(l => l.id);
+      const resultsQuery = query(
+        collection(db, "leaderboard-results"),
+        where("leaderboard_id", "in", leaderboardIds)
+      );
+      const resultsSnapshot = await getDocs(resultsQuery);
+      const allResults = resultsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
-            const standingsArray = await calculateOverallStandings(leaderboards, allResults);
-            setStandings(standingsArray);
-        } catch (error) {
-            console.error("Error calculating standings:", error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+      const standingsArray = await calculateOverallStandings(leaderboards, allResults);
+      setStandings(standingsArray);
+    } catch (error) {
+      console.error("Error calculating standings:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-    useEffect(() => {
-        calculateStandings();
-    }, [calculateStandings]);
+  useEffect(() => {
+    calculateStandings();
+  }, [calculateStandings]);
 
-    if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
 
-    return (
-        <Container>
-            <Title>All Challenges</Title>
-            {standings.map((standing, index) => (
-                <Card key={standing.name}>
-                    <CardHeader>
-                        <Position>#{index + 1}</Position>
-                        <Name>{standing.name}</Name>
-                        <Score>{Math.round(standing.totalPoints)}</Score>
-                    </CardHeader>
-                    <Stats>
-                        <StatRow>
-                            <StatLabel>1st Place:</StatLabel>
-                            <ChallengeList>
-                                {standing.firstPlaceChallenges?.map(challenge => (
-                                    <ChallengeTag key={challenge}>{challenge}</ChallengeTag>
-                                ))}
-                            </ChallengeList>
-                        </StatRow>
-                        <StatRow>
-                            <StatLabel>Top 3:</StatLabel>
-                            <ChallengeList>
-                                {standing.topThreeChallenges?.map(challenge => (
-                                    <ChallengeTag key={challenge}>{challenge}</ChallengeTag>
-                                ))}
-                            </ChallengeList>
-                        </StatRow>
-                        <StatRow>
-                            <StatLabel>Completed:</StatLabel>
-                            <StatValue>{standing.challengesCompleted}/12 Challenges</StatValue>
-                        </StatRow>
-                    </Stats>
-                </Card>
-            ))}
-        </Container>
-    );
+  return (
+    <Container>
+      <Title>All Challenges</Title>
+      {standings.map((standing, index) => (
+        <Card key={standing.name}>
+          <CardHeader>
+            <Position>#{index + 1}</Position>
+            <Name>{standing.name}</Name>
+            <Score>{Number.isInteger(standing.totalPoints) ? standing.totalPoints : Number(standing.totalPoints).toFixed(1)}</Score>
+          </CardHeader>
+          <Stats>
+            <StatRow>
+              <StatLabel>1st Place:</StatLabel>
+              <ChallengeList>
+                {standing.firstPlaceChallenges?.map(challenge => (
+                  <ChallengeTag key={challenge}>{challenge}</ChallengeTag>
+                ))}
+              </ChallengeList>
+            </StatRow>
+            <StatRow>
+              <StatLabel>Top 3:</StatLabel>
+              <ChallengeList>
+                {standing.topThreeChallenges?.map(challenge => (
+                  <ChallengeTag key={challenge}>{challenge}</ChallengeTag>
+                ))}
+              </ChallengeList>
+            </StatRow>
+            <StatRow>
+              <StatLabel>Completed:</StatLabel>
+              <StatValue>{standing.challengesCompleted}/12 Challenges</StatValue>
+            </StatRow>
+            <StatRow>
+              <StatLabel>Submissions:</StatLabel>
+              <StatValue>{standing.submissionCount} submission{standing.submissionCount === 1 ? '' : 's'}</StatValue>
+            </StatRow>
+          </Stats>
+        </Card>
+      ))}
+    </Container>
+  );
 };
 
-export default OverallLeaderboard; 
+export default OverallLeaderboard;

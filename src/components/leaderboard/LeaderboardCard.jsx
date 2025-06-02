@@ -138,7 +138,7 @@ const LeaderboardCard = ({ leaderboard }) => {
         const topPlayers = standings.slice(0, 3).map(player => ({
           id: player.name,
           name: player.name,
-          score: Math.round(player.totalPoints)
+          score: Number.isInteger(player.totalPoints) ? player.totalPoints : Number(player.totalPoints).toFixed(1)
         }));
 
         setTopEntries(topPlayers);

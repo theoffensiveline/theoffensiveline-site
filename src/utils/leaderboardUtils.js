@@ -111,6 +111,71 @@ export const getMedalEmoji = (position) => {
 };
 
 export const fetchAndSortResults = async (leaderboardId, sortType) => {
+  // Special case for fewest submissions leaderboard
+  if (leaderboardId === "QSv4tImm8DuHqC5wI5rY") {
+    // Get all leaderboards except the fewest submissions one
+    const leaderboardsQuery = query(
+      collection(db, "leaderboards"),
+      where("league_id", "==", "1124831356770058240"),
+      where("year", "==", "2025")
+    );
+    const leaderboardsSnapshot = await getDocs(leaderboardsQuery);
+    const leaderboards = leaderboardsSnapshot.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .filter((l) => l.id !== "QSv4tImm8DuHqC5wI5rY");
+
+    // Get all results for these leaderboards
+    const leaderboardIds = leaderboards.map((l) => l.id);
+    const resultsQuery = query(
+      collection(db, "leaderboard-results"),
+      where("leaderboard_id", "in", leaderboardIds)
+    );
+    const resultsSnapshot = await getDocs(resultsQuery);
+    const allResults = resultsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    // Get all league members
+    const leagueId = leaderboards[0]?.league_id;
+    if (!leagueId) {
+      console.error("No league_id found in leaderboards");
+      return [];
+    }
+
+    const response = await fetch(
+      `https://api.sleeper.app/v1/league/${leagueId}/users`
+    );
+    const leagueMembers = await response.json();
+
+    // Initialize submission counts for all league members
+    const submissionCounts = {};
+    leagueMembers.forEach((member) => {
+      const name = member.display_name || member.username;
+      submissionCounts[name] = 0;
+    });
+
+    // Count submissions per person
+    allResults.forEach((result) => {
+      if (submissionCounts[result.name] !== undefined) {
+        submissionCounts[result.name]++;
+      }
+    });
+
+    // Convert to array and sort by submission count (lowest first)
+    const sortedResults = Object.entries(submissionCounts)
+      .map(([name, count]) => ({
+        id: name, // Using name as ID since these are virtual results
+        name,
+        score: count,
+        submission_count: count,
+      }))
+      .sort((a, b) => a.score - b.score);
+
+    return sortedResults;
+  }
+
+  // Regular leaderboard handling
   const q = query(
     collection(db, "leaderboard-results"),
     where("leaderboard_id", "==", leaderboardId)
@@ -150,128 +215,162 @@ export const calculatePoints = (place, tiedCount) => {
   return totalPoints / tiedCount;
 };
 
+const initializePlayerStats = (name, submissionCount = 0) => ({
+  totalPoints: 0,
+  firstPlace: 0,
+  topThree: 0,
+  challengesCompleted: 0,
+  headToHead: {},
+  firstPlaceChallenges: [],
+  topThreeChallenges: [],
+  submissionCount: submissionCount,
+});
+
+const processTiedPlayers = (
+  tiedPlayers,
+  currentPlace,
+  leaderboardName,
+  playerStats
+) => {
+  const points = calculatePoints(currentPlace, tiedPlayers.length);
+  tiedPlayers.forEach((player) => {
+    if (!playerStats[player.name]) {
+      playerStats[player.name] = initializePlayerStats(player.name);
+    }
+    playerStats[player.name].totalPoints += points;
+    if (currentPlace === 1) {
+      playerStats[player.name].firstPlace++;
+      playerStats[player.name].firstPlaceChallenges.push(leaderboardName);
+    }
+    if (currentPlace <= 3) {
+      playerStats[player.name].topThree++;
+      playerStats[player.name].topThreeChallenges.push(leaderboardName);
+    }
+    playerStats[player.name].challengesCompleted++;
+  });
+};
+
+const handleTiedResults = (sortedResults, leaderboardName, playerStats) => {
+  let currentPlace = 1;
+  let currentScore = null;
+  let tiedPlayers = [];
+
+  sortedResults.forEach((result, index) => {
+    const score = parseFloat(result.score);
+
+    if (currentScore === null) {
+      currentScore = score;
+      tiedPlayers = [result];
+    } else if (score === currentScore) {
+      tiedPlayers.push(result);
+    } else {
+      processTiedPlayers(
+        tiedPlayers,
+        currentPlace,
+        leaderboardName,
+        playerStats
+      );
+      currentPlace += tiedPlayers.length;
+      currentScore = score;
+      tiedPlayers = [result];
+    }
+
+    if (index === sortedResults.length - 1) {
+      processTiedPlayers(
+        tiedPlayers,
+        currentPlace,
+        leaderboardName,
+        playerStats
+      );
+    }
+  });
+};
+
+export const calculateSubmissionCounts = async (leagueId) => {
+  // Get all leaderboards except the fewest submissions one
+  const leaderboardsQuery = query(
+    collection(db, "leaderboards"),
+    where("league_id", "==", leagueId),
+    where("year", "==", "2025")
+  );
+  const leaderboardsSnapshot = await getDocs(leaderboardsQuery);
+  const leaderboards = leaderboardsSnapshot.docs
+    .map((doc) => ({ id: doc.id, ...doc.data() }))
+    .filter((l) => l.id !== "QSv4tImm8DuHqC5wI5rY");
+
+  // Get all results for these leaderboards
+  const leaderboardIds = leaderboards.map((l) => l.id);
+  const resultsQuery = query(
+    collection(db, "leaderboard-results"),
+    where("leaderboard_id", "in", leaderboardIds)
+  );
+  const resultsSnapshot = await getDocs(resultsQuery);
+  const allResults = resultsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  // Get all league members
+  const response = await fetch(
+    `https://api.sleeper.app/v1/league/${leagueId}/users`
+  );
+  const leagueMembers = await response.json();
+
+  // Initialize submission counts for all league members
+  const submissionCounts = {};
+  leagueMembers.forEach((member) => {
+    const name = member.display_name || member.username;
+    submissionCounts[name] = 0;
+  });
+
+  // Count submissions per person
+  allResults.forEach((result) => {
+    if (submissionCounts[result.name] !== undefined) {
+      submissionCounts[result.name]++;
+    }
+  });
+
+  return submissionCounts;
+};
+
 export const calculateOverallStandings = async (leaderboards, allResults) => {
   const playerStats = {};
+  // Get the league_id from the first leaderboard
+  const LEAGUE_ID = leaderboards[0]?.league_id;
 
-  // Initialize player stats with empty arrays for challenges
+  if (!LEAGUE_ID) {
+    console.error("No league_id found in leaderboards");
+    return [];
+  }
+
+  // Get submission counts for all players
+  const submissionCounts = await calculateSubmissionCounts(LEAGUE_ID);
+
+  // Process each leaderboard
   leaderboards.forEach((leaderboard) => {
     const leaderboardResults = allResults.filter(
       (r) => r.leaderboard_id === leaderboard.id
     );
-
-    // Sort results using the existing sortResults function
     const sortedResults = sortResults(leaderboardResults, leaderboard.sort);
-
-    // Calculate placements and handle ties
-    let currentPlace = 1;
-    let currentScore = null;
-    let tiedCount = 0;
-    let tiedPlayers = [];
-
-    sortedResults.forEach((result, index) => {
-      const score = parseFloat(result.score);
-
-      if (currentScore === null) {
-        currentScore = score;
-        tiedCount = 1;
-        tiedPlayers = [result];
-      } else if (score === currentScore) {
-        tiedCount++;
-        tiedPlayers.push(result);
-      } else {
-        // Process tied players
-        const points = calculatePoints(currentPlace, tiedCount);
-        tiedPlayers.forEach((player) => {
-          if (!playerStats[player.name]) {
-            playerStats[player.name] = {
-              totalPoints: 0,
-              firstPlace: 0,
-              topThree: 0,
-              challengesCompleted: 0,
-              headToHead: {},
-              firstPlaceChallenges: [],
-              topThreeChallenges: [],
-            };
-          }
-          playerStats[player.name].totalPoints += points;
-          if (currentPlace === 1) {
-            playerStats[player.name].firstPlace++;
-            playerStats[player.name].firstPlaceChallenges.push(
-              leaderboard.name
-            );
-          }
-          if (currentPlace <= 3) {
-            playerStats[player.name].topThree++;
-            playerStats[player.name].topThreeChallenges.push(leaderboard.name);
-          }
-          playerStats[player.name].challengesCompleted++;
-        });
-
-        // Reset for next group
-        currentPlace += tiedCount;
-        currentScore = score;
-        tiedCount = 1;
-        tiedPlayers = [result];
-      }
-
-      // Handle last group
-      if (index === sortedResults.length - 1) {
-        const points = calculatePoints(currentPlace, tiedCount);
-        tiedPlayers.forEach((player) => {
-          if (!playerStats[player.name]) {
-            playerStats[player.name] = {
-              totalPoints: 0,
-              firstPlace: 0,
-              topThree: 0,
-              challengesCompleted: 0,
-              headToHead: {},
-              firstPlaceChallenges: [],
-              topThreeChallenges: [],
-            };
-          }
-          playerStats[player.name].totalPoints += points;
-          if (currentPlace === 1) {
-            playerStats[player.name].firstPlace++;
-            playerStats[player.name].firstPlaceChallenges.push(
-              leaderboard.name
-            );
-          }
-          if (currentPlace <= 3) {
-            playerStats[player.name].topThree++;
-            playerStats[player.name].topThreeChallenges.push(leaderboard.name);
-          }
-          playerStats[player.name].challengesCompleted++;
-        });
-      }
-    });
-
-    // Calculate head-to-head records
-    Object.keys(playerStats).forEach((player1) => {
-      Object.keys(playerStats).forEach((player2) => {
-        if (player1 !== player2) {
-          if (!playerStats[player1].headToHead[player2]) {
-            playerStats[player1].headToHead[player2] = 0;
-          }
-          if (!playerStats[player2].headToHead[player1]) {
-            playerStats[player2].headToHead[player1] = 0;
-          }
-        }
-      });
-    });
-
-    // Compare each player's results in this leaderboard
-    sortedResults.forEach((result1, i) => {
-      sortedResults.forEach((result2, j) => {
-        if (i !== j) {
-          const score1 = parseFloat(result1.score);
-          const score2 = parseFloat(result2.score);
-          if (score1 > score2) {
-            playerStats[result1.name].headToHead[result2.name]++;
-          }
-        }
-      });
-    });
+    handleTiedResults(sortedResults, leaderboard.name, playerStats);
   });
+
+  // Add players who haven't participated in any challenges
+  Object.entries(submissionCounts).forEach(([name, count]) => {
+    if (!playerStats[name]) {
+      playerStats[name] = initializePlayerStats(name, count);
+    }
+  });
+
+  // Calculate points for fewest submissions leaderboard
+  const submissionEntries = Object.entries(submissionCounts)
+    .map(([name, count]) => ({
+      name,
+      score: count,
+    }))
+    .sort((a, b) => a.score - b.score);
+
+  handleTiedResults(submissionEntries, "Fewest Submissions", playerStats);
 
   // Convert to array and sort
   const standingsArray = Object.entries(playerStats).map(([name, stats]) => ({
@@ -287,6 +386,8 @@ export const calculateOverallStandings = async (leaderboards, allResults) => {
       return b.headToHeadWins - a.headToHeadWins;
     if (a.firstPlace !== b.firstPlace) return b.firstPlace - a.firstPlace;
     if (a.topThree !== b.topThree) return b.topThree - a.topThree;
+    if (a.submissionCount !== b.submissionCount)
+      return a.submissionCount - b.submissionCount;
     return b.challengesCompleted - a.challengesCompleted;
   });
 

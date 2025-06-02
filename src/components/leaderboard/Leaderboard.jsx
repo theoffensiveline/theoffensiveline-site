@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { formatResult, fetchAndSortResults } from "../../utils/leaderboardUtils";
+import { formatResult, fetchAndSortResults, POINTS_MAP, getMedalEmoji } from "../../utils/leaderboardUtils";
 import styled from "styled-components";
 import { Plus } from "lucide-react";
 import LeaderboardSubmitModal from "./LeaderboardSubmitModal";
@@ -81,17 +81,36 @@ const Card = styled.div`
 const Position = styled.div`
   font-size: 1.2em;
   font-weight: 600;
+  min-width: 40px;
 `;
 
 const Name = styled.div`
   font-size: 1.1em;
   color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+`;
+
+const SubmissionDate = styled.div`
+  font-size: 0.8em;
+  color: #888;
 `;
 
 const Score = styled.div`
   font-size: 1.1em;
   font-weight: 500;
   color: #007acc;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+`;
+
+const Points = styled.div`
+  font-size: 0.8em;
+  color: #666;
 `;
 
 const ConfirmationModalContent = styled.div`
@@ -223,6 +242,39 @@ const Leaderboard = () => {
     setRulesModalVisible(false);
   };
 
+  const calculatePointsForPosition = (index, results) => {
+    let currentPlace = 1;
+    let currentScore = null;
+    let tiedCount = 0;
+
+    // First pass: find the current position and tied count
+    for (let i = 0; i < results.length; i++) {
+      const score = parseFloat(results[i].score);
+
+      if (currentScore === null) {
+        currentScore = score;
+        tiedCount = 1;
+      } else if (score === currentScore) {
+        tiedCount++;
+      } else {
+        if (i > index) break; // We've passed our target position
+        currentPlace += tiedCount;
+        currentScore = score;
+        tiedCount = 1;
+      }
+    }
+
+    // Calculate total points for all positions in the tie
+    let totalPoints = 0;
+    for (let i = 0; i < tiedCount; i++) {
+      totalPoints += POINTS_MAP[currentPlace + i] || 0;
+    }
+
+    // Return the average points for the tie
+    const points = totalPoints / tiedCount;
+    return Number.isInteger(points) ? points : points.toFixed(1);
+  };
+
   return (
     <>
       {!!submitModalVisible && (
@@ -303,9 +355,19 @@ const Leaderboard = () => {
             onClick={() => handleCardClick(result)}
             style={{ cursor: result.link ? "pointer" : "default" }}
           >
-            <Position>#{index + 1}</Position>
-            <Name>{result.name}</Name>
-            <Score>{formatResult(result, leaderboard.sort)}</Score>
+            <Position>{index < 3 ? getMedalEmoji(index) : `#${index + 1}`}</Position>
+            <Name>
+              {result.name}
+              {result.submission_date && (
+                <SubmissionDate>
+                  Submitted: {new Date(result.submission_date).toLocaleDateString()}
+                </SubmissionDate>
+              )}
+            </Name>
+            <Score>
+              {formatResult(result, leaderboard.sort)}
+              <Points>{calculatePointsForPosition(index, results)} points</Points>
+            </Score>
           </Card>
         ))}
       </Container>
