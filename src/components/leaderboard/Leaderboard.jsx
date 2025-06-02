@@ -330,6 +330,7 @@ const Leaderboard = () => {
             refresh: fetchLeaderboard,
             sortType: leaderboard.sort,
             leaderboardId: leaderboardId,
+            currentResults: uniqueResults
           }}
         />
       )}

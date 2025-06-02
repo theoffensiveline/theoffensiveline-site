@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
+import { sendDiscordNotification } from "../../utils/api/discord";
 
 const NiceBox = styled(Box)`
   position: absolute;
@@ -39,7 +40,7 @@ const ButtonButton = styled.button`
 `;
 
 const LeaderboardSubmitModal = ({ props }) => {
-  const { visible, setVisible, refresh, sortType, leaderboardId } = props;
+  const { visible, setVisible, refresh, sortType, leaderboardId, currentResults } = props;
 
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
@@ -109,31 +110,98 @@ const LeaderboardSubmitModal = ({ props }) => {
     }
   }, [visible]);
 
-  const submit = async () => {
-    // Get current date in ISO format (YYYY-MM-DD)
-    const currentDate = new Date().toISOString().split("T")[0];
+  const checkIfTopThree = (submission) => {
+    if (submission.dnf) return false;
 
-    const submissionData = {
-      leaderboard_id: leaderboardId,
-      name: name,
-      link: link,
-      dnf: dnf,
-      submission_date: currentDate,
-    };
+    // Add the new submission to the list
+    const allSubmissions = [...currentResults, submission];
 
-    if (sortType.includes("score") && !dnf) {
-      submissionData.score = parseFloat(score);
-    } else if (sortType.includes("time") && !dnf) {
-      submissionData.hours = parseInt(hours || "0");
-      submissionData.minutes = parseInt(minutes || "0");
-      submissionData.seconds = parseInt(seconds || "0");
-      submissionData.milliseconds = parseInt(milliseconds || "0");
+    // Sort submissions based on sortType
+    if (sortType.includes("score")) {
+      allSubmissions.sort((a, b) => b.score - a.score); // Higher score is better
+    } else if (sortType.includes("time")) {
+      allSubmissions.sort((a, b) => {
+        // Convert time to milliseconds for comparison
+        const timeA = (a.hours * 3600000) + (a.minutes * 60000) + (a.seconds * 1000) + a.milliseconds;
+        const timeB = (b.hours * 3600000) + (b.minutes * 60000) + (b.seconds * 1000) + b.milliseconds;
+        return timeA - timeB; // Lower time is better
+      });
     }
 
-    await addDoc(collection(db, "leaderboard-results"), submissionData);
+    // Check if the new submission is in top 3
+    const newSubmissionIndex = allSubmissions.findIndex(s =>
+      s.name === submission.name &&
+      (sortType.includes("score") ? s.score === submission.score :
+        s.hours === submission.hours &&
+        s.minutes === submission.minutes &&
+        s.seconds === submission.seconds &&
+        s.milliseconds === submission.milliseconds)
+    );
 
-    setVisible(false);
-    refresh();
+    return newSubmissionIndex < 3;
+  };
+
+  const submit = async () => {
+    try {
+      // Get current date in ISO format (YYYY-MM-DD)
+      const currentDate = new Date().toISOString().split("T")[0];
+
+      const submissionData = {
+        leaderboard_id: leaderboardId,
+        name: name,
+        link: link,
+        dnf: dnf,
+        submission_date: currentDate,
+      };
+
+      if (sortType.includes("score") && !dnf) {
+        submissionData.score = parseFloat(score);
+      } else if (sortType.includes("time") && !dnf) {
+        submissionData.hours = parseInt(hours || "0");
+        submissionData.minutes = parseInt(minutes || "0");
+        submissionData.seconds = parseInt(seconds || "0");
+        submissionData.milliseconds = parseInt(milliseconds || "0");
+      }
+
+      // Check if this is a top 3 submission
+      const isTopThree = checkIfTopThree(submissionData);
+
+      try {
+        // Save the submission
+        await addDoc(collection(db, "leaderboard-results"), submissionData);
+
+        // Only send Discord notification for top 3 submissions
+        if (isTopThree) {
+          const result = dnf
+            ? "DNF"
+            : sortType.includes("score")
+              ? score
+              : `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+          const discordMessage = {
+            name: name,
+            content: `New Top 3 Leaderboard Submission:\nResult: ${result}${link ? `\nLink: ${link}` : ''}`
+          };
+
+          try {
+            await sendDiscordNotification(discordMessage, "general");
+          } catch (discordError) {
+            console.error("Failed to send Discord notification:", discordError);
+            // Continue with the submission even if Discord notification fails
+          }
+        }
+
+        setVisible(false);
+        refresh();
+      } catch (dbError) {
+        console.error("Error saving to database:", dbError);
+        throw new Error("Failed to save submission to database. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting result:", error);
+      // You might want to show this error to the user in the UI
+      alert(error.message || "An error occurred while submitting your result. Please try again.");
+    }
   };
 
   const handleDnfChange = (checked) => {

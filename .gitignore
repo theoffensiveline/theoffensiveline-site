@@ -24,3 +24,5 @@ yarn-error.log*
 
 # fuck you
 .idea
+.env
+.env.production

@@ -3,6 +3,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { styled } from "styled-components"
+import { sendDiscordNotification } from '../utils/api/discord';
 
 const StyledForm = styled.div`
   max-width: 400px;
@@ -56,10 +57,15 @@ export default function Submit() {
                     name: name,
                     content: submission,
                 });
-                sendDiscordNoti().then(() => {
-                    setSubmission("");
-                    setName("");
-                });
+
+                // Send Discord notification
+                await sendDiscordNotification({
+                    name: name || "Anonymous League Manager",
+                    content: submission
+                }, "submissions");
+
+                setSubmission("");
+                setName("");
             } catch (e) {
                 console.error("Error during submission: ", e);
             } finally {
@@ -68,17 +74,6 @@ export default function Submit() {
         } else {
             //TODO: bully user
         }
-    }
-
-    const sendDiscordNoti = async () => {
-        const request = new XMLHttpRequest();
-        request.open("POST", "https://discord.com/api/webhooks/1154621303152705587/v37_IuEpCgQZyjn5Za4T-nChIiUGakhWB_eq2bfSWjFScRwgJIpphUZ-RRAG6uNRWL9V");
-        request.setRequestHeader('Content-type', 'application/json');
-        const params = {
-            username: name || "Anonymous League Manager",
-            content: submission
-        }
-        request.send(JSON.stringify(params));
     }
 
     return (
@@ -101,5 +96,4 @@ export default function Submit() {
             <StyledButton onClick={submit} disabled={loading}>Submit</StyledButton>
         </StyledForm>
     );
-
 }
