@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { collection, getDocs, doc, getDoc, where, query } from 'firebase/firestore';
-import { db } from '../../firebase';
-import styled from 'styled-components';
-import { Plus } from 'lucide-react';
+import { useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+import { formatResult, fetchAndSortResults } from "../../utils/leaderboardUtils";
+import styled from "styled-components";
+import { Plus } from "lucide-react";
 import LeaderboardSubmitModal from "./LeaderboardSubmitModal";
+import Modal from "@mui/material/Modal";
 
 const Container = styled.div`
   display: flex;
@@ -21,26 +23,42 @@ const TitleContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const Title = styled.h1`
-  font-size: 2em;
-  font-weight: 700;
-  text-align: center;
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
 `;
 
-const AddButton = styled.button`
+const SubmitButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
   background-color: #007acc;
   color: white;
   border: none;
-  border-radius: 16px;
+  border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-size: 0.9em;
   transition: background-color 0.2s ease;
 
   &:hover {
     background-color: #005fa3;
   }
+`;
+
+const RulesButton = styled(SubmitButton)`
+  background-color: #4a4a4a;
+
+  &:hover {
+    background-color: #333333;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 2em;
+  font-weight: 700;
+  text-align: center;
 `;
 
 const Card = styled.div`
@@ -76,43 +94,89 @@ const Score = styled.div`
   color: #007acc;
 `;
 
+const ConfirmationModalContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  width: 90%;
+`;
+
+const ModalTitle = styled.h3`
+  font-size: 1.2em;
+  margin: 0;
+`;
+
+const ModalText = styled.p`
+  margin: 0;
+  color: #555;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+`;
+
+const Button = styled.button`
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+`;
+
+const CancelButton = styled(Button)`
+  background-color: #e0e0e0;
+  color: #333;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
+`;
+
+const ContinueButton = styled(Button)`
+  background-color: #007acc;
+  color: white;
+
+  &:hover {
+    background-color: #005fa3;
+  }
+`;
+
 const Leaderboard = () => {
   const { leaderboardId } = useParams();
   const [leaderboard, setLeaderboard] = useState(null);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitModalVisible, setSubmitModalVisible] = useState(false);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [rulesModalVisible, setRulesModalVisible] = useState(false);
+  const [selectedResult, setSelectedResult] = useState(null);
 
-  useEffect(() => {
-    fetchLeaderboard();
-  }, [leaderboardId]);
-
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = useCallback(async () => {
     try {
       setLoading(true);
 
       // Fetch leaderboard details
-      const leaderboardRef = doc(db, 'leaderboards', leaderboardId);
+      const leaderboardRef = doc(db, "leaderboards", leaderboardId);
       const leaderboardSnap = await getDoc(leaderboardRef);
 
       if (leaderboardSnap.exists()) {
         const data = leaderboardSnap.data();
         setLeaderboard(data);
 
-        // Fetch results from the 'leaderboard-results' collection by leaderboard_id
-        const q = query(
-          collection(db, 'leaderboard-results'),
-          where('leaderboard_id', '==', leaderboardId)
-        );
-        const resultsSnap = await getDocs(q);
-
-        const fetchedResults = resultsSnap.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // Sort the results
-        const sortedResults = sortResults(fetchedResults, data.sort);
+        const sortedResults = await fetchAndSortResults(leaderboardId, data.sort);
         setResults(sortedResults);
       }
     } catch (e) {
@@ -120,21 +184,44 @@ const Leaderboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [leaderboardId]);
 
-  const sortResults = (results, sortType) => {
-    if (sortType === 'low_score') return results.sort((a, b) => a.score - b.score);
-    if (sortType === 'high_score') return results.sort((a, b) => b.score - a.score);
-    if (sortType === 'low_time') return results.sort((a, b) => timeToMs(a) - timeToMs(b));
-    if (sortType === 'high_time') return results.sort((a, b) => timeToMs(b) - timeToMs(a));
-    return results;
-  };
-
-  const timeToMs = ({ hours = 0, minutes = 0, seconds = 0, milliseconds = 0 }) =>
-    (hours * 3600000) + (minutes * 60000) + (seconds * 1000) + milliseconds;
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
 
   if (loading) return <p>Loading...</p>;
   if (!leaderboard) return <p>Leaderboard not found.</p>;
+
+  const handleCardClick = (result) => {
+    if (result.link) {
+      setSelectedResult(result);
+      setConfirmModalVisible(true);
+    }
+  };
+
+  const handleConfirmNavigation = () => {
+    if (selectedResult && selectedResult.link) {
+      // Check if the link already has http/https prefix
+      let url = selectedResult.link;
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+      }
+      window.open(url, "_blank");
+    }
+    setConfirmModalVisible(false);
+  };
+
+  const handleRulesNavigation = () => {
+    if (leaderboard?.rules) {
+      let url = leaderboard.rules;
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+      }
+      window.open(url, "_blank");
+    }
+    setRulesModalVisible(false);
+  };
 
   return (
     <>
@@ -145,27 +232,80 @@ const Leaderboard = () => {
             setVisible: setSubmitModalVisible,
             refresh: fetchLeaderboard,
             sortType: leaderboard.sort,
-            leaderboardId: leaderboardId
+            leaderboardId: leaderboardId,
           }}
         />
       )}
+      <Modal
+        open={confirmModalVisible}
+        onClose={() => setConfirmModalVisible(false)}
+        aria-labelledby="confirmation-modal"
+      >
+        <ConfirmationModalContent>
+          <ModalTitle>External Link</ModalTitle>
+          <ModalText>
+            You are now leaving The Offensive Line to go to{" "}
+            <strong>{selectedResult?.link}</strong>, continue?
+          </ModalText>
+          <ButtonContainer>
+            <CancelButton onClick={() => setConfirmModalVisible(false)}>
+              Cancel
+            </CancelButton>
+            <ContinueButton onClick={handleConfirmNavigation}>
+              Continue
+            </ContinueButton>
+          </ButtonContainer>
+        </ConfirmationModalContent>
+      </Modal>
+      <Modal
+        open={rulesModalVisible}
+        onClose={() => setRulesModalVisible(false)}
+        aria-labelledby="rules-modal"
+      >
+        <ConfirmationModalContent>
+          <ModalTitle>Leaderboard Rules</ModalTitle>
+          <ModalText>
+            You are now leaving The Offensive Line to view the rules at{" "}
+            <strong>{leaderboard?.rules}</strong>, continue?
+          </ModalText>
+          <ButtonContainer>
+            <CancelButton onClick={() => setRulesModalVisible(false)}>
+              Cancel
+            </CancelButton>
+            <ContinueButton onClick={handleRulesNavigation}>
+              Continue
+            </ContinueButton>
+          </ButtonContainer>
+        </ConfirmationModalContent>
+      </Modal>
       <Container>
         <TitleContainer>
           <Title>{leaderboard.name}</Title>
-          <AddButton onClick={() => setSubmitModalVisible(true)}>
-            <Plus size={20} />
-          </AddButton>
         </TitleContainer>
 
+        <ActionButtonsContainer>
+          {leaderboard.can_submit !== "false" && (
+            <SubmitButton onClick={() => setSubmitModalVisible(true)}>
+              <Plus size={20} />
+              <span>Add your submission</span>
+            </SubmitButton>
+          )}
+          {leaderboard.rules && (
+            <RulesButton onClick={() => setRulesModalVisible(true)}>
+              <span>View Rules</span>
+            </RulesButton>
+          )}
+        </ActionButtonsContainer>
+
         {results.map((result, index) => (
-          <Card key={result.id}>
+          <Card
+            key={result.id}
+            onClick={() => handleCardClick(result)}
+            style={{ cursor: result.link ? "pointer" : "default" }}
+          >
             <Position>#{index + 1}</Position>
             <Name>{result.name}</Name>
-            <Score>
-              {leaderboard.sort.includes('score')
-                ? result.score
-                : `${result.hours}h ${result.minutes}m ${result.seconds}s ${result.milliseconds}ms`}
-            </Score>
+            <Score>{formatResult(result, leaderboard.sort)}</Score>
           </Card>
         ))}
       </Container>

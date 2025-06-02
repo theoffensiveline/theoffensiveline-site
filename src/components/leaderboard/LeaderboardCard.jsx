@@ -1,7 +1,11 @@
-import React from 'react';
-import { Calendar, User } from 'lucide-react';
-import styled from 'styled-components';
-import {useNavigate} from "react-router-dom";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import {
+  formatResult,
+  getMedalEmoji,
+  fetchAndSortResults,
+} from "../../utils/leaderboardUtils";
 
 const Card = styled.div`
   background-color: white;
@@ -13,6 +17,8 @@ const Card = styled.div`
   transition: transform 0.2s ease;
   cursor: pointer;
   margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     transform: translateY(-4px);
@@ -22,17 +28,59 @@ const Card = styled.div`
 const Title = styled.h3`
   font-size: 1.2em;
   font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 8px;
 `;
 
-const InfoRow = styled.div`
+const TopEntriesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+`;
+
+const TopEntryRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 0.9em;
+`;
+
+const Position = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  width: 20px;
+  font-weight: 500;
+`;
+
+const Name = styled.div`
+  color: #333;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85em;
+`;
+
+const Score = styled.div`
+  font-weight: 500;
   color: #555;
+  font-size: 0.85em;
+  text-align: right;
+`;
+
+const Message = styled.div`
+  font-size: 0.85em;
+  color: #777;
+  text-align: center;
+  margin-top: 8px;
 `;
 
 const LeaderboardCard = ({ leaderboard }) => {
   const navigate = useNavigate();
+  const [topEntries, setTopEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleClick = () => {
     if (!!leaderboard) {
@@ -40,17 +88,48 @@ const LeaderboardCard = ({ leaderboard }) => {
     }
   };
 
+  const fetchTopEntries = useCallback(async () => {
+    if (!leaderboard || !leaderboard.id) return;
+
+    try {
+      setLoading(true);
+
+      const sortedResults = await fetchAndSortResults(leaderboard.id, leaderboard.sort);
+
+      // Get top 3 distinct names
+      const uniqueNames = Array.from(new Set(sortedResults.map(result => result.name)));
+      setTopEntries(uniqueNames.slice(0, 3).map(name => sortedResults.find(result => result.name === name)));
+    } catch (e) {
+      console.error("Error fetching top entries:", e);
+    } finally {
+      setLoading(false);
+    }
+  }, [leaderboard]);
+
+  useEffect(() => {
+    if (leaderboard?.id) {
+      fetchTopEntries();
+    }
+  }, [leaderboard, fetchTopEntries]);
+
   return (
     <Card onClick={handleClick}>
-      <Title>{leaderboard.name}</Title>
-      <InfoRow>
-        <User size={18} />
-        <span>{leaderboard.creator}</span>
-      </InfoRow>
-      <InfoRow>
-        <Calendar size={18} />
-        <span>Year: {leaderboard.year}</span>
-      </InfoRow>
+      <Title>{leaderboard.creator} - {leaderboard.name}</Title>
+      {topEntries.length > 0 ? (
+        <TopEntriesContainer>
+          {topEntries.map((entry, index) => (
+            <TopEntryRow key={entry.id}>
+              <Position>{getMedalEmoji(index)}</Position>
+              <Name>{entry.name}</Name>
+              <Score>{formatResult(entry, leaderboard.sort)}</Score>
+            </TopEntryRow>
+          ))}
+        </TopEntriesContainer>
+      ) : loading ? (
+        <Message>Loading...</Message>
+      ) : (
+        <Message>No entries yet</Message>
+      )}
     </Card>
   );
 };
