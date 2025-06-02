@@ -187,7 +187,45 @@ export const fetchAndSortResults = async (leaderboardId, sortType) => {
     ...doc.data(),
   }));
 
-  return sortResults(fetchedResults, sortType);
+  // Sort results first
+  const sortedResults = sortResults(fetchedResults, sortType);
+
+  // Filter to keep only the best result for each person
+  const uniqueResults = [];
+  const seenNames = new Set();
+
+  for (const result of sortedResults) {
+    if (!seenNames.has(result.name)) {
+      uniqueResults.push(result);
+      seenNames.add(result.name);
+    }
+  }
+
+  return uniqueResults;
+};
+
+export const getAllSubmissions = (results, sortType) => {
+  // Sort all results
+  const sortedResults = sortResults(results, sortType);
+
+  // Get unique results to determine which submissions get points
+  const uniqueResults = [];
+  const seenNames = new Set();
+  const bestSubmissionIds = new Set();
+
+  for (const result of sortedResults) {
+    if (!seenNames.has(result.name)) {
+      uniqueResults.push(result);
+      seenNames.add(result.name);
+      bestSubmissionIds.add(result.id);
+    }
+  }
+
+  // Return all results with a flag indicating if it's the best submission
+  return sortedResults.map((result) => ({
+    ...result,
+    isBestSubmission: bestSubmissionIds.has(result.id),
+  }));
 };
 
 export const POINTS_MAP = {

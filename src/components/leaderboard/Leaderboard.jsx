@@ -1,12 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, query, collection, getDocs, where } from "firebase/firestore";
 import { db } from "../../firebase";
-import { formatResult, fetchAndSortResults, POINTS_MAP, getMedalEmoji } from "../../utils/leaderboardUtils";
+import { formatResult, fetchAndSortResults, POINTS_MAP, getMedalEmoji, getAllSubmissions } from "../../utils/leaderboardUtils";
 import styled from "styled-components";
 import { Plus } from "lucide-react";
 import LeaderboardSubmitModal from "./LeaderboardSubmitModal";
 import Modal from "@mui/material/Modal";
+import { Switch, FormControlLabel } from "@mui/material";
 
 const Container = styled.div`
   display: flex;
@@ -101,7 +102,7 @@ const SubmissionDate = styled.div`
 const Score = styled.div`
   font-size: 1.1em;
   font-weight: 500;
-  color: #007acc;
+  color: #333;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -110,7 +111,8 @@ const Score = styled.div`
 
 const Points = styled.div`
   font-size: 0.8em;
-  color: #666;
+  color: ${props => props.hasPoints ? '#007acc' : '#666'};
+  font-weight: ${props => props.hasPoints ? '500' : '400'};
 `;
 
 const ConfirmationModalContent = styled.div`
@@ -173,15 +175,32 @@ const ContinueButton = styled(Button)`
   }
 `;
 
+const ToggleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+`;
+
+const ToggleLabel = styled.span`
+  font-size: 0.9em;
+  color: ${props => props.active ? '#007acc' : '#666'};
+  font-weight: ${props => props.active ? '600' : '400'};
+`;
+
 const Leaderboard = () => {
   const { leaderboardId } = useParams();
   const [leaderboard, setLeaderboard] = useState(null);
-  const [results, setResults] = useState([]);
+  const [uniqueResults, setUniqueResults] = useState([]);
+  const [allResults, setAllResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitModalVisible, setSubmitModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [rulesModalVisible, setRulesModalVisible] = useState(false);
   const [selectedResult, setSelectedResult] = useState(null);
+  const [showAllSubmissions, setShowAllSubmissions] = useState(false);
+  const [hasDuplicateSubmissions, setHasDuplicateSubmissions] = useState(false);
 
   const fetchLeaderboard = useCallback(async () => {
     try {
@@ -195,8 +214,32 @@ const Leaderboard = () => {
         const data = leaderboardSnap.data();
         setLeaderboard(data);
 
-        const sortedResults = await fetchAndSortResults(leaderboardId, data.sort);
-        setResults(sortedResults);
+        // Get all results first
+        const q = query(
+          collection(db, "leaderboard-results"),
+          where("leaderboard_id", "==", leaderboardId)
+        );
+        const resultsSnap = await getDocs(q);
+        const rawResults = resultsSnap.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Check for duplicate submissions
+        const nameCounts = {};
+        rawResults.forEach(result => {
+          nameCounts[result.name] = (nameCounts[result.name] || 0) + 1;
+        });
+        const hasDuplicates = Object.values(nameCounts).some(count => count > 1);
+        setHasDuplicateSubmissions(hasDuplicates);
+
+        // Get unique results for points calculation
+        const uniqueResults = await fetchAndSortResults(leaderboardId, data.sort);
+        setUniqueResults(uniqueResults);
+
+        // Get all results with best submission flags
+        const allResults = getAllSubmissions(rawResults, data.sort);
+        setAllResults(allResults);
       }
     } catch (e) {
       console.error(e);
@@ -275,6 +318,8 @@ const Leaderboard = () => {
     return Number.isInteger(points) ? points : points.toFixed(1);
   };
 
+  const displayResults = showAllSubmissions ? allResults : uniqueResults;
+
   return (
     <>
       {!!submitModalVisible && (
@@ -349,27 +394,56 @@ const Leaderboard = () => {
           )}
         </ActionButtonsContainer>
 
-        {results.map((result, index) => (
-          <Card
-            key={result.id}
-            onClick={() => handleCardClick(result)}
-            style={{ cursor: result.link ? "pointer" : "default" }}
-          >
-            <Position>{index < 3 ? getMedalEmoji(index) : `#${index + 1}`}</Position>
-            <Name>
-              {result.name}
-              {result.submission_date && (
-                <SubmissionDate>
-                  Submitted: {new Date(result.submission_date).toLocaleDateString()}
-                </SubmissionDate>
-              )}
-            </Name>
-            <Score>
-              {formatResult(result, leaderboard.sort)}
-              <Points>{calculatePointsForPosition(index, results)} points</Points>
-            </Score>
-          </Card>
-        ))}
+        {leaderboardId !== "QSv4tImm8DuHqC5wI5rY" && hasDuplicateSubmissions && (
+          <ToggleContainer>
+            <ToggleLabel active={!showAllSubmissions}>
+              Best Submissions
+            </ToggleLabel>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showAllSubmissions}
+                  onChange={(e) => setShowAllSubmissions(e.target.checked)}
+                  color="primary"
+                />
+              }
+              label=""
+            />
+            <ToggleLabel active={showAllSubmissions}>
+              All Submissions
+            </ToggleLabel>
+          </ToggleContainer>
+        )}
+
+        {displayResults.map((result, index) => {
+          // Find the index in uniqueResults for points calculation
+          const uniqueIndex = uniqueResults.findIndex(r => r.id === result.id);
+          const points = uniqueIndex !== -1 ? calculatePointsForPosition(uniqueIndex, uniqueResults) : "-";
+
+          return (
+            <Card
+              key={result.id}
+              onClick={() => handleCardClick(result)}
+              style={{ cursor: result.link ? "pointer" : "default" }}
+            >
+              <Position>{index < 3 ? getMedalEmoji(index) : `#${index + 1}`}</Position>
+              <Name>
+                {result.name}
+                {result.submission_date && (
+                  <SubmissionDate>
+                    Submitted: {new Date(result.submission_date).toLocaleDateString()}
+                  </SubmissionDate>
+                )}
+              </Name>
+              <Score>
+                {formatResult(result, leaderboard.sort)}
+                <Points hasPoints={points !== "-"}>
+                  {points !== "-" ? `${points} points` : ""}
+                </Points>
+              </Score>
+            </Card>
+          );
+        })}
       </Container>
     </>
   );
