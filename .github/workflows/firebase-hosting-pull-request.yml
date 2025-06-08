@@ -2,17 +2,20 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+"on": pull_request
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: yarn install
       - run: CI=false yarn build
+        env:
+          REACT_APP_DISCORD_WEBHOOK_SUBMISSIONS: "${{ secrets.DISCORD_WEBHOOK_SUBMISSIONS }}"
+          REACT_APP_DISCORD_WEBHOOK_GENERAL: "${{ secrets.DISCORD_WEBHOOK_GENERAL }}"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_THEOFFENSIVELINE_D8493 }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_THEOFFENSIVELINE_D8493 }}"
           projectId: theoffensiveline-d8493
