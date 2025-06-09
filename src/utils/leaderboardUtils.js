@@ -389,8 +389,17 @@ export const calculateOverallStandings = async (leaderboards, allResults) => {
     const leaderboardResults = allResults.filter(
       (r) => r.leaderboard_id === leaderboard.id
     );
-    const sortedResults = sortResults(leaderboardResults, leaderboard.sort);
-    handleTiedResults(sortedResults, leaderboard.name, playerStats);
+
+    // Use getAllSubmissions to get results with best submission flags
+    const resultsWithFlags = getAllSubmissions(
+      leaderboardResults,
+      leaderboard.sort
+    );
+    // Only use the best submissions for points calculation
+    const bestResults = resultsWithFlags.filter(
+      (result) => result.isBestSubmission
+    );
+    handleTiedResults(bestResults, leaderboard.name, playerStats);
   });
 
   // Add players who haven't participated in any challenges
