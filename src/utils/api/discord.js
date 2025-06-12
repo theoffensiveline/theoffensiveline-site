@@ -1,16 +1,26 @@
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+
 export const sendDiscordNotification = async (submissionData, channel) => {
   try {
     let webhookUrl;
+
+    // Get the config document from Firestore
+    const configDoc = await getDoc(doc(db, "config", "discord"));
+    if (!configDoc.exists()) {
+      console.error("Discord config not found in Firestore");
+      return;
+    }
+
+    const config = configDoc.data();
     if (channel === "submissions") {
-      webhookUrl = process.env.REACT_APP_DISCORD_WEBHOOK_SUBMISSIONS;
+      webhookUrl = config.submissionsUrl;
     } else if (channel === "general") {
-      webhookUrl = process.env.REACT_APP_DISCORD_WEBHOOK_GENERAL;
+      webhookUrl = config.leaderboardUrl;
     }
 
     if (!webhookUrl) {
-      console.error(
-        "Discord webhook URL not configured in environment variables"
-      );
+      console.error("Discord webhook URL not configured in Firestore");
       return;
     }
 

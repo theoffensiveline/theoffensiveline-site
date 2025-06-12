@@ -209,7 +209,7 @@ const LeaderboardSubmitModal = ({ props }) => {
         s.milliseconds === submission.milliseconds)
     );
 
-    return newSubmissionIndex < 3;
+    return newSubmissionIndex < 4;
   };
 
   const submit = async () => {
