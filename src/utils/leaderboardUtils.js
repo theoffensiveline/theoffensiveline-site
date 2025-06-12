@@ -88,7 +88,9 @@ export const formatResult = (result, sortType) => {
   return `${result.hours && result.hours > 0 ? `${result.hours}h ` : ""}${
     result.minutes || 0
   }m ${result.seconds || 0}s${
-    result.milliseconds ? ` ${result.milliseconds}ms` : ""
+    result.milliseconds
+      ? ` ${String(result.milliseconds).padStart(3, "0")}ms`
+      : ""
   }`;
 };
 
