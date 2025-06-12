@@ -24,24 +24,26 @@ export const sendDiscordNotification = async (submissionData, channel) => {
       return;
     }
 
-    // Use a CORS proxy service
-    const corsProxyUrl = "https://corsproxy.io/?";
-    const response = await fetch(
-      corsProxyUrl + encodeURIComponent(webhookUrl),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: submissionData.name,
-          content: submissionData.content,
-        }),
-      }
-    );
+    const webhookServiceUrl = config.webhookServiceUrl;
+    if (!webhookServiceUrl) {
+      console.error("Webhook service URL not configured in Firestore");
+      return;
+    }
+
+    const response = await fetch(webhookServiceUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        webhookUrl,
+        username: submissionData.name,
+        content: submissionData.content,
+      }),
+    });
 
     if (!response.ok) {
-      throw new Error(`Discord webhook failed with status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     console.log("Discord notification sent successfully");

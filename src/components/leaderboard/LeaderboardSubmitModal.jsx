@@ -94,11 +94,11 @@ const LeaderboardSubmitModal = ({ props }) => {
 
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
-  const [score, setScore] = useState(null);
-  const [minutes, setMinutes] = useState(null);
-  const [seconds, setSeconds] = useState(null);
-  const [hours, setHours] = useState(null);
-  const [milliseconds, setMilliseconds] = useState(null);
+  const [score, setScore] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("");
+  const [hours, setHours] = useState("");
+  const [milliseconds, setMilliseconds] = useState("");
   const [dnf, setDnf] = useState(false);
   const [canSave, setCanSave] = useState(false);
   const [leagueMembers, setLeagueMembers] = useState([]);
