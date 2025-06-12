@@ -24,7 +24,7 @@ import Leaderboard from "./components/leaderboard/Leaderboard";
 import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
 
 const BackgroundWrapper = styled.div`
-  background: ${({ background }) => background};
+  background: ${({ $background }) => $background};
   min-height: 100vh;
 `;
 
@@ -50,7 +50,7 @@ const ThemeWithStyledThemeProvider = () => {
   return (
     <StyledThemeProvider theme={currentTheme}>
       <GlobalStyle />
-      <BackgroundWrapper background={currentTheme.background}>
+      <BackgroundWrapper $background={currentTheme.background}>
         <BrowserRouter>
           <NavBar />
           <Box sx={{ paddingTop: "64px" }}>

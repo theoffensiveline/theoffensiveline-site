@@ -116,8 +116,8 @@ const Score = styled.div`
 
 const Points = styled.div`
   font-size: 0.8em;
-  color: ${props => props.hasPoints ? props.theme.newsBlue : props.theme.text}99;
-  font-weight: ${props => props.hasPoints ? '500' : '400'};
+  color: ${props => props.$hasPoints ? props.theme.newsBlue : props.theme.text}99;
+  font-weight: ${props => props.$hasPoints ? '500' : '400'};
 `;
 
 const ConfirmationModalContent = styled.div`
@@ -192,8 +192,8 @@ const ToggleContainer = styled.div`
 
 const ToggleLabel = styled.span`
   font-size: 0.9em;
-  color: ${props => props.active ? props.theme.newsBlue : props.theme.text}99;
-  font-weight: ${props => props.active ? '600' : '400'};
+  color: ${props => props.$active ? props.theme.newsBlue : props.theme.text}99;
+  font-weight: ${props => props.$active ? '600' : '400'};
 `;
 
 const Leaderboard = () => {
@@ -404,7 +404,7 @@ const Leaderboard = () => {
 
         {leaderboardId !== "QSv4tImm8DuHqC5wI5rY" && hasDuplicateSubmissions && (
           <ToggleContainer>
-            <ToggleLabel active={!showAllSubmissions}>
+            <ToggleLabel $active={!showAllSubmissions}>
               Best Submissions
             </ToggleLabel>
             <FormControlLabel
@@ -417,7 +417,7 @@ const Leaderboard = () => {
               }
               label=""
             />
-            <ToggleLabel active={showAllSubmissions}>
+            <ToggleLabel $active={showAllSubmissions}>
               All Submissions
             </ToggleLabel>
           </ToggleContainer>
@@ -445,7 +445,7 @@ const Leaderboard = () => {
               </Name>
               <Score>
                 {formatResult(result, leaderboard.sort)}
-                <Points hasPoints={points !== "-"}>
+                <Points $hasPoints={points !== "-"}>
                   {points !== "-" ? `${points} points` : ""}
                 </Points>
               </Score>
