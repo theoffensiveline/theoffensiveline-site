@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc, query, collection, getDocs, where } from "firebase/firestore";
 import { db } from "../../firebase";
-import { formatResult, fetchAndSortResults, POINTS_MAP, getMedalEmoji, getAllSubmissions } from "../../utils/leaderboardUtils";
+import { formatResult, fetchAndSortResults, POINTS_MAP, getMedalEmoji, getAllSubmissions, timeToMs } from "../../utils/leaderboardUtils";
 import styled from "styled-components";
 import { Plus } from "lucide-react";
 import LeaderboardSubmitModal from "./LeaderboardSubmitModal";
@@ -293,31 +293,50 @@ const Leaderboard = () => {
   };
 
   const calculatePointsForPosition = (index, results) => {
-    let currentPlace = 1;
-    let currentScore = null;
-    let tiedCount = 0;
+    // Find all tied positions
+    const tiedPositions = [];
+    let currentPosition = 0;
+    let previousValue = null;
+    const sortType = leaderboard?.sort || "high_score";
 
-    // First pass: find the current position and tied count
+    // First pass: identify all tied groups and their positions
     for (let i = 0; i < results.length; i++) {
-      const score = parseFloat(results[i].score);
+      const currentResult = results[i];
+      let currentValue;
 
-      if (currentScore === null) {
-        currentScore = score;
-        tiedCount = 1;
-      } else if (score === currentScore) {
-        tiedCount++;
+      // Handle different sort types appropriately
+      if (sortType.includes("time")) {
+        // For time leaderboards, compare using timeToMs
+        currentValue = timeToMs(currentResult);
       } else {
-        if (i > index) break; // We've passed our target position
-        currentPlace += tiedCount;
-        currentScore = score;
-        tiedCount = 1;
+        // For score leaderboards, use the score directly
+        currentValue = parseFloat(currentResult.score || 0);
       }
+
+      if (previousValue === null || currentValue !== previousValue) {
+        // This is a new score/time group
+        currentPosition = i;
+        previousValue = currentValue;
+      }
+
+      // Store the position for this result
+      tiedPositions[i] = currentPosition;
     }
+
+    // Get the position of the current result
+    const position = tiedPositions[index];
+
+    // Count how many results share this position (are tied)
+    const tiedCount = tiedPositions.filter(pos => pos === position).length;
+
+    // Calculate the actual leaderboard place (1-based)
+    const actualPlace = position + 1;
 
     // Calculate total points for all positions in the tie
     let totalPoints = 0;
     for (let i = 0; i < tiedCount; i++) {
-      totalPoints += POINTS_MAP[currentPlace + i] || 0;
+      const place = actualPlace + i;
+      totalPoints += POINTS_MAP[place] || 0;
     }
 
     // Return the average points for the tie
