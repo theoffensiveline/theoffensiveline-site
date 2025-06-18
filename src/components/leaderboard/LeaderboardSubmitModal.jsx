@@ -14,6 +14,7 @@ import {
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { sendDiscordNotification } from "../../utils/api/discord";
+import { sortResults, getTopNDistinct } from "../../utils/leaderboardUtils";
 
 const NiceBox = styled(Box)`
   position: absolute;
@@ -187,29 +188,21 @@ const LeaderboardSubmitModal = ({ props }) => {
     // Add the new submission to the list
     const allSubmissions = [...currentResults, submission];
 
-    // Sort submissions based on sortType
-    if (sortType.includes("score")) {
-      allSubmissions.sort((a, b) => b.score - a.score); // Higher score is better
-    } else if (sortType.includes("time")) {
-      allSubmissions.sort((a, b) => {
-        // Convert time to milliseconds for comparison
-        const timeA = (a.hours * 3600000) + (a.minutes * 60000) + (a.seconds * 1000) + a.milliseconds;
-        const timeB = (b.hours * 3600000) + (b.minutes * 60000) + (b.seconds * 1000) + b.milliseconds;
-        return timeA - timeB; // Lower time is better
-      });
-    }
+    // Sort submissions using the utility function
+    const sortedSubmissions = sortResults(allSubmissions, sortType);
 
-    // Check if the new submission is in top 3
-    const newSubmissionIndex = allSubmissions.findIndex(s =>
-      s.name === submission.name &&
-      (sortType.includes("score") ? s.score === submission.score :
-        s.hours === submission.hours &&
-        s.minutes === submission.minutes &&
-        s.seconds === submission.seconds &&
-        s.milliseconds === submission.milliseconds)
+    // Get distinct top 3
+    const topThreeDistinct = getTopNDistinct(sortedSubmissions, 3);
+
+    // Check if the new submission is in the top 3 distinct results
+    return topThreeDistinct.some(sub =>
+      sub.name === submission.name &&
+      (sortType.includes("score") ? sub.score === submission.score :
+        sub.hours === submission.hours &&
+        sub.minutes === submission.minutes &&
+        sub.seconds === submission.seconds &&
+        sub.milliseconds === submission.milliseconds)
     );
-
-    return newSubmissionIndex < 3;
   };
 
   const submit = async () => {
@@ -251,16 +244,12 @@ const LeaderboardSubmitModal = ({ props }) => {
 
           // Get top 3 submissions after adding the new one
           const allSubmissions = [...currentResults, submissionData];
-          if (sortType.includes("score")) {
-            allSubmissions.sort((a, b) => b.score - a.score);
-          } else if (sortType.includes("time")) {
-            allSubmissions.sort((a, b) => {
-              const timeA = (a.hours * 3600000) + (a.minutes * 60000) + (a.seconds * 1000) + a.milliseconds;
-              const timeB = (b.hours * 3600000) + (b.minutes * 60000) + (b.seconds * 1000) + b.milliseconds;
-              return timeA - timeB;
-            });
-          }
-          const topThree = allSubmissions.slice(0, 3).map((sub, index) => {
+          const sortedSubmissions = sortResults(allSubmissions, sortType);
+
+          // Get distinct top 3 (best result per person)
+          const topThreeDistinct = getTopNDistinct(sortedSubmissions, 3);
+
+          const topThree = topThreeDistinct.map((sub, index) => {
             const subResult = sub.dnf ? "DNF" :
               sortType.includes("score") ? sub.score :
                 `${sub.hours}:${sub.minutes}:${sub.seconds}.${sub.milliseconds}`;

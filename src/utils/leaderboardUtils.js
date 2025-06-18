@@ -230,6 +230,27 @@ export const getAllSubmissions = (results, sortType) => {
   }));
 };
 
+/**
+ * Gets the top N distinct results from a sorted array
+ * @param {Array} sortedResults - Array of results already sorted by performance
+ * @param {number} n - Number of distinct results to return
+ * @returns {Array} - Top N distinct results
+ */
+export const getTopNDistinct = (sortedResults, n = 3) => {
+  const distinctResults = [];
+  const seenNames = new Set();
+
+  for (const result of sortedResults) {
+    if (!seenNames.has(result.name)) {
+      distinctResults.push(result);
+      seenNames.add(result.name);
+      if (distinctResults.length === n) break;
+    }
+  }
+
+  return distinctResults;
+};
+
 export const POINTS_MAP = {
   1: 40,
   2: 30,
