@@ -404,10 +404,13 @@ export const calculateOverallStandings = async (leaderboards, allResults) => {
     handleTiedResults(bestResults, leaderboard.name, playerStats);
   });
 
-  // Add players who haven't participated in any challenges
+  // Add players who haven't participated in any challenges and set submission counts for all players
   Object.entries(submissionCounts).forEach(([name, count]) => {
     if (!playerStats[name]) {
       playerStats[name] = initializePlayerStats(name, count);
+    } else {
+      // Set submission count for players who have participated
+      playerStats[name].submissionCount = count;
     }
   });
 
