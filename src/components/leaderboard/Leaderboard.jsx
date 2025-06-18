@@ -120,6 +120,20 @@ const Points = styled.div`
   font-weight: ${props => props.$hasPoints ? '500' : '400'};
 `;
 
+const ReferenceDivider = styled.div`
+  width: 100%;
+  max-width: 350px;
+  padding: 12px 16px;
+  text-align: center;
+  color: ${({ theme }) => theme.text}99;
+  font-size: 0.9em;
+  border-top: 1px solid ${({ theme }) => theme.text}33;
+  border-bottom: 1px solid ${({ theme }) => theme.text}33;
+  margin: 8px 0;
+  cursor: ${props => props.$clickable ? 'pointer' : 'default'};
+  text-decoration: ${props => props.$clickable ? 'underline' : 'none'};
+`;
+
 const ConfirmationModalContent = styled.div`
   position: absolute;
   top: 50%;
@@ -208,6 +222,17 @@ const Leaderboard = () => {
   const [selectedResult, setSelectedResult] = useState(null);
   const [showAllSubmissions, setShowAllSubmissions] = useState(false);
   const [hasDuplicateSubmissions, setHasDuplicateSubmissions] = useState(false);
+
+  // Add reference times for NFL players
+  const nflReferenceTimes = [
+    { name: 'Xavier Worthy', time: 4.21, link: 'https://www.youtube.com/watch?v=M1xhUAMEA2E' },
+    { name: "Tom Brady", time: 5.28, link: "https://www.youtube.com/watch?v=kxx_u67eUSA" },
+    { name: "Patrick Mahomes", time: 4.8, link: "https://www.youtube.com/watch?v=7Q0XWPEdXlg" },
+    { name: "Josh Allen", time: 4.75, link: "https://www.youtube.com/watch?v=Xofxch7fuE8" },
+    { name: "Derrick Henry", time: 4.54, link: "https://www.youtube.com/watch?v=-BN1T7JTNyc" },
+    { name: "Isaiah Thompson", time: 6.07, link: "https://youtu.be/m7Phlyq6uiE?si=IpnHG9hQ_lF-364C&t=198" },
+  ];
+  const sortedNflReferenceTimes = [...nflReferenceTimes].sort((a, b) => a.time - b.time);
 
   const fetchLeaderboard = useCallback(async () => {
     try {
@@ -346,6 +371,9 @@ const Leaderboard = () => {
 
   const displayResults = showAllSubmissions ? allResults : uniqueResults;
 
+  // Track which reference times have been rendered
+  const renderedRefs = new Set();
+
   return (
     <>
       {!!submitModalVisible && (
@@ -447,30 +475,71 @@ const Leaderboard = () => {
           const uniqueIndex = uniqueResults.findIndex(r => r.id === result.id);
           const points = uniqueIndex !== -1 ? calculatePointsForPosition(uniqueIndex, uniqueResults) : "-";
 
+          // Insert reference times at appropriate positions
+          const referenceTimes = [];
+          if (leaderboardId === "odejcxVI7vqEZYXXYEcM") {
+            sortedNflReferenceTimes.forEach((ref, refIndex) => {
+              const resultTimeMs = timeToMs(result);
+              const prevResultTimeMs = index > 0 ? timeToMs(displayResults[index - 1]) : 0;
+              const refTimeMs = ref.time * 1000;
+              if (resultTimeMs >= refTimeMs && prevResultTimeMs < refTimeMs) {
+                renderedRefs.add(refIndex);
+                referenceTimes.push(
+                  <ReferenceDivider
+                    key={`ref-${refIndex}`}
+                    $clickable={!!ref.link}
+                    onClick={ref.link ? (e) => { e.stopPropagation(); window.open(ref.link, '_blank'); } : undefined}
+                  >
+                    {ref.name}: {ref.time} seconds
+                  </ReferenceDivider>
+                );
+              }
+            });
+          }
+
           return (
-            <Card
-              key={result.id}
-              onClick={() => handleCardClick(result)}
-              style={{ cursor: result.link ? "pointer" : "default" }}
-            >
-              <Position>{index < 3 ? getMedalEmoji(index) : `#${index + 1}`}</Position>
-              <Name>
-                {result.name}
-                {result.submission_date && (
-                  <SubmissionDate>
-                    Submitted: {new Date(result.submission_date).toLocaleDateString()}
-                  </SubmissionDate>
-                )}
-              </Name>
-              <Score>
-                {formatResult(result, leaderboard.sort)}
-                <Points $hasPoints={points !== "-"}>
-                  {points !== "-" ? `${points} points` : ""}
-                </Points>
-              </Score>
-            </Card>
+            <>
+              {referenceTimes}
+              <Card
+                key={result.id}
+                onClick={() => handleCardClick(result)}
+                style={{ cursor: result.link ? "pointer" : "default" }}
+              >
+                <Position>{index < 3 ? getMedalEmoji(index) : `#${index + 1}`}</Position>
+                <Name>
+                  {result.name}
+                  {result.submission_date && (
+                    <SubmissionDate>
+                      Submitted: {new Date(result.submission_date).toLocaleDateString()}
+                    </SubmissionDate>
+                  )}
+                </Name>
+                <Score>
+                  {formatResult(result, leaderboard.sort)}
+                  <Points $hasPoints={points !== "-"}>
+                    {points !== "-" ? `${points} points` : ""}
+                  </Points>
+                </Score>
+              </Card>
+            </>
           );
         })}
+        {/* Render any reference times not yet shown (slower than all leaderboard entries) */}
+        {leaderboardId === "odejcxVI7vqEZYXXYEcM" &&
+          sortedNflReferenceTimes.map((ref, refIndex) => {
+            if (!renderedRefs.has(refIndex)) {
+              return (
+                <ReferenceDivider
+                  key={`ref-end-${refIndex}`}
+                  $clickable={!!ref.link}
+                  onClick={ref.link ? () => window.open(ref.link, '_blank') : undefined}
+                >
+                  {ref.name}: {ref.time} seconds
+                </ReferenceDivider>
+              );
+            }
+            return null;
+          })}
       </Container>
     </>
   );
