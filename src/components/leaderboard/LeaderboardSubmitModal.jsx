@@ -209,7 +209,7 @@ const LeaderboardSubmitModal = ({ props }) => {
         s.milliseconds === submission.milliseconds)
     );
 
-    return newSubmissionIndex < 4;
+    return newSubmissionIndex < 3;
   };
 
   const submit = async () => {
@@ -249,9 +249,27 @@ const LeaderboardSubmitModal = ({ props }) => {
               ? score
               : `${hours}:${minutes}:${seconds}.${milliseconds}`;
 
+          // Get top 3 submissions after adding the new one
+          const allSubmissions = [...currentResults, submissionData];
+          if (sortType.includes("score")) {
+            allSubmissions.sort((a, b) => b.score - a.score);
+          } else if (sortType.includes("time")) {
+            allSubmissions.sort((a, b) => {
+              const timeA = (a.hours * 3600000) + (a.minutes * 60000) + (a.seconds * 1000) + a.milliseconds;
+              const timeB = (b.hours * 3600000) + (b.minutes * 60000) + (b.seconds * 1000) + b.milliseconds;
+              return timeA - timeB;
+            });
+          }
+          const topThree = allSubmissions.slice(0, 3).map((sub, index) => {
+            const subResult = sub.dnf ? "DNF" :
+              sortType.includes("score") ? sub.score :
+                `${sub.hours}:${sub.minutes}:${sub.seconds}.${sub.milliseconds}`;
+            return `${index + 1}. ${sub.name}: ${subResult}`;
+          }).join('\n');
+
           const discordMessage = {
             name: name,
-            content: `New Top 3 Leaderboard Submission for ${leaderboardName}:\nResult: ${result}${link ? `\nLink: ${link}` : ''}`
+            content: `New Top 3 Leaderboard Submission for ${leaderboardName}:\nResult: ${result}${link ? `\nLink: ${link}` : ''}\n\nCurrent Top 3:\n${topThree}`
           };
 
           try {
