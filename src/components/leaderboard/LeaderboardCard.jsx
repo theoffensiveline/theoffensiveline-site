@@ -16,7 +16,7 @@ import {
 import { db } from "../../firebase";
 
 const Card = styled.div`
-  background-color: ${({ theme }) => theme.background};
+  background-color: ${({ theme }) => theme.componentBackground};
   padding: 16px;
   border-radius: 12px;
   width: 100%;

@@ -2,6 +2,7 @@ interface ThemeColors {
   link: string;
   text: string;
   background: string;
+  componentBackground: string;
   neutral1: string;
   neutral2: string;
   neutral3: string;
@@ -24,6 +25,7 @@ export const ColorConstants: ColorConstantsType = {
     link: "#1976d2",
     text: "#2E2E2E",
     background: "#ECECDF",
+    componentBackground: "#ffffff",
     neutral1: "#7E6551",
     neutral2: "#668F80",
     neutral3: "#7D8491",
@@ -39,6 +41,7 @@ export const ColorConstants: ColorConstantsType = {
     link: "#1976d2",
     text: "#ECECDF",
     background: "#2E2E2E",
+    componentBackground: "#3A404C",
     neutral1: "#7E6551",
     neutral2: "#668F80",
     neutral3: "#7D8491",
