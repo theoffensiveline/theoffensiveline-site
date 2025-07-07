@@ -16,6 +16,11 @@ import { db } from "../../firebase";
 import { sendDiscordNotification } from "../../utils/api/discord";
 import { sortResults, getTopNDistinct } from "../../utils/leaderboardUtils";
 
+// MINIMUM YEAR FOR SUBMISSIONS: Only allow submissions for leaderboards from 2026 or later
+// To change the minimum year, update this value
+// This was added July 6th, 2025 to prevent submissions for 2025 past the deadline
+const MINIMUM_SUBMISSION_YEAR = 2026;
+
 const NiceBox = styled(Box)`
   position: absolute;
   top: 50%;
@@ -71,8 +76,8 @@ const ButtonButton = styled.button`
   border: 1px solid ${({ theme }) => theme.newsBlue};
   border-radius: 8px;
   background: ${({ theme }) => theme.newsBlue};
-  height: 3rem;
-  width: 5rem;
+  height: 3.5rem;
+  width: 7rem;
   color: ${({ theme }) => theme.background};
   margin-top: 1rem;
   font-weight: bold;
@@ -105,6 +110,7 @@ const LeaderboardSubmitModal = ({ props }) => {
   const [leagueMembers, setLeagueMembers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [leaderboardName, setLeaderboardName] = useState("");
+  const [leaderboardYear, setLeaderboardYear] = useState(null);
 
   const isEmpty = (val) => val === "" || val === null || val === undefined;
 
@@ -163,22 +169,24 @@ const LeaderboardSubmitModal = ({ props }) => {
   }, [visible]);
 
   useEffect(() => {
-    const fetchLeaderboardName = async () => {
+    const fetchLeaderboardData = async () => {
       if (leaderboardId) {
         try {
           const leaderboardRef = doc(db, "leaderboards", leaderboardId);
           const leaderboardSnap = await getDoc(leaderboardRef);
           if (leaderboardSnap.exists()) {
-            setLeaderboardName(leaderboardSnap.data().name);
+            const data = leaderboardSnap.data();
+            setLeaderboardName(data.name);
+            setLeaderboardYear(data.year);
           }
         } catch (error) {
-          console.error("Error fetching leaderboard name:", error);
+          console.error("Error fetching leaderboard data:", error);
         }
       }
     };
 
     if (visible) {
-      fetchLeaderboardName();
+      fetchLeaderboardData();
     }
   }, [visible, leaderboardId]);
 
@@ -383,7 +391,9 @@ const LeaderboardSubmitModal = ({ props }) => {
         </label>
 
         <br />
-        {!!canSave ? (
+        {leaderboardYear && parseInt(leaderboardYear) < MINIMUM_SUBMISSION_YEAR ? (
+          <ButtonButton disabled>SUBMISSIONS CLOSED</ButtonButton>
+        ) : !!canSave ? (
           <ButtonButton onClick={submit}>SUBMIT</ButtonButton>
         ) : (
           <ButtonButton disabled>you are disabled</ButtonButton>
