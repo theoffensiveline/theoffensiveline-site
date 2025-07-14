@@ -13,6 +13,13 @@ interface ThemeColors {
   yahoo: string;
   button: string;
   buttonText: string;
+  hotDogYellow: string;
+  hotDogOrange: string;
+  hotDogPink: string;
+  hotDogPurple: string;
+  hotDogBlue: string;
+  hotDogBrown: string;
+  hotDogGrey: string;
 }
 
 interface ColorConstantsType {
@@ -36,6 +43,13 @@ export const ColorConstants: ColorConstantsType = {
     yahoo: "#400090",
     button: "#555555",
     buttonText: "#e7e7e7",
+    hotDogYellow: "#FFBE0B",
+    hotDogOrange: "#FB5607",
+    hotDogPink: "#FF006E",
+    hotDogPurple: "#8338EC",
+    hotDogBlue: "#3A76FF",
+    hotDogBrown: "#483519",
+    hotDogGrey: "#AFBFC0",
   },
   dark: {
     link: "#1976d2",
@@ -52,6 +66,13 @@ export const ColorConstants: ColorConstantsType = {
     yahoo: "#400090",
     button: "#e7e7e7",
     buttonText: "#555555",
+    hotDogYellow: "#FFBE0B",
+    hotDogOrange: "#FB5607",
+    hotDogPink: "#FF006E",
+    hotDogPurple: "#8338EC",
+    hotDogBlue: "#3A76FF",
+    hotDogBrown: "#483519",
+    hotDogGrey: "#AFBFC0",
   },
 };
 

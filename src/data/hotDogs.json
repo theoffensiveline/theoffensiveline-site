@@ -1,0 +1,407 @@
+[
+  {
+    "year": 2024,
+    "week": 15,
+    "winner": "Nikhil",
+    "loser": "Josh K",
+    "count": 4,
+    "type": "hotdogs",
+    "link": ""
+  },
+  {
+    "year": 2024,
+    "week": 14,
+    "winner": "Josh K",
+    "loser": "Kyle",
+    "count": 5,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=vrH_A2QXzCs"
+  },
+  {
+    "year": 2024,
+    "week": 13,
+    "winner": "Josh K",
+    "loser": "Anthony",
+    "count": 2,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1KVODP_GZgsy5SGs6jU01ISscxGSDEsVH/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "week": 12,
+    "winner": "Josh K",
+    "loser": "Kyle",
+    "count": 5,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=5wrCP3xZKBM"
+  },
+  {
+    "year": 2024,
+    "week": 11,
+    "winner": "Anthony",
+    "loser": "Nikhil",
+    "count": 3,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1Zd7JKSCSHj-DanJqhsTzbhjWgxXxYpXV/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "week": 10,
+    "winner": "Anthony",
+    "loser": "Alec",
+    "count": 6,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=G4-5-aQ32tI"
+  },
+  {
+    "year": 2024,
+    "week": 9,
+    "winner": "Alec",
+    "loser": "Smitty",
+    "count": 4,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=ppWM-dOq-iA"
+  },
+  {
+    "year": 2024,
+    "week": 8,
+    "winner": "Alec",
+    "loser": "Josh K",
+    "count": 6,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1gsQ5cp4e1R-yM7TOdq06VgvYAxJ0IN-3/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "week": 7,
+    "winner": "Alec",
+    "loser": "Trevor",
+    "count": 4,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=fo0JXILRWZA"
+  },
+  {
+    "year": 2024,
+    "week": 6,
+    "winner": "Trevor",
+    "loser": "Nikhil",
+    "count": 3,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1ktLhguodkYDcVRNH8szIiNE1AM7HUlvO/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "week": 5,
+    "winner": "Nikhil",
+    "loser": "Greg",
+    "count": 4,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1eTH5aH3m1gcXIQOzqaSggQpIwWnQp1Mw/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "week": 4,
+    "winner": "Greg",
+    "loser": "Alec",
+    "count": 3,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=RNYpKTUauJs"
+  },
+  {
+    "year": 2024,
+    "week": 3,
+    "winner": "Alec",
+    "loser": "Matt Rob",
+    "count": 6,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=iGL1sMuQBm8"
+  },
+  {
+    "year": 2024,
+    "week": 2,
+    "winner": "Matt Rob",
+    "loser": "Nikhil",
+    "count": 3,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/18FsNzcP8FaY-e-DnnUKUwsTjjp7gQYGo/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "week": 1,
+    "winner": "Nikhil",
+    "loser": "Alec",
+    "count": 5,
+    "type": "hotdogs",
+    "link": "https://drive.google.com/drive/folders/1KWjQHv9D22snf5vzEGk_cGsfFEtX53UL?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 16,
+    "winner": "Nikhil",
+    "loser": "Alec",
+    "count": 7,
+    "type": "shots",
+    "link": "https://www.youtube.com/watch?v=9t5AjYGq9hs"
+  },
+  {
+    "year": 2023,
+    "week": 15,
+    "winner": "Nikhil",
+    "loser": "Trevor",
+    "count": 5,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=nnl9LIeH37g"
+  },
+  {
+    "year": 2023,
+    "week": 14,
+    "winner": "Trevor",
+    "loser": "Jake",
+    "count": 6,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=8KsTzLzJ43Q"
+  },
+  {
+    "year": 2023,
+    "week": 13,
+    "winner": "Jake",
+    "loser": "Nikhil",
+    "count": 3,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1ZQPcphldDBZjxO9IDWy2vvfPEkSHlX5h/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 12,
+    "winner": "Jake",
+    "loser": "Alec",
+    "count": 5,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=wkqKjhSzP5k"
+  },
+  {
+    "year": 2023,
+    "week": 11,
+    "winner": "Jake",
+    "loser": "Anthony",
+    "count": 4,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1rEiiAQx8gy63A7itJDDQAePIetO9X4s4/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 10,
+    "winner": "Anthony",
+    "loser": "Alec",
+    "count": 4,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=Q1ja7CW8cOY"
+  },
+  {
+    "year": 2023,
+    "week": 9,
+    "winner": "Anthony",
+    "loser": "Greg",
+    "count": 6,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1q6VTL7MbOF4u5ZhWRMR2Z4c6_wffpAF4/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 8,
+    "winner": "Greg",
+    "loser": "Josh K",
+    "count": 1,
+    "type": "hotdogs",
+    "link": "https://drive.google.com/file/d/1AxJA2Noe2lAqBotOkevpQkT_Qe8MD2Nr/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 7,
+    "winner": "Josh K",
+    "loser": "Trevor",
+    "count": 4,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=8jxoGUoY3Mg"
+  },
+  {
+    "year": 2023,
+    "week": 6,
+    "winner": "Josh K",
+    "loser": "Nikhil",
+    "count": 5,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/15674jorswfxAn9uJQ1HJ5DwYUxLdDpwf/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 5,
+    "winner": "Josh K",
+    "loser": "Matt Rob",
+    "count": 3,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1ciHuxbQVAKNrksnkQC9zBCi76GmeJnIC/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 4,
+    "winner": "Josh K",
+    "loser": "Smitty",
+    "count": 4,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=n3P8Z6h357k"
+  },
+  {
+    "year": 2023,
+    "week": 3,
+    "winner": "Smitty",
+    "loser": "Devan",
+    "count": 3,
+    "type": "hotdogs",
+    "link": "https://drive.google.com/drive/folders/10vGV0hyJTT9wM_3n6ElJuY6XdqrAnjsU?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 2,
+    "winner": "Smitty",
+    "loser": "Greg",
+    "count": 4,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1ZbxyN4JxGkPlzmvcgXhm0JPC3qKd-6Rf/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "week": 1,
+    "winner": "Smitty",
+    "loser": "Matt Rob",
+    "count": 3,
+    "type": "hotdogs",
+    "link": "https://drive.google.com/drive/folders/19_TzcKOqBORrD_q-686GAqdvPiVl72SQ?usp=drive_link"
+  },
+  {
+    "year": 2022,
+    "week": 17,
+    "winner": "Smitty",
+    "loser": "Devan",
+    "count": 6,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 16,
+    "winner": "Smitty",
+    "loser": "Kyle",
+    "count": 3,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 14,
+    "winner": "Smitty",
+    "loser": "Kyle",
+    "count": 8,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1zhsJwjnA5EA2XBa0cGsbusezvEu9w6R-/view?usp=drivesdk&usp=embed_facebook"
+  },
+  {
+    "year": 2022,
+    "week": 13,
+    "winner": "Kyle",
+    "loser": "Nikhil",
+    "count": 5,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 12,
+    "winner": "Nikhil",
+    "loser": "Alec",
+    "count": 5,
+    "type": "shots",
+    "link": "https://www.youtube.com/watch?v=8GIyJvdzVa4"
+  },
+  {
+    "year": 2022,
+    "week": 11,
+    "winner": "Nikhil",
+    "loser": "Jake",
+    "count": 5,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 10,
+    "winner": "Nikhil",
+    "loser": "Anthony",
+    "count": 6,
+    "type": "shots",
+    "link": "https://www.youtube.com/watch?v=E9IbIvihMy8"
+  },
+  {
+    "year": 2022,
+    "week": 9,
+    "winner": "Nikhil",
+    "loser": "Trevor",
+    "count": 6,
+    "type": "shots",
+    "link": "https://www.youtube.com/watch?v=G4O4W8PXS1Y"
+  },
+  {
+    "year": 2022,
+    "week": 8,
+    "winner": "Nikhil",
+    "loser": "Matt Rob",
+    "count": 3,
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1ciHuxbQVAKNrksnkQC9zBCi76GmeJnIC/view?usp=drive_link"
+  },
+  {
+    "year": 2022,
+    "week": 7,
+    "winner": "Nikhil",
+    "loser": "Devan",
+    "count": 5,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 6,
+    "winner": "Devan",
+    "loser": "Greg",
+    "count": 6,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 5,
+    "winner": "Devan",
+    "loser": "Josh K",
+    "count": 4,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 4,
+    "winner": "Devan",
+    "loser": "Alec",
+    "count": 7,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2022,
+    "week": 3,
+    "winner": "Alec",
+    "loser": "Greg",
+    "count": 4,
+    "type": "shots",
+    "link": ""
+  }
+]

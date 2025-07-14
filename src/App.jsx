@@ -22,6 +22,7 @@ import LeagueRosters from "./pages/LeagueRosters";
 import LeaderboardsHome from "./components/leaderboard/LeaderboardsHome";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
+import HotDogs from "./pages/hotDogTracker/HotDogTracker";
 
 const BackgroundWrapper = styled.div`
   background: ${({ $background }) => $background};
@@ -95,6 +96,7 @@ const ThemeWithStyledThemeProvider = () => {
                 path="/league/:leagueId/league-rosters"
                 element={<LeagueRosters />}
               />
+              <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
             </Routes>
           </Box>
         </BrowserRouter>
