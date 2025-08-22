@@ -47,9 +47,10 @@ function Home() {
     // Newsletter content for league ID '1124831356770058240'
     const newsletterContent = {
         mostRecentIssue: [
-            '2025 Draft Order Challenge Results',
+            '2025 Draft Order',
         ],
         newsletterIssues: [
+            '2025 Draft Order Challenge Results',
             '2024 Season Recap',
             '2024 Week 17',
             '2024 Week 16',
