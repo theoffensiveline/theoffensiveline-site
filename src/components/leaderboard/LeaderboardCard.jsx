@@ -14,6 +14,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import { leagueIds } from "../constants/LeagueConstants";
 
 const Card = styled.div`
   background-color: ${({ theme }) => theme.componentBackground};
@@ -113,7 +114,7 @@ const LeaderboardCard = ({ leaderboard }) => {
         // Get all leaderboards for 2025
         const leaderboardsQuery = query(
           collection(db, "leaderboards"),
-          where("league_id", "==", "1124831356770058240"),
+          where("league_id", "==", leagueIds.mainLeague),
           where("year", "==", "2025")
         );
         const leaderboardsSnapshot = await getDocs(leaderboardsQuery);

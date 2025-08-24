@@ -3,6 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import styled from "styled-components";
 import { calculateOverallStandings } from "../../utils/leaderboardUtils";
+import { leagueIds } from "../constants/LeagueConstants";
 
 const Container = styled.div`
   display: flex;
@@ -104,7 +105,7 @@ const ChallengeTag = styled.span`
 const OverallLeaderboard = () => {
   const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const LEAGUE_ID = "1124831356770058240";
+  const LEAGUE_ID = leagueIds.mainLeague;
 
   const calculateStandings = useCallback(async () => {
     try {
@@ -141,7 +142,7 @@ const OverallLeaderboard = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [LEAGUE_ID]);
 
   useEffect(() => {
     calculateStandings();

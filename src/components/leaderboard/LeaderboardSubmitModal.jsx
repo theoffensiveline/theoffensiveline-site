@@ -15,6 +15,7 @@ import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { sendDiscordNotification } from "../../utils/api/discord";
 import { sortResults, getTopNDistinct } from "../../utils/leaderboardUtils";
+import { leagueIds } from "../constants/LeagueConstants";
 
 // MINIMUM YEAR FOR SUBMISSIONS: Only allow submissions for leaderboards from 2026 or later
 // To change the minimum year, update this value
@@ -140,7 +141,7 @@ const LeaderboardSubmitModal = ({ props }) => {
       try {
         // Get the league ID from localStorage or use the hardcoded one from LeaderboardsHome
         const leagueId =
-          localStorage.getItem("selectedLeagueId") || "1124831356770058240";
+          localStorage.getItem("selectedLeagueId") || leagueIds.mainLeague;
 
         // Fetch league users
         const response = await fetch(

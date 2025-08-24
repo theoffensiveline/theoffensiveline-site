@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
+import { leagueIds } from '../components/constants/LeagueConstants';
 
 const GridContainer = styled.div`
     display: grid;
@@ -41,10 +42,10 @@ function Home() {
     const { leagueId } = useParams();
     const theme = useTheme();
 
-    const mainLeagueId = "1124831356770058240"
-    const walterPicksLeagueId = "1131328201495646208"
+    const mainLeagueId = leagueIds.mainLeague
+    const walterPicksLeagueId = leagueIds.walterPicks
 
-    // Newsletter content for league ID '1124831356770058240'
+    // Newsletter content for league ID '1253779168802377728'
     const newsletterContent = {
         mostRecentIssue: [
             '2025 Draft Order',
@@ -81,7 +82,7 @@ function Home() {
         ]
     };
 
-    // Walter Picks content for league ID '1131328201495646208'
+    // Walter Picks content for league ID '1223730601350135814'
     const walterPicksContent = {
         mostRecentIssue: [
             '2024 WP Week 4',

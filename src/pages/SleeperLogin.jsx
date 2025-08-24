@@ -92,7 +92,7 @@ function SleeperLogin() {
             const userResponse = await fetch(`https://api.sleeper.app/v1/user/${username}`);
             const userData = await userResponse.json();
             const userId = userData.user_id;
-            const response = await fetch(`https://api.sleeper.app/v1/user/${userId}/leagues/nfl/2024`);
+            const response = await fetch(`https://api.sleeper.app/v1/user/${userId}/leagues/nfl/2025`);
             const data = await response.json();
 
             // Cache the results

@@ -1,5 +1,6 @@
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { db } from "../firebase";
+import { leagueIds } from "../components/constants/LeagueConstants";
 
 /**
  * Converts time components to milliseconds for sorting
@@ -118,7 +119,7 @@ export const fetchAndSortResults = async (leaderboardId, sortType) => {
     // Get all leaderboards except the fewest submissions one
     const leaderboardsQuery = query(
       collection(db, "leaderboards"),
-      where("league_id", "==", "1124831356770058240"),
+      where("league_id", "==", leagueIds.mainLeague),
       where("year", "==", "2025")
     );
     const leaderboardsSnapshot = await getDocs(leaderboardsQuery);

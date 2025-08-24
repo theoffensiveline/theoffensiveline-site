@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "../ThemeContext";
+import { leagueIds } from "./constants/LeagueConstants";
 
 function NavBar() {
   const { theme, toggleTheme } = useTheme();
@@ -77,7 +78,9 @@ function NavBar() {
     if (!leagueId) {
       return ["Select League"];
     }
-    if (leagueId !== "1124831356770058240") {
+    if (
+      leagueId !== leagueIds.mainLeague
+    ) {
       return ["Home", "Change League"];
     }
     return [

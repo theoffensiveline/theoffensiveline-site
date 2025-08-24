@@ -3,6 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import LeaderboardCard from "./LeaderboardCard";
 import styled from "styled-components";
+import { leagueIds } from "../constants/LeagueConstants";
 
 const Container = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const LeaderboardList = styled.div`
 const LeaderboardsHome = () => {
   const [leaderboards, setLeaderboards] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  const LEAGUE_ID = "1124831356770058240";
+  const LEAGUE_ID = leagueIds.mainLeague;
 
   useEffect(() => {
     if (!!LEAGUE_ID) {

@@ -8,6 +8,7 @@ import {
 } from "../utils/api/SleeperAPI";
 import { Matchup, Roster, User, Player } from "../types/sleeperTypes";
 import playerData from "../utils/api/sleeper_players.json"; // Adjust path as necessary
+import { leagueIds } from "../components/constants/LeagueConstants";
 import {
   SurvivorContainer,
   SurvivorTitle,
@@ -56,7 +57,7 @@ const Survivor: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   // hardcoded for now so Chris doesn't have to login
-  const LEAGUE_ID = "1124831356770058240"; //localStorage.getItem("selectedLeagueId");
+  const LEAGUE_ID = leagueIds.mainLeague; //localStorage.getItem("selectedLeagueId");
 
   // Create a map from player ID to player name
   const playerMap = Object.entries(
@@ -97,6 +98,7 @@ const Survivor: React.FC = () => {
     if (LEAGUE_ID) {
       fetchInitialData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [LEAGUE_ID]);
 
   const fetchWeekFromSleeper = async () => {
