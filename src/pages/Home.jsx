@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { leagueIds } from '../components/constants/LeagueConstants';
+import hotDogsData from '../data/hotDogs.json';
 
 const GridContainer = styled.div`
     display: grid;
@@ -18,6 +19,12 @@ const RecentGridItem = styled.button`
     cursor: pointer;
     text-align: center;
     color: ${({ theme }) => theme.background};
+    white-space: pre-line;
+    line-height: 1.4;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const GridItem = styled.button`
@@ -28,6 +35,12 @@ const GridItem = styled.button`
     cursor: pointer;
     text-align: center;
     color: ${({ theme }) => theme.newsBlue};
+    white-space: pre-line;
+    line-height: 1.4;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const BannerImage = styled.img`
@@ -45,9 +58,45 @@ function Home() {
     const mainLeagueId = leagueIds.mainLeague
     const walterPicksLeagueId = leagueIds.walterPicks
 
+    // Function to get MotW loser info for a newsletter issue
+    const getMotWLoserInfo = (issueName) => {
+        // Extract year and week from issue name (e.g., "2024 Week 15" -> year: 2024, week: 15)
+        const weekMatch = issueName.match(/(\d{4})\s+Week\s+(\d+)/);
+        if (!weekMatch) return null;
+
+        const year = parseInt(weekMatch[1]);
+        const week = parseInt(weekMatch[2]);
+
+        // Find matching hotdog entry
+        const hotdogEntry = hotDogsData.find(entry =>
+            entry.year === year && entry.week === week
+        );
+
+        if (hotdogEntry) {
+            return {
+                loser: hotdogEntry.loser,
+                count: hotdogEntry.count,
+                type: hotdogEntry.type
+            };
+        }
+
+        return null;
+    };
+
+    // Function to format button text with MotW info
+    const formatIssueText = (issueName) => {
+        const motwInfo = getMotWLoserInfo(issueName);
+        if (motwInfo) {
+            const typeText = motwInfo.type === 'hotdogs' ? 'hotdogs' : 'shots';
+            return `${issueName}\n${motwInfo.loser} - ${motwInfo.count} ${typeText}`;
+        }
+        return issueName;
+    };
+
     // Newsletter content for league ID '1253779168802377728'
     const newsletterContent = {
         mostRecentIssue: [
+            'Hot Dog Tracker',
             '2025 Draft Order',
         ],
         newsletterIssues: [
@@ -107,6 +156,8 @@ function Home() {
     const handleNavigate = (destination, isDefault = false) => {
         if (isDefault) {
             navigate(`/league/${leagueId}/${destination.toLowerCase().replace(' ', '-')}`);
+        } else if (destination === 'Hot Dog Tracker') {
+            navigate(`/league/${leagueId}/hot-dogs`);
         } else {
             navigate(`/newsletter/${leagueId}`, { state: { issue: destination } });
         }
@@ -129,12 +180,12 @@ function Home() {
                 {/* Newsletter content if available */}
                 {content.mostRecentIssue.length > 0 && content.mostRecentIssue.map((issue) => (
                     <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
-                        {issue}
+                        {formatIssueText(issue)}
                     </RecentGridItem>
                 ))}
                 {content.newsletterIssues?.map((issue) => (
                     <GridItem key={issue} onClick={() => handleNavigate(issue)}>
-                        {issue}
+                        {formatIssueText(issue)}
                     </GridItem>
                 ))}
                 {(content.mostRecentIssue.length > 0 || content.newsletterIssues?.length > 0) && (
