@@ -27,6 +27,13 @@ export interface ProcessedHotDogData {
   loserData: { name: string; count: number }[];
   winnerHotDogData: { name: string; count: number }[];
   loserHotDogData: { name: string; count: number }[];
+  perLossData: {
+    name: string;
+    hotdogsPerLoss: number;
+    shotsPerLoss: number;
+    totalPerLoss: number;
+    totalLosses: number;
+  }[];
   countDistributionData: {
     count: number;
     frequency: number;
@@ -71,9 +78,9 @@ export const processHotDogData = (): ProcessedHotDogData => {
   const loserCounts: { [key: string]: number } = {};
   const winnerHotDogCounts: { [key: string]: number } = {};
   const loserHotDogCounts: { [key: string]: number } = {};
-  
+
   // Initialize counts for all names
-  allNames.forEach(name => {
+  allNames.forEach((name) => {
     winnerCounts[name] = 0;
     loserCounts[name] = 0;
     winnerHotDogCounts[name] = 0;
@@ -112,28 +119,28 @@ export const processHotDogData = (): ProcessedHotDogData => {
     if (!winnersByYearAndName[year]) {
       winnersByYearAndName[year] = {};
       // Initialize with all names set to 0
-      allNames.forEach(name => {
+      allNames.forEach((name) => {
         winnersByYearAndName[year][name] = 0;
       });
     }
     if (!losersByYearAndName[year]) {
       losersByYearAndName[year] = {};
       // Initialize with all names set to 0
-      allNames.forEach(name => {
+      allNames.forEach((name) => {
         losersByYearAndName[year][name] = 0;
       });
     }
     if (!winnerHotDogsByYearAndName[year]) {
       winnerHotDogsByYearAndName[year] = {};
       // Initialize with all names set to 0
-      allNames.forEach(name => {
+      allNames.forEach((name) => {
         winnerHotDogsByYearAndName[year][name] = 0;
       });
     }
     if (!loserHotDogsByYearAndName[year]) {
       loserHotDogsByYearAndName[year] = {};
       // Initialize with all names set to 0
-      allNames.forEach(name => {
+      allNames.forEach((name) => {
         loserHotDogsByYearAndName[year][name] = 0;
       });
     }
@@ -177,6 +184,35 @@ export const processHotDogData = (): ProcessedHotDogData => {
       count: count as number,
     }))
     .sort((a, b) => b.count - a.count);
+
+  // Calculate hot dogs and shots per loss for each person
+  const perLossData = allNames
+    .map((name) => {
+      const totalLosses = loserCounts[name] || 0;
+      const totalHotDogsConsumed = hotdogsOnly
+        .filter((item) => item.loser === name)
+        .reduce((sum, item) => sum + item.count, 0);
+      const totalShotsConsumed = shotsOnly
+        .filter((item) => item.loser === name)
+        .reduce((sum, item) => sum + item.count, 0);
+
+      return {
+        name,
+        hotdogsPerLoss:
+          totalLosses > 0 ? totalHotDogsConsumed / totalLosses : 0,
+        shotsPerLoss: totalLosses > 0 ? totalShotsConsumed / totalLosses : 0,
+        totalPerLoss:
+          totalLosses > 0
+            ? (totalHotDogsConsumed + totalShotsConsumed) / totalLosses
+            : 0,
+        totalLosses,
+      };
+    })
+    .filter((person) => person.totalLosses > 0) // Only show people who have lost at least once
+    .sort(
+      (a, b) =>
+        a.hotdogsPerLoss + a.shotsPerLoss - (b.hotdogsPerLoss + b.shotsPerLoss)
+    );
 
   // Process data for stacked bar charts by person with years as stacks
   const processStackedData = (
@@ -314,6 +350,7 @@ export const processHotDogData = (): ProcessedHotDogData => {
     loserData,
     winnerHotDogData,
     loserHotDogData,
+    perLossData,
     countDistributionData,
     yearlyTrendsData,
     weeklyData,

@@ -78,6 +78,7 @@ export const renderStackedBarChart = (
         horizontal
         domainPadding={{ x: 10 }}
         padding={{ top: 10, bottom: 50, left: 50, right: 50 }}
+        height={400}
       >
         <VictoryAxis
           style={{

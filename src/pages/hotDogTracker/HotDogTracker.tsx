@@ -47,14 +47,10 @@ const getAxisConfigWithGrid = (
 
 const PageContainer = styled.div`
   padding: 1rem;
-  max-width: 1200px;
+  max-width: 400px;
   margin: 0 auto;
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.text};
-
-  @media (min-width: 768px) {
-    padding: 2rem;
-  }
 `;
 
 const Title = styled.h1`
@@ -62,11 +58,6 @@ const Title = styled.h1`
   margin-bottom: 1.5rem;
   color: ${(props) => props.theme.text};
   font-size: 1.75rem;
-
-  @media (min-width: 768px) {
-    margin-bottom: 2rem;
-    font-size: 2rem;
-  }
 `;
 
 export const ChartContainer = styled.div`
@@ -76,32 +67,18 @@ export const ChartContainer = styled.div`
   background-color: ${(props) => props.theme.background};
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: ${(props) => props.theme.text};
-
-  @media (min-width: 768px) {
-    margin-bottom: 3rem;
-    padding: 1.5rem;
-  }
 `;
 
 export const ChartTitle = styled.h2`
   margin-bottom: 0.75rem;
   color: ${(props) => props.theme.text};
   font-size: 1.25rem;
-
-  @media (min-width: 768px) {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
 `;
 
 const ChartGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-
-  @media (min-width: 768px) {
-    gap: 2rem;
-  }
 `;
 
 const StatsContainer = styled.div`
@@ -111,11 +88,6 @@ const StatsContainer = styled.div`
   margin-bottom: 1.5rem;
   color: ${(props) => props.theme.newsBlue};
   gap: 0.75rem;
-
-  @media (min-width: 768px) {
-    margin-bottom: 2rem;
-    gap: 1rem;
-  }
 `;
 
 const StatCard = styled.div`
@@ -126,10 +98,6 @@ const StatCard = styled.div`
   max-width: 300px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-  @media (min-width: 768px) {
-    padding: 1.5rem;
-  }
 `;
 
 const StatValue = styled.div`
@@ -137,31 +105,17 @@ const StatValue = styled.div`
   font-weight: bold;
   margin-bottom: 0.25rem;
   color: ${(props) => props.theme.text};
-
-  @media (min-width: 768px) {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const StatLabel = styled.div`
   font-size: 0.875rem;
   color: ${(props) => props.theme.text};
-
-  @media (min-width: 768px) {
-    font-size: 1rem;
-  }
 `;
 
 const MatchupTableContainer = styled.div`
   margin-top: 2rem;
   margin-bottom: 2rem;
   overflow-x: auto; /* Enable horizontal scrolling for the table */
-
-  @media (min-width: 768px) {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-  }
 `;
 
 const TableTitle = styled.h2`
@@ -169,11 +123,6 @@ const TableTitle = styled.h2`
   color: ${(props) => props.theme.text};
   text-align: center;
   font-size: 1.25rem;
-
-  @media (min-width: 768px) {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
 `;
 
 const VideoLink = styled.a`
@@ -197,6 +146,7 @@ const HotDogTracker: React.FC = () => {
     totalMatchups,
     avgHotDogs,
     avgShots,
+    perLossData,
     countDistributionData,
     stackedWinnerData,
     stackedLoserData,
@@ -302,6 +252,46 @@ const HotDogTracker: React.FC = () => {
         )}
 
         <ChartContainer>
+          <ChartTitle>Hot Dogs & Shots Per Loss</ChartTitle>
+          <VictoryChart
+            {...getBaseChartConfig()}
+            horizontal
+            domainPadding={{ x: 10 }}
+            padding={{ top: 10, bottom: 50, left: 50, right: 50 }}
+          >
+            <VictoryAxis
+              style={{
+                tickLabels: {
+                  fontSize: 10,
+                  fill: theme.text,
+                  color: theme.text,
+                },
+              }}
+            />
+            <VictoryBar
+              data={perLossData}
+              x="name"
+              y="totalPerLoss"
+              barWidth={15}
+              colorScale={[theme.hotDogYellow]}
+              labels={({ datum }) => datum.totalPerLoss.toFixed(1)}
+              labelComponent={
+                <VictoryLabel
+                  textAnchor="middle"
+                  verticalAnchor="middle"
+                  dx={-10}
+                  style={{
+                    fill: "#ffffff",
+                    fontSize: 9,
+                    fontWeight: "bold",
+                  }}
+                />
+              }
+            />
+          </VictoryChart>
+        </ChartContainer>
+
+        <ChartContainer>
           <ChartTitle>Hot Dogs vs Shots Distribution</ChartTitle>
           <VictoryPie
             data={[
@@ -309,17 +299,17 @@ const HotDogTracker: React.FC = () => {
               { x: "Shots", y: totalShots },
             ]}
             colorScale={[theme.hotDogBrown, theme.hotDogGrey]}
-            labelRadius={({ datum }) => (window.innerWidth < 500 ? 40 : 65)}
+            labelRadius={40}
             labels={({ datum }) => `${datum.x}: ${datum.y}`}
             style={{
               labels: {
                 fill: theme.text,
-                fontSize: window.innerWidth < 500 ? 10 : 14,
+                fontSize: 10,
               },
             }}
             padding={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            height={window.innerWidth < 500 ? 200 : 350}
-            width={window.innerWidth < 500 ? 200 : 350}
+            height={200}
+            width={200}
           />
         </ChartContainer>
 
@@ -331,10 +321,10 @@ const HotDogTracker: React.FC = () => {
             padding={{
               top: 20,
               bottom: 40,
-              left: window.innerWidth < 500 ? 40 : 60,
+              left: 40,
               right: 20,
             }}
-            height={window.innerWidth < 500 ? 250 : 300}
+            height={250}
           >
             <VictoryAxis
               label="Number of Hot Dogs/Shots"
@@ -347,7 +337,7 @@ const HotDogTracker: React.FC = () => {
               dependentAxis
               label="Frequency"
               style={{
-                axisLabel: { padding: 40, fill: theme.text, color: theme.text },
+                axisLabel: { padding: 40, fill: theme.text },
                 tickLabels: { fill: theme.text },
               }}
               {...getAxisConfigWithGrid(theme, { grid: true })}
