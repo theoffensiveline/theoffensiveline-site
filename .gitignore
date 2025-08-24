@@ -26,3 +26,7 @@ yarn-error.log*
 .idea
 .env
 .env.production
+
+# news from the old site I was working on converting over to the new format
+/oldNews
+src/newsletters/2023 Week 12

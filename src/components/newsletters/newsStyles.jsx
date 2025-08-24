@@ -3,29 +3,25 @@ import { ColorConstants } from '../constants/ColorConstants.ts';
 import React from 'react';
 
 export const NewsletterContainer = styled.div`
-    max-width: 100%;
+    max-width: 400px;
     margin: 0 auto;
-    padding: 4px;
+    padding: 8px;
     font-family: 'Playfair Display', sans-serif;
     font-size: 14px;
     color: ${({ theme }) => theme.text};
     background-color: ${({ theme }) => theme.background};
+    box-sizing: border-box;
 `;
 
 export const NewsletterTitle = styled.h1`
     font-family: 'Playfair Display', serif;
     font-weight: 900;
-    font-size: 80px;
+    font-size: 48px;
     text-transform: uppercase;
-    line-height: 60px;
+    line-height: 36px;
     margin-bottom: 10px;
     max-width: 100%;
     text-align: center;
-
-    @media (max-width: 600px) {
-        font-size: 48px; /* Adjust the font size for small screens */
-        line-height: 36px; /* Adjust the line height accordingly */
-    }
 `;
 
 export const DateBar = styled.div`
@@ -39,7 +35,7 @@ export const DateBar = styled.div`
 export const ArticleHeader = styled.h2`
     font-weight: 500;
     font-style: italic;
-    font-size: 30px;
+    font-size: 24px;
     box-sizing: border-box;
     padding: 10px 0 10px 0;
     text-align: center;
@@ -80,10 +76,11 @@ export const ArticleSubheader = styled.div`
 `;
 
 export const ArticleBlock = styled.div`
-    padding: 4px;
-    margin: 4px;
-    max-width: calc(100% - 8px); /* Consider padding and margin within max-width */
+    padding: 8px;
+    margin: 8px 0;
+    width: 100%;
     text-align: justify;
+    box-sizing: border-box;
 `;
 
 export const LeagueQuote = styled.div`
@@ -135,12 +132,8 @@ export const AwardsGridV2 = ({ awardsData }) => {
 
 const AwardsContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-
-    @media (max-width: 600px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
 `;
 
 const Award = styled.div`
@@ -157,7 +150,7 @@ const Award = styled.div`
     h2 {
         font-family: 'Playfair Display', serif;
         font-weight: 800;
-        font-size: 1.5rem; /* 28px in relative units */
+        font-size: 1.5rem;
         text-align: center;
         margin: 10px 0;
     }
@@ -165,7 +158,7 @@ const Award = styled.div`
     h3 {
         font-family: 'Playfair Display', serif;
         font-weight: 550;
-        font-size: 1.2rem; /* 20px in relative units */
+        font-size: 1.2rem;
         text-align: center;
         margin: 10px 0;
     }
@@ -173,7 +166,7 @@ const Award = styled.div`
     h4 {
         font-family: 'Playfair Display', serif;
         font-weight: 400;
-        font-size: 1rem; /* 16px in relative units */
+        font-size: 1rem;
         text-align: center;
         margin: 10px 0;
     }
@@ -181,9 +174,10 @@ const Award = styled.div`
     p {
         font-family: 'Playfair Display', serif;
         font-weight: 200;
-        font-size: 0.8rem; /* 16px in relative units */
+        font-size: 0.8rem;
         text-align: center;
         margin: 10px 0;
+        padding: 0 10px;
     }
 `;
 

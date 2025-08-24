@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import * as NewsStyles from '../components/newsletters/newsStyles';
 
 function formatDate(inputDate) {
@@ -47,21 +46,17 @@ function Newsletter() {
                     {content && formatDate(content.newsDate)}
                 </NewsStyles.DateBar>
                 <div>
-
                     {content ? (
-                        <ResponsiveMasonry columnsCountBreakPoints={{ 500: 1, 1000: 2, 1500: 3, 2000: 4, 2500: 5 }}>
-                            <Masonry>
-                                {content.articles.map((article) => (
-                                    <NewsStyles.ArticleBlock as="div" key={article.id}>
-                                        <article.content />
-                                    </NewsStyles.ArticleBlock>
-                                ))}
-                            </Masonry>
-                        </ResponsiveMasonry>
+                        <div>
+                            {content.articles.map((article) => (
+                                <NewsStyles.ArticleBlock as="div" key={article.id}>
+                                    <article.content />
+                                </NewsStyles.ArticleBlock>
+                            ))}
+                        </div>
                     ) : (
                         <p>Loading...</p>
                     )}
-
                 </div>
             </NewsStyles.NewsletterContainer>
         </TeamContext.Provider >

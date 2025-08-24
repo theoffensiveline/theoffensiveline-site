@@ -1,45 +1,9 @@
-import { ArticleCaption, ArticleHeader, ArticleImage, ArticleSubheader, LeagueQuote, StyledTable } from '../../components/newsletters/newsStyles';
-import { useEffect, useRef } from 'react';
-
-// TikTok embed component
-const TikTokEmbed = ({ videoId }) => {
-    const embedRef = useRef(null);
-
-    useEffect(() => {
-        // Load TikTok embed script if not already loaded
-        if (!window.tiktokEmbed) {
-            const script = document.createElement('script');
-            script.src = 'https://www.tiktok.com/embed.js';
-            script.async = true;
-            document.head.appendChild(script);
-        }
-    }, []);
-
-    return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            margin: '20px 0'
-        }}>
-            <blockquote
-                ref={embedRef}
-                className="tiktok-embed"
-                cite={`https://www.tiktok.com/@trevormmartin/video/${videoId}`}
-                data-video-id={videoId}
-                style={{ maxWidth: '605px', minWidth: '325px' }}
-            >
-                <section>
-                    <a target="_blank" title="@trevormmartin" href="https://www.tiktok.com/@trevormmartin?refer=embed">@trevormmartin</a>
-                </section>
-            </blockquote>
-        </div>
-    );
-};
+import { ArticleHeader, ArticleSubheader } from '../../components/newsletters/newsStyles';
+import TikTokEmbed from '../../components/shared/TikTokEmbed';
 
 export const newsDate = '2025-08-22';
 
 const ChallengeResultsArticle = () => {
-
     return (
         <div>
             <ArticleHeader>2025 Draft Order Announcement</ArticleHeader>
@@ -48,8 +12,6 @@ const ChallengeResultsArticle = () => {
         </div>
     );
 };
-
-
 
 export const articles = [
     {

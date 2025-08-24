@@ -17,9 +17,10 @@ const BaseTable = styled.table`
 
   th, td {
     border: 1px solid #000;
-    padding: 5px;
+    padding: 8px 4px;
     color: ${({ theme }) => theme.text};
     text-align: left;
+    font-size: 12px;
   }
 
   th {
