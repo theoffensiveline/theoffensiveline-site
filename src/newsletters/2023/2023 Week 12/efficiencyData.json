@@ -1,0 +1,86 @@
+[
+  {
+    "week": 12,
+    "team_name": "Just Joshin",
+    "actual_points": 160.86,
+    "max_points": 164.36,
+    "percentage": 97.8705
+  },
+  {
+    "week": 12,
+    "team_name": "Travis Swift",
+    "actual_points": 156.84,
+    "max_points": 158.34,
+    "percentage": 99.0527
+  },
+  {
+    "week": 12,
+    "team_name": "Questionable",
+    "actual_points": 149.26,
+    "max_points": 156.46,
+    "percentage": 95.3982
+  },
+  {
+    "week": 12,
+    "team_name": "Cook-ing a 0.2",
+    "actual_points": 131.8,
+    "max_points": 134.5,
+    "percentage": 97.9926
+  },
+  {
+    "week": 12,
+    "team_name": "Njigba’s in Paris",
+    "actual_points": 123.62,
+    "max_points": 132.52,
+    "percentage": 93.284
+  },
+  {
+    "week": 12,
+    "team_name": "First Down Syndrome",
+    "actual_points": 122.88,
+    "max_points": 127.18,
+    "percentage": 96.619
+  },
+  {
+    "week": 12,
+    "team_name": "Cinderella",
+    "actual_points": 121.68,
+    "max_points": 155.28,
+    "percentage": 78.3617
+  },
+  {
+    "week": 12,
+    "team_name": "E.T.N Phone Home",
+    "actual_points": 102.04,
+    "max_points": 112.54,
+    "percentage": 90.67
+  },
+  {
+    "week": 12,
+    "team_name": "WalterFix",
+    "actual_points": 101.5,
+    "max_points": 134.6,
+    "percentage": 75.4086
+  },
+  {
+    "week": 12,
+    "team_name": "The Werbenjägermanjensens",
+    "actual_points": 99.98,
+    "max_points": 129.08,
+    "percentage": 77.4558
+  },
+  {
+    "week": 12,
+    "team_name": "Hurt Thuggins & the boys",
+    "actual_points": 94.72,
+    "max_points": 126.12,
+    "percentage": 75.1031
+  },
+  {
+    "week": 12,
+    "team_name": "Tim’s Team",
+    "actual_points": 91.76,
+    "max_points": 102.46,
+    "percentage": 89.5569
+  }
+]

@@ -23,15 +23,33 @@ export const TeamContext = React.createContext(
 
 function Newsletter() {
     const currentLocation = useLocation();
-    const { issue } = currentLocation.state;
+    const { issue } = currentLocation.state; // issue format: "2024 Week 1" or "2024 WP Week 4"
     const [content, setContent] = useState(null);
 
     const [selectedTeam, setSelectedTeam] = useState(null);
 
     useEffect(() => {
         const loadContent = async () => {
-            // Dynamically import the content based on the issue name
-            const module = await import(`../newsletters/${issue}/${issue}.jsx`);
+            // Map the issue name to the correct folder path
+            let folderPath = issue;
+
+            // Handle different newsletter types
+            if (issue.includes('WP Week')) {
+                // Walter Picks newsletters
+                folderPath = `WalterPicks/${issue}`;
+            } else if (issue.includes('2025')) {
+                // 2025 newsletters
+                folderPath = `2025/${issue}`;
+            } else if (issue.includes('2024')) {
+                // 2024 newsletters
+                folderPath = `2024/${issue}`;
+            } else if (issue.includes('2023')) {
+                // 2023 newsletters
+                folderPath = `2023/${issue}`;
+            }
+
+            // Dynamically import the content based on the mapped path
+            const module = await import(`../newsletters/${folderPath}/${issue}.jsx`);
             setContent(module); // Set the default export from the module
         };
 

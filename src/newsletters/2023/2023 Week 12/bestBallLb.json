@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Just Joshin",
+    "W": 10,
+    "L": 2,
+    "PF": 1761.62,
+    "PA": 1350.46,
+    "PFColor": "#227740",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 2,
+    "Diff": 4,
+    "Team": "Questionable",
+    "W": 9,
+    "L": 3,
+    "PF": 1562.5,
+    "PA": 1526.56,
+    "PFColor": "#eeb0ae",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Travis Swift",
+    "W": 8,
+    "L": 4,
+    "PF": 1643.22,
+    "PA": 1569.96,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#eaa5a3"
+  },
+  {
+    "Rank": 4,
+    "Diff": 4,
+    "Team": "First Down Syndrome",
+    "W": 7,
+    "L": 5,
+    "PF": 1530.84,
+    "PA": 1552.82,
+    "PFColor": "#df8482",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 5,
+    "Diff": -3,
+    "Team": "Njigba’s in Paris",
+    "W": 6,
+    "L": 6,
+    "PF": 1657.18,
+    "PA": 1645.8,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#c23946"
+  },
+  {
+    "Rank": 6,
+    "Diff": -2,
+    "Team": "Hurt Thuggins & the boys",
+    "W": 5,
+    "L": 7,
+    "PF": 1706.34,
+    "PA": 1654.6,
+    "PFColor": "#7cab86",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 2,
+    "Team": "Tim’s Team",
+    "W": 5,
+    "L": 7,
+    "PF": 1549.5,
+    "PA": 1648.58,
+    "PFColor": "#e79a98",
+    "PAColor": "#c23946"
+  },
+  {
+    "Rank": 8,
+    "Diff": -3,
+    "Team": "Cook-ing a 0.2",
+    "W": 5,
+    "L": 7,
+    "PF": 1539.84,
+    "PA": 1639.84,
+    "PFColor": "#e38f8d",
+    "PAColor": "#c74850"
+  },
+  {
+    "Rank": 9,
+    "Diff": -2,
+    "Team": "Cinderella",
+    "W": 5,
+    "L": 7,
+    "PF": 1522.68,
+    "PA": 1549.1,
+    "PFColor": "#da7878",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 10,
+    "Diff": 1,
+    "Team": "The Werbenjägermanjensens",
+    "W": 5,
+    "L": 7,
+    "PF": 1474.66,
+    "PA": 1515.28,
+    "PFColor": "#bc293d",
+    "PAColor": "#fbe8e7"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "E.T.N Phone Home",
+    "W": 4,
+    "L": 8,
+    "PF": 1499.34,
+    "PA": 1656.74,
+    "PFColor": "#cc545a",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "WalterFix",
+    "W": 3,
+    "L": 9,
+    "PF": 1516.68,
+    "PA": 1654.66,
+    "PFColor": "#d66d6e",
+    "PAColor": "#bc293d"
+  }
+]

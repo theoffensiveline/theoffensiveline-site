@@ -6,46 +6,72 @@ This guide explains how to add a new newsletter to The Offensive Line website.
 
 Newsletters are React components that display fantasy football league content in a masonry layout. Each newsletter consists of multiple articles that are rendered in a responsive grid format.
 
+## Folder Organization
+
+Newsletters are organized by year to improve maintainability and navigation:
+
+- **`2023/`** - Contains all 2023 season newsletters
+- **`2024/`** - Contains all 2024 season newsletters
+- **`2025/`** - Contains all 2025 season newsletters
+- **`WalterPicks/`** - Contains special Walter Picks newsletters (cross-year)
+
+This organization makes it easier to:
+
+- Find newsletters from specific seasons
+- Maintain chronological order
+- Scale as the league continues across multiple years
+
 ## File Structure
 
-Each newsletter follows this structure:
+Newsletters are organized by year in high-level folders, with each newsletter following this structure:
 
 ```
 src/newsletters/
-├── [Newsletter Name]/
-│   ├── [Newsletter Name].jsx          # Main newsletter component
-│   ├── awardsTable.json               # Awards data
-│   ├── bestBallLb.json               # Best ball leaderboard data
-│   ├── efficiencyData.json           # Manager efficiency data
-│   ├── leaderboard.json              # Main leaderboard data
-│   ├── matchupData.json              # Matchup statistics
-│   ├── medianLb.json                 # Median scoring leaderboard
-│   ├── motwTable.json                # Matchup of the week history
-│   ├── powerRankings.json            # Power rankings data
-│   ├── scheduleData.json             # Schedule information
-│   ├── shotsDist.json                # Shots distribution data
-│   ├── starters.json                 # Player starter data
-│   ├── dangerTable.json              # Danger zone table data
-│   └── [images].png/jpg              # Any images used in the newsletter
+├── 2023/                              # 2023 season newsletters
+├── 2024/                              # 2024 season newsletters
+├── 2025/                              # 2025 season newsletters
+├── WalterPicks/                       # Special Walter Picks newsletters
+└── [Year]/
+    ├── [Newsletter Name]/
+    │   ├── [Newsletter Name].jsx      # Main newsletter component
+    │   ├── awardsTable.json           # Awards data
+    │   ├── bestBallLb.json           # Best ball leaderboard data
+    │   ├── efficiencyData.json       # Manager efficiency data
+    │   ├── leaderboard.json          # Main leaderboard data
+    │   ├── matchupData.json          # Matchup statistics
+    │   ├── medianLb.json             # Median scoring leaderboard
+    │   ├── motwTable.json            # Matchup of the week history
+    │   ├── powerRankings.json        # Power rankings data
+    │   ├── scheduleData.json         # Schedule information
+    │   ├── shotsDist.json            # Shots distribution data
+    │   ├── starters.json             # Player starter data
+    │   ├── dangerTable.json          # Danger zone table data
+    │   └── [images].png/jpg          # Any images used in the newsletter
 ```
 
 ## Step-by-Step Instructions
 
 ### 1. Create the Newsletter Directory
 
-Create a new directory in `src/newsletters/` with the newsletter name:
+Create a new directory in the appropriate year folder under `src/newsletters/`:
 
 ```
-src/newsletters/[Your Newsletter Name]/
+src/newsletters/[Year]/[Your Newsletter Name]/
 ```
+
+For example:
+
+- `src/newsletters/2024/2024 Week 1/`
+- `src/newsletters/2024/2024 Season Recap/`
+- `src/newsletters/2025/2025 Preseason/`
 
 **Naming Convention:**
 
-- Regular season weeks: `2024 Week 1`, `2024 Week 2`, etc.
-- Season recaps: `2024 Season Recap`
-- Preseason: `2024 Preseason`
-- Offseason: `2024 Offseason`
-- Special events: `2024 WP Week 4` (Walter Picks)
+- Regular season weeks: `[Year] Week 1`, `[Year] Week 2`, etc.
+- Season recaps: `[Year] Season Recap`
+- Preseason: `[Year] Preseason`
+- Offseason: `[Year] Offseason`
+- Special events: `[Year] WP Week 4` (Walter Picks) - These go in the `WalterPicks/` folder
 
 ### 2. Create the Main Newsletter Component
 
@@ -253,13 +279,22 @@ Update `src/pages/Home.jsx` to include your newsletter in the navigation:
    - `mostRecentIssue` for the latest newsletters
    - `newsletterIssues` for older newsletters
 
+**Important**: The newsletter name should include the year folder path. For example:
+
+- `"2024/2024 Week 1"` for a 2024 weekly newsletter
+- `"2024/2024 Season Recap"` for a 2024 season recap
+- `"WalterPicks/2024 WP Week 4"` for a Walter Picks newsletter
+
 ```jsx
 const newsletterContent = {
   mostRecentIssue: [
-    "Your Newsletter Name",
+    "2024/2024 Week 17",
+    "2024/2024 Season Recap",
     // ... other recent newsletters
   ],
   newsletterIssues: [
+    "2024/2024 Week 16",
+    "2024/2024 Week 15",
     // ... older newsletters
   ],
 };
