@@ -3,6 +3,7 @@ import {
   ArticleHeader,
   ArticleImage,
   ArticleSubheader,
+  LeagueQuote,
 } from "../../../components/newsletters/newsStyles";
 
 export const newsDate = "2025-09-04";
@@ -41,6 +42,36 @@ const PostDraftRecapArticle = () => {
         We mentioned earlier that Strange Brown Nabers drafted 6 WRs in the first 8 rounds. That draft strategy helped them earn the best grade for WR for both their starters and their depth from WalterPicks. Sadly this left them at the bottom of the rankings for every other position. They will likely be looking to make some trades in the coming weeks to improve their roster construction.
       </p>
     </div >
+  );
+};
+
+const LeagueBuzzArticle = () => {
+  return (
+    <div>
+      <ArticleHeader>League Buzz</ArticleHeader>
+      <ArticleSubheader>Submissions</ArticleSubheader>
+      <LeagueQuote>
+        "penis" <br /> - penis
+      </LeagueQuote>
+      <LeagueQuote>
+        "I missed mr memes." <br /> - Ant
+      </LeagueQuote>
+      <p>
+        Yes, yes you did.
+      </p>
+      <LeagueQuote>
+        "Alec, Anthony, & Josh are in a race to be the next American Idol" <br /> - Anonymous League Manager
+      </LeagueQuote>
+      <p>
+        Tea, Walter somewhat agrees with this submission.
+      </p>
+      <LeagueQuote>
+        "Fun fact: with the right app, you can stream mirror sleeper to your CarPlay." <br /> - Nikhil
+      </LeagueQuote>
+      <p>
+        Maybe he wasn't the most dangerous driver on the road after all, but still seems pretty rough.
+      </p>
+    </div>
   );
 };
 
@@ -105,26 +136,30 @@ export const articles = [
   },
   {
     id: 2,
-    content: MemeArticle,
+    content: LeagueBuzzArticle,
   },
   {
     id: 3,
-    content: MemeArticle2,
+    content: MemeArticle,
   },
   {
     id: 4,
-    content: MemeArticle3,
+    content: MemeArticle2,
   },
   {
     id: 5,
-    content: MemeArticle4,
+    content: MemeArticle3,
   },
   {
     id: 6,
-    content: MemeArticle5,
+    content: MemeArticle4,
   },
   {
     id: 7,
+    content: MemeArticle5,
+  },
+  {
+    id: 8,
     content: MemeArticle6,
   },
 ];
