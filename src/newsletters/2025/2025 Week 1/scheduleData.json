@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "BBCU",
+      "team2_list": ["BBCU", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "team2_list": ["D.K’s Minions Return?", "Lord of the Littles", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Minions Return?",
+      "team2_list": ["BBCU", "D.K’s Minions Return?", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["D.K’s Minions Return?", "Lord of the Littles"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin The 3rd",
+      "team2_list": ["BBCU", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Six Receivers, 1 Catch",
+      "team2_list": ["Lord of the Littles"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["D.K’s Minions Return?", "Lord of the Littles", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "TBD",
+      "team2_list": ["BBCU", "D.K’s Minions Return?", "Lord of the Littles", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["BBCU", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["BBCU", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "BBCU",
+      "team2_list": ["Bye Week Curious"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "First Down Syndrome", "Just Joshin The 3rd", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers "],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Minions Return?",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "First Down Syndrome", "Super Ja'Marrio Bros.", "TBD"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "First Down Syndrome", "Just Joshin The 3rd", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin The 3rd",
+      "team2_list": ["Bye Week Curious", "Super Ja'Marrio Bros."],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Lord of the Littles", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Six Receivers, 1 Catch",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Just Joshin The 3rd", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["BBCU", "Bye Week Curious", "Costo Guys", "First Down Syndrome", "Just Joshin The 3rd", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "TBD",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "First Down Syndrome", "Just Joshin The 3rd", "Six Receivers, 1 Catch", "Super Ja'Marrio Bros.", "TBD"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["Bye Week Curious", "Super Ja'Marrio Bros.", "TBD"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "Super Ja'Marrio Bros.", "TBD"],
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "BBCU",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Minions Return?",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Just Joshin The 3rd",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Six Receivers, 1 Catch",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "TBD",
+      "wins": 0,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "wins": 1,
+      "losses": 0,
+      "ties": 0
+    }
+  ]
+}

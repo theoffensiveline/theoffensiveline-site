@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Scored 140.92 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Scored 69.12 points",
+    "description": "This is the #1 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "D.K’s Minions Return?",
+    "value": "Scored 114.08 points in their win",
+    "description": "This is the #1 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "TBD",
+    "value": "Scored 113.32 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Defeated Bye Week Curious by 71.8 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/00f78a20b18dcddc39fc238f50f6dbf9",
+    "name": "Just Joshin The 3rd",
+    "value": "Defeated TBD by 11.24 points",
+    "description": "This is the #1 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/00f78a20b18dcddc39fc238f50f6dbf9",
+    "name": "Just Joshin The 3rd",
+    "value": "Left 43.6 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Left 0.5 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 38.76 points for Just Joshin The 3rd which was 31.12% of the team total",
+    "description": "This is the #1 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7591.jpg",
+    "name": "Justin Fields (🏃🏽‍♂️)",
+    "value": "Scored 29.52 points on the bench for WalterPickens",
+    "description": "This is the #1 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 38.76 points for Just Joshin The 3rd",
+    "description": "This is the #1 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/3198.jpg",
+    "name": "Derrick Henry",
+    "value": "Scored 29.2 points for Just Joshin The 3rd",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/9997.jpg",
+    "name": "Zay Flowers (Gus Fring)",
+    "value": "Scored 28.1 points for BBCU",
+    "description": "This is the #1 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/11604.jpg",
+    "name": "Brock Bowers (9.11.24)",
+    "value": "Scored 15.3 points for WalterPickens",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/11786.jpg",
+    "name": "Cam Little",
+    "value": "Scored 16.8 points for Lord of the Littles",
+    "description": "This is the #1 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/den.png",
+    "name": "DEN",
+    "value": "Scored 14 points for The Barkley Brawlers ",
+    "description": "This is the #1 DEF performance of the season"
+  }
+]

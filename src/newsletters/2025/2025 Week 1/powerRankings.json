@@ -1,0 +1,122 @@
+[
+  {
+    "P Rank": 1,
+    "Team": "Lord of the Littles",
+    "Play All W": 11,
+    "Play All L": 0,
+    "Team Ability": 100,
+    "Str of Sched": 1,
+    "TaColor": "#227740",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 2,
+    "Team": "BBCU",
+    "Play All W": 10,
+    "Play All L": 1,
+    "Team Ability": 91,
+    "Str of Sched": 37,
+    "TaColor": "#4c8d5d",
+    "SosColor": "#c3d8c6"
+  },
+  {
+    "P Rank": 3,
+    "Team": "Just Joshin The 3rd",
+    "Play All W": 9,
+    "Play All L": 2,
+    "Team Ability": 82,
+    "Str of Sched": 46,
+    "TaColor": "#70a37c",
+    "SosColor": "#e7efe8"
+  },
+  {
+    "P Rank": 4,
+    "Team": "The Barkley Brawlers ",
+    "Play All W": 8,
+    "Play All L": 3,
+    "Team Ability": 73,
+    "Str of Sched": 28,
+    "TaColor": "#9fc2a6",
+    "SosColor": "#9fc2a6"
+  },
+  {
+    "P Rank": 5,
+    "Team": "WalterPickens",
+    "Play All W": 7,
+    "Play All L": 4,
+    "Team Ability": 64,
+    "Str of Sched": 19,
+    "TaColor": "#c3d8c6",
+    "SosColor": "#70a37c"
+  },
+  {
+    "P Rank": 6,
+    "Team": "D.K’s Minions Return?",
+    "Play All W": 6,
+    "Play All L": 5,
+    "Team Ability": 55,
+    "Str of Sched": 10,
+    "TaColor": "#e7efe8",
+    "SosColor": "#4c8d5d"
+  },
+  {
+    "P Rank": 7,
+    "Team": "TBD",
+    "Play All W": 5,
+    "Play All L": 6,
+    "Team Ability": 46,
+    "Str of Sched": 82,
+    "TaColor": "#fbe8e7",
+    "SosColor": "#da7878"
+  },
+  {
+    "P Rank": 8,
+    "Team": "Super Ja'Marrio Bros.",
+    "Play All W": 4,
+    "Play All L": 7,
+    "Team Ability": 37,
+    "Str of Sched": 91,
+    "TaColor": "#f4c7c4",
+    "SosColor": "#cc545a"
+  },
+  {
+    "P Rank": 9,
+    "Team": "Costo Guys",
+    "Play All W": 3,
+    "Play All L": 8,
+    "Team Ability": 28,
+    "Str of Sched": 73,
+    "TaColor": "#eaa5a3",
+    "SosColor": "#eaa5a3"
+  },
+  {
+    "P Rank": 10,
+    "Team": "First Down Syndrome",
+    "Play All W": 2,
+    "Play All L": 9,
+    "Team Ability": 19,
+    "Str of Sched": 64,
+    "TaColor": "#da7878",
+    "SosColor": "#f4c7c4"
+  },
+  {
+    "P Rank": 11,
+    "Team": "Six Receivers, 1 Catch",
+    "Play All W": 1,
+    "Play All L": 10,
+    "Team Ability": 10,
+    "Str of Sched": 55,
+    "TaColor": "#cc545a",
+    "SosColor": "#fbe8e7"
+  },
+  {
+    "P Rank": 12,
+    "Team": "Bye Week Curious",
+    "Play All W": 0,
+    "Play All L": 11,
+    "Team Ability": 1,
+    "Str of Sched": 100,
+    "TaColor": "#bc293d",
+    "SosColor": "#bc293d"
+  }
+]

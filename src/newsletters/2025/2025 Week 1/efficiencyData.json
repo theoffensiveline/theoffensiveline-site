@@ -1,0 +1,86 @@
+[
+  {
+    "week": 1,
+    "team_name": "Lord of the Littles",
+    "actual_points": 140.92,
+    "max_points": 155.72,
+    "percentage": 90.4958
+  },
+  {
+    "week": 1,
+    "team_name": "BBCU",
+    "actual_points": 136.08,
+    "max_points": 161.02,
+    "percentage": 84.5112
+  },
+  {
+    "week": 1,
+    "team_name": "Just Joshin The 3rd",
+    "actual_points": 124.56,
+    "max_points": 168.16,
+    "percentage": 74.0723
+  },
+  {
+    "week": 1,
+    "team_name": "The Barkley Brawlers ",
+    "actual_points": 120.04,
+    "max_points": 140.7,
+    "percentage": 85.3163
+  },
+  {
+    "week": 1,
+    "team_name": "WalterPickens",
+    "actual_points": 114.32,
+    "max_points": 148.32,
+    "percentage": 77.0766
+  },
+  {
+    "week": 1,
+    "team_name": "D.K’s Minions Return?",
+    "actual_points": 114.08,
+    "max_points": 116.82,
+    "percentage": 97.6545
+  },
+  {
+    "week": 1,
+    "team_name": "TBD",
+    "actual_points": 113.32,
+    "max_points": 117.92,
+    "percentage": 96.0991
+  },
+  {
+    "week": 1,
+    "team_name": "Super Ja'Marrio Bros.",
+    "actual_points": 107.58,
+    "max_points": 114.1,
+    "percentage": 94.2857
+  },
+  {
+    "week": 1,
+    "team_name": "Costo Guys",
+    "actual_points": 99.26,
+    "max_points": 110.36,
+    "percentage": 89.942
+  },
+  {
+    "week": 1,
+    "team_name": "First Down Syndrome",
+    "actual_points": 93.38,
+    "max_points": 93.88,
+    "percentage": 99.4674
+  },
+  {
+    "week": 1,
+    "team_name": "Six Receivers, 1 Catch",
+    "actual_points": 91.76,
+    "max_points": 110.26,
+    "percentage": 83.2215
+  },
+  {
+    "week": 1,
+    "team_name": "Bye Week Curious",
+    "actual_points": 69.12,
+    "max_points": 91.62,
+    "percentage": 75.442
+  }
+]

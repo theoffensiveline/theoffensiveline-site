@@ -97,9 +97,10 @@ function Home() {
     const newsletterContent = {
         mostRecentIssue: [
             'Hot Dog Tracker',
-            '2025 Post Draft Recap',
+            '2025 Week 1',
         ],
         newsletterIssues: [
+            '2025 Post Draft Recap',
             '2025 Draft Order',
             '2025 Draft Order Challenge Results',
             '2024 Season Recap',
