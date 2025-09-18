@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "BBCU",
+    "W": 4,
+    "L": 0,
+    "PF": 261.26,
+    "PA": 180.42,
+    "PFColor": "#227740",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "D.K’s Minions Return?",
+    "W": 4,
+    "L": 0,
+    "PF": 245.08,
+    "PA": 187.68,
+    "PFColor": "#649c71",
+    "PAColor": "#88b290"
+  },
+  {
+    "Rank": 3,
+    "Diff": -1,
+    "Team": "Lord of the Littles",
+    "W": 3,
+    "L": 1,
+    "PF": 250.32,
+    "PA": 164.82,
+    "PFColor": "#4c8d5d",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 2,
+    "L": 2,
+    "PF": 254.18,
+    "PA": 246.76,
+    "PFColor": "#3f8653",
+    "PAColor": "#e38f8d"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "Burrowing in McAnus",
+    "W": 2,
+    "L": 2,
+    "PF": 223.5,
+    "PA": 217.26,
+    "PFColor": "#abc9b1",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 6,
+    "Diff": 0,
+    "Team": "Glizzy Gobblers",
+    "W": 2,
+    "L": 2,
+    "PF": 220.48,
+    "PA": 244.32,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 7,
+    "Diff": 0,
+    "Team": "WalterPickens",
+    "W": 2,
+    "L": 2,
+    "PF": 217.5,
+    "PA": 225.12,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 8,
+    "Diff": 0,
+    "Team": "The Barkley Brawlers ",
+    "W": 2,
+    "L": 2,
+    "PF": 215.74,
+    "PA": 208.66,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 9,
+    "Diff": 0,
+    "Team": "First Down Syndrome",
+    "W": 2,
+    "L": 2,
+    "PF": 208.92,
+    "PA": 229.82,
+    "PFColor": "#dbe8dd",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 10,
+    "Diff": 1,
+    "Team": "Costo Guys",
+    "W": 1,
+    "L": 3,
+    "PF": 214.76,
+    "PA": 235.58,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "Losing is Terry",
+    "W": 0,
+    "L": 4,
+    "PF": 224,
+    "PA": 271.16,
+    "PFColor": "#abc9b1",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 0,
+    "L": 4,
+    "PF": 141.96,
+    "PA": 266.1,
+    "PFColor": "#bc293d",
+    "PAColor": "#c74850"
+  }
+]

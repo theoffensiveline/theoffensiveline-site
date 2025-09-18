@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "BBCU",
+      "team2_list": ["BBCU", "Burrowing in McAnus", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Lord of the Littles", "Super Ja'Marrio Bros.", "The Barkley Brawlers "],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Burrowing in McAnus",
+      "team2_list": ["Lord of the Littles"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["BBCU", "Burrowing in McAnus", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Glizzy Gobblers", "Lord of the Littles", "Losing is Terry", "Super Ja'Marrio Bros.", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "team2_list": ["D.K’s Minions Return?", "Lord of the Littles"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Minions Return?",
+      "team2_list": ["BBCU", "Burrowing in McAnus", "D.K’s Minions Return?", "Glizzy Gobblers", "Lord of the Littles", "The Barkley Brawlers "],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["D.K’s Minions Return?", "Lord of the Littles"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Glizzy Gobblers",
+      "team2_list": ["BBCU", "Lord of the Littles"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["BBCU", "Burrowing in McAnus", "D.K’s Minions Return?", "Lord of the Littles", "The Barkley Brawlers "],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Losing is Terry",
+      "team2_list": ["BBCU", "D.K’s Minions Return?", "Lord of the Littles", "The Barkley Brawlers "],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["D.K’s Minions Return?", "Lord of the Littles", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["BBCU"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["BBCU", "D.K’s Minions Return?", "Lord of the Littles"],
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "BBCU",
+      "team2_list": ["Bye Week Curious", "Glizzy Gobblers", "Losing is Terry", "WalterPickens"],
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Burrowing in McAnus",
+      "team2_list": ["Losing is Terry"],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["BBCU", "Burrowing in McAnus", "Bye Week Curious", "Costo Guys", "D.K’s Minions Return?", "First Down Syndrome", "Glizzy Gobblers", "Lord of the Littles", "Losing is Terry", "Super Ja'Marrio Bros.", "The Barkley Brawlers ", "WalterPickens"],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "First Down Syndrome", "Glizzy Gobblers", "Losing is Terry"],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Minions Return?",
+      "team2_list": ["Losing is Terry"],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Bye Week Curious", "Glizzy Gobblers", "Losing is Terry", "WalterPickens"],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Glizzy Gobblers",
+      "team2_list": ["Bye Week Curious", "Super Ja'Marrio Bros."],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "First Down Syndrome", "Glizzy Gobblers", "Losing is Terry", "Super Ja'Marrio Bros.", "WalterPickens"],
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Losing is Terry",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "First Down Syndrome", "Glizzy Gobblers", "Losing is Terry", "Super Ja'Marrio Bros."],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["BBCU", "Burrowing in McAnus", "Bye Week Curious", "Costo Guys", "First Down Syndrome", "Glizzy Gobblers", "Losing is Terry", "Super Ja'Marrio Bros."],
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["Bye Week Curious", "Losing is Terry", "Super Ja'Marrio Bros."],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["Bye Week Curious", "Costo Guys", "Losing is Terry", "Super Ja'Marrio Bros."],
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "BBCU",
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Burrowing in McAnus",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Costo Guys",
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Minions Return?",
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Glizzy Gobblers",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "wins": 2,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Losing is Terry",
+      "wins": 0,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    }
+  ]
+}

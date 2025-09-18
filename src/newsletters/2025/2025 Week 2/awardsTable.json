@@ -1,0 +1,121 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Scored 146.6 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Scored 72.84 points",
+    "description": "This is the #2 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Scored 109.4 points in their win",
+    "description": "This is the #1 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costo Guys",
+    "value": "Scored 115.5 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Defeated Bye Week Curious by 52.34 points",
+    "description": "This is the #2 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Defeated Costo Guys by 0.04 points",
+    "description": "This is the #1 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Left 50.66 points on the bench",
+    "description": "This is the #1 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "D.K’s Minions Return?",
+    "value": "Left 2.3 points on the bench",
+    "description": "This is the #2 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "name": "Amon-Ra St. Brown",
+    "value": "Scored 39.2 points for First Down Syndrome which was 33.93% of the team total",
+    "description": "This is the #1 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/3163.jpg",
+    "name": "Jared Goff",
+    "value": "Scored 33.96 points on the bench for The Barkley Brawlers ",
+    "description": "This is the #1 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing 1",
+    "photo": "https://sleepercdn.com/content/nfl/players/11564.jpg",
+    "name": "Drake Maye",
+    "value": "Scored 26.3 points for D.K’s Minions Return?",
+    "description": "This is the #3 QB performance of the season"
+  },
+  {
+    "award": "Literally Throwing 2",
+    "photo": "https://sleepercdn.com/content/nfl/players/4881.jpg",
+    "name": "Lamar Jackson",
+    "value": "Scored 26.3 points for Costo Guys",
+    "description": "This is the #3 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/6813.jpg",
+    "name": "Jonathan Taylor",
+    "value": "Scored 29.5 points for D.K’s Minions Return?",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "name": "Amon-Ra St. Brown",
+    "value": "Scored 39.2 points for First Down Syndrome",
+    "description": "This is the #1 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8130.jpg",
+    "name": "Trey McBride (Jesse Pinkman)",
+    "value": "Scored 13.8 points for BBCU",
+    "description": "This is the #4 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/11533.jpg",
+    "name": "Brandon Aubrey (GOAT)",
+    "value": "Scored 24.5 points for Super Ja'Marrio Bros.",
+    "description": "This is the #1 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/bal.png",
+    "name": "BAL",
+    "value": "Scored 15 points for Costo Guys",
+    "description": "This is the #1 DEF performance of the season"
+  }
+]

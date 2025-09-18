@@ -1,12 +1,21 @@
 [
   {
     "year": 2025,
+    "week": 2,
+    "winner": "Nikhil",
+    "loser": "Alec",
+    "count": 5,
+    "type": "hotdogs",
+    "link": ""
+  },
+  {
+    "year": 2025,
     "week": 1,
     "winner": "Nikhil",
     "loser": "Josh K",
     "count": 4,
-    "type": "",
-    "link": ""
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1uMosIyomLC3SGyv37mKIauNqRo--LMpA/view?usp=drive_link"
   },
   {
     "year": 2024,

@@ -1,0 +1,24 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "D.K’s Minions Return?",
+    "Winner Score": 114.08,
+    "Loser Score": 91.76,
+    "Loser Team": "Burrowing in McAnus",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#dbe8dd",
+    "LoserScoreColor": "#eaa5a3",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "D.K’s Minions Return?",
+    "Winner Score": 131,
+    "Loser Score": 95.92,
+    "Loser Team": "Glizzy Gobblers",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#7cab86",
+    "LoserScoreColor": "#f1bcb9",
+    "ShotsDogsColor": "#bc293d"
+  }
+]
