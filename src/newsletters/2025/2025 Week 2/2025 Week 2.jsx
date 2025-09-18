@@ -301,7 +301,7 @@ const LeagueBuzzArticle = () => {
                 Very true, as is tradition.
             </p>
             <LeagueQuote>
-                "Why does nobody accept my trades!
+                "Why does nobody accept my trades!"
                 <br />- Jake
             </LeagueQuote>
             <p>
@@ -315,7 +315,7 @@ const LeagueBuzzArticle = () => {
                 Unclear whether this is related or unrelated to the squirrel meme.
             </p>
             <LeagueQuote>
-                "Fellas I'm moving into a new apartment and I think I need to rejoin the bidet life after a troubled past. Any recs?" <br />- Anthony
+                "Fellas I'm moving into a new apartment and I think I need to rejoin the bidet life after a troubled past. Any recs?"<br />- Anthony
             </LeagueQuote>
             <p>
                 This was submitted after Alec responded to Anthony in the groupchat. Anthony clearly does not trust the opinion of Alec, despite his best intentions and proven track record of bidet recommendations.
