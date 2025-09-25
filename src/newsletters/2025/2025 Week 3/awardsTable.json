@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 145.64 points",
+    "description": "This is the #2 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Deep Shot to Kirk",
+    "value": "Scored 73.56 points",
+    "description": "This is the #3 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Scored 85.92 points in their win",
+    "description": "This is the #1 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Scored 131.4 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Defeated The Barkley Brawlers  by 30.24 points",
+    "description": "This is the #5 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Defeated Lord of the Littles by 4.9 points",
+    "description": "This is the #2 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "Singing Like Mariah Terry",
+    "value": "Left 38.3 points on the bench",
+    "description": "This is the #4 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/5859.jpg",
+    "name": "A.J. Brown",
+    "value": "Scored 22.9 points for Bye Week Curious which was 26.65% of the team total",
+    "description": "This is the #4 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/5892.jpg",
+    "name": "David Montgomery",
+    "value": "Scored 29.4 points on the bench for Singing Like Mariah Terry",
+    "description": "This is the #4 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/6904.jpg",
+    "name": "Jalen Hurts",
+    "value": "Scored 29.04 points for First Down Syndrome",
+    "description": "This is the #3 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/6813.jpg",
+    "name": "Jonathan Taylor",
+    "value": "Scored 32.8 points for D.K. Lost a Minion",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/8146.jpg",
+    "name": "Garrett Wilson",
+    "value": "Scored 24.4 points for Lord of the Littles",
+    "description": "This is the #6 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/5012.jpg",
+    "name": "Mark Andrews",
+    "value": "Scored 27.1 points for First Down Syndrome",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/11792.jpg",
+    "name": "Will Reichard (Third)",
+    "value": "Scored 15.7 points for WalterPickens",
+    "description": "This is the #3 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/min.png",
+    "name": "MIN (Hamlin, Hamlin & McGill)",
+    "value": "Scored 32 points for BBCU",
+    "description": "This is the #1 DEF performance of the season"
+  }
+]

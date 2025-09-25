@@ -5,13 +5,14 @@ import {
 } from "./constants/ColorConstants.ts";
 
 export const SurvivorContainer = styled.div`
-  max-width: 100%;
+  max-width: 400px;
   margin: 0 auto;
-  padding: 4px;
+  padding: 8px;
   font-family: "Playfair Display", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: ${({ theme }) => theme.text};
   background-color: ${({ theme }) => theme.background};
+  box-sizing: border-box;
 `;
 
 export const SurvivorTitle = styled.h1`

@@ -1,0 +1,86 @@
+[
+  {
+    "week": 3,
+    "team_name": "First Down Syndrome",
+    "actual_points": 145.64,
+    "max_points": 153.14,
+    "percentage": 95.1025
+  },
+  {
+    "week": 3,
+    "team_name": "BBCU",
+    "actual_points": 136.3,
+    "max_points": 150.3,
+    "percentage": 90.6853
+  },
+  {
+    "week": 3,
+    "team_name": "Lord of the Littles",
+    "actual_points": 131.4,
+    "max_points": 133.8,
+    "percentage": 98.2063
+  },
+  {
+    "week": 3,
+    "team_name": "D.K. Lost a Minion",
+    "actual_points": 129.62,
+    "max_points": 154.52,
+    "percentage": 83.8856
+  },
+  {
+    "week": 3,
+    "team_name": "Super Ja'Marrio Bros.",
+    "actual_points": 128.52,
+    "max_points": 128.52,
+    "percentage": 100
+  },
+  {
+    "week": 3,
+    "team_name": "Luck of the Dog",
+    "actual_points": 125.12,
+    "max_points": 140.42,
+    "percentage": 89.1041
+  },
+  {
+    "week": 3,
+    "team_name": "Costo Guys",
+    "actual_points": 118.82,
+    "max_points": 129.82,
+    "percentage": 91.5267
+  },
+  {
+    "week": 3,
+    "team_name": "WalterPickens",
+    "actual_points": 113.64,
+    "max_points": 126.04,
+    "percentage": 90.1619
+  },
+  {
+    "week": 3,
+    "team_name": "The Barkley Brawlers ",
+    "actual_points": 98.28,
+    "max_points": 106.92,
+    "percentage": 91.9192
+  },
+  {
+    "week": 3,
+    "team_name": "Singing Like Mariah Terry",
+    "actual_points": 88.76,
+    "max_points": 127.06,
+    "percentage": 69.8568
+  },
+  {
+    "week": 3,
+    "team_name": "Bye Week Curious",
+    "actual_points": 85.92,
+    "max_points": 94.32,
+    "percentage": 91.0941
+  },
+  {
+    "week": 3,
+    "team_name": "Deep Shot to Kirk",
+    "actual_points": 73.56,
+    "max_points": 108.32,
+    "percentage": 67.9099
+  }
+]

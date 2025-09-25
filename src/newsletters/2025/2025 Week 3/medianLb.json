@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "BBCU",
+    "W": 6,
+    "L": 0,
+    "PF": 397.56,
+    "PA": 311.82,
+    "PFColor": "#227740",
+    "PAColor": "#589567"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "D.K. Lost a Minion",
+    "W": 6,
+    "L": 0,
+    "PF": 374.7,
+    "PA": 301.32,
+    "PFColor": "#649c71",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 4,
+    "L": 2,
+    "PF": 382.7,
+    "PA": 345.04,
+    "PFColor": "#4c8d5d",
+    "PAColor": "#f3f7f3"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Lord of the Littles",
+    "W": 4,
+    "L": 2,
+    "PF": 381.72,
+    "PA": 301.12,
+    "PFColor": "#4c8d5d",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "First Down Syndrome",
+    "W": 4,
+    "L": 2,
+    "PF": 354.56,
+    "PA": 354.94,
+    "PFColor": "#94ba9b",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 6,
+    "Diff": 0,
+    "Team": "Luck of the Dog",
+    "W": 3,
+    "L": 3,
+    "PF": 345.6,
+    "PA": 389.96,
+    "PFColor": "#abc9b1",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 7,
+    "Diff": 0,
+    "Team": "Costo Guys",
+    "W": 2,
+    "L": 4,
+    "PF": 333.58,
+    "PA": 324.34,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#94ba9b"
+  },
+  {
+    "Rank": 8,
+    "Diff": 0,
+    "Team": "WalterPickens",
+    "W": 2,
+    "L": 4,
+    "PF": 331.14,
+    "PA": 354.74,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 9,
+    "Diff": 0,
+    "Team": "The Barkley Brawlers ",
+    "W": 2,
+    "L": 4,
+    "PF": 314.02,
+    "PA": 337.18,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 10,
+    "Diff": 0,
+    "Team": "Deep Shot to Kirk",
+    "W": 2,
+    "L": 4,
+    "PF": 297.06,
+    "PA": 303.18,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#327e4a"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 1,
+    "L": 5,
+    "PF": 227.88,
+    "PA": 339.66,
+    "PFColor": "#bc293d",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Singing Like Mariah Terry",
+    "W": 0,
+    "L": 6,
+    "PF": 312.76,
+    "PA": 389.98,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#bc293d"
+  }
+]
