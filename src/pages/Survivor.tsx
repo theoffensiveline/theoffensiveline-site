@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { SurvivorPick } from "../utils/survivorUtils";
 import {
   getLeague,
   getMatchups,
   getNflState,
   getUsers,
   getRosters,
+  SleeperTeamIdMapping,
 } from "../utils/api/SleeperAPI";
+import { saveSurvivorPick, getUserSurvivorPick, getSurvivorStandings } from "../utils/survivorUtils";
 import { Matchup, Roster, User, Player } from "../types/sleeperTypes";
-import playerData from "../utils/api/sleeper_players.json"; // Adjust path as necessary
+import playerData from "../utils/api/sleeper_players.json";
 import { leagueIds } from "../components/constants/LeagueConstants";
 import {
   SurvivorContainer,
@@ -37,6 +42,11 @@ interface Team {
   team_points_against: number;
 }
 
+interface UserStatus {
+  isEliminated: boolean;
+  lives: number;
+}
+
 // Add this interface near the top with other interfaces
 interface StarterWithPosition {
   id: string;
@@ -56,8 +66,9 @@ const Survivor: React.FC = () => {
   const [teams, setTeams] = useState<Record<number, Team>>({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  // hardcoded for now so Chris doesn't have to login
-  const LEAGUE_ID = leagueIds.mainLeague; //localStorage.getItem("selectedLeagueId");
+  const [userPick, setUserPick] = useState<SurvivorPick | null>(null);
+  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
+  const LEAGUE_ID = leagueIds.mainLeague;
 
   // Create a map from player ID to player name
   const playerMap = Object.entries(
@@ -75,11 +86,80 @@ const Survivor: React.FC = () => {
     return map;
   }, {} as Record<string, string | null>);
 
-  const handleTeamSelect = (teamId: number) => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleTeamSelect = async (teamId: number) => {
+    if (!currentUser) {
+      navigate("/login", { state: { from: "/survivor" } });
+      return;
+    }
+
     const team = teams[teamId];
-    alert(
-      `You want to select ${team.team_name}? This doesn't work yet, please text Matt Smith your submission until further notice.`
-    );
+    if (!team) return;
+
+    try {
+      // Find the roster ID for the selected team first
+      const rosterEntry = Object.entries(teams).find(
+        ([_, t]) => t.team_id === team.team_id
+      );
+      if (!rosterEntry) {
+        throw new Error("Could not find roster for selected team");
+      }
+      const rosterId = rosterEntry[0];
+
+      const ownerName = Object.keys(SleeperTeamIdMapping).includes(rosterId)
+        ? SleeperTeamIdMapping[rosterId as keyof typeof SleeperTeamIdMapping]
+        : "Unknown Owner";
+
+      // If this is the already picked team, do nothing
+      if (userPick?.teamIdSelected === rosterId) {
+        return;
+      }
+
+      // If another team is already picked, confirm the change
+      if (userPick) {
+        const currentPickOwnerName = Object.keys(SleeperTeamIdMapping).includes(
+          userPick.teamIdSelected
+        )
+          ? SleeperTeamIdMapping[
+              userPick.teamIdSelected as keyof typeof SleeperTeamIdMapping
+            ]
+          : "Unknown Owner";
+
+        const confirmUpdate = window.confirm(
+          `You already picked ${currentPickOwnerName} for this week. Do you want to change to ${ownerName}?`
+        );
+        if (!confirmUpdate) return;
+      }
+
+      const pick = {
+        leagueId: LEAGUE_ID,
+        userId: currentUser.uid,
+        ownerName,
+        username:
+          currentUser.displayName || `User-${currentUser.uid.slice(0, 6)}`,
+        week: week || currentWeek || 1,
+        teamIdSelected: rosterId,
+      };
+
+      const result = await saveSurvivorPick(pick);
+      if (result.success) {
+        setUserPick({
+          ...pick,
+          id: result.id || "",
+          timestamp: {
+            seconds: Math.floor(Date.now() / 1000),
+            nanoseconds: 0,
+          } as any,
+        });
+      } else {
+        throw new Error("Failed to save pick");
+      }
+    } catch (error) {
+      console.error("Error saving pick:", error);
+      alert("Failed to save your pick. Please try again.");
+    }
   };
 
   useEffect(() => {
@@ -100,6 +180,47 @@ const Survivor: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [LEAGUE_ID]);
+
+  // Fetch user's pick and status when week or currentUser changes
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!currentUser || !week) return;
+
+      try {
+        // Fetch user's pick
+        const pick = await getUserSurvivorPick(LEAGUE_ID, currentUser.uid, week);
+        setUserPick(pick);
+        
+        // Try to get user status from standings
+        try {
+          const standings = await getSurvivorStandings(LEAGUE_ID);
+          const userStatus = standings.userStatus?.[currentUser.uid];
+          if (userStatus) {
+            setUserStatus({
+              isEliminated: userStatus.isEliminated ?? false,
+              lives: userStatus.lives ?? 0
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching standings:", error);
+          // If we can't get standings, assume not eliminated
+          setUserStatus({
+            isEliminated: false,
+            lives: 1 // Default to 1 life if we can't determine
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (currentUser && week) {
+      fetchUserData();
+    } else {
+      setUserPick(null);
+      setUserStatus(null);
+    }
+  }, [currentUser, week, LEAGUE_ID]);
 
   const fetchWeekFromSleeper = async () => {
     try {
@@ -200,14 +321,32 @@ const Survivor: React.FC = () => {
   };
 
   // Group matchups by matchup_id
-  const groupedMatchups = matchups.reduce((groups, matchup) => {
-    const { matchup_id } = matchup;
-    if (!groups[matchup_id]) {
-      groups[matchup_id] = [];
-    }
-    groups[matchup_id].push(matchup);
-    return groups;
-  }, {} as Record<number, ExtendedMatchup[]>);
+  const groupedMatchups = matchups.reduce(
+    (groups: Record<number, ExtendedMatchup[]>, matchup) => {
+      const { matchup_id } = matchup;
+      if (!groups[matchup_id]) {
+        groups[matchup_id] = [];
+      }
+      groups[matchup_id].push(matchup);
+      return groups;
+    },
+    {} as Record<number, ExtendedMatchup[]>
+  );
+
+  // Get the name of the currently selected team
+  const getSelectedTeamName = () => {
+    if (!userPick) return "None";
+
+    // Try to find the team by roster ID (userPick.teamIdSelected is the roster ID)
+    const rosterEntry = Object.entries(teams).find(
+      ([rosterId]) => rosterId === userPick.teamIdSelected
+    );
+
+    return rosterEntry ? rosterEntry[1].team_name : "None";
+  };
+
+  // Check if user can make a selection
+  const canMakeSelection = userStatus && !userStatus.isEliminated && week === currentWeek;
 
   return (
     <SurvivorContainer>
@@ -230,6 +369,21 @@ const Survivor: React.FC = () => {
             </SurvivorButton>
           </SurvivorWeekNav>
           <SurvivorTitle>Week {week} Matchups</SurvivorTitle>
+          <div
+            style={{
+              textAlign: "center",
+              margin: "10px 0",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              color: userStatus?.isEliminated ? "#ff4444" : "inherit"
+            }}
+          >
+            {userStatus?.isEliminated ? (
+              <span>❌ Eliminated - No more picks allowed</span>
+            ) : (
+              <span>Selection: {getSelectedTeamName()}{userStatus?.lives !== undefined && ` (${userStatus.lives} ${userStatus.lives === 1 ? 'life' : 'lives'} remaining)`}</span>
+            )}
+          </div>
         </>
       )}
       {loading ? <LoadingSpinner /> : null}
@@ -240,7 +394,7 @@ const Survivor: React.FC = () => {
       currentWeek !== null &&
       Object.keys(groupedMatchups).length > 0 ? (
         <div>
-          {Object.keys(groupedMatchups).map((matchupId) => {
+          {Object.keys(groupedMatchups).map((matchupId: string) => {
             const matchups = groupedMatchups[parseInt(matchupId, 10)];
             // Ensure matchups is defined and has at least two elements
             if (!matchups || matchups.length < 2) return null;
@@ -291,13 +445,25 @@ const Survivor: React.FC = () => {
                       <br />
                       PA: {team1Details.team_points_against}
                     </p>
-                    {week >= currentWeek && (
-                      <SurvivorButton
-                        onClick={() => handleTeamSelect(team1.roster_id)}
-                      >
-                        Select
-                      </SurvivorButton>
-                    )}
+                    <SurvivorButton
+                      onClick={() => handleTeamSelect(team1.roster_id)}
+                      disabled={
+                        !canMakeSelection ||
+                        (week !== currentWeek &&
+                        userPick?.teamIdSelected !== team1.roster_id.toString())
+                      }
+                      isSelected={
+                        userPick?.teamIdSelected === team1.roster_id.toString()
+                      }
+                      isCurrentWeek={week === currentWeek}
+                      title={userStatus?.isEliminated ? "You have been eliminated" : ""}
+                    >
+                      {userPick?.teamIdSelected === team1.roster_id.toString()
+                        ? "Selected"
+                        : userPick && week === currentWeek
+                        ? "Switch"
+                        : "Select"}
+                    </SurvivorButton>
                   </SurvivorMatchupTeamInfo>
                   <SurvivorMatchupVs>VS</SurvivorMatchupVs>
                   <SurvivorMatchupTeamInfo>
@@ -313,13 +479,25 @@ const Survivor: React.FC = () => {
                       <br />
                       PA: {team2Details.team_points_against}
                     </p>
-                    {week >= currentWeek && (
-                      <SurvivorButton
-                        onClick={() => handleTeamSelect(team2.roster_id)}
-                      >
-                        Select
-                      </SurvivorButton>
-                    )}
+                    <SurvivorButton
+                      onClick={() => handleTeamSelect(team2.roster_id)}
+                      disabled={
+                        !canMakeSelection ||
+                        (week !== currentWeek &&
+                        userPick?.teamIdSelected !== team2.roster_id.toString())
+                      }
+                      isSelected={
+                        userPick?.teamIdSelected === team2.roster_id.toString()
+                      }
+                      isCurrentWeek={week === currentWeek}
+                      title={userStatus?.isEliminated ? "You have been eliminated" : ""}
+                    >
+                      {userPick?.teamIdSelected === team2.roster_id.toString()
+                        ? "Selected"
+                        : userPick && week === currentWeek
+                        ? "Switch"
+                        : "Select"}
+                    </SurvivorButton>
                   </SurvivorMatchupTeamInfo>
                 </SurvivorMatchupTeamRow>
 

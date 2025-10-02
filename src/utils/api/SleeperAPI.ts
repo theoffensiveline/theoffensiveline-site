@@ -165,3 +165,18 @@ export const getBracketMatchups = async (
     throw error;
   }
 };
+
+export const SleeperTeamIdMapping = {
+  "1": "Smitty",
+  "2": "Trevor",
+  "3": "Alec",
+  "4": "Josh K",
+  "5": "Jake",
+  "6": "Nikhil",
+  "7": "Greg",
+  "8": "Anthony",
+  "9": "Devan",
+  "10": "Josh L",
+  "11": "Kyle",
+  "12": "Matt Rob",
+};
