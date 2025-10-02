@@ -1,17 +1,18 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { ThemeProvider as CustomThemeProvider, useTheme } from "./ThemeContext";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { ColorConstants } from "./components/constants/ColorConstants";
 import NavBar from "./components/NavBar";
 import SleeperLogin from "./pages/SleeperLogin";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import News from "./pages/News";
 import Submit from "./pages/Submit";
-import Default from "./pages/Default";
 import Bylaws from "./pages/Bylaws";
 import Newsletter from "./pages/Newsletter";
 import CommissionerNote from "./league/commishNote1";
 import Survivor from "./pages/Survivor";
+import SurvivorHome from "./pages/SurvivorHome";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import { Box } from "@mui/material";
@@ -23,6 +24,8 @@ import LeaderboardsHome from "./components/leaderboard/LeaderboardsHome";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
 import HotDogs from "./pages/hotDogTracker/HotDogTracker";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const BackgroundWrapper = styled.div`
   background: ${({ $background }) => $background};
@@ -55,49 +58,7 @@ const ThemeWithStyledThemeProvider = () => {
         <BrowserRouter>
           <NavBar />
           <Box sx={{ paddingTop: "64px" }}>
-            <Routes>
-              <Route path="/" element={<SleeperLogin />} />
-              <Route path="/home/:leagueId" element={<Home />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/submit/:leagueId" element={<Submit />} />
-              <Route path="/bylaws/:leagueId" element={<Bylaws />} />
-              <Route path="/newsletter/:leagueId" element={<Newsletter />} />
-              <Route
-                path="/leaderboards/:leagueId"
-                element={<LeaderboardsHome />}
-              />
-              <Route
-                path="/leaderboard/:leaderboardId"
-                element={<Leaderboard />}
-              />
-              <Route
-                path="/leaderboard/overall"
-                element={<OverallLeaderboard />}
-              />
-              <Route path="/survivor/:leagueId" element={<Survivor />} />
-              <Route path="*" element={<Default />} />
-              <Route
-                path="/league/commishNote1"
-                element={<CommissionerNote />}
-              />
-              <Route
-                path="/league/:leagueId/league-overview"
-                element={<LeagueOverview />}
-              />
-              <Route
-                path="/league/:leagueId/recent-activity"
-                element={<RecentActivity />}
-              />
-              <Route
-                path="/league/:leagueId/league-history"
-                element={<LeagueHistory />}
-              />
-              <Route
-                path="/league/:leagueId/league-rosters"
-                element={<LeagueRosters />}
-              />
-              <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
-            </Routes>
+            <AppRoutes />
           </Box>
         </BrowserRouter>
       </BackgroundWrapper>
@@ -105,10 +66,55 @@ const ThemeWithStyledThemeProvider = () => {
   );
 };
 
+// This component will render its children (the matched route) if authenticated
+const ProtectedLayout = () => {
+  return <Outlet />; // This renders the matched child route
+};
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/sleeper-login" element={<SleeperLogin />} />
+      <Route path="/" element={<Navigate to="/sleeper-login" replace />} />
+
+      {/* Protected routes */}
+      <Route element={
+        <ProtectedRoute>
+          <ProtectedLayout />
+        </ProtectedRoute>
+      }>
+        <Route path="/home/:leagueId" element={<Home />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/submit/:leagueId" element={<Submit />} />
+        <Route path="/bylaws/:leagueId" element={<Bylaws />} />
+        <Route path="/newsletter/:leagueId" element={<Newsletter />} />
+        <Route path="/leaderboards/:leagueId" element={<LeaderboardsHome />} />
+        <Route path="/leaderboard/:leaderboardId" element={<Leaderboard />} />
+        <Route path="/leaderboard/overall" element={<OverallLeaderboard />} />
+        <Route path="/survivorHome/:leagueId" element={<SurvivorHome />} />
+        <Route path="/survivor/:leagueId" element={<Survivor />} />
+        <Route path="/league/commishNote1" element={<CommissionerNote />} />
+        <Route path="/league/:leagueId/league-overview" element={<LeagueOverview />} />
+        <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />
+        <Route path="/league/:leagueId/league-history" element={<LeagueHistory />} />
+        <Route path="/league/:leagueId/league-rosters" element={<LeagueRosters />} />
+        <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
+      </Route>
+
+      {/* Fallback route */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+};
+
 const App = () => (
-  <CustomThemeProvider>
-    <ThemeWithStyledThemeProvider />
-  </CustomThemeProvider>
+  <AuthProvider>
+    <CustomThemeProvider>
+      <ThemeWithStyledThemeProvider />
+    </CustomThemeProvider>
+  </AuthProvider>
 );
 
 export default App;
