@@ -1,0 +1,121 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "D.K. Lost a Minion",
+    "value": "Scored 153.58 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Deep Shot to Kirk",
+    "value": "Scored 97.28 points",
+    "description": "This is the #10 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Scored 114.46 points in their win",
+    "description": "This is the #5 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Scored 134.98 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "Singing Like Mariah Terry",
+    "value": "Defeated Deep Shot to Kirk by 46.32 points",
+    "description": "This is the #3 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Defeated Costo Guys by 11.68 points",
+    "description": "This is the #4 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Left 47 points on the bench",
+    "description": "This is the #2 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top 1",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 2",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/9493.jpg",
+    "name": "Puka Nacua",
+    "value": "Scored 36 points for Lord of the Littles which was 24.1% of the team total",
+    "description": "This is the #8 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7567.jpg",
+    "name": "Kenneth Gainwell",
+    "value": "Scored 31.4 points on the bench for The Barkley Brawlers ",
+    "description": "This is the #3 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/3294.jpg",
+    "name": "Dak Prescott",
+    "value": "Scored 30.96 points for Lord of the Littles",
+    "description": "This is the #2 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/12527.jpg",
+    "name": "Ashton Jeanty",
+    "value": "Scored 33.5 points for Bye Week Curious",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/9493.jpg",
+    "name": "Puka Nacua",
+    "value": "Scored 36 points for Lord of the Littles",
+    "description": "This is the #4 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/5022.jpg",
+    "name": "Dallas Goedert",
+    "value": "Scored 19.7 points for Bye Week Curious",
+    "description": "This is the #3 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/11539.jpg",
+    "name": "Jake Bates",
+    "value": "Scored 14.6 points for Luck of the Dog",
+    "description": "This is the #5 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/det.png",
+    "name": "DET",
+    "value": "Scored 19 points for The Barkley Brawlers ",
+    "description": "This is the #2 DEF performance of the season"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "D.K. Lost a Minion",
+    "Winner Score": 114.08,
+    "Loser Score": 91.76,
+    "Loser Team": "Deep Shot to Kirk",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#e7efe8",
+    "LoserScoreColor": "#e79a98",
+    "ShotsDogsColor": "#fdf4f3"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "D.K. Lost a Minion",
+    "Winner Score": 131,
+    "Loser Score": 95.92,
+    "Loser Team": "Luck of the Dog",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#94ba9b",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 3,
+    "Winner Team": "D.K. Lost a Minion",
+    "Winner Score": 129.62,
+    "Loser Score": 113.64,
+    "Loser Team": "WalterPickens",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#9fc2a6",
+    "LoserScoreColor": "#f3f7f3",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 4,
+    "Winner Team": "D.K. Lost a Minion",
+    "Winner Score": 153.58,
+    "Loser Score": 123.22,
+    "Loser Team": "BBCU",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#227740",
+    "LoserScoreColor": "#c3d8c6",
+    "ShotsDogsColor": "#227740"
+  }
+]

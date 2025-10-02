@@ -147,7 +147,7 @@ const MatchupArticleSix = () => {
             <ArticleHeader>Matchup #6</ArticleHeader>
             <ArticleSubheader>The Barkley Bawlers</ArticleSubheader>
             <p>
-                Super Ja'Marrio Bros. had their best week of the season with a victory over The Barkley Brawlers. They were led by Courtland Sutton, Kyren Williams, and SEA DEF. Their only disappointments were Ja'Marr Chase, Sam LaPorta, and Brandon Aubrey, who all scored less than 10 points. They got the win despite that, which moves them to 2-1.
+                Super Ja'Marrio Bros. had their second best week of the season with a victory over The Barkley Brawlers. They were led by Courtland Sutton, Kyren Williams, and SEA DEF. Their only disappointments were Ja'Marr Chase, Sam LaPorta, and Brandon Aubrey, who all scored less than 10 points. They got the win despite that, which moves them to 2-1.
             </p>
             <p>
                 The Barkley Brawlers had a disappointing week with only 98.28 points. They are rostering 3 QBs and 3 TEs and still can't manage to get more than 13 points from either position. Their WR didn't do great either, and Saquon scoring less than 10 points makes it really hard for them to win a game. If their kicker and defense didn't put up double digits, this could've been one of the worst performances of the season.
