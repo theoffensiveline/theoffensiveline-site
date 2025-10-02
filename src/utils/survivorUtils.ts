@@ -17,9 +17,9 @@ export interface SurvivorPick {
   username: string;
   week: number;
   teamIdSelected: string; // The roster ID
-  ownerName: string;      // The name of the team owner
+  ownerName: string; // The name of the team owner
   timestamp: Timestamp;
-  status?: 'win' | 'loss' | 'pending';
+  status?: "win" | "loss" | "pending";
   teamScore?: number;
   opponentScore?: number;
   opponentTeamId?: string;
@@ -30,12 +30,15 @@ export const saveSurvivorPick = async (
   pick: Omit<SurvivorPick, "timestamp" | "id">
 ): Promise<{ success: boolean; id?: string; error?: any }> => {
   // Import the mapping here to avoid circular dependencies
-  const { SleeperTeamIdMapping } = await import('./api/SleeperAPI');
-  
+  const { SleeperTeamIdMapping } = await import("./api/SleeperAPI");
+
   // Add owner name to the pick
   const pickWithOwner = {
     ...pick,
-    ownerName: SleeperTeamIdMapping[pick.teamIdSelected as keyof typeof SleeperTeamIdMapping] || 'Unknown Owner'
+    ownerName:
+      SleeperTeamIdMapping[
+        pick.teamIdSelected as keyof typeof SleeperTeamIdMapping
+      ] || "Unknown Owner",
   };
   try {
     // First, check if a pick already exists for this user, league, and week
@@ -261,13 +264,12 @@ export const getSurvivorStandings = async (
           let teamScore = 0;
           let opponentScore = 0;
           let opponentTeamId = "";
-          let opponentTeamName = "";
 
           // Find the matchup where the picked team played
           for (const matchup of Object.values(weekResults)) {
             const team1RosterId = matchup.team1.rosterId.toString();
             const team2RosterId = matchup.team2.rosterId.toString();
-            
+
             if (team1RosterId === pick.teamIdSelected) {
               // The picked team is team1 in this matchup
               isWin = team1RosterId === matchup.winnerId?.toString();
@@ -327,12 +329,13 @@ export const getSurvivorStandings = async (
         if (statusA.isEliminated && !statusB.isEliminated) return 1;
 
         // More lives comes first
-        if (statusA.lives !== statusB.lives) return statusB.lives - statusA.lives;
+        if (statusA.lives !== statusB.lives)
+          return statusB.lives - statusA.lives;
 
         // Finally sort by username
         return a.username.localeCompare(b.username);
       }
-      
+
       // Then sort by week for the same user
       return a.week - b.week;
     });
