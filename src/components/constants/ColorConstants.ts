@@ -10,6 +10,9 @@ interface ThemeColors {
   neutral5: string;
   newsRed: string;
   newsBlue: string;
+  newsBlueDark: string;
+  success: string;
+  successDark: string;
   yahoo: string;
   button: string;
   buttonText: string;
@@ -40,6 +43,9 @@ export const ColorConstants: ColorConstantsType = {
     neutral5: "#C2C299",
     newsRed: "#FF3366",
     newsBlue: "#20A4F4",
+    newsBlueDark: "#1557b0",
+    success: "#34a853",
+    successDark: "#2d8e4a",
     yahoo: "#400090",
     button: "#555555",
     buttonText: "#e7e7e7",
@@ -63,6 +69,9 @@ export const ColorConstants: ColorConstantsType = {
     neutral5: "#C2C299",
     newsRed: "#FF3366",
     newsBlue: "#20A4F4",
+    newsBlueDark: "#6d9bf7",
+    success: "#81c995",
+    successDark: "#5d9c6e",
     yahoo: "#400090",
     button: "#e7e7e7",
     buttonText: "#555555",

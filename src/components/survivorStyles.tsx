@@ -113,7 +113,9 @@ export const SurvivorMatchupPositions = styled.div`
 `;
 
 // Styled component with conditional background based on position
-export const SurvivorMatchupPosition = styled.div<{ position: string }>`
+export const SurvivorMatchupPosition = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "position",
+})<{ position: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,13 +160,63 @@ export const SurvivorMatchupSectionTitle = styled.h3`
   grid-column: 1 / span 3;
 `;
 
-export const SurvivorButton = styled.button`
+interface SurvivorButtonProps {
+  isSelected?: boolean;
+  title?: string;
+}
+
+export const SurvivorButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== "isSelected",
+})<SurvivorButtonProps>`
   padding: 10px 20px;
-  background-color: ${ColorConstants["light"].newsBlue};
+  background-color: ${(props) =>
+    props.isSelected
+      ? ColorConstants["light"].success
+      : ColorConstants["light"].newsBlue};
   border: none;
   border-radius: 5px;
   color: ${ColorConstants["light"].background};
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled && !props.isSelected ? 0.6 : 1)};
+  transition: all 0.2s ease;
+  position: relative;
+
+  /* Tooltip styles */
+  &::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+
+  &:hover {
+    background-color: ${(props) =>
+      props.isSelected
+        ? ColorConstants["light"].successDark
+        : props.disabled
+        ? ColorConstants["light"].newsBlue
+        : ColorConstants["light"].newsBlueDark};
+    transform: ${(props) => (!props.disabled ? "translateY(-1px)" : "none")};
+  }
+
+  &:active {
+    transform: ${(props) => (!props.disabled ? "translateY(0)" : "none")};
+  }
 `;
 
 export const SurvivorWeekNav = styled.div`
