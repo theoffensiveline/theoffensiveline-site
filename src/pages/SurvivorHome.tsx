@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import {
-  getSurvivorStandings,
-  type SurvivorPick,
-} from "../utils/survivorUtils";
+import { type SurvivorPick } from "../utils/survivorUtils";
+import { useSurvivorStandings } from "../utils/survivorQueries";
 import { leagueIds } from "../components/constants/LeagueConstants";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getNflState } from "../utils/api/SleeperAPI";
+import { computeMotwChain } from "../utils/motwUtils";
 
 interface UserStanding {
   userId: string;
@@ -22,6 +21,8 @@ interface UserStanding {
     opponentTeamName?: string;
     teamScore?: number;
     opponentScore?: number;
+    teamIdSelected?: string;
+    isMotw?: boolean;
   }>;
 }
 
@@ -107,19 +108,40 @@ const StandingsTable = styled.table`
 const SurvivorHome: React.FC = () => {
   const { currentUser } = useAuth();
   const [standings, setStandings] = useState<UserStanding[]>([]);
-  const [loading, setLoading] = useState(true);
   const [currentWeek, setCurrentWeek] = useState(1);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const LEAGUE_ID = leagueIds.mainLeague;
 
+  // Use React Query for survivor standings data
+  const {
+    data: survivorData,
+    isLoading,
+    error: queryError,
+  } = useSurvivorStandings(LEAGUE_ID);
+
+  const computeMotw = useCallback(
+    async (targetWeek: number, currentWeekParam: number) => {
+      const motwData = await computeMotwChain(
+        targetWeek,
+        currentWeekParam,
+        LEAGUE_ID
+      );
+      const newMotwRosters = new Map<number, number[]>();
+      motwData.forEach((data, week) => {
+        newMotwRosters.set(week, data.rosters);
+      });
+      return newMotwRosters;
+    },
+    [LEAGUE_ID]
+  );
+
+  // Process survivor data when it changes
   useEffect(() => {
-    const loadStandings = async () => {
+    const processStandingsData = async () => {
+      if (!survivorData) return;
+
       try {
-        setLoading(true);
-        const { picks, userStatus: userStatusMap } = await getSurvivorStandings(
-          LEAGUE_ID
-        );
+        const { picks, userStatus: userStatusMap } = survivorData;
 
         // Group picks by user
         const userPicks = new Map<string, SurvivorPick[]>();
@@ -135,6 +157,8 @@ const SurvivorHome: React.FC = () => {
         const nflState = await getNflState();
         const currentWeek = nflState.week;
         setCurrentWeek(currentWeek);
+
+        const motwRostersMap = await computeMotw(currentWeek, currentWeek);
 
         for (const [userId, picks] of userPicks.entries()) {
           const userStatus = userStatusMap[userId] || {
@@ -154,6 +178,7 @@ const SurvivorHome: React.FC = () => {
               opponentTeamName: pick.opponentTeamName,
               teamScore: pick.teamScore,
               opponentScore: pick.opponentScore,
+              teamIdSelected: pick.teamIdSelected,
             });
           });
 
@@ -170,6 +195,15 @@ const SurvivorHome: React.FC = () => {
               });
             }
           }
+
+          // Attach MOTW info
+          allPicks.forEach((pick) => {
+            if (pick.teamIdSelected) {
+              const rosterId = parseInt(pick.teamIdSelected);
+              const weekRosters = motwRostersMap.get(pick.week);
+              pick.isMotw = weekRosters?.includes(rosterId) || false;
+            }
+          });
 
           // Get the username from the first pick or use a fallback
           const username = picks[0]?.username || `User ${userId.slice(0, 6)}`;
@@ -200,17 +234,12 @@ const SurvivorHome: React.FC = () => {
 
         setStandings(userStandings);
       } catch (err) {
-        console.error("Failed to load survivor standings:", err);
-        setError("Failed to load survivor standings");
-      } finally {
-        setLoading(false);
+        console.error("Failed to process survivor standings:", err);
       }
     };
 
-    if (LEAGUE_ID) {
-      loadStandings();
-    }
-  }, [LEAGUE_ID]);
+    processStandingsData();
+  }, [survivorData, computeMotw]);
 
   const currentUserStanding = standings.find(
     (standing) => standing.userId === currentUser?.uid
@@ -223,12 +252,12 @@ const SurvivorHome: React.FC = () => {
   // Generate weeks array for the table
   const weeks = Array.from({ length: currentWeek }, (_, i) => i + 1);
 
-  if (loading) {
+  if (isLoading) {
     return <Container>Loading...</Container>;
   }
 
-  if (error) {
-    return <Container>Error: {error}</Container>;
+  if (queryError) {
+    return <Container>Error: {queryError.message}</Container>;
   }
 
   return (
@@ -261,6 +290,9 @@ const SurvivorHome: React.FC = () => {
 
       <Card>
         <h2>Standings</h2>
+        <p style={{ fontSize: "0.9em", color: "#666", marginBottom: "10px" }}>
+          ⭐ = Matchup of the Week pick
+        </p>
         {standings.length > 0 ? (
           <div style={{ overflowX: "auto" }}>
             <StandingsTable>
@@ -301,6 +333,7 @@ const SurvivorHome: React.FC = () => {
 
                         return (
                           <td key={week} className={pick.status}>
+                            {pick.isMotw ? "⭐ " : ""}
                             {pick.teamName}
                             {pick.status === "win" && " ✓"}
                             {pick.status === "loss" && " ✗"}

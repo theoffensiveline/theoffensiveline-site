@@ -113,7 +113,9 @@ export const SurvivorMatchupPositions = styled.div`
 `;
 
 // Styled component with conditional background based on position
-export const SurvivorMatchupPosition = styled.div<{ position: string }>`
+export const SurvivorMatchupPosition = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "position",
+})<{ position: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,24 +162,25 @@ export const SurvivorMatchupSectionTitle = styled.h3`
 
 interface SurvivorButtonProps {
   isSelected?: boolean;
-  isCurrentWeek?: boolean;
   title?: string;
 }
 
-export const SurvivorButton = styled.button<SurvivorButtonProps>`
+export const SurvivorButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== "isSelected",
+})<SurvivorButtonProps>`
   padding: 10px 20px;
-  background-color: ${props => 
-    props.isSelected 
-      ? ColorConstants["light"].success 
+  background-color: ${(props) =>
+    props.isSelected
+      ? ColorConstants["light"].success
       : ColorConstants["light"].newsBlue};
   border: none;
   border-radius: 5px;
   color: ${ColorConstants["light"].background};
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  opacity: ${props => props.disabled && !props.isSelected ? 0.6 : 1};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled && !props.isSelected ? 0.6 : 1)};
   transition: all 0.2s ease;
   position: relative;
-  
+
   /* Tooltip styles */
   &::after {
     content: attr(title);
@@ -196,23 +199,23 @@ export const SurvivorButton = styled.button<SurvivorButtonProps>`
     transition: opacity 0.2s ease;
     z-index: 10;
   }
-  
+
   &:hover::after {
     opacity: 1;
   }
-  
+
   &:hover {
-    background-color: ${props => 
-      props.isSelected 
-        ? ColorConstants["light"].successDark 
-        : props.disabled 
-          ? ColorConstants["light"].newsBlue 
-          : ColorConstants["light"].newsBlueDark};
-    transform: ${props => !props.disabled ? 'translateY(-1px)' : 'none'};
+    background-color: ${(props) =>
+      props.isSelected
+        ? ColorConstants["light"].successDark
+        : props.disabled
+        ? ColorConstants["light"].newsBlue
+        : ColorConstants["light"].newsBlueDark};
+    transform: ${(props) => (!props.disabled ? "translateY(-1px)" : "none")};
   }
-  
+
   &:active {
-    transform: ${props => !props.disabled ? 'translateY(0)' : 'none'};
+    transform: ${(props) => (!props.disabled ? "translateY(0)" : "none")};
   }
 `;
 

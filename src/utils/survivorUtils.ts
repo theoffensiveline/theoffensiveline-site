@@ -8,7 +8,12 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { getMatchups, getNflState } from "./api/SleeperAPI";
+import {
+  getMatchups,
+  getNflState,
+  SleeperTeamIdMapping,
+} from "./api/SleeperAPI";
+import { Player } from "../types/sleeperTypes";
 
 export interface SurvivorPick {
   id: string;
@@ -26,12 +31,96 @@ export interface SurvivorPick {
   opponentTeamName?: string;
 }
 
+export const createPlayerMap = (
+  playerData: Record<string, Player>
+): Record<string, string | null> => {
+  return Object.entries(playerData).reduce((map, [id, player]) => {
+    let playerName: string | null = null;
+    if (player.position === "DEF") {
+      playerName = player.team; // This assumes player.team is a string or null
+    } else {
+      playerName = `${player.first_name} ${player.last_name}`;
+    }
+    if (playerName !== null) {
+      map[id] = playerName;
+    }
+    return map;
+  }, {} as Record<string, string | null>);
+};
+
+export const getSelectedTeamName = (
+  userPick: any,
+  teams: Record<number, { team_name: string }>
+): string => {
+  if (!userPick) return "None";
+
+  // Try to find the team by roster ID (userPick.teamIdSelected is the roster ID)
+  const rosterEntry = Object.entries(teams).find(
+    ([rosterId]) => rosterId === userPick.teamIdSelected
+  );
+
+  return rosterEntry ? rosterEntry[1].team_name : "None";
+};
+
+export const canMakeSelection = (
+  userStatus: { isEliminated: boolean } | null,
+  week: number | null,
+  currentWeek: number | null
+): { canSelect: boolean; reason?: string } => {
+  if (!week || !currentWeek) {
+    return { canSelect: false, reason: "Invalid week data" };
+  }
+
+  // Check if current time is in blackout period: Thursday 8PM ET to Tuesday 8AM ET
+  const now = new Date();
+  const etString = now.toLocaleString("en-US", {
+    timeZone: "America/New_York",
+  });
+  const etDate = new Date(etString);
+  const day = etDate.getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+  const hour = etDate.getHours();
+
+  const isBlackoutPeriod =
+    (day === 4 && hour >= 20) || // Thursday 8PM+
+    day === 5 || // Friday
+    day === 6 || // Saturday
+    day === 0 || // Sunday
+    day === 1 || // Monday
+    (day === 2 && hour < 8); // Tuesday before 8AM
+
+  if (isBlackoutPeriod) {
+    return {
+      canSelect: false,
+      reason:
+        "Selections are locked during the weekend (Thursday 8 PM ET to Tuesday 8 AM ET)",
+    };
+  }
+
+  if (userStatus?.isEliminated) {
+    return { canSelect: false, reason: "You have been eliminated" };
+  }
+
+  if (week !== currentWeek) {
+    return { canSelect: false, reason: "This is not the current week" };
+  }
+
+  return { canSelect: true };
+};
+
+export const buildRecord = (details: {
+  team_wins: number;
+  team_losses: number;
+  team_ties: number;
+}): string => {
+  const { team_wins, team_losses, team_ties } = details;
+  return `${team_wins} - ${team_losses}${
+    team_ties > 0 ? ` - ${team_ties}` : ""
+  }`;
+};
+
 export const saveSurvivorPick = async (
   pick: Omit<SurvivorPick, "timestamp" | "id">
 ): Promise<{ success: boolean; id?: string; error?: any }> => {
-  // Import the mapping here to avoid circular dependencies
-  const { SleeperTeamIdMapping } = await import("./api/SleeperAPI");
-
   // Add owner name to the pick
   const pickWithOwner = {
     ...pick,
@@ -347,5 +436,124 @@ export const getSurvivorStandings = async (
   } catch (error) {
     console.error("Error getting survivor standings:", error);
     return { picks: [], userStatus: {} };
+  }
+};
+
+interface TeamSelectParams {
+  leagueId: string;
+  currentUser: any;
+  week: number | null;
+  currentWeek: number | null;
+  userPick: any;
+  allUserPicks: any[];
+  allMotwData: Map<number, any>;
+  motwMatchupId: number | null;
+  teams: Record<number, any>;
+}
+
+export const handleTeamSelect = async (
+  teamId: number,
+  matchupId: number,
+  params: TeamSelectParams,
+  navigate: (path: string, options?: any) => void,
+  refetchUserPick: () => void
+) => {
+  const {
+    leagueId,
+    currentUser,
+    week,
+    currentWeek,
+    userPick,
+    allUserPicks,
+    allMotwData,
+    motwMatchupId,
+    teams,
+  } = params;
+
+  if (!currentUser) {
+    navigate("/login", { state: { from: "/survivor" } });
+    return;
+  }
+
+  const team = teams[teamId];
+  if (!team) return;
+
+  try {
+    // Find the roster ID for the selected team first
+    const rosterEntry = Object.entries(teams).find(
+      ([_, t]) => t.team_id === team.team_id
+    );
+    if (!rosterEntry) {
+      throw new Error("Could not find roster for selected team");
+    }
+    const rosterId = rosterEntry[0];
+
+    // Check selection rules
+    const isMotw = matchupId === motwMatchupId;
+    if (!isMotw) {
+      // Check if already picked this team in a previous non-MotW week
+      const previousNonMotwPicks =
+        allUserPicks?.filter((pick) => {
+          if (pick.week >= (week || 0)) return false;
+          const pickMotwData = allMotwData.get(pick.week);
+          if (!pickMotwData) return true; // assume not motw if no data
+          return !pickMotwData.rosters.includes(parseInt(pick.teamIdSelected));
+        }) || [];
+      const hasPickedBefore = previousNonMotwPicks.some(
+        (pick) => pick.teamIdSelected === rosterId
+      );
+      if (hasPickedBefore) {
+        alert(
+          `You already picked ${team.team_name} in a previous non-MotW week.`
+        );
+        return;
+      }
+    }
+
+    const ownerName = Object.keys(SleeperTeamIdMapping).includes(rosterId)
+      ? SleeperTeamIdMapping[rosterId as keyof typeof SleeperTeamIdMapping]
+      : "Unknown Owner";
+
+    // If this is the already picked team, do nothing
+    if (userPick?.teamIdSelected === rosterId) {
+      return;
+    }
+
+    // If another team is already picked, confirm the change
+    if (userPick) {
+      const currentPickOwnerName = Object.keys(SleeperTeamIdMapping).includes(
+        userPick.teamIdSelected
+      )
+        ? SleeperTeamIdMapping[
+            userPick.teamIdSelected as keyof typeof SleeperTeamIdMapping
+          ]
+        : "Unknown Owner";
+
+      const confirmUpdate = window.confirm(
+        `You already picked ${currentPickOwnerName} for this week. Do you want to change to ${ownerName}?`
+      );
+      if (!confirmUpdate) return;
+    }
+
+    const pick = {
+      leagueId,
+      userId: currentUser.uid,
+      ownerName,
+      username:
+        currentUser.displayName || `User-${currentUser.uid.slice(0, 6)}`,
+      week: week || currentWeek || 1,
+      teamIdSelected: rosterId,
+    };
+
+    const result = await saveSurvivorPick(pick);
+    if (result.success) {
+      // Refetch the user's pick data after saving
+      refetchUserPick();
+    } else {
+      throw new Error("Failed to save pick");
+    }
+  } catch (error) {
+    console.error("Error saving pick:", error);
+    alert("Failed to save your pick. Please try again.");
   }
 };
