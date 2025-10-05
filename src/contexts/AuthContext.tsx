@@ -46,18 +46,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const loadProfile = useCallback(
     async (userId: string) => {
       setLoadingProfile(true);
-      const userProfile = await getUserProfile(userId);
+      let userProfile = await getUserProfile(userId);
+      const currentEmail = currentUser?.email || "";
       if (!userProfile && currentUser?.displayName) {
-        // Create profile with Google display name if it doesn't exist
-        const newProfile = { customDisplayName: currentUser.displayName };
+        // Create profile with Google display name and email if it doesn't exist
+        const newProfile = {
+          customDisplayName: currentUser.displayName,
+          email: currentEmail,
+        };
         await setUserProfile(userId, newProfile);
         setProfile(newProfile);
+      } else if (userProfile) {
+        // Update existing profile if email is missing or different
+        if (!userProfile.email || userProfile.email !== currentEmail) {
+          const updatedProfile = { ...userProfile, email: currentEmail };
+          await updateUserProfile(userId, { email: currentEmail });
+          setProfile(updatedProfile);
+        } else {
+          setProfile(userProfile);
+        }
       } else {
-        setProfile(userProfile);
+        setProfile(null);
       }
       setLoadingProfile(false);
     },
-    [currentUser?.displayName]
+    [currentUser?.displayName, currentUser?.email]
   );
 
   useEffect(() => {

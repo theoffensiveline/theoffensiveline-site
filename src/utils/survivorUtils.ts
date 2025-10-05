@@ -35,6 +35,7 @@ export interface SurvivorPick {
 
 export interface UserProfile {
   customDisplayName: string;
+  email?: string;
 }
 
 export const getUserProfile = async (
