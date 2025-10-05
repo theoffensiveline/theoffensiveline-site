@@ -29,7 +29,7 @@ import { ExtendedMatchup } from "../types/survivorTypes";
 const Survivor: React.FC = () => {
   const LEAGUE_ID = leagueIds.mainLeague;
 
-  const { currentUser } = useAuth();
+  const { currentUser, profile } = useAuth();
   const navigate = useNavigate();
 
   // Use custom hook for data fetching
@@ -73,6 +73,7 @@ const Survivor: React.FC = () => {
     const params = {
       leagueId: LEAGUE_ID,
       currentUser,
+      profile,
       week,
       currentWeek,
       userPick,

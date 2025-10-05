@@ -14,6 +14,7 @@ import Newsletter from "./pages/Newsletter";
 import CommissionerNote from "./league/commishNote1";
 import Survivor from "./pages/Survivor";
 import SurvivorHome from "./pages/SurvivorHome";
+import Profile from "./pages/Profile";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import { Box } from "@mui/material";
@@ -96,6 +97,7 @@ const AppRoutes = () => {
         <Route path="/leaderboard/overall" element={<OverallLeaderboard />} />
         <Route path="/survivorHome/:leagueId" element={<SurvivorHome />} />
         <Route path="/survivor/:leagueId" element={<Survivor />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/league/commishNote1" element={<CommissionerNote />} />
         <Route path="/league/:leagueId/league-overview" element={<LeagueOverview />} />
         <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />

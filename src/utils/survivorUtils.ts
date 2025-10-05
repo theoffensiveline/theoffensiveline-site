@@ -6,6 +6,8 @@ import {
   query,
   where,
   Timestamp,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import {
@@ -30,6 +32,77 @@ export interface SurvivorPick {
   opponentTeamId?: string;
   opponentTeamName?: string;
 }
+
+export interface UserProfile {
+  customDisplayName: string;
+}
+
+export const getUserProfile = async (
+  userId: string
+): Promise<UserProfile | null> => {
+  try {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data() as UserProfile;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error getting user profile:", error);
+    return null;
+  }
+};
+
+export const setUserProfile = async (
+  userId: string,
+  profile: UserProfile
+): Promise<boolean> => {
+  try {
+    const docRef = doc(db, "users", userId);
+    await setDoc(docRef, profile);
+    return true;
+  } catch (error) {
+    console.error("Error setting user profile:", error);
+    return false;
+  }
+};
+
+export const updateUserProfile = async (
+  userId: string,
+  updates: Partial<UserProfile>
+): Promise<boolean> => {
+  try {
+    const docRef = doc(db, "users", userId);
+    await updateDoc(docRef, updates);
+    return true;
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    return false;
+  }
+};
+
+export const updateAllUserPicksUsername = async (
+  userId: string,
+  newUsername: string
+): Promise<boolean> => {
+  try {
+    const q = query(
+      collection(db, "survivorPicks"),
+      where("userId", "==", userId)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const updatePromises = querySnapshot.docs.map((doc) =>
+      updateDoc(doc.ref, { username: newUsername })
+    );
+
+    await Promise.all(updatePromises);
+    return true;
+  } catch (error) {
+    console.error("Error updating user picks usernames:", error);
+    return false;
+  }
+};
 
 export const createPlayerMap = (
   playerData: Record<string, Player>
@@ -442,6 +515,7 @@ export const getSurvivorStandings = async (
 interface TeamSelectParams {
   leagueId: string;
   currentUser: any;
+  profile: UserProfile | null;
   week: number | null;
   currentWeek: number | null;
   userPick: any;
@@ -461,6 +535,7 @@ export const handleTeamSelect = async (
   const {
     leagueId,
     currentUser,
+    profile,
     week,
     currentWeek,
     userPick,
@@ -540,7 +615,9 @@ export const handleTeamSelect = async (
       userId: currentUser.uid,
       ownerName,
       username:
-        currentUser.displayName || `User-${currentUser.uid.slice(0, 6)}`,
+        profile?.customDisplayName ||
+        currentUser.displayName ||
+        `User-${currentUser.uid.slice(0, 6)}`,
       week: week || currentWeek || 1,
       teamIdSelected: rosterId,
     };

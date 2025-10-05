@@ -222,7 +222,12 @@ export default function NavBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/profile");
+                      handleCloseUserMenu();
+                    }}
+                  >
                     <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
