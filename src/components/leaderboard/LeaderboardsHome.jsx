@@ -52,8 +52,10 @@ const LeaderboardsHome = () => {
       setLoading(true);
       try {
         const q = query(
-          collection(db, "leaderboards"),
-          where("league_id", "==", LEAGUE_ID)
+          collection(db, "leaderboards")
+          // commenting this out for now because league_id changed and
+          // we don't support this feature for other leagues yet anyway
+          // where("league_id", "==", LEAGUE_ID)
         );
         getDocs(q).then((res) => {
           const data = res.docs.map((doc) => ({
