@@ -1,0 +1,128 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Scored 149.34 points",
+    "description": "This is the #4 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "Singing Like Mariah Terry",
+    "value": "Scored 94.84 points",
+    "description": "This is the #8 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Scored 107.32 points in their win",
+    "description": "This is the #2 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 136.9 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Defeated Singing Like Mariah Terry by 54.5 points",
+    "description": "This is the #2 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Defeated Bye Week Curious by 4.64 points",
+    "description": "This is the #2 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "Singing Like Mariah Terry",
+    "value": "Left 23.7 points on the bench",
+    "description": "This is the #14 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top 1",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 2",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 3",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7021.jpg",
+    "name": "Rico Dowdle",
+    "value": "Scored 32.4 points for Deep Shot to Kirk which was 25.94% of the team total",
+    "description": "This is the #5 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/3294.jpg",
+    "name": "Dak Prescott",
+    "value": "Scored 28.28 points on the bench for Lord of the Littles",
+    "description": "This is the #8 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4046.jpg",
+    "name": "Patrick Mahomes (Kermit)",
+    "value": "Scored 26.72 points for Singing Like Mariah Terry",
+    "description": "This is the #8 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/7021.jpg",
+    "name": "Rico Dowdle",
+    "value": "Scored 32.4 points for Deep Shot to Kirk",
+    "description": "This is the #3 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/12514.jpg",
+    "name": "Emeka Egbuka (Godwin 2.0)",
+    "value": "Scored 31.3 points for WalterPickens",
+    "description": "This is the #6 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8110.jpg",
+    "name": "Jake Ferguson",
+    "value": "Scored 23.9 points for Costco Guys",
+    "description": "This is the #2 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/6650.jpg",
+    "name": "Chase McLaughlin",
+    "value": "Scored 13.5 points for Costco Guys",
+    "description": "This is the #7 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/ind.png",
+    "name": "IND",
+    "value": "Scored 17 points for Deep Shot to Kirk",
+    "description": "This is the #3 DEF performance of the season"
+  }
+]

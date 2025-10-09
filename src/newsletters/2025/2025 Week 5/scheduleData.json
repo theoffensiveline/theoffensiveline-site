@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "Anthony’s Eskimo Brother",
+      "team2_list": ["Costco Guys", "Deep Shot to Kirk", "Lord of the Littles", "Singing Like Mariah Terry"],
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "BBCU",
+      "team2_list": ["Costco Guys", "Lord of the Littles"],
+      "wins": 5,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["Costco Guys", "Deep Shot to Kirk", "Lord of the Littles"],
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "team2_list": ["D.K’s Dying Minions"],
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Dying Minions",
+      "team2_list": ["D.K’s Dying Minions", "Deep Shot to Kirk", "Lord of the Littles", "The Barkley Brawlers "],
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Deep Shot to Kirk",
+      "team2_list": ["Lord of the Littles"],
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Lord of the Littles"],
+      "wins": 5,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["D.K’s Dying Minions", "Deep Shot to Kirk", "The Barkley Brawlers "],
+      "wins": 5,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "team2_list": ["D.K’s Dying Minions", "Deep Shot to Kirk", "Lord of the Littles", "The Barkley Brawlers "],
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["Costco Guys", "D.K’s Dying Minions", "First Down Syndrome", "Lord of the Littles", "Super Ja'Marrio Bros.", "The Barkley Brawlers "],
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["Costco Guys", "Deep Shot to Kirk"],
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["Deep Shot to Kirk", "Lord of the Littles"],
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "Anthony’s Eskimo Brother",
+      "team2_list": ["Anthony’s Eskimo Brother", "WalterPickens"],
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "BBCU",
+      "team2_list": ["Anthony’s Eskimo Brother"],
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["Anthony’s Eskimo Brother", "BBCU", "WalterPickens"],
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "team2_list": ["Anthony’s Eskimo Brother", "First Down Syndrome"],
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Dying Minions",
+      "team2_list": ["Singing Like Mariah Terry"],
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Deep Shot to Kirk",
+      "team2_list": ["Singing Like Mariah Terry"],
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Anthony’s Eskimo Brother", "Bye Week Curious", "Singing Like Mariah Terry", "WalterPickens"],
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["Anthony’s Eskimo Brother", "BBCU", "Bye Week Curious"],
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "team2_list": ["Anthony’s Eskimo Brother"],
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["Anthony’s Eskimo Brother", "BBCU"],
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["Super Ja'Marrio Bros."],
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["Singing Like Mariah Terry"],
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "Anthony’s Eskimo Brother",
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "BBCU",
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "D.K’s Dying Minions",
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Deep Shot to Kirk",
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "wins": 4,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "wins": 2,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "wins": 3,
+      "losses": 2,
+      "ties": 0
+    }
+  ]
+}
