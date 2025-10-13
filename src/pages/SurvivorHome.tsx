@@ -260,10 +260,15 @@ const SurvivorHome: React.FC = () => {
   if (queryError) {
     return <Container>Error: {queryError.message}</Container>;
   }
-
   return (
     <Container>
       <Title>Survivor Pool</Title>
+
+      {currentUser && !currentUserStanding && (
+        <Card>
+          <Button onClick={handleMakePick}>Enter Survivor Pool</Button>
+        </Card>
+      )}
 
       {currentUser && currentUserStanding && (
         <Card>
