@@ -136,6 +136,30 @@ export const getSelectedTeamName = (
   return rosterEntry ? rosterEntry[1].team_name : "None";
 };
 
+export const isInBlackoutPeriod = (): boolean => {
+  // Check if current time is in blackout period: Thursday 8PM ET to Tuesday 8AM ET
+  const now = new Date();
+  const etString = now.toLocaleString("en-US", {
+    timeZone: "America/New_York",
+  });
+  const etDate = new Date(etString);
+  const day = etDate.getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+  const hour = etDate.getHours();
+
+  return (
+    (day === 4 && hour >= 20) || // Thursday 8PM+
+    day === 5 || // Friday
+    day === 6 || // Saturday
+    day === 0 || // Sunday
+    day === 1 || // Monday
+    (day === 2 && hour < 8) // Tuesday before 8AM
+  );
+};
+
+export const canViewOtherPicks = (): boolean => {
+  return !isInBlackoutPeriod();
+};
+
 export const canMakeSelection = (
   userStatus: { isEliminated: boolean } | null,
   week: number | null,
@@ -146,21 +170,7 @@ export const canMakeSelection = (
   }
 
   // Check if current time is in blackout period: Thursday 8PM ET to Tuesday 8AM ET
-  const now = new Date();
-  const etString = now.toLocaleString("en-US", {
-    timeZone: "America/New_York",
-  });
-  const etDate = new Date(etString);
-  const day = etDate.getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-  const hour = etDate.getHours();
-
-  const isBlackoutPeriod =
-    (day === 4 && hour >= 20) || // Thursday 8PM+
-    day === 5 || // Friday
-    day === 6 || // Saturday
-    day === 0 || // Sunday
-    day === 1 || // Monday
-    (day === 2 && hour < 8); // Tuesday before 8AM
+  const isBlackoutPeriod = isInBlackoutPeriod();
 
   if (isBlackoutPeriod) {
     return {
@@ -174,8 +184,8 @@ export const canMakeSelection = (
     return { canSelect: false, reason: "You have been eliminated" };
   }
 
-  if (week !== currentWeek) {
-    return { canSelect: false, reason: "This is not the current week" };
+  if (week < currentWeek) {
+    return { canSelect: false, reason: "This week has already passed" };
   }
 
   return { canSelect: true };

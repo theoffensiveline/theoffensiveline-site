@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getNflState } from "../utils/api/SleeperAPI";
 import { computeMotwChain } from "../utils/motwUtils";
+import { canViewOtherPicks } from "../utils/survivorUtils";
 
 interface UserStanding {
   userId: string;
@@ -327,16 +328,47 @@ const SurvivorHome: React.FC = () => {
                         const pick = standing.picks.find(
                           (p) => p.week === week
                         );
-                        if (!pick) {
+
+                        const isCurrentUser =
+                          standing.userId === currentUser?.uid;
+                        const isEliminated = standing.isEliminated;
+                        const userEliminatedBeforeThisWeek =
+                          isEliminated && week > standing.currentWeek;
+                        const canViewPick =
+                          pick &&
+                          pick.teamName !== "-" &&
+                          (week < currentWeek ||
+                            (week === currentWeek &&
+                              (isCurrentUser || canViewOtherPicks())) ||
+                            (week > currentWeek &&
+                              !userEliminatedBeforeThisWeek));
+
+                        if (!pick && !userEliminatedBeforeThisWeek) {
                           return <td key={week}></td>;
                         }
 
                         return (
-                          <td key={week} className={pick.status}>
-                            {pick.isMotw ? "⭐ " : ""}
-                            {pick.teamName}
-                            {pick.status === "win" && " ✓"}
-                            {pick.status === "loss" && " ✗"}
+                          <td key={week} className={pick?.status || ""}>
+                            {pick?.isMotw ? "⭐ " : ""}
+                            {canViewPick ? (
+                              <>
+                                {pick.teamName}
+                                {pick.status === "win" && " ✓"}
+                                {pick.status === "loss" && " ✗"}
+                              </>
+                            ) : userEliminatedBeforeThisWeek ? (
+                              <span
+                                style={{ color: "#666", fontStyle: "italic" }}
+                              >
+                                N/A
+                              </span>
+                            ) : (
+                              <span
+                                style={{ color: "#888", fontStyle: "italic" }}
+                              >
+                                ⏳ Pending
+                              </span>
+                            )}
                           </td>
                         );
                       })}
