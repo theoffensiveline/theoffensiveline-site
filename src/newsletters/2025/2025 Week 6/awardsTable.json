@@ -1,0 +1,121 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Scored 154.76 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Scored 79.84 points",
+    "description": "This is the #4 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Scored 109.54 points in their win",
+    "description": "This is the #4 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Scored 116.64 points in their loss",
+    "description": "This is the #7 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Defeated Costco Guys by 74.92 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Defeated Uncle Rico Went Pro by 5.46 points",
+    "description": "This is the #4 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Left 30.9 points on the bench",
+    "description": "This is the #9 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Left 1.9 points on the bench",
+    "description": "This is the #8 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/12481.jpg",
+    "name": "Cam Skattebo",
+    "value": "Scored 31 points for Lord of the Littles which was 28.3% of the team total",
+    "description": "This is the #4 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/11564.jpg",
+    "name": "Drake Maye",
+    "value": "Scored 27.24 points on the bench for D.K’s Dying Minions",
+    "description": "This is the #11 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4046.jpg",
+    "name": "Patrick Mahomes (Kermit)",
+    "value": "Scored 31.48 points for Singing Like Mariah Terry",
+    "description": "This is the #2 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/9509.jpg",
+    "name": "Bijan Robinson (Mike Ehrmantraut)",
+    "value": "Scored 35.8 points for BBCU",
+    "description": "This is the #1 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver 1",
+    "photo": "https://sleepercdn.com/content/nfl/players/8112.jpg",
+    "name": "Drake London",
+    "value": "Scored 31.8 points for Bye Week Curious",
+    "description": "This is the #6 WR performance of the season"
+  },
+  {
+    "award": "Widest Receiver 2",
+    "photo": "https://sleepercdn.com/content/nfl/players/8137.jpg",
+    "name": "George Pickens (Pick Me)",
+    "value": "Scored 31.8 points for WalterPickens",
+    "description": "This is the #6 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/5022.jpg",
+    "name": "Dallas Goedert",
+    "value": "Scored 26 points for Bye Week Curious",
+    "description": "This is the #2 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/8259.jpg",
+    "name": "Cameron Dicker",
+    "value": "Scored 18.4 points for The Barkley Brawlers ",
+    "description": "This is the #2 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/lar.png",
+    "name": "LAR (18 Naked Cowboys )",
+    "value": "Scored 17 points for Super Ja'Marrio Bros.",
+    "description": "This is the #3 DEF performance of the season"
+  }
+]

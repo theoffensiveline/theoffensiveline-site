@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 1,
+    "Team": "D.K’s Dying Minions",
+    "W": 10,
+    "L": 2,
+    "PF": 743.06,
+    "PA": 671.62,
+    "PFColor": "#94ba9b",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 2,
+    "Diff": -1,
+    "Team": "Lord of the Littles",
+    "W": 9,
+    "L": 3,
+    "PF": 789.96,
+    "PA": 613.9,
+    "PFColor": "#227740",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "BBCU",
+    "W": 8,
+    "L": 4,
+    "PF": 776.98,
+    "PA": 670.12,
+    "PFColor": "#3f8653",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 4,
+    "Diff": 0,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 8,
+    "L": 4,
+    "PF": 762.66,
+    "PA": 718,
+    "PFColor": "#649c71",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "First Down Syndrome",
+    "W": 7,
+    "L": 5,
+    "PF": 734.78,
+    "PA": 720.84,
+    "PFColor": "#9fc2a6",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 6,
+    "Diff": 0,
+    "Team": "WalterPickens",
+    "W": 6,
+    "L": 6,
+    "PF": 720.22,
+    "PA": 725.62,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#f4c7c4"
+  },
+  {
+    "Rank": 7,
+    "Diff": 0,
+    "Team": "The Barkley Brawlers ",
+    "W": 5,
+    "L": 7,
+    "PF": 635.88,
+    "PA": 656.76,
+    "PFColor": "#df8482",
+    "PAColor": "#94ba9b"
+  },
+  {
+    "Rank": 8,
+    "Diff": 0,
+    "Team": "Singing Like Mariah Terry",
+    "W": 4,
+    "L": 8,
+    "PF": 666.38,
+    "PA": 740.02,
+    "PFColor": "#f1bcb9",
+    "PAColor": "#eaa5a3"
+  },
+  {
+    "Rank": 9,
+    "Diff": 0,
+    "Team": "Costco Guys",
+    "W": 4,
+    "L": 8,
+    "PF": 654.46,
+    "PA": 691.58,
+    "PFColor": "#eaa5a3",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 10,
+    "Diff": 0,
+    "Team": "Uncle Rico Went Pro",
+    "W": 4,
+    "L": 8,
+    "PF": 623.3,
+    "PA": 657.76,
+    "PFColor": "#d16163",
+    "PAColor": "#94ba9b"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 4,
+    "L": 8,
+    "PF": 598.82,
+    "PA": 714.36,
+    "PFColor": "#bc293d",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Anthony’s Eskimo Brother",
+    "W": 3,
+    "L": 9,
+    "PF": 662.58,
+    "PA": 788.5,
+    "PFColor": "#f1bcb9",
+    "PAColor": "#bc293d"
+  }
+]

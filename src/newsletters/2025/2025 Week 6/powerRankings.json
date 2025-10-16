@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 0,
+    "Team": "Lord of the Littles",
+    "Play All W": 49,
+    "Play All L": 17,
+    "Team Ability": 74.53,
+    "Str of Sched": 26.47,
+    "TaColor": "#227740",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 2,
+    "Trend": 0,
+    "Team": "Super Ja'Marrio Bros.",
+    "Play All W": 44,
+    "Play All L": 22,
+    "Team Ability": 66.97,
+    "Str of Sched": 57.97,
+    "TaColor": "#70a37c",
+    "SosColor": "#eeb0ae"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 2,
+    "Team": "BBCU",
+    "Play All W": 46,
+    "Play All L": 20,
+    "Team Ability": 70.03,
+    "Str of Sched": 46,
+    "TaColor": "#589567",
+    "SosColor": "#dbe8dd"
+  },
+  {
+    "P Rank": 4,
+    "Trend": 0,
+    "Team": "D.K’s Dying Minions",
+    "Play All W": 44,
+    "Play All L": 22,
+    "Team Ability": 66.97,
+    "Str of Sched": 38.53,
+    "TaColor": "#70a37c",
+    "SosColor": "#94ba9b"
+  },
+  {
+    "P Rank": 5,
+    "Trend": -2,
+    "Team": "First Down Syndrome",
+    "Play All W": 38,
+    "Play All L": 28,
+    "Team Ability": 57.97,
+    "Str of Sched": 59.5,
+    "TaColor": "#c3d8c6",
+    "SosColor": "#e79a98"
+  },
+  {
+    "P Rank": 6,
+    "Trend": 0,
+    "Team": "WalterPickens",
+    "Play All W": 33,
+    "Play All L": 33,
+    "Team Ability": 50.5,
+    "Str of Sched": 59.5,
+    "TaColor": "#fbe8e7",
+    "SosColor": "#e79a98"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 2,
+    "Team": "Singing Like Mariah Terry",
+    "Play All W": 27,
+    "Play All L": 39,
+    "Team Ability": 41.5,
+    "Str of Sched": 57.97,
+    "TaColor": "#e38f8d",
+    "SosColor": "#eeb0ae"
+  },
+  {
+    "P Rank": 8,
+    "Trend": 4,
+    "Team": "Bye Week Curious",
+    "Play All W": 21,
+    "Play All L": 45,
+    "Team Ability": 32.5,
+    "Str of Sched": 62.47,
+    "TaColor": "#c23946",
+    "SosColor": "#df8482"
+  },
+  {
+    "P Rank": 9,
+    "Trend": -2,
+    "Team": "Costco Guys",
+    "Play All W": 25,
+    "Play All L": 41,
+    "Team Ability": 38.53,
+    "Str of Sched": 50.5,
+    "TaColor": "#da7878",
+    "SosColor": "#fbe8e7"
+  },
+  {
+    "P Rank": 10,
+    "Trend": -2,
+    "Team": "Anthony’s Eskimo Brother",
+    "Play All W": 26,
+    "Play All L": 40,
+    "Team Ability": 39.97,
+    "Str of Sched": 71.47,
+    "TaColor": "#df8482",
+    "SosColor": "#bc293d"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 0,
+    "Team": "The Barkley Brawlers ",
+    "Play All W": 23,
+    "Play All L": 43,
+    "Team Ability": 35.47,
+    "Str of Sched": 37,
+    "TaColor": "#d16163",
+    "SosColor": "#88b290"
+  },
+  {
+    "P Rank": 12,
+    "Trend": -2,
+    "Team": "Uncle Rico Went Pro",
+    "Play All W": 20,
+    "Play All L": 46,
+    "Team Ability": 30.97,
+    "Str of Sched": 38.53,
+    "TaColor": "#bc293d",
+    "SosColor": "#94ba9b"
+  }
+]
