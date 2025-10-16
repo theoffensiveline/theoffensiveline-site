@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { type SurvivorPick } from "../utils/survivorUtils";
 import { useSurvivorStandings } from "../utils/survivorQueries";
@@ -250,8 +250,18 @@ const SurvivorHome: React.FC = () => {
     navigate(`/survivor/${LEAGUE_ID}`);
   };
 
-  // Generate weeks array for the table
-  const weeks = Array.from({ length: currentWeek }, (_, i) => i + 1);
+  // Generate weeks array for the table, only including weeks with data
+  const weeks = useMemo(() => {
+    const weeksWithData = new Set<number>();
+    standings.forEach(standing => {
+      standing.picks.forEach(pick => {
+        if (pick.teamName !== "-") {
+          weeksWithData.add(pick.week);
+        }
+      });
+    });
+    return Array.from(weeksWithData).sort((a, b) => a - b);
+  }, [standings]);
 
   if (isLoading) {
     return <Container>Loading...</Container>;
@@ -354,10 +364,10 @@ const SurvivorHome: React.FC = () => {
 
                         return (
                           <td key={week} className={pick?.status || ""}>
-                            {pick?.isMotw ? "⭐ " : ""}
                             {canViewPick ? (
                               <>
-                                {pick.teamName}
+                                {pick?.isMotw ? "⭐ " : ""}
+                                {pick.teamName === "-" ? "N/A" : pick.teamName}
                                 {pick.status === "win" && " ✓"}
                                 {pick.status === "loss" && " ✗"}
                               </>

@@ -157,7 +157,7 @@ export const isInBlackoutPeriod = (): boolean => {
 };
 
 export const canViewOtherPicks = (): boolean => {
-  return !isInBlackoutPeriod();
+  return isInBlackoutPeriod();
 };
 
 export const canMakeSelection = (

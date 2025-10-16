@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import {
@@ -31,6 +31,7 @@ const Survivor: React.FC = () => {
 
   const { currentUser, profile } = useAuth();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Use custom hook for data fetching
   const {
@@ -70,25 +71,31 @@ const Survivor: React.FC = () => {
     standingsData?.userStatus?.[currentUser?.uid || ""] || null;
 
   const onTeamSelect = async (teamId: number, matchupId: number) => {
-    const params = {
-      leagueId: LEAGUE_ID,
-      currentUser,
-      profile,
-      week,
-      currentWeek,
-      userPick,
-      allUserPicks: allUserPicks || [],
-      allMotwData,
-      motwMatchupId,
-      teams,
-    };
-    await handleTeamSelect(
-      teamId,
-      matchupId,
-      params,
-      navigate,
-      refetchUserPick
-    );
+    if (isSubmitting) return; // Prevent multiple submissions
+    setIsSubmitting(true);
+    try {
+      const params = {
+        leagueId: LEAGUE_ID,
+        currentUser,
+        profile,
+        week,
+        currentWeek,
+        userPick,
+        allUserPicks: allUserPicks || [],
+        allMotwData,
+        motwMatchupId,
+        teams,
+      };
+      await handleTeamSelect(
+        teamId,
+        matchupId,
+        params,
+        navigate,
+        refetchUserPick
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Group matchups by matchup_id
@@ -175,7 +182,7 @@ const Survivor: React.FC = () => {
                     teams={teams}
                     motwMatchupId={motwMatchupId}
                     userPick={userPick}
-                    canMakeSelection={userCanMakeSelection}
+                    canMakeSelection={userCanMakeSelection && !isSubmitting}
                     userStatus={userStatus}
                     onTeamSelect={onTeamSelect}
                     playerMap={playerMap}
