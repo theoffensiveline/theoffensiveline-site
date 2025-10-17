@@ -146,12 +146,6 @@ export const isInBlackoutPeriod = (): boolean => {
   const day = etDate.getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
   const hour = etDate.getHours();
 
-  // Temporary unlock until Friday morning
-  const friday8am = new Date(etDate);
-  friday8am.setDate(etDate.getDate() + ((5 - etDate.getDay() + 7) % 7)); // Next Friday
-  friday8am.setHours(8, 0, 0, 0);
-  if (etDate < friday8am) return false;
-
   return (
     (day === 4 && hour >= 20) || // Thursday 8PM+
     day === 5 || // Friday
