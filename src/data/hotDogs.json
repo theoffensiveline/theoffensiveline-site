@@ -1,12 +1,21 @@
 [
   {
     "year": 2025,
+    "week": 7,
+    "winner": "Anthony",
+    "loser": "Alec",
+    "count": 5,
+    "type": "hotdogs",
+    "link": ""
+  },
+  {
+    "year": 2025,
     "week": 6,
     "winner": "Anthony",
     "loser": "Greg",
     "count": 7,
     "type": "shots",
-    "link": ""
+    "link": "https://drive.google.com/file/d/1hFVJnVcPUchqHoAau7_B85KZvAxuQuwP/view?usp=drive_link"
   },
   {
     "year": 2025,
@@ -15,7 +24,7 @@
     "loser": "Nikhil",
     "count": 4,
     "type": "shots",
-    "link": ""
+    "link": "https://drive.google.com/file/d/1IdzJkk6mkwVybcYF8ZLcFJg_DVPAZYf6/view?usp=drive_link"
   },
   {
     "year": 2025,
@@ -60,7 +69,7 @@
     "loser": "Josh K",
     "count": 4,
     "type": "hotdogs",
-    "link": ""
+    "link": "https://www.twitch.tv/amouranth"
   },
   {
     "year": 2024,
@@ -447,7 +456,7 @@
     "loser": "Alec",
     "count": 7,
     "type": "shots",
-    "link": ""
+    "link": "https://drive.google.com/drive/folders/1GFoT4toe_k8AkwHM0arlRXQa1NM94BpX?usp=drive_link"
   },
   {
     "year": 2022,

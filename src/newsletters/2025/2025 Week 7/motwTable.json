@@ -1,0 +1,79 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "D.K’s Dying Minions",
+    "Winner Score": 114.08,
+    "Loser Score": 91.76,
+    "Loser Team": "Uncle Rico Went Pro",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#f3f7f3",
+    "LoserScoreColor": "#e79a98",
+    "ShotsDogsColor": "#94ba9b"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "D.K’s Dying Minions",
+    "Winner Score": 131,
+    "Loser Score": 95.92,
+    "Loser Team": "Tragedy of an Unlucky Man",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#9fc2a6",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#fdf4f3"
+  },
+  {
+    "Week": 3,
+    "Winner Team": "D.K’s Dying Minions",
+    "Winner Score": 129.62,
+    "Loser Score": 113.64,
+    "Loser Team": "WalterPickens",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#9fc2a6",
+    "LoserScoreColor": "#f3f7f3",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 4,
+    "Winner Team": "D.K’s Dying Minions",
+    "Winner Score": 153.58,
+    "Loser Score": 123.22,
+    "Loser Team": "BBCU",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#227740",
+    "LoserScoreColor": "#c3d8c6",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 5,
+    "Winner Team": "Costco Guys",
+    "Winner Score": 138.26,
+    "Loser Score": 98.02,
+    "Loser Team": "D.K’s Dying Minions",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#7cab86",
+    "LoserScoreColor": "#f1bcb9",
+    "ShotsDogsColor": "#94ba9b"
+  },
+  {
+    "Week": 6,
+    "Winner Team": "BBCU",
+    "Winner Score": 154.76,
+    "Loser Score": 79.84,
+    "Loser Team": "Costco Guys",
+    "# of Shots/Dogs": 7,
+    "WinnerScoreColor": "#227740",
+    "LoserScoreColor": "#d16163",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 7,
+    "Winner Team": "BBCU",
+    "Winner Score": 154.8,
+    "Loser Score": 104.52,
+    "Loser Team": "Tragedy of an Unlucky Man",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#227740",
+    "LoserScoreColor": "#f7d2d0",
+    "ShotsDogsColor": "#fdf4f3"
+  }
+]
