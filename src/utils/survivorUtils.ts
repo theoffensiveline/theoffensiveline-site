@@ -542,7 +542,7 @@ export const handleTeamSelect = async (
   params: TeamSelectParams,
   navigate: (path: string, options?: any) => void,
   refetchUserPick: () => void
-) => {
+): Promise<{ success: boolean; message?: string }> => {
   const {
     leagueId,
     currentUser,
@@ -558,11 +558,11 @@ export const handleTeamSelect = async (
 
   if (!currentUser) {
     navigate("/login", { state: { from: "/survivor" } });
-    return;
+    return { success: false };
   }
 
   const team = teams[teamId];
-  if (!team) return;
+  if (!team) return { success: false };
 
   try {
     // Find the roster ID for the selected team first
@@ -589,10 +589,10 @@ export const handleTeamSelect = async (
         (pick) => pick.teamIdSelected === rosterId
       );
       if (hasPickedBefore) {
-        alert(
-          `You already picked ${team.team_name} in a previous non-MotW week.`
-        );
-        return;
+        return {
+          success: false,
+          message: `You already picked ${team.team_name} in a previous non-MotW week.`,
+        };
       }
     }
 
@@ -602,24 +602,11 @@ export const handleTeamSelect = async (
 
     // If this is the already picked team, do nothing
     if (userPick?.teamIdSelected === rosterId) {
-      return;
+      return { success: true };
     }
 
-    // If another team is already picked, confirm the change
-    if (userPick) {
-      const currentPickOwnerName = Object.keys(SleeperTeamIdMapping).includes(
-        userPick.teamIdSelected
-      )
-        ? SleeperTeamIdMapping[
-            userPick.teamIdSelected as keyof typeof SleeperTeamIdMapping
-          ]
-        : "Unknown Owner";
-
-      const confirmUpdate = window.confirm(
-        `You already picked ${currentPickOwnerName} for this week. Do you want to change to ${ownerName}?`
-      );
-      if (!confirmUpdate) return;
-    }
+    // If another team is already picked, allow changing without confirmation
+    // (previously had confirm dialog, removed for mobile compatibility)
 
     const pick = {
       leagueId,
@@ -640,8 +627,12 @@ export const handleTeamSelect = async (
     } else {
       throw new Error("Failed to save pick");
     }
+    return { success: true };
   } catch (error) {
     console.error("Error saving pick:", error);
-    alert("Failed to save your pick. Please try again.");
+    return {
+      success: false,
+      message: "Failed to save your pick. Please try again.",
+    };
   }
 };

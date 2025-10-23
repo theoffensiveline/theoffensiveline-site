@@ -15,6 +15,7 @@ import {
 } from "../utils/survivorUtils";
 import playerData from "../utils/api/sleeper_players.json";
 import { leagueIds } from "../components/constants/LeagueConstants";
+import { SleeperTeamIdMapping } from "../utils/api/SleeperAPI";
 import {
   SurvivorContainer,
   SurvivorTitle,
@@ -25,6 +26,8 @@ import {
 import { useSurvivorData } from "../hooks/useSurvivorData";
 import SurvivorMatchup from "../components/survivor/SurvivorMatchup";
 import { ExtendedMatchup } from "../types/survivorTypes";
+import CustomAlert from "../components/shared/CustomAlert";
+import CustomConfirm from "../components/shared/CustomConfirm";
 
 const Survivor: React.FC = () => {
   const LEAGUE_ID = leagueIds.mainLeague;
@@ -32,6 +35,21 @@ const Survivor: React.FC = () => {
   const { currentUser, profile } = useAuth();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState<string>("");
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [pendingTeamSelect, setPendingTeamSelect] = useState<{
+    teamId: number;
+    matchupId: number;
+  } | null>(null);
+
+  const closeAlert = () => setIsAlertOpen(false);
+
+  const closeConfirm = () => {
+    setIsConfirmOpen(false);
+    setPendingTeamSelect(null);
+  };
 
   // Use custom hook for data fetching
   const {
@@ -72,6 +90,48 @@ const Survivor: React.FC = () => {
 
   const onTeamSelect = async (teamId: number, matchupId: number) => {
     if (isSubmitting) return; // Prevent multiple submissions
+
+    // Check if user already has a pick for this week
+    if (userPick) {
+      const team = teams[teamId];
+      if (!team) return;
+
+      // Find roster ID
+      const rosterEntry = Object.entries(teams).find(
+        ([_, t]) => t.team_id === team.team_id
+      );
+      if (!rosterEntry) return;
+      const rosterId = rosterEntry[0];
+
+      // If same team, do nothing
+      if (userPick.teamIdSelected === rosterId) return;
+
+      // Show confirm dialog
+      const currentPickOwnerName = Object.keys(SleeperTeamIdMapping).includes(
+        userPick.teamIdSelected
+      )
+        ? SleeperTeamIdMapping[
+            userPick.teamIdSelected as keyof typeof SleeperTeamIdMapping
+          ]
+        : "Unknown Owner";
+
+      const newOwnerName = Object.keys(SleeperTeamIdMapping).includes(rosterId)
+        ? SleeperTeamIdMapping[rosterId as keyof typeof SleeperTeamIdMapping]
+        : "Unknown Owner";
+
+      setConfirmMessage(
+        `You already picked ${currentPickOwnerName} for this week. Do you want to change to ${newOwnerName}?`
+      );
+      setPendingTeamSelect({ teamId, matchupId });
+      setIsConfirmOpen(true);
+      return;
+    }
+
+    // No existing pick, proceed directly
+    await performTeamSelect(teamId, matchupId);
+  };
+
+  const performTeamSelect = async (teamId: number, matchupId: number) => {
     setIsSubmitting(true);
     try {
       const params = {
@@ -86,15 +146,30 @@ const Survivor: React.FC = () => {
         motwMatchupId,
         teams,
       };
-      await handleTeamSelect(
+      const result = await handleTeamSelect(
         teamId,
         matchupId,
         params,
         navigate,
         refetchUserPick
       );
+      if (result.message) {
+        setAlertMessage(result.message);
+        setIsAlertOpen(true);
+      }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleConfirm = async () => {
+    if (pendingTeamSelect) {
+      await performTeamSelect(
+        pendingTeamSelect.teamId,
+        pendingTeamSelect.matchupId
+      );
+      setIsConfirmOpen(false);
+      setPendingTeamSelect(null);
     }
   };
 
@@ -198,6 +273,17 @@ const Survivor: React.FC = () => {
       ) : !loading ? (
         <p>No matchups available for this week.</p>
       ) : null}
+      <CustomAlert
+        message={alertMessage}
+        onClose={closeAlert}
+        isOpen={isAlertOpen}
+      />
+      <CustomConfirm
+        message={confirmMessage}
+        onConfirm={handleConfirm}
+        onCancel={closeConfirm}
+        isOpen={isConfirmOpen}
+      />
     </SurvivorContainer>
   );
 };
