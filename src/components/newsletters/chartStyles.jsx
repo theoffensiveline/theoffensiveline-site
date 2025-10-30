@@ -1,5 +1,5 @@
 import { useTheme } from 'styled-components';
-import { VictoryChart, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryContainer, VictoryStack, VictoryHistogram, VictoryLine, VictoryScatter } from 'victory';
+import { VictoryChart, VictoryAxis, VictoryLegend, VictoryBar, VictoryLabel, VictoryContainer, VictoryStack, VictoryHistogram, VictoryLine, VictoryScatter, VictoryGroup } from 'victory';
 import { colorsByPosition } from '../constants/ColorConstants.ts';
 
 // Common style configurations
@@ -478,6 +478,12 @@ export const PfPaScatter = ({ leaderboardData }) => {
     const minPA = Math.min(...leaderboardData.map((d) => d.PA));
     const maxPA = Math.max(...leaderboardData.map((d) => d.PA));
 
+    const overallMin = Math.min(minPF, minPA);
+    const overallMax = Math.max(maxPF, maxPA);
+
+    const lineMin = Math.max(minPF, minPA);
+    const lineMax = Math.min(maxPF, maxPA);
+
     const cornerLabels = [
         { lines: ["Unlucky", "and", "Bad"], colors: [theme.newsRed, theme.text, theme.newsRed], x: minPF, y: maxPA, dx: 10, dy: 20 },
         { lines: ["Unlucky", "and", "Good"], colors: [theme.newsRed, theme.text, theme.newsBlue], x: maxPF, y: maxPA, dx: -10, dy: 20 },
@@ -502,11 +508,11 @@ export const PfPaScatter = ({ leaderboardData }) => {
         >
             <VictoryLine
                 data={[
-                    { x: minPF, y: minPA },
-                    { x: maxPF, y: maxPA },
+                    { x: lineMin, y: lineMin },
+                    { x: lineMax, y: lineMax },
                 ]}
                 style={{
-                    data: { stroke: 'grey', strokeWidth: 0.5, strokeDasharray: '4, 4' },
+                    data: { stroke: theme.neutral3, strokeWidth: 1, },
                 }}
             />
             <VictoryScatter
@@ -673,6 +679,99 @@ export const KickerDefenseChart = ({ data }) => {
             <VictoryAxis {...getAxisConfig("Unique Players Started")} />
             <VictoryAxis dependentAxis {...getAxisConfig("Average PPG")} />
         </VictoryChart>
+    );
+};
+
+export const SurveyStackedBarChart = ({ surveyData }) => {
+    const theme = useTheme();
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <h3 style={{ color: theme.text, textAlign: 'center', margin: '10px 0 0 0', fontSize: '16px', fontWeight: 'bold' }}>
+                Survey Preferences vs. Reality
+            </h3>
+            <p style={{ color: theme.text, textAlign: 'center', margin: '0 0 5px 0', fontSize: '12px', fontStyle: 'italic' }}>
+                Left Column = Survey, Right Column = Historical
+            </p>
+            <VictoryChart
+                {...getBaseChartConfig()}
+                domainPadding={{ x: 50 }}
+                padding={{ top: 20, bottom: 80, left: 60, right: 60 }}
+            >
+                <VictoryAxis
+                    {...getBaseAxisConfig(theme)}
+                    style={{
+                        tickLabels: { fill: theme.text, fontSize: 14 },
+                        axisLabel: { padding: 50, fill: theme.text }
+                    }}
+                    label="Number of Hot Dogs/Shots"
+                />
+                <VictoryAxis
+                    dependentAxis
+                    {...getAxisConfigWithGrid(theme, { grid: true })}
+                    tickFormat={(t) => `${t}%`}
+                    style={{
+                        tickLabels: { fill: theme.text, fontSize: 12 }
+                    }}
+                />
+                <VictoryLegend
+                    {...getBaseLegendConfig(theme, 100, -10)}
+                    data={[
+                        { name: "Either", symbol: { fill: theme.hotDogPurple } },
+                        { name: "Hot Dogs", symbol: { fill: theme.hotDogBrown } },
+                        { name: "Shots", symbol: { fill: theme.hotDogGold } }
+                    ]}
+                />
+                <VictoryGroup
+                    offset={25}
+                >
+                    <VictoryStack>
+                        <VictoryBar
+                            data={surveyData}
+                            x="category"
+                            y="Survey Hot Dogs"
+                            style={{
+                                data: { fill: theme.hotDogBrown }
+                            }}
+                        />
+                        <VictoryBar
+                            data={surveyData}
+                            x="category"
+                            y="Survey Either"
+                            style={{
+                                data: { fill: theme.hotDogPurple }
+                            }}
+                        />
+                        <VictoryBar
+                            data={surveyData}
+                            x="category"
+                            y="Survey Shots"
+                            style={{
+                                data: { fill: theme.hotDogGold }
+                            }}
+                        />
+                    </VictoryStack>
+                    <VictoryStack>
+                        <VictoryBar
+                            data={surveyData}
+                            x="category"
+                            y="Historical Hot Dogs"
+                            style={{
+                                data: { fill: theme.hotDogBrown }
+                            }}
+                        />
+                        <VictoryBar
+                            data={surveyData}
+                            x="category"
+                            y="Historical Shots"
+                            style={{
+                                data: { fill: theme.hotDogGold }
+                            }}
+                        />
+                    </VictoryStack>
+                </VictoryGroup>
+            </VictoryChart>
+        </div>
     );
 };
 

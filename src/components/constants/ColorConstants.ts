@@ -22,7 +22,7 @@ interface ThemeColors {
   hotDogPurple: string;
   hotDogBlue: string;
   hotDogBrown: string;
-  hotDogGrey: string;
+  hotDogGold: string;
 }
 
 interface ColorConstantsType {
@@ -55,7 +55,7 @@ export const ColorConstants: ColorConstantsType = {
     hotDogPurple: "#8338EC",
     hotDogBlue: "#3A76FF",
     hotDogBrown: "#483519",
-    hotDogGrey: "#AFBFC0",
+    hotDogGold: "#FFD700",
   },
   dark: {
     link: "#1976d2",
@@ -81,7 +81,7 @@ export const ColorConstants: ColorConstantsType = {
     hotDogPurple: "#8338EC",
     hotDogBlue: "#3A76FF",
     hotDogBrown: "#483519",
-    hotDogGrey: "#AFBFC0",
+    hotDogGold: "#FFD700",
   },
 };
 

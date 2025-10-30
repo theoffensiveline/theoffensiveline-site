@@ -298,7 +298,7 @@ const HotDogTracker: React.FC = () => {
               { x: "Hot Dogs", y: totalHotDogs },
               { x: "Shots", y: totalShots },
             ]}
-            colorScale={[theme.hotDogBrown, theme.hotDogGrey]}
+            colorScale={[theme.hotDogBrown, theme.hotDogGold]}
             labelRadius={40}
             labels={({ datum }) => `${datum.x}: ${datum.y}`}
             style={{
@@ -342,7 +342,7 @@ const HotDogTracker: React.FC = () => {
               }}
               {...getAxisConfigWithGrid(theme, { grid: true })}
             />
-            <VictoryStack colorScale={[theme.hotDogBrown, theme.hotDogGrey]}>
+            <VictoryStack colorScale={[theme.hotDogBrown, theme.hotDogGold]}>
               <VictoryBar
                 data={countDistributionData.map((item) => ({
                   count: item.count,

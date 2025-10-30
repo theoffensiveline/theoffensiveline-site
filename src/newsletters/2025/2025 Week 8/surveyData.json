@@ -1,0 +1,36 @@
+{
+  "surveyData": [
+    {
+      "category": "<= 3",
+      "Survey Either": 45.5,
+      "Survey Hot Dogs": 36.4,
+      "Survey Shots": 18.2,
+      "Historical Hot Dogs": 41.67,
+      "Historical Shots": 58.33
+    },
+    {
+      "category": "4",
+      "Survey Either": 54.5,
+      "Survey Hot Dogs": 27.3,
+      "Survey Shots": 18.2,
+      "Historical Hot Dogs": 45.45,
+      "Historical Shots": 54.55
+    },
+    {
+      "category": "5",
+      "Survey Either": 18.2,
+      "Survey Hot Dogs": 54.5,
+      "Survey Shots": 27.3,
+      "Historical Hot Dogs": 77.78,
+      "Historical Shots": 22.22
+    },
+    {
+      "category": ">= 6",
+      "Survey Either": 9.1,
+      "Survey Hot Dogs": 54.5,
+      "Survey Shots": 36.4,
+      "Historical Hot Dogs": 42.86,
+      "Historical Shots": 57.14
+    }
+  ]
+}

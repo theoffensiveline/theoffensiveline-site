@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "D.K’s Dying Minions",
+    "W": 7,
+    "L": 1,
+    "PF": 1131.16,
+    "PA": 971.84,
+    "PFColor": "#327e4a",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 6,
+    "L": 2,
+    "PF": 1082.9,
+    "PA": 1043.04,
+    "PFColor": "#88b290",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 3,
+    "Diff": 6,
+    "Team": "Uncle Rico Went Pro",
+    "W": 6,
+    "L": 2,
+    "PF": 1068.6,
+    "PA": 997.52,
+    "PFColor": "#9fc2a6",
+    "PAColor": "#589567"
+  },
+  {
+    "Rank": 4,
+    "Diff": -2,
+    "Team": "BBCU",
+    "W": 5,
+    "L": 3,
+    "PF": 1139.4,
+    "PA": 1068.48,
+    "PFColor": "#227740",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 5,
+    "Diff": 2,
+    "Team": "The Barkley Brawlers ",
+    "W": 5,
+    "L": 3,
+    "PF": 1109.64,
+    "PA": 981.38,
+    "PFColor": "#589567",
+    "PAColor": "#3f8653"
+  },
+  {
+    "Rank": 6,
+    "Diff": 0,
+    "Team": "WalterPickens",
+    "W": 5,
+    "L": 3,
+    "PF": 1108.52,
+    "PA": 1031.42,
+    "PFColor": "#589567",
+    "PAColor": "#9fc2a6"
+  },
+  {
+    "Rank": 7,
+    "Diff": -3,
+    "Team": "Lord of the Littles",
+    "W": 4,
+    "L": 4,
+    "PF": 1066.78,
+    "PA": 1045.24,
+    "PFColor": "#9fc2a6",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 8,
+    "Diff": 0,
+    "Team": "Costco Guys",
+    "W": 4,
+    "L": 4,
+    "PF": 956.16,
+    "PA": 1033.86,
+    "PFColor": "#eaa5a3",
+    "PAColor": "#abc9b1"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "Singing Like Mariah Terry",
+    "W": 3,
+    "L": 5,
+    "PF": 1017.48,
+    "PA": 1090.8,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 10,
+    "Diff": -5,
+    "Team": "First Down Syndrome",
+    "W": 2,
+    "L": 6,
+    "PF": 1006.94,
+    "PA": 1125.42,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "One and six",
+    "W": 1,
+    "L": 7,
+    "PF": 1093.82,
+    "PA": 1178.38,
+    "PFColor": "#70a37c",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 0,
+    "L": 8,
+    "PF": 884.54,
+    "PA": 1098.56,
+    "PFColor": "#bc293d",
+    "PAColor": "#f7d2d0"
+  }
+]

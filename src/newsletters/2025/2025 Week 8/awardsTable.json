@@ -1,0 +1,128 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Scored 191.58 points",
+    "description": "This is the #1 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Scored 79.38 points",
+    "description": "This is the #4 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Scored 96.12 points in their win",
+    "description": "This is the #2 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Uncle Rico Went Pro",
+    "value": "Scored 139.72 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Defeated BBCU by 84.9 points",
+    "description": "This is the #1 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Defeated WalterPickens by 3.62 points",
+    "description": "This is the #2 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Left 30.8 points on the bench",
+    "description": "This is the #14 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top 1",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 2",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 3",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/8155.jpg",
+    "name": "Breece Hall",
+    "value": "Scored 32.86 points for First Down Syndrome which was 28.84% of the team total",
+    "description": "This is the #4 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/6804.jpg",
+    "name": "Jordan Love",
+    "value": "Scored 28.3 points on the bench for D.K’s Dying Minions",
+    "description": "This is the #11 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/11564.jpg",
+    "name": "Drake Maye",
+    "value": "Scored 26.28 points for D.K’s Dying Minions",
+    "description": "This is the #15 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/6813.jpg",
+    "name": "Jonathan Taylor",
+    "value": "Scored 37.4 points for D.K’s Dying Minions",
+    "description": "This is the #2 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/11627.jpg",
+    "name": "Troy Franklin",
+    "value": "Scored 26.9 points for Uncle Rico Went Pro",
+    "description": "This is the #17 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/9484.jpg",
+    "name": "Tucker Kraft",
+    "value": "Scored 33.3 points for The Barkley Brawlers ",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/1945.jpg",
+    "name": "Chris Boswell",
+    "value": "Scored 22 points for First Down Syndrome",
+    "description": "This is the #2 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/tb.png",
+    "name": "TB",
+    "value": "Scored 26 points for D.K’s Dying Minions",
+    "description": "This is the #2 DEF performance of the season"
+  }
+]
