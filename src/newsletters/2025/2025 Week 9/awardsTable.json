@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Scored 168.8 points",
+    "description": "This is the #2 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "Most MoTWs (I think)",
+    "value": "Scored 85.66 points",
+    "description": "This is the #9 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Scored 93.6 points in their win",
+    "description": "This is the #2 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Scored 136.4 points in their loss",
+    "description": "This is the #3 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Defeated BBCU by 32.4 points",
+    "description": "This is the #16 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Defeated Beats By Al by 2.86 points",
+    "description": "This is the #2 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Left 36.6 points on the bench",
+    "description": "This is the #9 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Uncle Rico Went Pro",
+    "value": "Left 0 points on the bench",
+    "description": "This is the #1 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/8112.jpg",
+    "name": "Drake London",
+    "value": "Scored 38.8 points for Bye Week Curious which was 33.98% of the team total",
+    "description": "This is the #1 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/11604.jpg",
+    "name": "Brock Bowers (9.11.24)",
+    "value": "Scored 43.3 points on the bench for WalterPickens",
+    "description": "This is the #1 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/11560.jpg",
+    "name": "Caleb Williams (Lucian)",
+    "value": "Scored 38.7 points for WalterPickens",
+    "description": "This is the #2 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4034.jpg",
+    "name": "Christian McCaffrey (BAT)",
+    "value": "Scored 34.3 points for WalterPickens",
+    "description": "This is the #5 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/8112.jpg",
+    "name": "Drake London",
+    "value": "Scored 38.8 points for Bye Week Curious",
+    "description": "This is the #2 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/10236.jpg",
+    "name": "Dalton Kincaid",
+    "value": "Scored 22.1 points for Lord of the Littles",
+    "description": "This is the #6 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/3451.jpg",
+    "name": "Ka'imi Fairbairn",
+    "value": "Scored 18 points for Singing Like Mariah Terry",
+    "description": "This is the #6 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/pit.png",
+    "name": "PIT",
+    "value": "Scored 18 points for First Down Syndrome",
+    "description": "This is the #4 DEF performance of the season"
+  }
+]

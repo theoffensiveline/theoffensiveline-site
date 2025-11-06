@@ -478,9 +478,6 @@ export const PfPaScatter = ({ leaderboardData }) => {
     const minPA = Math.min(...leaderboardData.map((d) => d.PA));
     const maxPA = Math.max(...leaderboardData.map((d) => d.PA));
 
-    const overallMin = Math.min(minPF, minPA);
-    const overallMax = Math.max(maxPF, maxPA);
-
     const lineMin = Math.max(minPF, minPA);
     const lineMax = Math.min(maxPF, maxPA);
 
@@ -554,23 +551,15 @@ export const TradesLineChart = ({ tradeHistory }) => {
     const lineConfigs = [
         { key: 'yahoo_trades', stroke: theme.yahoo },
         { key: 'sleeper_trades_2023', stroke: theme.neutral3 },
-        { key: 'non_faab_sleeper_2024', stroke: theme.newsBlue, strokeDasharray: "3,3" },
-        { key: 'sleeper_trades_2024', stroke: theme.newsBlue }
+        { key: 'non_faab_sleeper_2024', stroke: theme.newsBlue },
+        { key: 'non_faab_sleeper_2025', stroke: theme.newsRed }
     ];
 
     const legendData = [
         { name: "2022", symbol: { fill: theme.yahoo } },
         { name: "2023", symbol: { fill: theme.neutral3 } },
         { name: "2024", symbol: { fill: theme.newsBlue } },
-        {
-            name: "2024 w/ Player",
-            symbol: {
-                fill: theme.background,
-                strokeDasharray: "3,3",
-                strokeWidth: 2,
-                stroke: theme.newsBlue
-            }
-        }
+        { name: "2025", symbol: { fill: theme.newsRed } }
     ];
 
     const getAxisConfig = (label, padding = 30) => ({
@@ -584,10 +573,17 @@ export const TradesLineChart = ({ tradeHistory }) => {
 
     return (
         <VictoryChart {...getBaseChartConfig()}>
+            <VictoryLabel
+                text="FAAB only trades are excluded from the total"
+                x={225}
+                y={40}
+                textAnchor="middle"
+                style={{ fontSize: 12, fill: theme.text }}
+            />
             <VictoryAxis {...getAxisConfig("Week")} />
             <VictoryAxis dependentAxis {...getAxisConfig("Total Trades")} />
             <VictoryLegend
-                {...getBaseLegendConfig(theme)}
+                {...getBaseLegendConfig(theme, 75)}
                 data={legendData}
             />
             {lineConfigs.map(({ key, stroke, strokeDasharray }) => (
@@ -599,6 +595,54 @@ export const TradesLineChart = ({ tradeHistory }) => {
                     style={{ data: { stroke, strokeDasharray } }}
                 />
             ))}
+        </VictoryChart>
+    );
+};
+
+export const KyleRecordChart = () => {
+    const theme = useTheme();
+
+    const data = [
+        { category: 'Hubbell Division', type: 'Wins', value: 12 },
+        { category: 'Everyone Else', type: 'Wins', value: 31 },
+        { category: 'Hubbell Division', type: 'Losses', value: 12 },
+        { category: 'Everyone Else', type: 'Losses', value: 13 }
+    ];
+
+    const getAxisConfig = (label, padding = 30) => ({
+        ...getAxisConfigWithGrid(theme),
+        label,
+        style: {
+            ...getCommonChartStyles(theme).axis,
+            axisLabel: { padding, fill: theme.text }
+        }
+    });
+
+    return (
+        <VictoryChart {...getBaseChartConfig()} domainPadding={{ x: 80, y: 20 }}>
+            <VictoryLegend
+                {...getBaseLegendConfig(theme, 125)}
+                data={[
+                    { name: 'Losses', symbol: { fill: theme.newsRed } },
+                    { name: 'Wins', symbol: { fill: theme.newsBlue } },
+                ]}
+            />
+            <VictoryAxis {...getAxisConfig("Opponents")} />
+            <VictoryAxis dependentAxis {...getAxisConfig("Games")} />
+            <VictoryStack colorScale={[theme.newsRed, theme.newsBlue]}>
+                <VictoryBar
+                    data={data.filter(d => d.type === 'Losses')}
+                    x="category"
+                    y="value"
+                    barWidth={70}
+                />
+                <VictoryBar
+                    data={data.filter(d => d.type === 'Wins')}
+                    x="category"
+                    y="value"
+                    barWidth={70}
+                />
+            </VictoryStack>
         </VictoryChart>
     );
 };

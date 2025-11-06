@@ -97,9 +97,10 @@ function Home() {
     const newsletterContent = {
         mostRecentIssue: [
             'Hot Dog Tracker',
-            '2025 Week 8',
+            '2025 Week 9',
         ],
         newsletterIssues: [
+            '2025 Week 8',
             '2025 Week 7',
             '2025 Week 6',
             '2025 Week 5',
@@ -168,7 +169,7 @@ function Home() {
         } else if (destination === 'Hot Dog Tracker') {
             navigate(`/league/${leagueId}/hot-dogs`);
         } else {
-            navigate(`/newsletter/${leagueId}`, { state: { issue: destination } });
+            navigate(`/newsletter/${leagueId}/${encodeURIComponent(destination)}`);
         }
     };
 

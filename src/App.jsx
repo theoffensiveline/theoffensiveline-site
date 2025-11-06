@@ -91,7 +91,7 @@ const AppRoutes = () => {
         <Route path="/news" element={<News />} />
         <Route path="/submit/:leagueId" element={<Submit />} />
         <Route path="/bylaws/:leagueId" element={<Bylaws />} />
-        <Route path="/newsletter/:leagueId" element={<Newsletter />} />
+        <Route path="/newsletter/:leagueId/:issue" element={<Newsletter />} />
         <Route path="/leaderboards/:leagueId" element={<LeaderboardsHome />} />
         <Route path="/leaderboard/:leaderboardId" element={<Leaderboard />} />
         <Route path="/leaderboard/overall" element={<OverallLeaderboard />} />

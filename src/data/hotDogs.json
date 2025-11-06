@@ -1,6 +1,15 @@
 [
   {
     "year": 2025,
+    "week": 9,
+    "winner": "Jake",
+    "loser": "Nikhil",
+    "count": 6,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2025,
     "week": 8,
     "winner": "Jake",
     "loser": "Anthony",

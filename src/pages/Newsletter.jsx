@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import * as NewsStyles from '../components/newsletters/newsStyles';
 
 function formatDate(inputDate) {
@@ -22,8 +23,8 @@ export const TeamContext = React.createContext(
 );
 
 function Newsletter() {
-    const currentLocation = useLocation();
-    const { issue } = currentLocation.state; // issue format: "2024 Week 1" or "2024 WP Week 4"
+    const { issue: encodedIssue } = useParams();
+    const issue = decodeURIComponent(encodedIssue);
     const [content, setContent] = useState(null);
 
     const [selectedTeam, setSelectedTeam] = useState(null);
@@ -50,7 +51,12 @@ function Newsletter() {
 
             // Dynamically import the content based on the mapped path
             const module = await import(`../newsletters/${folderPath}/${issue}.jsx`);
-            setContent(module); // Set the default export from the module
+            let newsletterData = module.default;
+            if (!newsletterData) {
+                // Backward compatibility for old newsletter format
+                newsletterData = { newsDate: module.newsDate, articles: module.articles };
+            }
+            setContent(newsletterData); // Set the newsletter data
         };
 
         loadContent();
@@ -58,6 +64,13 @@ function Newsletter() {
 
     return (
         <TeamContext.Provider value={{ selectedTeam: selectedTeam, setSelectedTeam: setSelectedTeam }}>
+            <Helmet>
+                <title>{content?.meta?.title || `${issue}`}</title>
+                <meta property="og:title" content={content?.meta?.title || `${issue}`} />
+                <meta property="og:description" content={content?.meta?.description || `Read the latest newsletter issue: ${issue}`} />
+                <meta property="og:image" content={content?.meta?.image ? (content.meta.image.startsWith('http') ? content.meta.image : `${window.location.origin}${content.meta.image}`) : `${window.location.origin}/banner_logo.png`} />
+                <meta property="og:url" content={window.location.href} />
+            </Helmet>
             <NewsStyles.NewsletterContainer>
                 <NewsStyles.NewsletterTitle>The Offensive Line</NewsStyles.NewsletterTitle>
                 <NewsStyles.DateBar>

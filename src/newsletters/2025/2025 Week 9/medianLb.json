@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Most MoTWs (I think)",
+    "W": 14,
+    "L": 4,
+    "PF": 1120.28,
+    "PA": 958.04,
+    "PFColor": "#70a37c",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "BBCU",
+    "W": 12,
+    "L": 6,
+    "PF": 1174.86,
+    "PA": 1135.02,
+    "PFColor": "#227740",
+    "PAColor": "#e79a98"
+  },
+  {
+    "Rank": 3,
+    "Diff": 1,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 11,
+    "L": 7,
+    "PF": 1128.06,
+    "PA": 1100.96,
+    "PFColor": "#70a37c",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 4,
+    "Diff": -2,
+    "Team": "Lord of the Littles",
+    "W": 11,
+    "L": 7,
+    "PF": 1083.82,
+    "PA": 986.6,
+    "PFColor": "#abc9b1",
+    "PAColor": "#589567"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "WalterPickens",
+    "W": 10,
+    "L": 8,
+    "PF": 1097.06,
+    "PA": 1050.88,
+    "PFColor": "#94ba9b",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 6,
+    "Diff": 1,
+    "Team": "First Down Syndrome",
+    "W": 9,
+    "L": 9,
+    "PF": 1061.4,
+    "PA": 1038.54,
+    "PFColor": "#c3d8c6",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 7,
+    "Diff": 1,
+    "Team": "Uncle Rico Went Pro",
+    "W": 9,
+    "L": 9,
+    "PF": 1025.74,
+    "PA": 1048.92,
+    "PFColor": "#fdf4f3",
+    "PAColor": "#c3d8c6"
+  },
+  {
+    "Rank": 8,
+    "Diff": -2,
+    "Team": "The Barkley Brawlers ",
+    "W": 8,
+    "L": 10,
+    "PF": 1013.8,
+    "PA": 964.64,
+    "PFColor": "#fbe8e7",
+    "PAColor": "#327e4a"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "Costco Guys",
+    "W": 7,
+    "L": 11,
+    "PF": 987.42,
+    "PA": 992.8,
+    "PFColor": "#f4c7c4",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 10,
+    "Diff": -1,
+    "Team": "Singing Like Mariah Terry",
+    "W": 6,
+    "L": 12,
+    "PF": 987.88,
+    "PA": 1061.54,
+    "PFColor": "#f4c7c4",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 6,
+    "L": 12,
+    "PF": 880.6,
+    "PA": 1056.02,
+    "PFColor": "#bc293d",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Beats By Al",
+    "W": 5,
+    "L": 13,
+    "PF": 1030.24,
+    "PA": 1197.2,
+    "PFColor": "#f3f7f3",
+    "PAColor": "#bc293d"
+  }
+]

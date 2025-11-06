@@ -116,11 +116,30 @@ import starterData from "./starters.json";
 import dangerTable from "./dangerTable.json";
 ```
 
-3. **Set the publication date:**
+3. **Set the publication date and export structure:**
 
 ```jsx
-export const newsDate = "YYYY-MM-DD";
+const newsletterData = {
+  newsDate: "YYYY-MM-DD",
+  articles: articles, // defined below
+  meta: {
+    title: "Custom Title for Link Previews",
+    description: "Custom description for social media sharing",
+    image: "/banner_logo.png", // or external URL
+  },
+};
+
+export default newsletterData;
 ```
+
+**Meta Object (Optional):**
+
+- `title`: Custom title for browser tab and link previews (defaults to issue name)
+- `description`: Custom description for link previews
+- `image`: Image URL for link previews (relative path or full URL)
+
+**Backward Compatibility:**
+Older newsletters use separate exports (`export const newsDate`, `export const articles`). The system supports both formats.
 
 ### 3. Create Article Components
 

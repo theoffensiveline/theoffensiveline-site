@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "BBCU",
+      "team2_list": ["Costco Guys"],
+      "wins": 9,
+      "losses": 0,
+      "ties": 0
+    },
+    {
+      "team1": "Beats By Al",
+      "team2_list": ["Costco Guys", "Lord of the Littles", "Singing Like Mariah Terry"],
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["Lord of the Littles"],
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "team2_list": ["Most MoTWs (I think)"],
+      "wins": 7,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Lord of the Littles", "Most MoTWs (I think)", "The Barkley Brawlers "],
+      "wins": 7,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["Most MoTWs (I think)"],
+      "wins": 8,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Most MoTWs (I think)",
+      "team2_list": ["Most MoTWs (I think)", "The Barkley Brawlers ", "Uncle Rico Went Pro"],
+      "wins": 7,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "team2_list": ["Most MoTWs (I think)"],
+      "wins": 6,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["Lord of the Littles", "Most MoTWs (I think)", "Singing Like Mariah Terry", "The Barkley Brawlers "],
+      "wins": 7,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["Costco Guys", "The Barkley Brawlers ", "Uncle Rico Went Pro"],
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Uncle Rico Went Pro",
+      "team2_list": ["The Barkley Brawlers "],
+      "wins": 6,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["BBCU", "Most MoTWs (I think)", "The Barkley Brawlers ", "Uncle Rico Went Pro"],
+      "wins": 6,
+      "losses": 3,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "BBCU",
+      "team2_list": ["Beats By Al"],
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Beats By Al",
+      "team2_list": ["Beats By Al"],
+      "wins": 2,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["BBCU", "WalterPickens"],
+      "wins": 1,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "team2_list": ["Beats By Al"],
+      "wins": 1,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["Beats By Al"],
+      "wins": 2,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["BBCU", "Beats By Al", "Bye Week Curious", "Super Ja'Marrio Bros.", "WalterPickens"],
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Most MoTWs (I think)",
+      "team2_list": ["BBCU", "Beats By Al", "Costco Guys", "Singing Like Mariah Terry", "Super Ja'Marrio Bros."],
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "team2_list": ["Beats By Al"],
+      "wins": 1,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["BBCU", "Beats By Al"],
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["First Down Syndrome", "Super Ja'Marrio Bros.", "WalterPickens"],
+      "wins": 2,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Uncle Rico Went Pro",
+      "team2_list": ["Beats By Al"],
+      "wins": 2,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["Singing Like Mariah Terry"],
+      "wins": 3,
+      "losses": 6,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "BBCU",
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Beats By Al",
+      "wins": 2,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "wins": 3,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "wins": 6,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Most MoTWs (I think)",
+      "wins": 7,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "Uncle Rico Went Pro",
+      "wins": 4,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "wins": 5,
+      "losses": 4,
+      "ties": 0
+    }
+  ]
+}
