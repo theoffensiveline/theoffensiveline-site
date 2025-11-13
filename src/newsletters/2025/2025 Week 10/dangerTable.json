@@ -1,0 +1,54 @@
+[
+  {
+    "Team": "Uncle Rico Went Pro",
+    "NPG": 11,
+    "RPA": 8,
+    "DM": 125,
+    "Uncle Rico Went Pro Win DM": 100,
+    "WalterPickens Win DM": 50,
+    "NPG_color": "#bc293d",
+    "RPA_color": "#bc293d",
+    "DM_color": "#bc293d",
+    "Uncle Rico Went Pro Win DM_color": "#bc293d",
+    "WalterPickens Win DM_color": "#227740"
+  },
+  {
+    "Team": "WalterPickens",
+    "NPG": 11,
+    "RPA": 8,
+    "DM": 125,
+    "Uncle Rico Went Pro Win DM": 50,
+    "WalterPickens Win DM": 100,
+    "NPG_color": "#bc293d",
+    "RPA_color": "#bc293d",
+    "DM_color": "#bc293d",
+    "Uncle Rico Went Pro Win DM_color": "#227740",
+    "WalterPickens Win DM_color": "#bc293d"
+  },
+  {
+    "Team": "BBCU",
+    "NPG": 12,
+    "RPA": 7,
+    "DM": 75,
+    "Uncle Rico Went Pro Win DM": 50,
+    "WalterPickens Win DM": 100,
+    "NPG_color": "#227740",
+    "RPA_color": "#227740",
+    "DM_color": "#227740",
+    "Uncle Rico Went Pro Win DM_color": "#227740",
+    "WalterPickens Win DM_color": "#bc293d"
+  },
+  {
+    "Team": "Super Ja'Marrio Bros.",
+    "NPG": 12,
+    "RPA": 7,
+    "DM": 75,
+    "Uncle Rico Went Pro Win DM": 100,
+    "WalterPickens Win DM": 50,
+    "NPG_color": "#227740",
+    "RPA_color": "#227740",
+    "DM_color": "#227740",
+    "Uncle Rico Went Pro Win DM_color": "#bc293d",
+    "WalterPickens Win DM_color": "#227740"
+  }
+]

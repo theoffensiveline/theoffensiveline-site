@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Jonathan Taylor Fan Club",
+    "W": 8,
+    "L": 2,
+    "PF": 1381.12,
+    "PA": 1235.84,
+    "PFColor": "#7cab86",
+    "PAColor": "#327e4a"
+  },
+  {
+    "Rank": 2,
+    "Diff": 5,
+    "Team": "Uncle Rico Went Pro",
+    "W": 8,
+    "L": 2,
+    "PF": 1361.12,
+    "PA": 1261.22,
+    "PFColor": "#94ba9b",
+    "PAColor": "#649c71"
+  },
+  {
+    "Rank": 3,
+    "Diff": 0,
+    "Team": "WalterPickens",
+    "W": 7,
+    "L": 3,
+    "PF": 1450.52,
+    "PA": 1296.94,
+    "PFColor": "#227740",
+    "PAColor": "#9fc2a6"
+  },
+  {
+    "Rank": 4,
+    "Diff": -2,
+    "Team": "BBCU",
+    "W": 6,
+    "L": 4,
+    "PF": 1429.52,
+    "PA": 1380.8,
+    "PFColor": "#3f8653",
+    "PAColor": "#f1bcb9"
+  },
+  {
+    "Rank": 5,
+    "Diff": 4,
+    "Team": "The Barkley Brawlers ",
+    "W": 6,
+    "L": 4,
+    "PF": 1361.72,
+    "PA": 1227.02,
+    "PFColor": "#94ba9b",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 6,
+    "Diff": -1,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 6,
+    "L": 4,
+    "PF": 1340.62,
+    "PA": 1326.78,
+    "PFColor": "#abc9b1",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 7,
+    "Diff": -3,
+    "Team": "Lord of the Littles",
+    "W": 5,
+    "L": 5,
+    "PF": 1339.6,
+    "PA": 1305.68,
+    "PFColor": "#abc9b1",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 8,
+    "Diff": 0,
+    "Team": "Costco Guys",
+    "W": 5,
+    "L": 5,
+    "PF": 1219.5,
+    "PA": 1306.6,
+    "PFColor": "#f1bcb9",
+    "PAColor": "#b7d1bb"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "Singing Like Mariah Terry",
+    "W": 4,
+    "L": 6,
+    "PF": 1244.2,
+    "PA": 1349.18,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#fdf4f3"
+  },
+  {
+    "Rank": 10,
+    "Diff": -4,
+    "Team": "First Down Syndrome",
+    "W": 3,
+    "L": 7,
+    "PF": 1250.8,
+    "PA": 1335.72,
+    "PFColor": "#f9dddc",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 11,
+    "Diff": 1,
+    "Team": "Marshawn Kneeland’s Ghost",
+    "W": 1,
+    "L": 9,
+    "PF": 1357.28,
+    "PA": 1461.76,
+    "PFColor": "#94ba9b",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 12,
+    "Diff": -1,
+    "Team": "Bye Week Curious",
+    "W": 1,
+    "L": 9,
+    "PF": 1105.82,
+    "PA": 1354.28,
+    "PFColor": "#bc293d",
+    "PAColor": "#fbe8e7"
+  }
+]

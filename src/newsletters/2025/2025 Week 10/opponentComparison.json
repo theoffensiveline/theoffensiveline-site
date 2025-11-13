@@ -1,0 +1,98 @@
+[
+  {
+    "manager_id": 1,
+    "team_name": "Singing Like Mariah Terry",
+    "avg_opponent_diff": 12.114,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "image_or_text": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc"
+  },
+  {
+    "manager_id": 2,
+    "team_name": "WalterPickens",
+    "avg_opponent_diff": -4.776,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg"
+  },
+  {
+    "manager_id": 3,
+    "team_name": "Marshawn Kneeland’s Ghost",
+    "avg_opponent_diff": 22.426,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/f3a305ef1c40de62314da315933f842c.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/f3a305ef1c40de62314da315933f842c.jpg"
+  },
+  {
+    "manager_id": 4,
+    "team_name": "Uncle Rico Went Pro",
+    "avg_opponent_diff": -1.49,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg"
+  },
+  {
+    "manager_id": 5,
+    "team_name": "The Barkley Brawlers ",
+    "avg_opponent_diff": -1.108,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg"
+  },
+  {
+    "manager_id": 6,
+    "team_name": "Jonathan Taylor Fan Club",
+    "avg_opponent_diff": -18.612,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg"
+  },
+  {
+    "manager_id": 7,
+    "team_name": "Costco Guys",
+    "avg_opponent_diff": -5.192,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg"
+  },
+  {
+    "manager_id": 8,
+    "team_name": "BBCU",
+    "avg_opponent_diff": -8.732,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "image_or_text": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb"
+  },
+  {
+    "manager_id": 9,
+    "team_name": "Bye Week Curious",
+    "avg_opponent_diff": 20.144,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg"
+  },
+  {
+    "manager_id": 10,
+    "team_name": "Lord of the Littles",
+    "avg_opponent_diff": -7.334,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "image_or_text": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de"
+  },
+  {
+    "manager_id": 11,
+    "team_name": "Super Ja'Marrio Bros.",
+    "avg_opponent_diff": -2.552,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "image_or_text": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628"
+  },
+  {
+    "manager_id": 12,
+    "team_name": "First Down Syndrome",
+    "avg_opponent_diff": -4.888,
+    "games_played": 10,
+    "avatar_upload": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg"
+  }
+]

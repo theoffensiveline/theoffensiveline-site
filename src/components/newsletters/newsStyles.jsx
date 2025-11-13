@@ -93,6 +93,10 @@ export const LeagueQuote = styled.div`
     text-align: center;
 `
 
+export const BigLetter = styled.span`
+font-size: 48px;
+`;
+
 export const ImageWrapper = styled.div`
     max-width: 100%;
 `;

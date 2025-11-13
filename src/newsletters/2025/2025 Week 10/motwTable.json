@@ -1,0 +1,112 @@
+[
+  {
+    "Week": 1,
+    "Winner Team": "Jonathan Taylor Fan Club",
+    "Winner Score": 114.08,
+    "Loser Score": 91.76,
+    "Loser Team": "Uncle Rico Went Pro",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#f4c7c4",
+    "LoserScoreColor": "#da7878",
+    "ShotsDogsColor": "#94ba9b"
+  },
+  {
+    "Week": 2,
+    "Winner Team": "Jonathan Taylor Fan Club",
+    "Winner Score": 131,
+    "Loser Score": 95.92,
+    "Loser Team": "Marshawn Kneeland’s Ghost",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#f3f7f3",
+    "LoserScoreColor": "#e38f8d",
+    "ShotsDogsColor": "#fdf4f3"
+  },
+  {
+    "Week": 3,
+    "Winner Team": "Jonathan Taylor Fan Club",
+    "Winner Score": 129.62,
+    "Loser Score": 113.64,
+    "Loser Team": "WalterPickens",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#fdf4f3",
+    "LoserScoreColor": "#f4c7c4",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 4,
+    "Winner Team": "Jonathan Taylor Fan Club",
+    "Winner Score": 153.58,
+    "Loser Score": 123.22,
+    "Loser Team": "BBCU",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#abc9b1",
+    "LoserScoreColor": "#f9dddc",
+    "ShotsDogsColor": "#227740"
+  },
+  {
+    "Week": 5,
+    "Winner Team": "Costco Guys",
+    "Winner Score": 138.26,
+    "Loser Score": 98.02,
+    "Loser Team": "Jonathan Taylor Fan Club",
+    "# of Shots/Dogs": 4,
+    "WinnerScoreColor": "#dbe8dd",
+    "LoserScoreColor": "#e38f8d",
+    "ShotsDogsColor": "#94ba9b"
+  },
+  {
+    "Week": 6,
+    "Winner Team": "BBCU",
+    "Winner Score": 154.76,
+    "Loser Score": 79.84,
+    "Loser Team": "Costco Guys",
+    "# of Shots/Dogs": 7,
+    "WinnerScoreColor": "#abc9b1",
+    "LoserScoreColor": "#cc545a",
+    "ShotsDogsColor": "#bc293d"
+  },
+  {
+    "Week": 7,
+    "Winner Team": "BBCU",
+    "Winner Score": 154.8,
+    "Loser Score": 104.52,
+    "Loser Team": "Marshawn Kneeland’s Ghost",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#abc9b1",
+    "LoserScoreColor": "#eaa5a3",
+    "ShotsDogsColor": "#fdf4f3"
+  },
+  {
+    "Week": 8,
+    "Winner Team": "The Barkley Brawlers ",
+    "Winner Score": 191.58,
+    "Loser Score": 106.68,
+    "Loser Team": "BBCU",
+    "# of Shots/Dogs": 5,
+    "WinnerScoreColor": "#227740",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#fdf4f3"
+  },
+  {
+    "Week": 9,
+    "Winner Team": "The Barkley Brawlers ",
+    "Winner Score": 93.6,
+    "Loser Score": 85.66,
+    "Loser Team": "Jonathan Taylor Fan Club",
+    "# of Shots/Dogs": 6,
+    "WinnerScoreColor": "#df8482",
+    "LoserScoreColor": "#d66d6e",
+    "ShotsDogsColor": "#e79a98"
+  },
+  {
+    "Week": 10,
+    "Winner Team": "Uncle Rico Went Pro",
+    "Winner Score": 145.38,
+    "Loser Score": 107.3,
+    "Loser Team": "The Barkley Brawlers ",
+    "# of Shots/Dogs": 3,
+    "WinnerScoreColor": "#c3d8c6",
+    "LoserScoreColor": "#eeb0ae",
+    "ShotsDogsColor": "#227740"
+  }
+]

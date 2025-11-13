@@ -121,6 +121,8 @@ export default function NavBar() {
       navigate(`/home/${leagueId}`);
     } else if (page === "Survivor") {
       navigate(`/survivorHome/${leagueId}`);
+    } else if (page === "Hot Dogs") {
+      navigate(`/league/${leagueId}/hot-dogs`);
     } else {
       navigate(`/${page.toLowerCase()}/${leagueId}`);
     }

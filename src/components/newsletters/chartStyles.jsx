@@ -819,3 +819,61 @@ export const SurveyStackedBarChart = ({ surveyData }) => {
     );
 };
 
+export const OpponentComparisonChart = ({ opponentData }) => {
+    const theme = useTheme();
+
+    // Sort data from high to low avg_opponent_diff
+    const sortedData = [...opponentData].sort((a, b) => b.avg_opponent_diff - a.avg_opponent_diff);
+
+    const getAxisConfig = (label, padding = 30) => ({
+        ...getAxisConfigWithGrid(theme),
+        label,
+        style: {
+            ...getCommonChartStyles(theme).axis,
+            axisLabel: { padding, fill: theme.text }
+        }
+    });
+
+    return (
+        <VictoryChart
+            {...getBaseChartConfig()}
+            horizontal
+            padding={{ top: 25, bottom: 50, left: 40, right: 40 }}
+            domainPadding={{ x: 25, y: 10 }}
+            height={500}
+            domain={{ y: [-25, 25] }}
+        >
+            <VictoryAxis
+                {...getBaseAxisConfig(theme)}
+                tickFormat={() => ""}
+                style={{
+                    axis: { stroke: theme.text }
+                }}
+            />
+            <VictoryAxis
+                dependentAxis
+                {...getAxisConfig("Opponent Performance vs Average")}
+                tickFormat={(t) => t.toFixed(0)}
+            />
+            <VictoryBar
+                barWidth={30}
+                cornerRadius={3}
+                style={{
+                    data: { fill: theme.newsBlue },
+                }}
+                data={sortedData}
+                x="team_name"
+                y="avg_opponent_diff"
+            />
+            <VictoryScatter
+                data={sortedData}
+                x="team_name"
+                y="avg_opponent_diff"
+                size={0}
+                dataComponent={<CustomDataComponent />}
+                labels={({ datum }) => `${datum.avg_opponent_diff.toFixed(1)}`}
+                labelComponent={<VictoryLabel dx={({ datum }) => datum.avg_opponent_diff > 0 ? 25 : -25} dy={0} style={{ fontSize: 12, fill: theme.text }} />}
+            />
+        </VictoryChart>
+    );
+};
