@@ -223,6 +223,110 @@ export const MotwTable = ({ motwHistoryData }) => {
     return <BaseDataTable headers={headers} data={motwHistoryData} renderCell={renderCell} />;
 };
 
+export const DivisionRecordTable = ({ data, standings = [] }) => {
+    const headers = ['Team', 'Hubbell', 'Glizzy', 'Avon'];
+    const divisions = ['Hubbell', 'Glizzy', 'Avon'];
+
+    const standingsOrder = standings.map((entry) => entry.Team).filter(Boolean);
+    const standingsRank = standingsOrder.reduce((acc, teamName, index) => {
+        if (!(teamName in acc)) {
+            acc[teamName] = index;
+        }
+        return acc;
+    }, {});
+
+    const createDivisionTemplate = () => divisions.reduce((acc, team_division) => {
+        acc[team_division] = { wins: 0, losses: 0 };
+        return acc;
+    }, {});
+
+    const teamRecordsMap = (data || []).reduce((acc, entry) => {
+        const { team_name, opponent_division, wins = 0, losses = 0 } = entry;
+        if (!team_name) {
+            return acc;
+        }
+
+        if (!acc[team_name]) {
+            acc[team_name] = {
+                teamName: team_name,
+                totalWins: 0,
+                totalLosses: 0,
+                records: createDivisionTemplate()
+            };
+        }
+
+        const teamRecord = acc[team_name];
+        teamRecord.totalWins += wins;
+        teamRecord.totalLosses += losses;
+
+        if (opponent_division && teamRecord.records[opponent_division]) {
+            teamRecord.records[opponent_division].wins += wins;
+            teamRecord.records[opponent_division].losses += losses;
+        }
+
+        return acc;
+    }, {});
+
+    const formatRecord = (record) => {
+        const wins = record?.wins ?? 0;
+        const losses = record?.losses ?? 0;
+        return `${wins}-${losses}`;
+    };
+
+    const sortedTeams = Object.values(teamRecordsMap).sort((a, b) => {
+        const rankA = standingsRank.hasOwnProperty(a.teamName) ? standingsRank[a.teamName] : Infinity;
+        const rankB = standingsRank.hasOwnProperty(b.teamName) ? standingsRank[b.teamName] : Infinity;
+
+        if (rankA !== rankB) {
+            return rankA - rankB;
+        }
+
+        if (b.totalWins !== a.totalWins) {
+            return b.totalWins - a.totalWins;
+        }
+        if (a.totalLosses !== b.totalLosses) {
+            return a.totalLosses - b.totalLosses;
+        }
+        return a.teamName.localeCompare(b.teamName);
+    });
+
+    const tableData = sortedTeams.map((team) => ({
+        Team: team.teamName,
+        Hubbell: formatRecord(team.records.Hubbell),
+        Glizzy: formatRecord(team.records.Glizzy),
+        Avon: formatRecord(team.records.Avon)
+    }));
+
+    const renderCell = (row, header) => (
+        <td className={header === 'Team' ? 'wrap-cell' : 'center-column'}>
+            {row[header] ?? '-'}
+        </td>
+    );
+
+    return <BaseDataTable headers={headers} data={tableData} renderCell={renderCell} />;
+};
+
+export const DivisionOverallRecordsTable = ({ data }) => {
+    const headers = ['Division', 'Teams', 'Games', 'Wins', 'Losses', 'Win %'];
+
+    const tableData = (data || []).map((row) => ({
+        Division: row.team_division,
+        Teams: row.teams,
+        Games: row.games,
+        Wins: row.wins,
+        Losses: row.losses,
+        'Win %': row.win_pct !== undefined ? `${(row.win_pct * 100).toFixed(1)}%` : '-'
+    }));
+
+    const renderCell = (row, header) => (
+        <td className={header === 'Division' ? 'wrap-cell' : 'center-column'}>
+            {row[header] ?? '-'}
+        </td>
+    );
+
+    return <BaseDataTable headers={headers} data={tableData} renderCell={renderCell} />;
+};
+
 export const PlayoffTable = ({ playoffData }) => {
     const headers = [
         'Rank', 'Team', 'W', 'L', 'Playoff %', 'WP Playoff %',

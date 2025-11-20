@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Scored 160.94 points",
+    "description": "This is the #3 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "Singing Like Mariah Terry",
+    "value": "Scored 72.54 points",
+    "description": "This is the #2 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Scored 89.86 points in their win",
+    "description": "This is the #2 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Scored 122.2 points in their loss",
+    "description": "This is the #9 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Defeated Uncle Rico Went Pro by 55.24 points",
+    "description": "This is the #7 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Defeated Singing Like Mariah Terry by 17.32 points",
+    "description": "This is the #23 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Left 28.8 points on the bench",
+    "description": "This is the #18 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Left 2.4 points on the bench",
+    "description": "This is the #19 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 42.68 points for Hubbell Park Roommate #8 which was 37.61% of the team total",
+    "description": "This is the #1 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7567.jpg",
+    "name": "Kenneth Gainwell",
+    "value": "Scored 29.5 points on the bench for Costco Guys",
+    "description": "This is the #10 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4984.jpg",
+    "name": "Josh Allen",
+    "value": "Scored 42.68 points for Hubbell Park Roommate #8",
+    "description": "This is the #1 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/4034.jpg",
+    "name": "Christian McCaffrey (BAT)",
+    "value": "Scored 35.1 points for WalterPickens",
+    "description": "This is the #8 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/12526.jpg",
+    "name": "Tetairoa McMillan",
+    "value": "Scored 33 points for Jonathan Taylor Fan Club",
+    "description": "This is the #9 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/8130.jpg",
+    "name": "Trey McBride (Jesse Pinkman)",
+    "value": "Scored 27.5 points for BBCU",
+    "description": "This is the #4 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/2747.jpg",
+    "name": "Jason Myers (Steve Gomez)",
+    "value": "Scored 14.7 points for BBCU",
+    "description": "This is the #13 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/pit.png",
+    "name": "PIT",
+    "value": "Scored 21 points for First Down Syndrome",
+    "description": "This is the #3 DEF performance of the season"
+  }
+]

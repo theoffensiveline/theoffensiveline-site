@@ -598,7 +598,7 @@ const newsletterData = {
     newsDate: newsDate,
     articles: articles,
     meta: {
-        title: "2025 Week 9",
+        title: "2025 Week 10",
         description: "Testing this feature out to see if it works",
         image: "/banner_logo.png"
     }

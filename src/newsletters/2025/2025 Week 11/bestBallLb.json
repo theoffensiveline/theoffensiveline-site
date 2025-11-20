@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Jonathan Taylor Fan Club",
+    "W": 9,
+    "L": 2,
+    "PF": 1521.52,
+    "PA": 1325.16,
+    "PFColor": "#88b290",
+    "PAColor": "#3f8653"
+  },
+  {
+    "Rank": 2,
+    "Diff": 1,
+    "Team": "WalterPickens",
+    "W": 8,
+    "L": 3,
+    "PF": 1613.84,
+    "PA": 1419.34,
+    "PFColor": "#227740",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 3,
+    "Diff": 5,
+    "Team": "Uncle Rico Went Pro",
+    "W": 8,
+    "L": 3,
+    "PF": 1483.52,
+    "PA": 1424.54,
+    "PFColor": "#abc9b1",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 4,
+    "Diff": -2,
+    "Team": "BBCU",
+    "W": 7,
+    "L": 4,
+    "PF": 1586.88,
+    "PA": 1519.3,
+    "PFColor": "#3f8653",
+    "PAColor": "#da7878"
+  },
+  {
+    "Rank": 5,
+    "Diff": 0,
+    "Team": "The Barkley Brawlers ",
+    "W": 7,
+    "L": 4,
+    "PF": 1469.02,
+    "PA": 1308.86,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 6,
+    "Diff": -2,
+    "Team": "Lord of the Littles",
+    "W": 6,
+    "L": 5,
+    "PF": 1472.22,
+    "PA": 1415.3,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#cfe0d2"
+  },
+  {
+    "Rank": 7,
+    "Diff": -1,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 6,
+    "L": 5,
+    "PF": 1444.76,
+    "PA": 1463.86,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 8,
+    "Diff": 1,
+    "Team": "Costco Guys",
+    "W": 5,
+    "L": 6,
+    "PF": 1329.12,
+    "PA": 1439.22,
+    "PFColor": "#eeb0ae",
+    "PAColor": "#fdf4f3"
+  },
+  {
+    "Rank": 9,
+    "Diff": 1,
+    "Team": "Singing Like Mariah Terry",
+    "W": 4,
+    "L": 7,
+    "PF": 1326.04,
+    "PA": 1456.48,
+    "PFColor": "#eeb0ae",
+    "PAColor": "#f9dddc"
+  },
+  {
+    "Rank": 10,
+    "Diff": -3,
+    "Team": "First Down Syndrome",
+    "W": 3,
+    "L": 8,
+    "PF": 1389.3,
+    "PA": 1493.08,
+    "PFColor": "#fbe8e7",
+    "PAColor": "#eaa5a3"
+  },
+  {
+    "Rank": 11,
+    "Diff": 0,
+    "Team": "Hubbell Park Roommate #8",
+    "W": 2,
+    "L": 9,
+    "PF": 1494.36,
+    "PA": 1565.9,
+    "PFColor": "#9fc2a6",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 1,
+    "L": 10,
+    "PF": 1195.14,
+    "PA": 1494.68,
+    "PFColor": "#bc293d",
+    "PAColor": "#eaa5a3"
+  }
+]

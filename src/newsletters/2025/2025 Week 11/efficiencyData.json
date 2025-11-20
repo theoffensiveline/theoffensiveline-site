@@ -1,0 +1,86 @@
+[
+  {
+    "week": 11,
+    "team_name": "WalterPickens",
+    "actual_points": 160.94,
+    "max_points": 163.32,
+    "percentage": 98.5427
+  },
+  {
+    "week": 11,
+    "team_name": "BBCU",
+    "actual_points": 147.34,
+    "max_points": 157.36,
+    "percentage": 93.6324
+  },
+  {
+    "week": 11,
+    "team_name": "Jonathan Taylor Fan Club",
+    "actual_points": 127.84,
+    "max_points": 140.4,
+    "percentage": 91.0541
+  },
+  {
+    "week": 11,
+    "team_name": "Lord of the Littles",
+    "actual_points": 124.02,
+    "max_points": 132.62,
+    "percentage": 93.5153
+  },
+  {
+    "week": 11,
+    "team_name": "First Down Syndrome",
+    "actual_points": 122.2,
+    "max_points": 138.5,
+    "percentage": 88.231
+  },
+  {
+    "week": 11,
+    "team_name": "Hubbell Park Roommate #8",
+    "actual_points": 113.48,
+    "max_points": 137.08,
+    "percentage": 82.7838
+  },
+  {
+    "week": 11,
+    "team_name": "Uncle Rico Went Pro",
+    "actual_points": 105.7,
+    "max_points": 122.4,
+    "percentage": 86.3562
+  },
+  {
+    "week": 11,
+    "team_name": "Super Ja'Marrio Bros.",
+    "actual_points": 90.82,
+    "max_points": 104.14,
+    "percentage": 87.2095
+  },
+  {
+    "week": 11,
+    "team_name": "The Barkley Brawlers ",
+    "actual_points": 89.86,
+    "max_points": 107.3,
+    "percentage": 83.7465
+  },
+  {
+    "week": 11,
+    "team_name": "Costco Guys",
+    "actual_points": 80.82,
+    "max_points": 109.62,
+    "percentage": 73.7274
+  },
+  {
+    "week": 11,
+    "team_name": "Bye Week Curious",
+    "actual_points": 76.62,
+    "max_points": 89.32,
+    "percentage": 85.7815
+  },
+  {
+    "week": 11,
+    "team_name": "Singing Like Mariah Terry",
+    "actual_points": 72.54,
+    "max_points": 81.84,
+    "percentage": 88.6364
+  }
+]

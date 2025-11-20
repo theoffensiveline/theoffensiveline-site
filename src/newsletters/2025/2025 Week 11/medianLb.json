@@ -1,0 +1,134 @@
+[
+  {
+    "Rank": 1,
+    "Diff": 0,
+    "Team": "Jonathan Taylor Fan Club",
+    "W": 18,
+    "L": 4,
+    "PF": 1384.82,
+    "PA": 1147.48,
+    "PFColor": "#7cab86",
+    "PAColor": "#227740"
+  },
+  {
+    "Rank": 2,
+    "Diff": 0,
+    "Team": "BBCU",
+    "W": 16,
+    "L": 6,
+    "PF": 1465.4,
+    "PA": 1352.94,
+    "PFColor": "#227740",
+    "PAColor": "#eaa5a3"
+  },
+  {
+    "Rank": 3,
+    "Diff": 1,
+    "Team": "Lord of the Littles",
+    "W": 14,
+    "L": 8,
+    "PF": 1320.66,
+    "PA": 1204.12,
+    "PFColor": "#b7d1bb",
+    "PAColor": "#7cab86"
+  },
+  {
+    "Rank": 4,
+    "Diff": -1,
+    "Team": "WalterPickens",
+    "W": 13,
+    "L": 9,
+    "PF": 1370.5,
+    "PA": 1267.5,
+    "PFColor": "#88b290",
+    "PAColor": "#dbe8dd"
+  },
+  {
+    "Rank": 5,
+    "Diff": 2,
+    "Team": "First Down Syndrome",
+    "W": 12,
+    "L": 10,
+    "PF": 1300.02,
+    "PA": 1276.28,
+    "PFColor": "#cfe0d2",
+    "PAColor": "#e7efe8"
+  },
+  {
+    "Rank": 6,
+    "Diff": 0,
+    "Team": "Super Ja'Marrio Bros.",
+    "W": 11,
+    "L": 11,
+    "PF": 1329.8,
+    "PA": 1326.94,
+    "PFColor": "#abc9b1",
+    "PAColor": "#f4c7c4"
+  },
+  {
+    "Rank": 7,
+    "Diff": 1,
+    "Team": "Uncle Rico Went Pro",
+    "W": 11,
+    "L": 11,
+    "PF": 1276.82,
+    "PA": 1317.16,
+    "PFColor": "#e7efe8",
+    "PAColor": "#f7d2d0"
+  },
+  {
+    "Rank": 8,
+    "Diff": -3,
+    "Team": "The Barkley Brawlers ",
+    "W": 9,
+    "L": 13,
+    "PF": 1210.96,
+    "PA": 1182.56,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#589567"
+  },
+  {
+    "Rank": 9,
+    "Diff": 0,
+    "Team": "Costco Guys",
+    "W": 9,
+    "L": 13,
+    "PF": 1210.58,
+    "PA": 1201.86,
+    "PFColor": "#f7d2d0",
+    "PAColor": "#7cab86"
+  },
+  {
+    "Rank": 10,
+    "Diff": 1,
+    "Team": "Hubbell Park Roommate #8",
+    "W": 7,
+    "L": 15,
+    "PF": 1228.76,
+    "PA": 1430.36,
+    "PFColor": "#f9dddc",
+    "PAColor": "#bc293d"
+  },
+  {
+    "Rank": 11,
+    "Diff": -1,
+    "Team": "Singing Like Mariah Terry",
+    "W": 6,
+    "L": 16,
+    "PF": 1156.14,
+    "PA": 1294.6,
+    "PFColor": "#e79a98",
+    "PAColor": "#fdf4f3"
+  },
+  {
+    "Rank": 12,
+    "Diff": 0,
+    "Team": "Bye Week Curious",
+    "W": 6,
+    "L": 16,
+    "PF": 1047.62,
+    "PA": 1300.28,
+    "PFColor": "#bc293d",
+    "PAColor": "#fbe8e7"
+  }
+]

@@ -1,12 +1,21 @@
 [
   {
     "year": 2025,
+    "week": 11,
+    "winner": "Trevor",
+    "loser": "Josh K",
+    "count": 5,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2025,
     "week": 10,
     "winner": "Josh K",
     "loser": "Jake",
     "count": 3,
     "type": "shots",
-    "link": ""
+    "link": "https://drive.google.com/file/d/1IRmC3xEhacrm1_cepi749pugKGIlE0Md/view?usp=drive_link"
   },
   {
     "year": 2025,
@@ -15,7 +24,7 @@
     "loser": "Nikhil",
     "count": 6,
     "type": "shots",
-    "link": ""
+    "link": "https://drive.google.com/file/d/1mb16PAbJIUQZYHOvMutAlsTgAQt_UmjC/view?usp=drive_link"
   },
   {
     "year": 2025,
@@ -23,8 +32,8 @@
     "winner": "Jake",
     "loser": "Anthony",
     "count": 5,
-    "type": "hotdogs",
-    "link": ""
+    "type": "shots",
+    "link": "https://drive.google.com/file/d/1INvxskjloa8TILePbmmqA2kk0JIr8GGs/view?usp=drive_link"
   },
   {
     "year": 2025,

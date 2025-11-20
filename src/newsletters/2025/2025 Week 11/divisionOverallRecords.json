@@ -1,0 +1,26 @@
+[
+  {
+    "team_division": "Hubbell",
+    "teams": 4,
+    "games": 30,
+    "wins": 17,
+    "losses": 13,
+    "win_pct": 0.5667
+  },
+  {
+    "team_division": "Avon",
+    "teams": 4,
+    "games": 32,
+    "wins": 16,
+    "losses": 16,
+    "win_pct": 0.5
+  },
+  {
+    "team_division": "Glizzy",
+    "teams": 4,
+    "games": 32,
+    "wins": 14,
+    "losses": 18,
+    "win_pct": 0.4375
+  }
+]

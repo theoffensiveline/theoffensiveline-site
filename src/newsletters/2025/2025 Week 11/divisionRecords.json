@@ -1,0 +1,326 @@
+[
+  {
+    "manager_id": 1,
+    "team_name": "Singing Like Mariah Terry",
+    "team_division": "Avon",
+    "opponent_division": "Avon",
+    "games": 3,
+    "wins": 1,
+    "losses": 2
+  },
+  {
+    "manager_id": 1,
+    "team_name": "Singing Like Mariah Terry",
+    "team_division": "Avon",
+    "opponent_division": "Glizzy",
+    "games": 4,
+    "wins": 1,
+    "losses": 3
+  },
+  {
+    "manager_id": 1,
+    "team_name": "Singing Like Mariah Terry",
+    "team_division": "Avon",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 2,
+    "losses": 2
+  },
+  {
+    "manager_id": 2,
+    "team_name": "WalterPickens",
+    "team_division": "Hubbell",
+    "opponent_division": "Avon",
+    "games": 3,
+    "wins": 2,
+    "losses": 1
+  },
+  {
+    "manager_id": 2,
+    "team_name": "WalterPickens",
+    "team_division": "Hubbell",
+    "opponent_division": "Glizzy",
+    "games": 4,
+    "wins": 2,
+    "losses": 2
+  },
+  {
+    "manager_id": 2,
+    "team_name": "WalterPickens",
+    "team_division": "Hubbell",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 3,
+    "losses": 1
+  },
+  {
+    "manager_id": 3,
+    "team_name": "Hubbell Park Roommate #8",
+    "team_division": "Glizzy",
+    "opponent_division": "Avon",
+    "games": 4,
+    "wins": 1,
+    "losses": 3
+  },
+  {
+    "manager_id": 3,
+    "team_name": "Hubbell Park Roommate #8",
+    "team_division": "Glizzy",
+    "opponent_division": "Glizzy",
+    "games": 3,
+    "wins": 0,
+    "losses": 3
+  },
+  {
+    "manager_id": 3,
+    "team_name": "Hubbell Park Roommate #8",
+    "team_division": "Glizzy",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 2,
+    "losses": 2
+  },
+  {
+    "manager_id": 4,
+    "team_name": "Uncle Rico Went Pro",
+    "team_division": "Hubbell",
+    "opponent_division": "Avon",
+    "games": 4,
+    "wins": 2,
+    "losses": 2
+  },
+  {
+    "manager_id": 4,
+    "team_name": "Uncle Rico Went Pro",
+    "team_division": "Hubbell",
+    "opponent_division": "Glizzy",
+    "games": 3,
+    "wins": 0,
+    "losses": 3
+  },
+  {
+    "manager_id": 4,
+    "team_name": "Uncle Rico Went Pro",
+    "team_division": "Hubbell",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 3,
+    "losses": 1
+  },
+  {
+    "manager_id": 5,
+    "team_name": "The Barkley Brawlers ",
+    "team_division": "Avon",
+    "opponent_division": "Avon",
+    "games": 3,
+    "wins": 1,
+    "losses": 2
+  },
+  {
+    "manager_id": 5,
+    "team_name": "The Barkley Brawlers ",
+    "team_division": "Avon",
+    "opponent_division": "Glizzy",
+    "games": 4,
+    "wins": 4,
+    "losses": 0
+  },
+  {
+    "manager_id": 5,
+    "team_name": "The Barkley Brawlers ",
+    "team_division": "Avon",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 1,
+    "losses": 3
+  },
+  {
+    "manager_id": 6,
+    "team_name": "Jonathan Taylor Fan Club",
+    "team_division": "Glizzy",
+    "opponent_division": "Avon",
+    "games": 4,
+    "wins": 3,
+    "losses": 1
+  },
+  {
+    "manager_id": 6,
+    "team_name": "Jonathan Taylor Fan Club",
+    "team_division": "Glizzy",
+    "opponent_division": "Glizzy",
+    "games": 3,
+    "wins": 2,
+    "losses": 1
+  },
+  {
+    "manager_id": 6,
+    "team_name": "Jonathan Taylor Fan Club",
+    "team_division": "Glizzy",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 4,
+    "losses": 0
+  },
+  {
+    "manager_id": 7,
+    "team_name": "Costco Guys",
+    "team_division": "Glizzy",
+    "opponent_division": "Avon",
+    "games": 5,
+    "wins": 1,
+    "losses": 4
+  },
+  {
+    "manager_id": 7,
+    "team_name": "Costco Guys",
+    "team_division": "Glizzy",
+    "opponent_division": "Glizzy",
+    "games": 3,
+    "wins": 3,
+    "losses": 0
+  },
+  {
+    "manager_id": 7,
+    "team_name": "Costco Guys",
+    "team_division": "Glizzy",
+    "opponent_division": "Hubbell",
+    "games": 3,
+    "wins": 1,
+    "losses": 2
+  },
+  {
+    "manager_id": 8,
+    "team_name": "BBCU",
+    "team_division": "Hubbell",
+    "opponent_division": "Avon",
+    "games": 4,
+    "wins": 3,
+    "losses": 1
+  },
+  {
+    "manager_id": 8,
+    "team_name": "BBCU",
+    "team_division": "Hubbell",
+    "opponent_division": "Glizzy",
+    "games": 4,
+    "wins": 3,
+    "losses": 1
+  },
+  {
+    "manager_id": 8,
+    "team_name": "BBCU",
+    "team_division": "Hubbell",
+    "opponent_division": "Hubbell",
+    "games": 3,
+    "wins": 1,
+    "losses": 2
+  },
+  {
+    "manager_id": 9,
+    "team_name": "Bye Week Curious",
+    "team_division": "Glizzy",
+    "opponent_division": "Avon",
+    "games": 4,
+    "wins": 0,
+    "losses": 4
+  },
+  {
+    "manager_id": 9,
+    "team_name": "Bye Week Curious",
+    "team_division": "Glizzy",
+    "opponent_division": "Glizzy",
+    "games": 3,
+    "wins": 1,
+    "losses": 2
+  },
+  {
+    "manager_id": 9,
+    "team_name": "Bye Week Curious",
+    "team_division": "Glizzy",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 2,
+    "losses": 2
+  },
+  {
+    "manager_id": 10,
+    "team_name": "Lord of the Littles",
+    "team_division": "Avon",
+    "opponent_division": "Avon",
+    "games": 3,
+    "wins": 2,
+    "losses": 1
+  },
+  {
+    "manager_id": 10,
+    "team_name": "Lord of the Littles",
+    "team_division": "Avon",
+    "opponent_division": "Glizzy",
+    "games": 5,
+    "wins": 4,
+    "losses": 1
+  },
+  {
+    "manager_id": 10,
+    "team_name": "Lord of the Littles",
+    "team_division": "Avon",
+    "opponent_division": "Hubbell",
+    "games": 3,
+    "wins": 1,
+    "losses": 2
+  },
+  {
+    "manager_id": 11,
+    "team_name": "Super Ja'Marrio Bros.",
+    "team_division": "Hubbell",
+    "opponent_division": "Avon",
+    "games": 4,
+    "wins": 4,
+    "losses": 0
+  },
+  {
+    "manager_id": 11,
+    "team_name": "Super Ja'Marrio Bros.",
+    "team_division": "Hubbell",
+    "opponent_division": "Glizzy",
+    "games": 4,
+    "wins": 1,
+    "losses": 3
+  },
+  {
+    "manager_id": 11,
+    "team_name": "Super Ja'Marrio Bros.",
+    "team_division": "Hubbell",
+    "opponent_division": "Hubbell",
+    "games": 3,
+    "wins": 0,
+    "losses": 3
+  },
+  {
+    "manager_id": 12,
+    "team_name": "First Down Syndrome",
+    "team_division": "Avon",
+    "opponent_division": "Avon",
+    "games": 3,
+    "wins": 2,
+    "losses": 1
+  },
+  {
+    "manager_id": 12,
+    "team_name": "First Down Syndrome",
+    "team_division": "Avon",
+    "opponent_division": "Glizzy",
+    "games": 4,
+    "wins": 3,
+    "losses": 1
+  },
+  {
+    "manager_id": 12,
+    "team_name": "First Down Syndrome",
+    "team_division": "Avon",
+    "opponent_division": "Hubbell",
+    "games": 4,
+    "wins": 0,
+    "losses": 4
+  }
+]
