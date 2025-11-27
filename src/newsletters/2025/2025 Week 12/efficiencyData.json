@@ -1,0 +1,86 @@
+[
+  {
+    "week": 12,
+    "team_name": "Uncle Rico Went Pro",
+    "actual_points": 155.52,
+    "max_points": 159.12,
+    "percentage": 97.7376
+  },
+  {
+    "week": 12,
+    "team_name": "BBCU",
+    "actual_points": 154.46,
+    "max_points": 174.66,
+    "percentage": 88.4347
+  },
+  {
+    "week": 12,
+    "team_name": "Costco Guys",
+    "actual_points": 144.62,
+    "max_points": 157.22,
+    "percentage": 91.9858
+  },
+  {
+    "week": 12,
+    "team_name": "WalterPickens",
+    "actual_points": 135.68,
+    "max_points": 148.66,
+    "percentage": 91.2687
+  },
+  {
+    "week": 12,
+    "team_name": "Bye Week Curious",
+    "actual_points": 111.34,
+    "max_points": 117.74,
+    "percentage": 94.5643
+  },
+  {
+    "week": 12,
+    "team_name": "JonathanTaylorFansCrying",
+    "actual_points": 110.66,
+    "max_points": 116.86,
+    "percentage": 94.6945
+  },
+  {
+    "week": 12,
+    "team_name": "The Barkley Brawlers ",
+    "actual_points": 109.32,
+    "max_points": 134.92,
+    "percentage": 81.0258
+  },
+  {
+    "week": 12,
+    "team_name": "36 Spikeball Pro Nets",
+    "actual_points": 106.72,
+    "max_points": 125.82,
+    "percentage": 84.8196
+  },
+  {
+    "week": 12,
+    "team_name": "First Down Syndrome",
+    "actual_points": 105.56,
+    "max_points": 112.66,
+    "percentage": 93.6979
+  },
+  {
+    "week": 12,
+    "team_name": "Lord of the Littles",
+    "actual_points": 89.46,
+    "max_points": 91.26,
+    "percentage": 98.0276
+  },
+  {
+    "week": 12,
+    "team_name": "Singing Like Mariah Terry",
+    "actual_points": 87.98,
+    "max_points": 112.38,
+    "percentage": 78.288
+  },
+  {
+    "week": 12,
+    "team_name": "Super Ja'Marrio Bros.",
+    "actual_points": 83.94,
+    "max_points": 101.34,
+    "percentage": 82.8301
+  }
+]

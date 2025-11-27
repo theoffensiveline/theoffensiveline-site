@@ -545,6 +545,102 @@ export const PfPaScatter = ({ leaderboardData }) => {
     );
 };
 
+export const LineupScatter = ({ data }) => {
+    const theme = useTheme();
+    const minStrength = Math.min(...data.map((d) => d.strength));
+    const maxStrength = Math.max(...data.map((d) => d.strength));
+    const minBalance = Math.min(...data.map((d) => d.balance));
+    const maxBalance = Math.max(...data.map((d) => d.balance));
+
+    // Calculate medians
+    const medianStrength = data.map(d => d.strength).sort((a, b) => a - b)[Math.floor(data.length / 2)];
+    const medianBalance = data.map(d => d.balance).sort((a, b) => a - b)[Math.floor(data.length / 2)];
+
+    const cornerLabels = [
+        { lines: ["Consistent", "and", "Bad"], colors: [theme.newsBlue, theme.text, theme.newsRed], x: minStrength, y: maxBalance, dx: 30, dy: 60 },
+        { lines: ["Consistent", "and", "Good"], colors: [theme.newsBlue, theme.text, theme.newsBlue], x: maxStrength, y: maxBalance, dx: -30, dy: 60 },
+        { lines: ["Boom / Bust", "and", "Bad"], colors: [theme.newsRed, theme.text, theme.newsRed], x: minStrength, y: minBalance, dx: 30, dy: -10 },
+        { lines: ["Boom / Bust", "and", "Good"], colors: [theme.newsRed, theme.text, theme.newsBlue], x: maxStrength, y: minBalance, dx: -30, dy: -10 },
+    ];
+
+    const getAxisConfig = (label, padding = 30) => ({
+        ...getAxisConfigWithGrid(theme),
+        label,
+        style: {
+            ...getCommonChartStyles(theme).axis,
+            axisLabel: { padding, fill: theme.text }
+        }
+    });
+
+    return (
+        <VictoryChart
+            {...getBaseChartConfig()}
+            domainPadding={{ x: 20, y: 20 }}
+            padding={{ top: 10, bottom: 50, left: 70, right: 10 }}
+        >
+            {/* Median lines */}
+            <VictoryLine
+                data={[
+                    { x: medianStrength, y: minBalance },
+                    { x: medianStrength, y: maxBalance }
+                ]}
+                style={{
+                    data: {
+                        stroke: theme.text,
+                        strokeWidth: 1.5,
+                        strokeDasharray: "4,4",
+                        opacity: 0.5
+                    }
+                }}
+            />
+            <VictoryLine
+                data={[
+                    { x: minStrength, y: medianBalance },
+                    { x: maxStrength, y: medianBalance }
+                ]}
+                style={{
+                    data: {
+                        stroke: theme.text,
+                        strokeWidth: 1.5,
+                        strokeDasharray: "4,4",
+                        opacity: 0.5
+                    }
+                }}
+            />
+
+            <VictoryScatter
+                data={data}
+                x="strength"
+                y="balance"
+                dataComponent={<CustomDataComponent />}
+            />
+            <VictoryAxis {...getAxisConfig("Starter PPG")} />
+            <VictoryAxis dependentAxis {...getAxisConfig("Balance", 50)} />
+            <VictoryScatter
+                data={cornerLabels}
+                x="x"
+                y="y"
+                size={0}
+                labels={({ datum }) => datum.lines}
+                style={{
+                    data: { fill: theme.background }
+                }}
+                labelComponent={
+                    <VictoryLabel
+                        dx={({ datum }) => datum.dx}
+                        dy={({ datum }) => datum.dy}
+                        style={[
+                            { fill: ({ datum }) => datum.colors[0] },
+                            { fill: ({ datum }) => datum.colors[1] },
+                            { fill: ({ datum }) => datum.colors[2] },
+                        ]}
+                    />
+                }
+            />
+        </VictoryChart>
+    );
+};
+
 export const TradesLineChart = ({ tradeHistory }) => {
     const theme = useTheme();
 

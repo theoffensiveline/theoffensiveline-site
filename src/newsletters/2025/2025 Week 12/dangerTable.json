@@ -1,0 +1,54 @@
+[
+  {
+    "Team": "BBCU",
+    "NPG": 13,
+    "RPA": 2,
+    "DM": 75,
+    "BBCU Win DM": 50,
+    "Uncle Rico Went Pro Win DM": 0,
+    "NPG_color": "#bc293d",
+    "RPA_color": "#bc293d",
+    "DM_color": "#bc293d",
+    "BBCU Win DM_color": "#bc293d",
+    "Uncle Rico Went Pro Win DM_color": "#227740"
+  },
+  {
+    "Team": "Uncle Rico Went Pro",
+    "NPG": 13,
+    "RPA": 2,
+    "DM": 75,
+    "BBCU Win DM": 0,
+    "Uncle Rico Went Pro Win DM": 50,
+    "NPG_color": "#bc293d",
+    "RPA_color": "#bc293d",
+    "DM_color": "#bc293d",
+    "BBCU Win DM_color": "#227740",
+    "Uncle Rico Went Pro Win DM_color": "#bc293d"
+  },
+  {
+    "Team": "Super Ja'Marrio Bros.",
+    "NPG": 14,
+    "RPA": 1,
+    "DM": 25,
+    "BBCU Win DM": 50,
+    "Uncle Rico Went Pro Win DM": 0,
+    "NPG_color": "#227740",
+    "RPA_color": "#227740",
+    "DM_color": "#227740",
+    "BBCU Win DM_color": "#bc293d",
+    "Uncle Rico Went Pro Win DM_color": "#227740"
+  },
+  {
+    "Team": "WalterPickens",
+    "NPG": 14,
+    "RPA": 1,
+    "DM": 25,
+    "BBCU Win DM": 0,
+    "Uncle Rico Went Pro Win DM": 50,
+    "NPG_color": "#227740",
+    "RPA_color": "#227740",
+    "DM_color": "#227740",
+    "BBCU Win DM_color": "#227740",
+    "Uncle Rico Went Pro Win DM_color": "#bc293d"
+  }
+]
