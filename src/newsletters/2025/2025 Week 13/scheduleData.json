@@ -1,0 +1,248 @@
+{
+  "best_records": [
+    {
+      "team1": "36 Spikeball Pro Nets",
+      "team2_list": ["Lord of the Littles", "The Barkley Brawlers "],
+      "wins": 7,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "BBCU",
+      "team2_list": ["Costco Guys", "Lord of the Littles"],
+      "wins": 12,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["The Barkley Brawlers "],
+      "wins": 6,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "team2_list": ["JonathanTaylorFansCrying"],
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["JonathanTaylorFansCrying", "The Barkley Brawlers "],
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "JonathanTaylorFansCrying",
+      "team2_list": ["JonathanTaylorFansCrying", "Lord of the Littles", "The Barkley Brawlers ", "Uncle Rico Went Pro"],
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["JonathanTaylorFansCrying"],
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "team2_list": ["JonathanTaylorFansCrying"],
+      "wins": 7,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["JonathanTaylorFansCrying", "Singing Like Mariah Terry", "The Barkley Brawlers "],
+      "wins": 9,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["The Barkley Brawlers "],
+      "wins": 8,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Uncle Rico Went Pro",
+      "team2_list": ["The Barkley Brawlers "],
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["Uncle Rico Went Pro"],
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    }
+  ],
+  "worst_records": [
+    {
+      "team1": "36 Spikeball Pro Nets",
+      "team2_list": ["BBCU"],
+      "wins": 3,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "BBCU",
+      "team2_list": ["36 Spikeball Pro Nets", "BBCU", "Super Ja'Marrio Bros.", "Uncle Rico Went Pro"],
+      "wins": 8,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "team2_list": ["BBCU", "WalterPickens"],
+      "wins": 1,
+      "losses": 12,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "team2_list": ["36 Spikeball Pro Nets"],
+      "wins": 3,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "team2_list": ["36 Spikeball Pro Nets"],
+      "wins": 4,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "team1": "JonathanTaylorFansCrying",
+      "team2_list": ["36 Spikeball Pro Nets"],
+      "wins": 7,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "team2_list": ["Bye Week Curious"],
+      "wins": 4,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "team2_list": ["36 Spikeball Pro Nets", "Super Ja'Marrio Bros."],
+      "wins": 2,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "team2_list": ["36 Spikeball Pro Nets", "BBCU", "Super Ja'Marrio Bros.", "WalterPickens"],
+      "wins": 5,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "team2_list": ["Super Ja'Marrio Bros."],
+      "wins": 2,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "team1": "Uncle Rico Went Pro",
+      "team2_list": ["36 Spikeball Pro Nets", "Super Ja'Marrio Bros."],
+      "wins": 6,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "team2_list": ["36 Spikeball Pro Nets", "Singing Like Mariah Terry"],
+      "wins": 6,
+      "losses": 7,
+      "ties": 0
+    }
+  ],
+  "current_records": [
+    {
+      "team1": "36 Spikeball Pro Nets",
+      "wins": 4,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "team1": "BBCU",
+      "wins": 8,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Bye Week Curious",
+      "wins": 4,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "team1": "Costco Guys",
+      "wins": 6,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "First Down Syndrome",
+      "wins": 6,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "team1": "JonathanTaylorFansCrying",
+      "wins": 10,
+      "losses": 3,
+      "ties": 0
+    },
+    {
+      "team1": "Lord of the Littles",
+      "wins": 7,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "Singing Like Mariah Terry",
+      "wins": 5,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "Super Ja'Marrio Bros.",
+      "wins": 5,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "team1": "The Barkley Brawlers ",
+      "wins": 8,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "team1": "Uncle Rico Went Pro",
+      "wins": 7,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "team1": "WalterPickens",
+      "wins": 8,
+      "losses": 5,
+      "ties": 0
+    }
+  ]
+}

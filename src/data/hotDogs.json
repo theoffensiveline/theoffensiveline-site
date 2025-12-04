@@ -1,12 +1,21 @@
 [
   {
     "year": 2025,
+    "week": 13,
+    "winner": "Josh K",
+    "loser": "Anthony",
+    "count": 4,
+    "type": "shots",
+    "link": ""
+  },
+  {
+    "year": 2025,
     "week": 12,
     "winner": "Anthony",
     "loser": "Trevor",
     "count": 2,
     "type": "shots",
-    "link": ""
+    "link": "https://youtube.com/shorts/UFpSO2zzhdc?feature=share"
   },
   {
     "year": 2025,
@@ -77,7 +86,7 @@
     "winner": "Nikhil",
     "loser": "Anthony",
     "count": 3,
-    "type": "shots",
+    "type": "hotdogs",
     "link": "https://youtu.be/rRORTALtGM4"
   },
   {

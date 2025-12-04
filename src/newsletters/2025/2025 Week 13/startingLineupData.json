@@ -1,0 +1,110 @@
+[
+  {
+    "manager_id": 1,
+    "team_name": "Singing Like Mariah Terry",
+    "strength": 11.6168,
+    "cv": 65.1696,
+    "balance": 1.5113,
+    "avatar_upload": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "image_or_text": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc"
+  },
+  {
+    "manager_id": 2,
+    "team_name": "WalterPickens",
+    "strength": 13.9309,
+    "cv": 66.6998,
+    "balance": 1.4771,
+    "avatar_upload": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg"
+  },
+  {
+    "manager_id": 3,
+    "team_name": "36 Spikeball Pro Nets",
+    "strength": 12.253,
+    "cv": 63.5974,
+    "balance": 1.548,
+    "avatar_upload": "https://sleepercdn.com/uploads/4f67b8b6e80772715598c3cee36b2c13.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/4f67b8b6e80772715598c3cee36b2c13.jpg"
+  },
+  {
+    "manager_id": 4,
+    "team_name": "Uncle Rico Went Pro",
+    "strength": 13.312,
+    "cv": 59.8354,
+    "balance": 1.6438,
+    "avatar_upload": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg"
+  },
+  {
+    "manager_id": 5,
+    "team_name": "The Barkley Brawlers ",
+    "strength": 12.1822,
+    "cv": 57.3626,
+    "balance": 1.7134,
+    "avatar_upload": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg"
+  },
+  {
+    "manager_id": 6,
+    "team_name": "JonathanTaylorFansCrying",
+    "strength": 13.9407,
+    "cv": 62.9002,
+    "balance": 1.5649,
+    "avatar_upload": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg"
+  },
+  {
+    "manager_id": 7,
+    "team_name": "Costco Guys",
+    "strength": 12.0362,
+    "cv": 73.8385,
+    "balance": 1.3362,
+    "avatar_upload": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg"
+  },
+  {
+    "manager_id": 8,
+    "team_name": "BBCU",
+    "strength": 14.7897,
+    "cv": 54.9217,
+    "balance": 1.7882,
+    "avatar_upload": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "image_or_text": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb"
+  },
+  {
+    "manager_id": 9,
+    "team_name": "Bye Week Curious",
+    "strength": 10.7948,
+    "cv": 71.6329,
+    "balance": 1.3768,
+    "avatar_upload": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg"
+  },
+  {
+    "manager_id": 10,
+    "team_name": "Lord of the Littles",
+    "strength": 12.7908,
+    "cv": 67.9207,
+    "balance": 1.4509,
+    "avatar_upload": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "image_or_text": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de"
+  },
+  {
+    "manager_id": 11,
+    "team_name": "Super Ja'Marrio Bros.",
+    "strength": 12.9701,
+    "cv": 59.5986,
+    "balance": 1.6502,
+    "avatar_upload": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "image_or_text": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628"
+  },
+  {
+    "manager_id": 12,
+    "team_name": "First Down Syndrome",
+    "strength": 12.8768,
+    "cv": 64.4265,
+    "balance": 1.5284,
+    "avatar_upload": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "image_or_text": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg"
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "JonathanTaylorFansCrying",
+    "value": "Scored 135.58 points",
+    "description": "This is the #35 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Scored 53.04 points",
+    "description": "This is the #1 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/4f67b8b6e80772715598c3cee36b2c13.jpg",
+    "name": "36 Spikeball Pro Nets",
+    "value": "Scored 98.12 points in their win",
+    "description": "This is the #5 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Scored 110.54 points in their loss",
+    "description": "This is the #22 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/3e5b05611fe13542a6c270458f97ce8b.jpg",
+    "name": "JonathanTaylorFansCrying",
+    "value": "Defeated Costco Guys by 82.54 points",
+    "description": "This is the #2 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/4f67b8b6e80772715598c3cee36b2c13.jpg",
+    "name": "36 Spikeball Pro Nets",
+    "value": "Defeated Bye Week Curious by 4.88 points",
+    "description": "This is the #7 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/8a3cf6ca888dc2ebc98e9713e38c84fc",
+    "name": "Singing Like Mariah Terry",
+    "value": "Left 35.3 points on the bench",
+    "description": "This is the #11 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Left 1.9 points on the bench",
+    "description": "This is the #16 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/5859.jpg",
+    "name": "A.J. Brown",
+    "value": "Scored 35.2 points for Singing Like Mariah Terry which was 30.6% of the team total",
+    "description": "This is the #8 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/8148.jpg",
+    "name": "Jameson Williams",
+    "value": "Scored 26.9 points on the bench for 36 Spikeball Pro Nets",
+    "description": "This is the #20 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/4046.jpg",
+    "name": "Patrick Mahomes (Kermit)",
+    "value": "Scored 29.44 points for Singing Like Mariah Terry",
+    "description": "This is the #7 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/9509.jpg",
+    "name": "Bijan Robinson (Mike Ehrmantraut)",
+    "value": "Scored 30.3 points for BBCU",
+    "description": "This is the #26 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/5859.jpg",
+    "name": "A.J. Brown",
+    "value": "Scored 35.2 points for Singing Like Mariah Terry",
+    "description": "This is the #8 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/11604.jpg",
+    "name": "Brock Bowers (9.11.24)",
+    "value": "Scored 22.3 points for WalterPickens",
+    "description": "This is the #11 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/2747.jpg",
+    "name": "Jason Myers (Steve Gomez)",
+    "value": "Scored 20.3 points for BBCU",
+    "description": "This is the #3 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/sea.png",
+    "name": "SEA",
+    "value": "Scored 31 points for JonathanTaylorFansCrying",
+    "description": "This is the #2 DEF performance of the season"
+  }
+]
