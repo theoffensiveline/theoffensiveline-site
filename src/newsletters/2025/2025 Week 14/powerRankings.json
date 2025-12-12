@@ -1,0 +1,134 @@
+[
+  {
+    "P Rank": 1,
+    "Trend": 0,
+    "Team": "BBCU",
+    "Play All W": 116,
+    "Play All L": 38,
+    "Team Ability": 75.61,
+    "Str of Sched": 56.89,
+    "TaColor": "#227740",
+    "SosColor": "#eaa5a3"
+  },
+  {
+    "P Rank": 2,
+    "Trend": 0,
+    "Team": "JonathanTaylorFansCrying",
+    "Play All W": 103,
+    "Play All L": 51,
+    "Team Ability": 67.24,
+    "Str of Sched": 37,
+    "TaColor": "#70a37c",
+    "SosColor": "#649c71"
+  },
+  {
+    "P Rank": 3,
+    "Trend": 0,
+    "Team": "WalterPickens",
+    "Play All W": 89,
+    "Play All L": 65,
+    "Team Ability": 58.24,
+    "Str of Sched": 53.74,
+    "TaColor": "#b7d1bb",
+    "SosColor": "#f4c7c4"
+  },
+  {
+    "P Rank": 4,
+    "Trend": 0,
+    "Team": "Uncle Rico Went Pro",
+    "Play All W": 86,
+    "Play All L": 68,
+    "Team Ability": 56.26,
+    "Str of Sched": 46.63,
+    "TaColor": "#cfe0d2",
+    "SosColor": "#cfe0d2"
+  },
+  {
+    "P Rank": 5,
+    "Trend": 2,
+    "Team": "Lord of the Littles",
+    "Play All W": 84,
+    "Play All L": 70,
+    "Team Ability": 55,
+    "Str of Sched": 38.26,
+    "TaColor": "#dbe8dd",
+    "SosColor": "#70a37c"
+  },
+  {
+    "P Rank": 6,
+    "Trend": 0,
+    "Team": "Super Ja'Marrio Bros.",
+    "Play All W": 81,
+    "Play All L": 73,
+    "Team Ability": 53.11,
+    "Str of Sched": 62.74,
+    "TaColor": "#e7efe8",
+    "SosColor": "#d16163"
+  },
+  {
+    "P Rank": 7,
+    "Trend": 3,
+    "Team": "Cockroach",
+    "Play All W": 66,
+    "Play All L": 88,
+    "Team Ability": 43.39,
+    "Str of Sched": 66.61,
+    "TaColor": "#f1bcb9",
+    "SosColor": "#bc293d"
+  },
+  {
+    "P Rank": 8,
+    "Trend": 0,
+    "Team": "Costco Guys",
+    "Play All W": 68,
+    "Play All L": 86,
+    "Team Ability": 44.74,
+    "Str of Sched": 44.74,
+    "TaColor": "#f4c7c4",
+    "SosColor": "#c3d8c6"
+  },
+  {
+    "P Rank": 9,
+    "Trend": 0,
+    "Team": "The Barkley Brawlers ",
+    "Play All W": 64,
+    "Play All L": 90,
+    "Team Ability": 42.13,
+    "Str of Sched": 32.5,
+    "TaColor": "#eeb0ae",
+    "SosColor": "#227740"
+  },
+  {
+    "P Rank": 10,
+    "Trend": -5,
+    "Team": "First Down Syndrome",
+    "Play All W": 73,
+    "Play All L": 81,
+    "Team Ability": 47.89,
+    "Str of Sched": 55,
+    "TaColor": "#f9dddc",
+    "SosColor": "#f1bcb9"
+  },
+  {
+    "P Rank": 11,
+    "Trend": 0,
+    "Team": "Singing Like Mariah Terry",
+    "Play All W": 54,
+    "Play All L": 100,
+    "Team Ability": 35.74,
+    "Str of Sched": 52.39,
+    "TaColor": "#da7878",
+    "SosColor": "#f9dddc"
+  },
+  {
+    "P Rank": 12,
+    "Trend": 0,
+    "Team": "Bye Week Curious",
+    "Play All W": 40,
+    "Play All L": 114,
+    "Team Ability": 26.74,
+    "Str of Sched": 59.5,
+    "TaColor": "#bc293d",
+    "SosColor": "#df8482"
+  }
+]
