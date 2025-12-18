@@ -1,0 +1,135 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Scored 152.08 points",
+    "description": "This is the #10 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/04f27a4dcf3b75e3beb1dc47a9e38d6f.jpg",
+    "name": "WalterPickens",
+    "value": "Scored 99.4 points",
+    "description": "This is the #45 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Uncle Rico Went Pro",
+    "value": "Scored 109.74 points in their win",
+    "description": "This is the #14 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Scored 124.58 points in their loss",
+    "description": "This is the #9 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Defeated Lord of the Littles by 44.02 points",
+    "description": "This is the #18 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Uncle Rico Went Pro",
+    "value": "Defeated WalterPickens by 10.34 points",
+    "description": "This is the #15 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Left 44.1 points on the bench",
+    "description": "This is the #6 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top 1",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Left 5 points on the bench",
+    "description": "This is the #32 optimized lineup this season"
+  },
+  {
+    "award": "Heaviest Top 2",
+    "photo": "https://sleepercdn.com/uploads/8e97327c2904ce15283e72e27977734b.jpg",
+    "name": "First Down Syndrome",
+    "value": "Left 5 points on the bench",
+    "description": "This is the #32 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7553.jpg",
+    "name": "Kyle Pitts",
+    "value": "Scored 45.6 points for 2nd Half Team  which was 30.19% of the team total",
+    "description": "This is the #9 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/7523.jpg",
+    "name": "Trevor Lawrence (Who?)",
+    "value": "Scored 44.3 points on the bench for Super Ja'Marrio Bros.",
+    "description": "This is the #1 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/11563.jpg",
+    "name": "Bo Nix",
+    "value": "Scored 29.08 points for The Barkley Brawlers ",
+    "description": "This is the #10 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/8138.jpg",
+    "name": "James Cook",
+    "value": "Scored 31.1 points for The Barkley Brawlers ",
+    "description": "This is the #24 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/7547.jpg",
+    "name": "Amon-Ra St. Brown",
+    "value": "Scored 41.4 points for First Down Syndrome",
+    "description": "This is the #1 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/7553.jpg",
+    "name": "Kyle Pitts",
+    "value": "Scored 45.6 points for 2nd Half Team ",
+    "description": "This is the #1 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/3451.jpg",
+    "name": "Ka'imi Fairbairn (Mr. 0 Dogs)",
+    "value": "Scored 17.8 points for WalterPickens",
+    "description": "This is the #10 K performance of the season"
+  },
+  {
+    "award": "Biggest D 1",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/den.png",
+    "name": "DEN",
+    "value": "Scored 7 points for Lord of the Littles",
+    "description": "This is the #80 DEF performance of the season"
+  },
+  {
+    "award": "Biggest D 2",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/hou.png",
+    "name": "HOU",
+    "value": "Scored 7 points for Costco Guys",
+    "description": "This is the #80 DEF performance of the season"
+  },
+  {
+    "award": "Biggest D 3",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/pit.png",
+    "name": "PIT",
+    "value": "Scored 7 points for First Down Syndrome",
+    "description": "This is the #80 DEF performance of the season"
+  }
+]

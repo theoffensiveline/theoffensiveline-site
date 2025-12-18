@@ -1,0 +1,58 @@
+[
+  {
+    "week": 15,
+    "team_name": "The Barkley Brawlers ",
+    "actual_points": 152.08,
+    "max_points": 176.28,
+    "percentage": 86.2718
+  },
+  {
+    "week": 15,
+    "team_name": "2nd Half Team ",
+    "actual_points": 151.02,
+    "max_points": 162.82,
+    "percentage": 92.7527
+  },
+  {
+    "week": 15,
+    "team_name": "First Down Syndrome",
+    "actual_points": 138.2,
+    "max_points": 143.22,
+    "percentage": 96.4949
+  },
+  {
+    "week": 15,
+    "team_name": "Super Ja'Marrio Bros.",
+    "actual_points": 124.58,
+    "max_points": 168.7,
+    "percentage": 73.8471
+  },
+  {
+    "week": 15,
+    "team_name": "Costco Guys",
+    "actual_points": 113.5,
+    "max_points": 146.6,
+    "percentage": 77.4216
+  },
+  {
+    "week": 15,
+    "team_name": "Uncle Rico Went Pro",
+    "actual_points": 109.74,
+    "max_points": 133.04,
+    "percentage": 82.4865
+  },
+  {
+    "week": 15,
+    "team_name": "Lord of the Littles",
+    "actual_points": 108.06,
+    "max_points": 113.06,
+    "percentage": 95.5776
+  },
+  {
+    "week": 15,
+    "team_name": "WalterPickens",
+    "actual_points": 99.4,
+    "max_points": 125.36,
+    "percentage": 79.2916
+  }
+]

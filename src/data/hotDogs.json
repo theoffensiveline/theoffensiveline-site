@@ -1,6 +1,15 @@
 [
   {
     "year": 2025,
+    "week": 15,
+    "winner": "Josh K",
+    "loser": "Trevor",
+    "count": 5,
+    "type": "hotdogs",
+    "link": "https://www.youtube.com/watch?v=puHdN9emmlY"
+  },
+  {
+    "year": 2025,
     "week": 14,
     "winner": "Josh K",
     "loser": "Trevor",
