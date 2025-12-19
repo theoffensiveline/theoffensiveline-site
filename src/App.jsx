@@ -22,6 +22,7 @@ import { LeagueOverview } from "./pages/LeagueOverview";
 import RecentActivity from "./pages/RecentActivity";
 import LeagueHistory from "./pages/LeagueHistory";
 import LeagueRosters from "./pages/LeagueRosters";
+import LeagueWeeklyRecap from "./pages/LeagueWeeklyRecap";
 import LeaderboardsHome from "./components/leaderboard/LeaderboardsHome";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
@@ -103,6 +104,7 @@ const AppRoutes = () => {
         <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />
         <Route path="/league/:leagueId/league-history" element={<LeagueHistory />} />
         <Route path="/league/:leagueId/league-rosters" element={<LeagueRosters />} />
+        <Route path="/league/:leagueId/weekly-recap/:week" element={<LeagueWeeklyRecap />} />
         <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
       </Route>
 

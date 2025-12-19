@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { leagueIds } from '../components/constants/LeagueConstants';
 import hotDogsData from '../data/hotDogs.json';
+import { useCompletedWeeks } from '../hooks/useCompletedWeeks';
 
 const GridContainer = styled.div`
     display: grid;
@@ -57,6 +58,10 @@ function Home() {
 
     const mainLeagueId = leagueIds.mainLeague
     const walterPicksLeagueId = leagueIds.walterPicks
+
+    const isMainLeague = leagueId === mainLeagueId;
+
+    const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, !isMainLeague);
 
     // Function to get MotW loser info for a newsletter issue
     const getMotWLoserInfo = (issueName) => {
@@ -179,6 +184,10 @@ function Home() {
         }
     };
 
+    const handleRecapNavigate = (week) => {
+        navigate(`/league/${leagueId}/weekly-recap/${week}`);
+    };
+
     return (
         <div>
             {leagueId === mainLeagueId && (
@@ -193,6 +202,17 @@ function Home() {
                 ))}
                 {/* Add a divider between sections */}
                 <div style={{ gridColumn: 'span 2', height: '1px', backgroundColor: theme.newsBlue, margin: '20px 0' }} />
+                {/* Weekly recap links for non-main leagues */}
+                {!isMainLeague && recapWeekButtons.length > 0 && (
+                    <>
+                        {recapWeekButtons.map((week) => (
+                            <GridItem key={`recap-${week}`} onClick={() => handleRecapNavigate(week)}>
+                                {`Week ${week} Recap`}
+                            </GridItem>
+                        ))}
+                        <div style={{ gridColumn: 'span 2', height: '1px', backgroundColor: theme.newsBlue, margin: '20px 0' }} />
+                    </>
+                )}
                 {/* Newsletter content if available */}
                 {content.mostRecentIssue.length > 0 && content.mostRecentIssue.map((issue) => (
                     <RecentGridItem key={issue} onClick={() => handleNavigate(issue)}>
