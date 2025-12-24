@@ -1,0 +1,114 @@
+[
+  {
+    "award": "Best Managed Team",
+    "photo": "https://sleepercdn.com/uploads/f6acb0a5169c52b59e2272361933c805.jpg",
+    "name": "The Barkley Brawlers ",
+    "value": "Scored 165.98 points",
+    "description": "This is the #3 score this season"
+  },
+  {
+    "award": "Most Mismanaged Team",
+    "photo": "https://sleepercdn.com/uploads/3f2ce411ee3f87936b4648a58e78ee85.jpg",
+    "name": "Bye Week Curious",
+    "value": "Scored 80.3 points",
+    "description": "This is the #11 lowest score this season"
+  },
+  {
+    "award": "Worst Winner",
+    "photo": "https://sleepercdn.com/uploads/8685a33e57e0a038b7c73bcce36c2628",
+    "name": "Super Ja'Marrio Bros.",
+    "value": "Scored 98.5 points in their win",
+    "description": "This is the #6 worst winner this season"
+  },
+  {
+    "award": "Best Loser",
+    "photo": "https://sleepercdn.com/uploads/07e4a08de2c45ee92d7a5498e5234fbb",
+    "name": "BBCU",
+    "value": "Scored 146.4 points in their loss",
+    "description": "This is the #1 best loser this season"
+  },
+  {
+    "award": "Deadest Horse",
+    "photo": "https://sleepercdn.com/uploads/ed33dc321d46f8acd298bf79617d512e.jpg",
+    "name": "Costco Guys",
+    "value": "Defeated Worse Management by 20.36 points",
+    "description": "This is the #51 biggest blowout this season"
+  },
+  {
+    "award": "Photo Finish",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Defeated WalterPickens by 0.34 points",
+    "description": "This is the #2 closest game this season"
+  },
+  {
+    "award": "Warmest Bench",
+    "photo": "https://sleepercdn.com/uploads/cfcdd066a0002c68cceea42d364b13e8.jpg",
+    "name": "Uncle Rico Went Pro",
+    "value": "Left 43.1 points on the bench",
+    "description": "This is the #8 warmest bench this season"
+  },
+  {
+    "award": "Heaviest Top",
+    "photo": "https://sleepercdn.com/uploads/7eebddf8b36135d274cd303c025851de",
+    "name": "Lord of the Littles",
+    "value": "Left 5.5 points on the bench",
+    "description": "This is the #37 optimized lineup this season"
+  },
+  {
+    "award": "MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/9493.jpg",
+    "name": "Puka Nacua",
+    "value": "Scored 46.5 points for Lord of the Littles which was 35.56% of the team total",
+    "description": "This is the #4 MVP performance this season"
+  },
+  {
+    "award": "Bench MVP",
+    "photo": "https://sleepercdn.com/content/nfl/players/8183.jpg",
+    "name": "Brock Purdy",
+    "value": "Scored 30.9 points on the bench for Super Ja'Marrio Bros.",
+    "description": "This is the #8 bench performance this season"
+  },
+  {
+    "award": "Literally Throwing",
+    "photo": "https://sleepercdn.com/content/nfl/players/6797.jpg",
+    "name": "Justin Herbert (Walter White)",
+    "value": "Scored 30.2 points for BBCU",
+    "description": "This is the #8 QB performance of the season"
+  },
+  {
+    "award": "Running Wild",
+    "photo": "https://sleepercdn.com/content/nfl/players/9224.jpg",
+    "name": "Chase Brown (Flacco's WR1)",
+    "value": "Scored 32.9 points for Uncle Rico Went Pro",
+    "description": "This is the #17 RB performance of the season"
+  },
+  {
+    "award": "Widest Receiver",
+    "photo": "https://sleepercdn.com/content/nfl/players/9493.jpg",
+    "name": "Puka Nacua",
+    "value": "Scored 46.5 points for Lord of the Littles",
+    "description": "This is the #1 WR performance of the season"
+  },
+  {
+    "award": "Tightest End",
+    "photo": "https://sleepercdn.com/content/nfl/players/4217.jpg",
+    "name": "George Kittle",
+    "value": "Scored 24.5 points for Uncle Rico Went Pro",
+    "description": "This is the #9 TE performance of the season"
+  },
+  {
+    "award": "Das Boot",
+    "photo": "https://sleepercdn.com/content/nfl/players/3451.jpg",
+    "name": "Ka'imi Fairbairn (Mr. 0 Dogs)",
+    "value": "Scored 17.4 points for WalterPickens",
+    "description": "This is the #11 K performance of the season"
+  },
+  {
+    "award": "Biggest D",
+    "photo": "https://sleepercdn.com/images/team_logos/nfl/no.png",
+    "name": "NO",
+    "value": "Scored 19 points for The Barkley Brawlers ",
+    "description": "This is the #6 DEF performance of the season"
+  }
+]

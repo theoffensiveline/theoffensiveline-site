@@ -8,22 +8,25 @@ import shotsDistData from './shotsDist.json';
 import starterData from './starters.json';
 import { leagueIds } from '../../../components/constants/LeagueConstants';
 
-export const newsDate = '2025-12-18';
+export const newsDate = '2025-12-24';
 
 const AwardsAndRecapArticle = () => {
     return (
         <div>
             <ArticleHeader>Awards and Recap</ArticleHeader>
-            <ArticleSubheader>Week 15</ArticleSubheader>
+            <ArticleSubheader>Week 16</ArticleSubheader>
             <AwardsGridV2 awardsData={awardsData} />
             <p>
-                Just as everyone predicted, Kyle Pitts and Trevor Lawrence were the two players you would want the most in week 15. For many managers of these players, they still didn't get to advance in the playoffs because they were in the toilet bowl, which was true in this league. Kyle Pitts was this weeks MVP with over 30% of 2nd Half Team's points this week. His 45.6 points was obviously TE1 this season, and these points accounted for 7% of Kyle Pitts' career fantasy point total. Trevor Lawrence was our #1 Bench MVP of the season, putting up 44.3 points on the bench for Super Ja'Marrio Bros. this week, contributing to them have the 6th warmest bench of the season.
+                The best game of the year (so far) took place this week in the playoff semifinal matchup between The Barkley Brawlers and BBCU. The Barkley Brawlers scored 165.98 points, the 3rd most of any team this season and they also hold the #1 spot from their 191.58 points in week 8. BBCU scored the most points that any team has scored in a loss this season at 146.40 points. This was BBCU's 5th highest score this season, but none of their previous higher scores would've beaten The Barkley Brawlers this week.
+            </p>
+            <p>
+                Meanwhile in the other playoff semifinal, the MotW trend of shitty games continued with Uncle Rico Went Pro winning their 4th straight MotW with their opponent scoring less than 111 points. This trend will be one to keep an eye on in the championship, since both contenders now have Mickey Mouse schedule allegations from different points in the season. The top 2 seeds that had the bye will be fighting for 3rd, and 2 teams that snuck into the playoffs will be going for glory in the championship.
             </p>
             <ArticleSubheader>Manager Skill Assessment</ArticleSubheader>
             <EfficiencyChart chartData={efficiencyData} />
             <ArticleCaption>Weekly Manager Skill Assessment</ArticleCaption>
             <p>
-                It was a pretty inefficient week all around, with the best manager at 96.5% in the toilet bowl. WalterPickens scored the fewest points this week, but could've managed their way out of that if they started Jacoby Brissett over Joe Burrow, which would've pushed them over the edge in their matchup as well. The Barkley Brawlers scored the most points and had the most potential this week, but their opponent had the lowest potential of any team. Their Mickey Mouse schedule continues into the playoffs.
+                We didn't have any perfect managers yet again this week, with our most efficient manager at 96% against their opponent who was at just 76% just below them in total points. Every % point of the 96% was important in that victory. Half of the league was in the 70s this week, really putting on a strong showing for the playoffs.
             </p>
         </div>
     )
@@ -33,16 +36,16 @@ const MotwArticle = () => {
     return (
         <div>
             <ArticleHeader>Matchup of the Week</ArticleHeader>
-            <ArticleSubheader>Reigning Champ Goes Down - 10 Dogs in 2 Weeks</ArticleSubheader>
+            <ArticleSubheader>No QB Points, No Problem</ArticleSubheader>
             <p>
-                Uncle Rico Went Pro got their 2nd straight win against WalterPickens and their 3rd straight MotW win against a divisional opponent. They didn't put up a great score this week, scoring less than 110 for the 2nd straight week, but both times it was enough to get the win. Jaxson Dart and George Kittle were the top scorers with each of them scoring more than 22 points. Chase Brown, Cam Little, Rashee Rice, and Davante Adams all put up double digits as well.
+                You can't see him well on this chart, but Jaxson Dart did score positive points this week with just 0.02 points for Uncle Rico Went Pro. This is the lowest possible positive score for a player and would be even funnier if we made 0 points worth 2 shots/dogs instead of just 1. Not that it would've mattered since Uncle Rico Went Pro was able to win thanks to Chase Brown and George Kittle putting up big games, and some other guys chipping in as well.
             </p>
             <p>
-                WalterPickens is eating 5 hotdogs for the 2nd straight week, and both could've been avoided if they made the opposite QB start/sit decision in both weeks. Last week they started Brissett over Burrow and this week it was Burrow over Brissett, both were the wrong choice. TreVeyon Henderson tried his best to be a league winner, but couldn't overcome the rest of the teams shortcomings.
+                Worst Management has historically dominated MotW, but historically fallen apart in the playoffs too so something had to give here. Sadly for them, the MotW domination did not come through for them. Drake Maye put up 23.7 points as his Bakemas hot streak continues, but their WRs, TE, and DEF did not put up enough points to compete and they will be left with 4 shots to do this week.
             </p>
             <MatchupPlot data={starterData} matchupId={1} />
             <p>
-                After 3 MotW matches in 5 weeks between these 2 teams, they are finally safe from matching up with one-another for the rest of this season. Uncle Rico Went Pro moves into the semi-finals against 1st Half Team. WalterPickens will be in the 5th place game against Lord of the Littles.
+                Uncle Rico Went Pro will be advancing to the championship against The Barkley Brawlers. Uncle Rico Went Pro will be trying to bring the championship trophy to the Hubbell Division for the 3rd straight season. Worst Management will fight for 3rd place against BBCU.
             </p>
             <ArticleSubheader>Matchup of the Week 2025</ArticleSubheader>
             <MotwTable motwHistoryData={motwHistoryData} />
@@ -50,7 +53,7 @@ const MotwArticle = () => {
                 <a href={`/league/${leagueIds.mainLeague}/hot-dogs`}>Full Matchup of the Week History</a>
             </ArticleCaption>
             <p>
-                Uncle Rico Went Pro earned their 11th MotW victory, 2nd most all-time. Their 45 shots/dogs given out is also 2nd most all-time. WalterPickens lost their league record 4th MotW of the season, and 8th MotW of all time, tied for 2nd most all-time. Their 34 shots/dogs consumed is 2nd most all-time. Their 15 shots/dogs this season is the 2nd highest total for one manager in any season.
+                Uncle Rico Went Pro earned their 12th MotW victory, 2nd most all-time behind their opponent. Their 49 shots/dogs given out is also 2nd most all-time. Worst Management lost their 3rd MotW of the season, and 9th MotW of all time, 2nd most all-time. Their 37 shots/dogs consumed is 2nd most all-time. Their 14 shots/dogs this season is tied for the 3rd highest total for one manager in any season.
             </p>
             <ArticleSubheader>Potential # of Shots/Dogs</ArticleSubheader>
             <ShotsDistributionChart chartData={shotsDistData} />
@@ -61,17 +64,17 @@ const MotwArticle = () => {
 const MatchupArticleTwo = () => {
     return (
         <div>
-            <ArticleHeader>Matchup #2</ArticleHeader>
-            <ArticleSubheader>Mickey Mouse Schedule Persists</ArticleSubheader>
+            <ArticleHeader>Playoff Semifinal #2</ArticleHeader>
+            <ArticleSubheader>Mickey Mouse Got Jacked</ArticleSubheader>
             <p>
-                Lord of the Littles had Puka Nacua go for 27.9 points this week but struggled to get points from the majority of their team which left them with a total of 108.06 points this week. They had 5 players with less than 10, and their QB scored less than 12 points. The only other player who did relatively well was De'Von Achane who scored 18.7 points.
+                BBCU has been elite all season and continued that trend this week putting up 146.4 points in their first ever playoff semifinal appearance. It was most of the usual suspects for them this week with Justin Herbert, Bijan, and JSN putting up huge numbers. Trey McBride was notably missed this week with his 6.7 (!!!) point performance. Zay Flowers, Travis Etienne, and Ladd McConkey tried to pick up the slack, but it wasn't enough to overcome Chris Olave. If they had just kept Chris Olave instead of trading him for Ladd McConkey they would've won this game since Olave scored 22.5 more points than Ladd and BBCU only lost by 19.58 points.
             </p>
             <p>
-                The Barkley Brawlers again didn't really care that they opponent shit the bed, since they scored the most points of any team who had a matchup this week at 152.08 points. Michael Wilson continues to be Puka Nacua when Marvin Harrison Jr doesn't play. His 37.2 points combined with Cameron Dicker's 22 and MIA's 17 would've won them this week without any other player contributing.
+                The Barkley Brawlers finally had a tough opponent, but it still didn't matter since they decided to score the 3rd most points that any team has scored this season. Chris Olave led the way with 36.8 points, followed by James Cook with 26.4, DJ Moore with 21.9, Saquon with 21.2 and NO DEF with 19. Travis Kelce shit the bed but it didn't matter since everyone else popped off.
             </p>
             <MatchupPlot data={starterData} matchupId={2} />
             <p>
-                Lord of the Littles will be in the 5th place game against WalterPickens in week 15. The Barkley Brawlers will be up against the #2 seed BBCU who had the most PF this season and scored 175.2 points in week 15 against nobody.
+                BBCU will be fighting for 3rd place against the 1 seed Worst Management. The Barkley Brawlers will be advancing to the championship against current MotW champion Uncle Rico Went Pro. They will look to avenge their 2023 championship loss to another Hubbell Division opponent.
             </p>
         </div>
     )
@@ -80,17 +83,17 @@ const MatchupArticleTwo = () => {
 const MatchupArticleThree = () => {
     return (
         <div>
-            <ArticleHeader>Matchup #3</ArticleHeader>
-            <ArticleSubheader>Amon-Ra St. Brown Syndrome</ArticleSubheader>
+            <ArticleHeader>5th Place Game</ArticleHeader>
+            <ArticleSubheader>CMC Causes Monday Night Edging</ArticleSubheader>
             <p>
-                First Down Syndrome was saving the 2nd highest score of the season for the first round of the toilet bowl. Their 138.2 points came largely from 4 players, Amon-Ra, Nico, Hurts, and D'Andre Swift. The rest of their players scored below 7.5 points this week.
+                Lord of the Littles had Puka Nacua put up 46.5 points on Thursday Night Football and this matchup looked like it was over before it started. They also got 22.8 from Diggs, 19.16 from Dak, and 18 from Achane. This type of performance will usually get you a win in this league, and it barely did that this week.
             </p>
             <p>
-                Super Ja'Marrio Bros. scored a respectable 124.58 points this week, which outscored 3 of the 4 playoff teams. Their defense was their only player below 7.5 points this week, but they didn't have any boom games like their opponent having Amon-Ra. Since this was a toilet bowl game, they will have to do 3 shots/dogs for their 2 RBs and their DEF, which isn't too bad to start off with.
+                WalterPickens was down big going into MNF thanks to TreVeyon Henderson getting concussed at just 2.2 points and Emeka Egbuka taking a back seat for the Buccaneers. CMC needed to have a Puka level game in order to pull off the win, and he almost did that. He was a few yards shy of being able to pull out this win. This is the 3rd straight week that WalterPickens has lost due to starting the wrong QB between Jacoby Brissett and Joe Burrow. Those 2 QBs face off in week 17, but WalterPickens will not have to make that decision for a 4th time.
             </p>
-            <MatchupPlot data={starterData} matchupId={4} />
+            <MatchupPlot data={starterData} matchupId={3} />
             <p>
-                First Down Syndrome will be in the 8th place game against 2nd Half Team in week 15. Super Ja'Marrio Bros. gets flushed to a matchup with Bye Week Curious who is at risk of adding a music video to their punishment with 2 more losses.
+                Both of these teams can rest now that their season is over a little earlier than they would've liked. They both outscored the two playoff teams in matchup of the week and would've loved to be in their shoes instead.
             </p>
         </div>
     )
@@ -99,59 +102,59 @@ const MatchupArticleThree = () => {
 const MatchupArticleFour = () => {
     return (
         <div>
-            <ArticleHeader>Matchup #4</ArticleHeader>
-            <ArticleSubheader>Kyle Pitts Booms - Costco Guys Bust</ArticleSubheader>
+            <ArticleHeader>Toilet Bowl Semifinal #1</ArticleHeader>
+            <ArticleSubheader>IR Curious</ArticleSubheader>
             <p>
-                2nd Half Team got one of the best TE performances in NFL history from Kyle Pitts this week who scored 45.6 points. Josh Allen and Jameson Williams also popped off for 24.52 and 26.4 points respectively. The rest of their team was also pretty strong aside from their defense who only scored 1 point.
+                Bye Week Curious started 2 players this week who have been ruled out for the season. Daniel Jones is still somehow in their starting lineup after his injury in week 14. Devaughn Vele also started for them this week despite being put on season-ending IR. Their rookie RB duo tried to overcome the deficit but it was ultimately not enough with the lack of help they received.
             </p>
             <p>
-                Costco Guys didn't have anyone score over 20 which makes it impossible to compete with Kyle Pitts. Kenneth Gainwell and Tony Pollard were their top scorers, which shows you why they are in the toilet bowl this season. Jahmyr Gibbs continues his every other week production, booming in even numbered weeks and busting in odd numbered weeks. Since this was a toilet bowl game, they will have to do 3 shots/dogs for Jahmyr Gibbs, Jake Ferguson and HOU DEF, which isn't too bad to start off with.
+                Super Ja'Marrio Bros. got out of this one shot/dog free thanks to their opponent not setting their lineup. Jaylen Warren put up 29.1 points and Ja'Marr Chase had 19.9 points to help secure the win. They had some guys go off on their bench, but luckily they won't regret that since they got the win anyway.
             </p>
-            <MatchupPlot data={starterData} matchupId={5} />
+            <MatchupPlot data={starterData} matchupId={4} />
             <p>
-                2nd Half Team will be in the 8th place game against First Down Syndrome in week 15. Costco Guys gets flushed to a matchup with Singing Like Mariah Terry in round 2 of the toilet bowl.
+                Bye Week Curious will be advancing to the toilet bowl final against Worse Management. Super Ja'Marrio Bros. will be in the 10th place game against Costco Guys.
             </p>
         </div>
     )
 }
 
-// const MatchupArticleFive = () => {
-//     return (
-//         <div>
-//             <ArticleHeader>Matchup #5</ArticleHeader>
-//             <ArticleSubheader>Hubbell Curse Stays Undefeated in 2025</ArticleSubheader>
-//             <p>
-//                 BBCU used the Hubbell Curse to their advantage this week, cursing Ladd McConkey and Oronde Gadsden on MNF and allowing Justin Herbert to get enough points with his legs to get the win in this matchup. JSN did his usual thing, and instead of Bijan and Trey McBride it was Travis Etienne and Zay Flowers this week carrying the rest of the load.
-//             </p>
-//             <p>
-//                 Super Ja'Marrio Bros. knew they were up against it this week, but put up their best effort in the loss. They only had 2 players below double digits this week which makes it pretty impressive to only score 115.88 points. Brandon Aubrey's 25.7 points is the most points of any kicker this season, and he is now the only player in NFL history with 3 made 50+ yard FG in the same game.
-//             </p>
-//             <MatchupPlot data={starterData} matchupId={5} />
-//             <p>
-//                 BBCU will be on bye in round 1 of the playoffs, and Super Ja'Marrio Bros. will be up against First Down Syndrome in round 1 of the toilet bowl.
-//             </p>
-//         </div>
-//     )
-// }
+const MatchupArticleFive = () => {
+    return (
+        <div>
+            <ArticleHeader>Toilet Bowl Semifinal #2</ArticleHeader>
+            <ArticleSubheader>Tony Pollard &gt; Josh Jacobs</ArticleSubheader>
+            <p>
+                Costco Guys was led by Kenneth Gainwell with 23.8 points this week and Jahmyr Gibbs follwed closely with 22.8 points. Dalton Schultz, HOU DEF, Tony Pollard, and Chase McLaughlin round out the rest of their double digit scorers. Their lowest scorers were Brian Thomas and Lamar Jackson so they were lucky to get out of this one with a win while putting up less than 110 points.
+            </p>
+            <p>
+                Worse Management, not to be confused with the playoff team Worst Management, struggled to score this week and only got a total of 6.2 points from their RBs while their opponent got 56.8 points from theirs. They won the WR battle in a similar but slightly worse fashion, and couldn't make up the gap at any other position either.
+            </p>
+            <MatchupPlot data={starterData} matchupId={5} />
+            <p>
+                Costco Guys will be in the 10th place game against Super Ja'Marrio Bros. next week. Worse Management will be advancing to the toilet bowl final against Bye Week Curious.
+            </p>
+        </div>
+    )
+}
 
-// const MatchupArticleSix = () => {
-//     return (
-//         <div>
-//             <ArticleHeader>Matchup #6</ArticleHeader>
-//             <ArticleSubheader>Bye Week Furious</ArticleSubheader>
-//             <p>
-//                 Bye Week Curious scored only 73.4 points this week. It also looks like they did not start a QB this week, but that was because Daniel Jones scored just 0.8 points before he died. RJ Harvey put up 22 points this week, but was the only player who did much of anything for their team in the most important matchup of the season.
-//             </p>
-//             <p>
-//                 Costco Guys scored 132.26 points this week, with Jahmyr Gibbs scoring 37 points again this week. This is his 4th game this season over 37 points, which is a major reason why this team has been very boom or bust. Lamar Jackson is another contributor to this, but he had a good week this week with 21.06 points.
-//             </p>
-//             <MatchupPlot data={starterData} matchupId={6} />
-//             <p>
-//                 Bye Week Curious will be on bye in round 1 of the toilet bowl. Costco Guys will be up against Cockroach in round 1 of the toilet bowl.
-//             </p>
-//         </div>
-//     )
-// }
+const MatchupArticleSix = () => {
+    return (
+        <div>
+            <ArticleHeader>8th Place Game</ArticleHeader>
+            <ArticleSubheader>7 shots/dogs with 3 9.Xs</ArticleSubheader>
+            <p>
+                2nd Half Team put up exactly 100 points this week and had a majority of it come from 3 players, Derrick Henry with 22.8 points, Harold Fannin with 19.5 points, and Kyle Pitts with 18.7 points. The only other double digit scorer on their team was Jameson Williams with 12 points. They were lucky to win this one as they would've had to do 5 shots/dogs including one for Josh Allen.
+            </p>
+            <p>
+                First Down Syndrome did not do well in the matchup and has an impressive 7 shots/dogs to consume while scoring a relatively respectable 83.8 points in the process. A lot of their players edged the 10 point threshold but only 2 could get over the line this week. The Offensive Line doesn't have a good metric for this currently, but this might be the unluckiest 7 shot/dog performance of all time.
+            </p>
+            <MatchupPlot data={starterData} matchupId={6} />
+            <p>
+                These teams are done for the season early after winning their first round toilet bowl matchups and fighting for 7th and 8th place.
+            </p>
+        </div>
+    )
+}
 
 const ScoringDistributionArticle = () => {
     return (
@@ -161,17 +164,17 @@ const ScoringDistributionArticle = () => {
             <StackedHistogram chartData={matchupData} />
             <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
             <p>
-                If we included teams that didn't have any matchups here, the distribution would be a lot wider.
+                The playoffs brought us a couple new higher scores but otherwise it was a low week.
             </p>
             <WeeklyScoringChart chartData={matchupData} />
             <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
             <p>
-                This week had a higher floor that usual, but we had 4 fewer teams playing. We would've had a lower low and a higher high if we included all teams.
+                This week had another new high which is the 4th straight week we have increased the maximum. The average, median, and minimum did not continue their upward trend.
             </p>
             <WeeklyMarginTable matchupData={matchupData} leaderboardData={leaderboardData} />
             <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
             <p>
-                There were no close games in the first round of the playoffs; we will see if that trend continues next week.
+                We had our 2nd closest game of the season this week in perhaps the least relevant game of the season.
             </p>
         </div >
     )
@@ -332,16 +335,68 @@ const LeagueBuzzArticle = () => {
     return (
         <div>
             <ArticleHeader>League Buzz</ArticleHeader>
-            <ArticleSubheader>Suvivor 2025 2.0 Complete</ArticleSubheader>
+            <ArticleSubheader>Championship Preview</ArticleSubheader>
             <p>
-                Congratulations to Nikhil for winning a very drawn out 2nd round of survivor after picking Alec to win this week. Josh hedged his bets and picked Trevor to beat him in the playoffs, and won the game but lost survivor. They lost the fight but they could still win the battle if they can advance to the finals they will make more money than they would've from survivor. The website will be updated next season to properly support multiple rounds of survivor and the special case where people all lose the last week and it keeps going.
+                The leagues championship comes down to 2 teams and 2 managers who have a lot of playoff experience, Jake and Josh.
+            </p>
+            <p>
+                Jake was the 1 seed in 2023 and 2024, losing in the semifinals last year and in the finals 2 years ago. They are looking to right those wrongs this year and win their first championship after heartbreaking losses in the playoffs. Their team doesn't have Josh Allen this year like it did each of the last 2 years, who has a history of heartbreaking playoff losses himself. We will see if that shift in culture can get them over the hump this season.
+            </p>
+            <p>
+                Josh has more playoff success than Jake with a Mickey Mouse championship in 2019 and a real championship in 2021. Outside of his championships, he took 5th place in 2022, and 6th place in 2023. Josh has never lost a game in the playoff semifinals or championship, and will be looking to build a GOAT case similar to Michael Jordan's where he either has a first round exit or wins the finals. Josh drafted immediately after doing 5 shots for his extremely late MotW punishment from the 2024 season. This (at least partially) led him to draft 12 WRs and RBs in the first 12 rounds of the draft, and he is only staring 2 of those 12 players in the championship.
+            </p>
+            <ArticleSubheader>Toilet Bowl Punishment Gaslighting</ArticleSubheader>
+            <p>
+                The Offensive Line did some digging this week in regards to the toilet bowl punishment discussion that was had this week. Some league members were under the impression that the toilet bowl punishment was always going to be singing a song, and others were adamant that it was never decided to be that. After a thorough investigation, The Offensive Line found no evidence supporting the case that the toilet bowl punishment was supposed to always be a song. If anyone has any evidence in favor of that argument, please send it to The Offensive Line immediately. The <a href="../1253779168802377728/2024%20Week%2016">2024 Week 16 newsletter</a> has coverage of the discussion that was had, but no mention of this punishment persisting year to year.
             </p>
             <ArticleSubheader>League Submissions</ArticleSubheader>
             <LeagueQuote>
-                "Jake is America's team"<br />- Anonymous League Manager
+                "Good game Jake Peterson."<br />- Anthony at 4:11 PM ET on 12/21/25
             </LeagueQuote>
-            <p>There are a couple different ways this could be interpreted. The first, most obvious, and likely intended way is that they are America's team in the same way that whoever is playing the Chiefs is America's team since he is playing Anthony in the playoffs. The other way this could be interpreted is that they are America's team in the same way that the Patriots are America's team this year and they have by far the easiest schedule in the league.</p>
-
+            <p>
+                This submission was clearly a sandbagging violation by Anthony trying to turn the tides in his favor by conceding an early defeat while he still had a chance to win.
+            </p>
+            <LeagueQuote>
+                "Thank you, praise the lord Mickey Mouse for allowing me this opportunity! 🙏🏻"
+            </LeagueQuote>
+            <ImageWrapper>
+                <ArticleImage src={"https://thejesusquestion.org/wp-content/uploads/2011/10/mickey-mouse-sermon-on-the-mount_alexander-savich.jpg"}>
+                </ArticleImage>
+            </ImageWrapper>
+            <LeagueQuote>
+                - Jake
+            </LeagueQuote>
+            <LeagueQuote>
+                "Championship Inbound"
+            </LeagueQuote>
+            <ImageWrapper>
+                <ArticleImage src={"https://media.tenor.com/tu7pkA0JFM8AAAAM/captain-ocean.gif"}>
+                </ArticleImage>
+            </ImageWrapper>
+            <LeagueQuote>
+                - Jake
+            </LeagueQuote>
+            <LeagueQuote>
+                "Jake beating Anthony is like the eagles beating the chiefs"<br />- Anonymous League Manager
+            </LeagueQuote>
+            <p>
+                Very true, everybody lost this one.
+            </p>
+            <LeagueQuote>
+                "It's safe to say Anthony got fleeced…"<br />- Alec
+            </LeagueQuote>
+            <LeagueQuote>
+                "I never would have made that trade"<br />- Greg
+            </LeagueQuote>
+            <p>
+                Anthony definitely got fleeced, he lost by less than the difference between Olave and McConkey's score. These two players were traded before week 5, and The Offensive Line checked every matchup from week 5 to week 15 for these two teams. None of those matchups would've had a different outcome if this trade had never happened, so there isn't even an alternate reality for Anthony to fall back on where this playoff matchup doesn't happen this week and he doesn't get the win without doing this trade.
+            </p>
+            <LeagueQuote>
+                "Pitts is TE#2…fuck all the haters"<br />- Alec
+            </LeagueQuote>
+            <p>
+                Hope you're enjoying your 7th place finish with TE2 buddy.
+            </p>
         </div >
     )
 }
@@ -349,9 +404,9 @@ const LeagueBuzzArticle = () => {
 const Meme1 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/UQ1nSaT.png"}>
+            <ArticleImage src={"https://i.imgur.com/T4bNgX7.png"}>
             </ArticleImage>
-            <ArticleCaption>Submitted Anonymously</ArticleCaption>
+            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
     )
 }
@@ -359,9 +414,9 @@ const Meme1 = () => {
 const Meme2 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/OGHnP7m.png"}>
+            <ArticleImage src={"https://i.imgur.com/1qZzfE0.png"}>
             </ArticleImage>
-            <ArticleCaption>Submitted Anonymously</ArticleCaption>
+            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
     )
 }
@@ -369,7 +424,7 @@ const Meme2 = () => {
 const Meme3 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/GQnuUHy.png"}>
+            <ArticleImage src={"https://i.imgur.com/idLJiTR.png"}>
             </ArticleImage>
             <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
@@ -379,7 +434,7 @@ const Meme3 = () => {
 const Meme4 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/zwBt4Bf.png"}>
+            <ArticleImage src={"https://i.imgur.com/28n0lh9.png"}>
             </ArticleImage>
             <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
@@ -389,7 +444,7 @@ const Meme4 = () => {
 const Meme5 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/DQM6g9e.png"}>
+            <ArticleImage src={"https://i.imgur.com/nSbdzdI.png"}>
             </ArticleImage>
             <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
@@ -399,7 +454,7 @@ const Meme5 = () => {
 const Meme6 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/kkbzSpN.png"}>
+            <ArticleImage src={"https://i.imgur.com/fn7Tb9Q.png"}>
             </ArticleImage>
             <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
@@ -409,7 +464,7 @@ const Meme6 = () => {
 const Meme7 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/zAfBFLw.png"}>
+            <ArticleImage src={"https://i.imgur.com/ub3CvXq.png"}>
             </ArticleImage>
             <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
@@ -419,7 +474,7 @@ const Meme7 = () => {
 const Meme8 = () => {
     return (
         <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/30CtIaq.png"}>
+            <ArticleImage src={"https://i.imgur.com/UxUJJoi.png"}>
             </ArticleImage>
             <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
         </ImageWrapper>
@@ -447,14 +502,14 @@ export const articles = [
         id: 5,
         content: MatchupArticleFour,
     },
-    // {
-    //     id: 6,
-    //     content: MatchupArticleFive,
-    // },
-    // {
-    //     id: 7,
-    //     content: MatchupArticleSix,
-    // },
+    {
+        id: 6,
+        content: MatchupArticleFive,
+    },
+    {
+        id: 7,
+        content: MatchupArticleSix,
+    },
     {
         id: 8,
         content: ScoringDistributionArticle,
@@ -549,7 +604,7 @@ const newsletterData = {
     newsDate: newsDate,
     articles: articles,
     meta: {
-        title: "2025 Week 15",
+        title: "2025 Week 16",
         description: "Testing this feature out to see if it works",
         image: "/banner_logo.png"
     }

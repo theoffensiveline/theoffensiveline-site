@@ -29,6 +29,7 @@ import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
 import HotDogs from "./pages/hotDogTracker/HotDogTracker";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
+import Snowfall from "react-snowfall";
 
 const BackgroundWrapper = styled.div`
   background: ${({ $background }) => $background};
@@ -54,11 +55,24 @@ const ThemeWithStyledThemeProvider = () => {
   const { theme } = useTheme();
   const currentTheme = ColorConstants[theme];
 
+  const isWinterMonth = () => {
+    const month = new Date().getMonth();
+    return month === 11 || month === 0;
+  };
+
   return (
     <StyledThemeProvider theme={currentTheme}>
       <GlobalStyle />
       <BackgroundWrapper $background={currentTheme.background}>
         <BrowserRouter>
+          {isWinterMonth() && <Snowfall
+            style={{
+              position: "fixed",
+              width: '100vw',
+              height: '100vh',
+              zIndex: 9999
+            }}
+          />}
           <NavBar />
           <Box sx={{ paddingTop: "64px" }}>
             <AppRoutes />

@@ -1,0 +1,86 @@
+[
+  {
+    "week": 16,
+    "team_name": "The Barkley Brawlers ",
+    "actual_points": 165.98,
+    "max_points": 192.68,
+    "percentage": 86.1428
+  },
+  {
+    "week": 16,
+    "team_name": "BBCU",
+    "actual_points": 146.4,
+    "max_points": 160.3,
+    "percentage": 91.3288
+  },
+  {
+    "week": 16,
+    "team_name": "Lord of the Littles",
+    "actual_points": 130.76,
+    "max_points": 136.26,
+    "percentage": 95.9636
+  },
+  {
+    "week": 16,
+    "team_name": "WalterPickens",
+    "actual_points": 130.42,
+    "max_points": 171.66,
+    "percentage": 75.9758
+  },
+  {
+    "week": 16,
+    "team_name": "Uncle Rico Went Pro",
+    "actual_points": 116.32,
+    "max_points": 159.38,
+    "percentage": 72.9828
+  },
+  {
+    "week": 16,
+    "team_name": "Costco Guys",
+    "actual_points": 109.24,
+    "max_points": 116.04,
+    "percentage": 94.14
+  },
+  {
+    "week": 16,
+    "team_name": "Worst Management",
+    "actual_points": 104.3,
+    "max_points": 125.7,
+    "percentage": 82.9753
+  },
+  {
+    "week": 16,
+    "team_name": "2nd Half Team ",
+    "actual_points": 100,
+    "max_points": 128.1,
+    "percentage": 78.064
+  },
+  {
+    "week": 16,
+    "team_name": "Super Ja'Marrio Bros.",
+    "actual_points": 98.5,
+    "max_points": 138.1,
+    "percentage": 71.3251
+  },
+  {
+    "week": 16,
+    "team_name": "Worse Management",
+    "actual_points": 88.88,
+    "max_points": 121.08,
+    "percentage": 73.406
+  },
+  {
+    "week": 16,
+    "team_name": "First Down Syndrome",
+    "actual_points": 83.8,
+    "max_points": 92.36,
+    "percentage": 90.7319
+  },
+  {
+    "week": 16,
+    "team_name": "Bye Week Curious",
+    "actual_points": 80.3,
+    "max_points": 110.8,
+    "percentage": 72.4729
+  }
+]

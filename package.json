@@ -32,6 +32,7 @@
     "react-markdown": "^9.0.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "react-snowfall": "^2.4.0",
     "styled-components": "^6.0.7",
     "typescript": "^5.5.4",
     "victory": "^36.6.12",
