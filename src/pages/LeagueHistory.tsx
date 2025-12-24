@@ -4,7 +4,12 @@ import styled from "styled-components";
 import { getBracketMatchups } from "../utils/api/SleeperAPI";
 import { fetchLeagueHistory } from "../utils/leagueHistory";
 import { UserCard } from "../components/UserCard";
-import { Container, Title, LoadingState, ErrorState } from "../components/shared/PageComponents";
+import {
+  Container,
+  Title,
+  LoadingState,
+  ErrorState,
+} from "../components/shared/PageComponents";
 import type {
   LeagueHistory as LeagueHistoryType,
   Roster,
@@ -50,18 +55,30 @@ function LeagueHistory() {
 
         const seasonsData = await Promise.all(
           history.leagues.map(async (league) => {
+            const winnersBracket = await getBracketMatchups(
+              league.league_id,
+              true
+            );
             const losersBracket = await getBracketMatchups(
               league.league_id,
               false
             );
             const rosters = history.rosters[league.league_id];
             const users = history.users[league.league_id];
-            const winnerRosterId =
-              league.metadata.latest_league_winner_roster_id;
 
-            const winningRoster = rosters.find(
-              (roster) => roster.roster_id.toString() === winnerRosterId
+            // Determine the actual winner from the winners bracket
+            // Only show a winner if the championship match (final round) is completed
+            const finalRound = Math.max(
+              ...winnersBracket.map((match) => match.r)
             );
+            const championshipMatch = winnersBracket.find(
+              (match) => match.r === finalRound && match.w !== null
+            );
+            const winningRoster = championshipMatch
+              ? rosters.find(
+                  (roster) => roster.roster_id === championshipMatch.w
+                )
+              : null;
 
             const highestPointsRoster = rosters.reduce((highest, current) => {
               const currentPoints =
@@ -138,7 +155,8 @@ function LeagueHistory() {
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={error} />;
-  if (!leagueHistory) return <ErrorState message="No league history available" />;
+  if (!leagueHistory)
+    return <ErrorState message="No league history available" />;
 
   return (
     <Container>
@@ -151,12 +169,14 @@ function LeagueHistory() {
         <div key={season.winner.season}>
           {index > 0 && <SeasonDivider />}
           <CardsGrid>
-            <UserCard
-              title={`${season.winner.season} Champion`}
-              user={season.winner.user}
-              roster={season.winner.roster}
-              season={season.winner.season}
-            />
+            {season.winner.user && season.winner.roster && (
+              <UserCard
+                title={`${season.winner.season} Champion`}
+                user={season.winner.user}
+                roster={season.winner.roster}
+                season={season.winner.season}
+              />
+            )}
 
             <UserCard
               title={`${season.winner.season} Highest Points`}

@@ -40,8 +40,10 @@ export async function fetchLeagueHistory(
 
 export function getAvatarUrl(user: User): string | undefined {
   if (!user) return undefined;
-  return user.metadata.avatar || 
-    (user.avatar ? `https://sleepercdn.com/avatars/${user.avatar}` : undefined);
+  return (
+    user.metadata.avatar ||
+    (user.avatar ? `https://sleepercdn.com/avatars/${user.avatar}` : undefined)
+  );
 }
 
 export function calculatePoints(roster: Roster): number {
@@ -50,7 +52,7 @@ export function calculatePoints(roster: Roster): number {
 }
 
 export function formatRecord(roster: Roster): string {
-  if (!roster) return '';
+  if (!roster) return "";
   const { wins, losses, ties } = roster.settings;
-  return `${wins}-${losses}${ties > 0 ? `-${ties}` : ''}`;
+  return `${wins}-${losses}${ties > 0 ? `-${ties}` : ""}`;
 }
