@@ -102,9 +102,10 @@ function Home() {
     const newsletterContent = {
         mostRecentIssue: [
             'Hot Dog Tracker',
-            '2025 Week 16',
+            '2025 Week 17',
         ],
         newsletterIssues: [
+            '2025 Week 16',
             '2025 Week 15',
             '2025 Week 14',
             '2025 Week 13',
