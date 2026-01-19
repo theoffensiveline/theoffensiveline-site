@@ -12,13 +12,13 @@ import transactionData from './mostTransacted.json';
 import { TeamContext } from '../../../pages/Newsletter';
 import { AwardsGridV2 } from '../../../components/newsletters/newsStyles';
 
-export const newsDate = '2025-01-15';
+export const newsDate = '2026-01-19';
 
 const AwardsArticle = () => {
     return (
         <div>
             <ArticleHeader>Awards</ArticleHeader>
-            <ArticleSubheader>2024 Season Awards</ArticleSubheader>
+            <ArticleSubheader>2025 Season Awards</ArticleSubheader>
             <AwardsGridV2 awardsData={awardsData} />
         </div>
     );
@@ -33,7 +33,7 @@ const FirstTeamRecapArticle = () => {
             <ArticleSubheader>Select Your Team From The Dropdown</ArticleSubheader>
             <TeamDropdown data={recapData} onSelectTeam={setSelectedTeam} />
             <ArticleCaption>Tip: Most of the tables below can be sorted by clicking the header you'd like to sort by.</ArticleCaption>
-            <ArticleSubheader>2024 Matchup of the Week Summary</ArticleSubheader>
+            <ArticleSubheader>2025 Matchup of the Week Summary</ArticleSubheader>
             <MotwRecapTable data={recapData} selectedTeam={selectedTeam} />
         </div>
     )
@@ -233,13 +233,13 @@ const RBArticle = () => {
         <div>
             <ArticleHeader>Top Players By Position - Runningback</ArticleHeader>
             <ArticleSubheader>Best RBs All Season Long</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played >= 8 && item.ppg >= 16)} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played >= 8 && item.ppg >= 15)} selectedTeam={selectedTeam} />
             <ArticleSubheader>Worst RBs All Season Long</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played >= 8 && item.ppg < 16).reverse()} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played >= 8 && item.ppg < 15).reverse()} selectedTeam={selectedTeam} />
             <ArticleSubheader>Best RB Rentals</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played < 8 && item.ppg >= 16)} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played < 8 && item.ppg >= 15)} selectedTeam={selectedTeam} />
             <ArticleSubheader>Worst RB Rentals</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played < 8 && item.ppg < 5).reverse()} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'RB' && item.games_played < 8 && item.ppg < 6).reverse()} selectedTeam={selectedTeam} />
         </div >
     )
 }
@@ -251,13 +251,13 @@ const WRArticle = () => {
         <div>
             <ArticleHeader>Top Players By Position - Wide Receiver</ArticleHeader>
             <ArticleSubheader>Best WRs All Season Long</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played >= 8 && item.ppg >= 16)} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played >= 8 && item.ppg >= 15)} selectedTeam={selectedTeam} />
             <ArticleSubheader>Worst WRs All Season Long</ArticleSubheader>
             <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played >= 8 && item.ppg <= 14).reverse()} selectedTeam={selectedTeam} />
             <ArticleSubheader>Best WR Rentals</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played < 8 && item.ppg >= 16)} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played < 8 && item.ppg >= 14)} selectedTeam={selectedTeam} />
             <ArticleSubheader>Worst WR Rentals</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played < 8 && item.ppg < 6).reverse()} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'WR' && item.games_played < 8 && item.ppg < 5).reverse()} selectedTeam={selectedTeam} />
         </div >
     )
 }
@@ -269,9 +269,9 @@ const TEArticle = () => {
         <div>
             <ArticleHeader>Top Players By Position - Tight End</ArticleHeader>
             <ArticleSubheader>Best TEs All Season Long</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'TE' && item.games_played >= 8 && item.ppg >= 12)} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'TE' && item.games_played >= 8 && item.ppg >= 13)} selectedTeam={selectedTeam} />
             <ArticleSubheader>Worst TEs All Season Long</ArticleSubheader>
-            <RecapPositionTable data={starterData.filter(item => item.position === 'TE' && item.games_played >= 8 && item.ppg < 12).reverse()} selectedTeam={selectedTeam} />
+            <RecapPositionTable data={starterData.filter(item => item.position === 'TE' && item.games_played >= 8 && item.ppg < 13).reverse()} selectedTeam={selectedTeam} />
             <ArticleSubheader>Best TE Rentals</ArticleSubheader>
             <RecapPositionTable data={starterData.filter(item => item.position === 'TE' && item.games_played < 8 && item.ppg >= 12)} selectedTeam={selectedTeam} />
             <ArticleSubheader>Worst TE Rentals</ArticleSubheader>
@@ -348,7 +348,7 @@ const ThankYouArticle = () => {
     return (
         <div>
             <ArticleHeader>Thank you for reading!</ArticleHeader>
-            <p>Thank you for reading the 2024 Season Recap. We hope you enjoyed it, and we are looking forward to next season's shenanigans.</p>
+            <p>Thank you for reading the 2025 Season Recap. We hope you enjoyed it, and we are looking forward to next season's shenanigans.</p>
         </div>
     )
 }

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useState } from 'react';
 import { ArticleSubheader, StyledButton } from './newsStyles.jsx';
+import { useTheme } from '../../ThemeContext.tsx';
 
 // Base Table Components
 const BaseTable = styled.table`
@@ -629,15 +630,44 @@ export const WeeklyMarginTable = ({ matchupData, leaderboardData }) => {
 const TableSortButton = styled.button`
   width: 100%;
   height: 100%;
-  padding: 0.25rem 0.25rem;
+  padding: 0.25rem 0.15rem 0.35rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  background-color: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.buttonText};
+  justify-content: center;
+  gap: 0.2rem;
+  text-align: center;
+  background: transparent;
+  color: ${({ theme }) => theme.text};
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: color 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.buttonText};
+    outline-offset: 2px;
+  }
+
+  .sort-button-text {
+    display: block;
+    width: 100%;
+    line-height: 1.25;
+    white-space: normal;
+    color: inherit;
+  }
+
+  .sort-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: inherit;
+    opacity: 0.85;
+  }
 `;
 
 export const SortButton = ({
@@ -651,14 +681,18 @@ export const SortButton = ({
             onClick={onClick}
             className={className}
         >
-            <span>{children}</span>
+            <span className="sort-button-text">{children}</span>
             {direction ? (
-                <FontAwesomeIcon
-                    icon={direction === 'asc' ? faArrowUp : faArrowDown}
-                    aria-label={direction === 'asc' ? "Sorted ascending" : "Sorted descending"}
-                />
+                <span className="sort-indicator">
+                    <FontAwesomeIcon
+                        icon={direction === 'asc' ? faArrowUp : faArrowDown}
+                        aria-label={direction === 'asc' ? "Sorted ascending" : "Sorted descending"}
+                    />
+                </span>
             ) : (
-                <span aria-label="Unsorted"><FontAwesomeIcon icon={faMinus} /></span>
+                <span className="sort-indicator" aria-label="Unsorted">
+                    <FontAwesomeIcon icon={faMinus} />
+                </span>
             )}
         </TableSortButton>
     );
@@ -704,6 +738,7 @@ export const useSortableData = (items, config = null) => {
 
 // Add the RecapTable component
 export const RecapTable = ({ data, selectedTeam, columns, showCount }) => {
+    const { theme: themeName } = useTheme();
     const { items, requestSort, sortConfig } = useSortableData(data);
     const displayedItems = showCount ? items.slice(0, showCount) : items;
 
@@ -739,7 +774,14 @@ export const RecapTable = ({ data, selectedTeam, columns, showCount }) => {
             <thead>
                 <tr>
                     {columns.map((column, index) => (
-                        <th key={index} className='wrap-cell'>
+                        <th
+                            key={index}
+                            className='wrap-cell recap-header'
+                            style={{
+                                backgroundColor: ColorConstants[themeName ?? 'light'].tableHeaderBackground,
+                                color: ColorConstants[themeName ?? 'light'].buttonText
+                            }}
+                        >
                             <SortButton
                                 onClick={() => requestSort(column.sortKey)}
                                 direction={getSortDirection(column.sortKey)}
