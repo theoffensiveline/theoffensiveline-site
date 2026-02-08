@@ -76,7 +76,7 @@ export const useSurvivorData = (leagueId: string) => {
             if (user) {
               map[roster.roster_id] = {
                 team_id: roster.owner_id,
-                team_name: user.metadata.team_name || user.username,
+                team_name: user.metadata?.team_name || user.username || user.display_name,
                 team_logo: user.metadata.avatar
                   ? `${user.metadata.avatar}`
                   : "default-avatar.png",

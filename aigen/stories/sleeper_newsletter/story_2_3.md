@@ -1,6 +1,6 @@
 # Story 2.3: Efficiency Chart Calculation
 
-**Status**: ⏳ Pending
+**Status**: 🚧 In Progress
 
 **Phase**: 2 - Core Data Transformations
 
@@ -38,7 +38,7 @@ Create a utility to calculate manager efficiency by comparing actual lineups to 
 ### Efficiency Calculation
 
 ```typescript
-efficiency = (actualScore / optimalScore) * 100
+efficiency = (actualScore / optimalScore) * 100;
 ```
 
 ## Human Testing Steps

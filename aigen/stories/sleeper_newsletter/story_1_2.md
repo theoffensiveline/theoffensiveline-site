@@ -1,6 +1,6 @@
 # Story 1.2: Extend Sleeper API Types
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 1 - Foundation & Data Models
 
@@ -14,24 +14,25 @@ None - can be done in parallel with Story 1.1
 
 ## Files to Create/Modify
 
-- [ ] `src/types/sleeperTypes.ts` (UPDATE - add missing fields)
+- [x] `src/types/sleeperTypes.ts` (UPDATE - add missing fields)
 
 ## Acceptance Criteria
 
-- [ ] All fields used by newsletter utilities are typed in `sleeperTypes.ts`
-- [ ] `Matchup` type includes all fields we'll need (starters, players, players_points, points, matchup_id, roster_id)
-- [ ] `Roster` type includes all fields we'll need (roster_id, owner_id, players, starters, settings, metadata with team_name and player_map)
-- [ ] `Roster.metadata.player_map` typed as `Record<string, string>` for custom player nicknames
-- [ ] `User` type includes all fields we'll need (user_id, display_name, metadata.team_name, avatar)
-- [ ] `League` type includes playoff settings if missing
-- [ ] JSDoc comments added for any undocumented fields
-- [ ] No TypeScript errors in project
+- [x] All fields used by newsletter utilities are typed in `sleeperTypes.ts`
+- [x] `Matchup` type includes all fields we'll need (starters, players, players_points, points, matchup_id, roster_id)
+- [x] `Roster` type includes all fields we'll need (roster_id, owner_id, players, starters, settings, metadata with team_name and player_map)
+- [x] `Roster.player_map` typed as `Record<string, string> | null` for custom player nicknames (top-level field per actual API; nicknames also in `metadata` as `p_nick_{player_id}` keys)
+- [x] `User` type includes all fields we'll need (user_id, display_name, metadata.team_name, avatar)
+- [x] `League` type includes playoff settings and bracket IDs
+- [x] JSDoc comments added for any undocumented fields
+- [x] No new TypeScript errors introduced (pre-existing DefaultTheme errors unrelated)
 
 ## Implementation Notes
 
 ### Fields to Verify
 
 **Matchup** interface should include:
+
 - `matchup_id: number` - identifies which teams are matched up
 - `roster_id: number` - the team's roster ID
 - `points: number` - total points scored
@@ -40,6 +41,7 @@ None - can be done in parallel with Story 1.1
 - `players_points: Record<string, number>` - points by player ID
 
 **User** interface should include:
+
 - `user_id: string`
 - `display_name: string`
 - `username: string`
@@ -47,6 +49,7 @@ None - can be done in parallel with Story 1.1
 - `metadata?: { team_name?: string }` - custom team name
 
 **Roster** interface should include:
+
 - `roster_id: number`
 - `owner_id: string`
 - `players: string[]`
@@ -55,6 +58,7 @@ None - can be done in parallel with Story 1.1
 - `metadata?: { team_name?: string, player_map?: Record<string, string> }` - team nickname and custom player nicknames
 
 **League** interface should include:
+
 - `league_id: string`
 - `name: string`
 - `season: string`
@@ -65,9 +69,11 @@ None - can be done in parallel with Story 1.1
 Since this story only updates types (no UI changes):
 
 1. **Verify TypeScript compilation**:
+
    ```bash
    yarn build
    ```
+
    - Should complete with no errors
 
 2. **Check type definitions**:
@@ -90,10 +96,12 @@ Since this story only updates types (no UI changes):
 
 Before requesting human verification, Claude will:
 
-- [ ] Review existing `sleeperTypes.ts`
-- [ ] Add any missing fields
-- [ ] Add JSDoc comments
-- [ ] Run `yarn build` to verify no TS errors
+- [x] Review existing `sleeperTypes.ts`
+- [x] Queried live Sleeper API to verify actual response shapes
+- [x] Add any missing fields (Roster: metadata, player_map, co_owners, keepers, reserve, taxi, ppts settings; User: optionality fixes, is_bot, league_id, settings; League: 20+ settings fields, bracket_id, loser_bracket_id)
+- [x] Add JSDoc comments
+- [x] Fixed 3 type errors in consuming code (useSurvivorData.ts, LeagueRosters.tsx, computeWeeklyAwards.ts)
+- [x] Run `npx tsc --noEmit` to verify no new TS errors
 
 ## Related Stories
 

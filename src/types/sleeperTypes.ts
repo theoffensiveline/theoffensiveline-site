@@ -6,9 +6,34 @@ export interface League {
     waiver_budget: number;
     playoff_teams: number;
     num_teams: number;
+    /** Week number when playoffs begin */
     playoff_week_start: number;
     last_scored_leg: number;
     last_report: number;
+    best_ball: number;
+    divisions: number;
+    draft_rounds: number;
+    start_week: number;
+    playoff_seed_type: number;
+    playoff_type: number;
+    playoff_round_type: number;
+    trade_deadline: number;
+    type: number;
+    max_keepers: number;
+    waiver_type: number;
+    waiver_day_of_week: number;
+    waiver_clear_days: number;
+    waiver_bid_min: number;
+    daily_waivers: number;
+    daily_waivers_hour: number;
+    daily_waivers_days: number;
+    reserve_slots: number;
+    taxi_slots: number;
+    taxi_years: number;
+    taxi_deadline: number;
+    taxi_allow_vets: number;
+    leg: number;
+    [key: string]: number;
   };
   season_type: string;
   season: string;
@@ -19,6 +44,13 @@ export interface League {
   league_id: string;
   draft_id: string;
   avatar: string;
+  /** IDs for winner/loser playoff brackets */
+  bracket_id: number | null;
+  loser_bracket_id: number | null;
+  company_id: string | null;
+  group_id: string | null;
+  shard: number;
+  last_message_id: string;
   metadata: {
     auto_continue: "on" | "off";
     keeper_deadline: string;
@@ -27,14 +59,22 @@ export interface League {
 }
 
 export interface Matchup {
+  /** Total points scored by this roster in the matchup */
   points: number;
+  /** All player IDs on the roster for this week */
   players: string[];
+  /** The roster's unique ID within the league */
   roster_id: number;
   custom_points: number | null;
+  /** Identifies which two rosters are matched up (shared between opponents) */
   matchup_id: number;
+  /** Player IDs that were started (in lineup order matching roster_positions) */
   starters: string[];
+  /** Points scored by each starter (parallel array to starters) */
   starters_points: number[];
+  /** Points scored by each player, keyed by player_id */
   players_points: Record<string, number>;
+  /** Week number (not from API; added by application code) */
   week?: number;
 }
 
@@ -47,24 +87,70 @@ export interface Roster {
     wins: number;
     losses: number;
     ties: number;
+    /** Integer part of total points scored (combine with fpts_decimal / 100) */
     fpts: number;
     fpts_decimal: number;
+    /** Integer part of total points scored against (combine with fpts_against_decimal / 100) */
     fpts_against: number;
     fpts_against_decimal: number;
+    /** Integer part of potential points (max possible score) */
+    ppts: number;
+    ppts_decimal: number;
+    division: number;
+    total_moves: number;
+    waiver_budget_used: number;
+    waiver_position: number;
   };
   league_id: string;
+  co_owners: string[] | null;
+  keepers: string[] | null;
+  /** Players on injured reserve */
+  reserve: string[] | null;
+  /** Taxi squad players (dynasty/keeper leagues) */
+  taxi: string[] | null;
+  /**
+   * Roster metadata including custom player nicknames.
+   * Player nicknames use keys like `p_nick_{player_id}`.
+   */
+  metadata: {
+    /** Win/loss record string, e.g. "WLWLWW" */
+    record?: string;
+    /** Current streak, e.g. "3W" or "1L" */
+    streak?: string;
+    /** Custom player nicknames keyed by `p_nick_{player_id}` */
+    [key: string]: string | undefined;
+  } | null;
+  /**
+   * Custom player name mappings set by the roster owner.
+   * Keyed by player_id, values are custom display names.
+   * Note: In practice this is often null; nicknames are typically in metadata as p_nick_ keys.
+   */
+  player_map: Record<string, string> | null;
 }
 
 export interface User {
   user_id: string;
-  username: string;
+  username?: string;
   display_name: string;
-  avatar: string;
+  /** Sleeper avatar hash; null if user hasn't set one */
+  avatar: string | null;
   metadata: {
-    team_name: string;
-    avatar: string;
+    /** Custom team name set by the user */
+    team_name?: string;
+    /** Custom team avatar URL */
+    avatar?: string;
+    /** Notification/preference settings */
+    allow_pn?: string;
+    allow_sms?: string;
+    mention_pn?: string;
+    [key: string]: string | undefined;
   };
-  is_owner: boolean; // is commissioner
+  /** Whether this user is the league commissioner */
+  is_owner: boolean;
+  is_bot?: boolean;
+  /** Present when fetched from the league users endpoint */
+  league_id?: string;
+  settings: null | Record<string, unknown>;
 }
 
 interface ScoringSettings {

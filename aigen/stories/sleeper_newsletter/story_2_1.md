@@ -1,6 +1,6 @@
 # Story 2.1: Leaderboard Data Transformation
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 2 - Core Data Transformations
 
@@ -42,13 +42,14 @@ Create a utility function to transform Sleeper API matchup data into leaderboard
 ### Algorithm Steps
 
 1. **Fetch required data in parallel**:
+
    ```typescript
    const [users, rosters, ...weeklyMatchups] = await Promise.all([
      getUsers(leagueId),
      getRosters(leagueId),
      ...Array.from({ length: throughWeek }, (_, i) =>
-       getMatchups(leagueId, i + 1)
-     )
+       getMatchups(leagueId, i + 1),
+     ),
    ]);
    ```
 
@@ -74,12 +75,13 @@ Create a utility function to transform Sleeper API matchup data into leaderboard
    const interpolateColor = (value: number, min: number, max: number) => {
      const ratio = (value - min) / (max - min);
      // Interpolate between red (#bc293d) and green (#227740)
-   }
+   };
    ```
 
 ### Color Gradient Reference
 
 **Use the same color scheme as main league** (not configurable per league):
+
 - Best (green): `#227740`
 - Worst (red): `#bc293d`
 - Use linear interpolation for values in between
@@ -98,11 +100,13 @@ Matchups have a `matchup_id` field. Two rosters with the same `matchup_id` are m
 ## Human Testing Steps
 
 1. **Start dev server**:
+
    ```bash
    yarn start
    ```
 
 2. **Navigate to weekly recap page**:
+
    ```
    http://localhost:3000/league/1253779168802377728/weekly-recap/8
    ```
@@ -136,6 +140,7 @@ Matchups have a `matchup_id` field. Two rosters with the same `matchup_id` are m
 ## Expected Results
 
 **Visual Changes**:
+
 - New "Standings" section appears on the weekly recap page
 - Leaderboard table displays team standings
 - Color gradient visible on PF/PA columns (green = good, red = bad)
@@ -143,12 +148,14 @@ Matchups have a `matchup_id` field. Two rosters with the same `matchup_id` are m
 - Responsive design (works on mobile)
 
 **Functional Changes**:
+
 - Leaderboard data fetched from Sleeper API
 - Data aggregated across multiple weeks
 - W/L/PF/PA calculated correctly
 - Teams ranked properly
 
 **No Console Errors**:
+
 - No TypeScript errors
 - No runtime errors
 - No API errors (unless Sleeper is down)

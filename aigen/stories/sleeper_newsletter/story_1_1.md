@@ -1,6 +1,6 @@
 # Story 1.1: Create Newsletter Type Definitions
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 1 - Foundation & Data Models
 
@@ -38,6 +38,7 @@ None - this is the first story
 ### Reference Files
 
 Extract structure from these example files:
+
 - `src/newsletters/2025/2025 Week 1/efficiencyData.json`
 - `src/newsletters/2025/2025 Week 1/starters.json`
 - `src/newsletters/2025/2025 Week 1/leaderboard.json`
@@ -90,9 +91,11 @@ export interface LeaderboardData {
 Since this story only creates types (no UI changes), testing is simpler:
 
 1. **Verify TypeScript compilation**:
+
    ```bash
    yarn build
    ```
+
    - Should complete with no errors
    - No type errors should appear
 
@@ -100,7 +103,7 @@ Since this story only creates types (no UI changes), testing is simpler:
    - Open VSCode
    - Create a test import in any `.ts` file:
      ```typescript
-     import type { LeaderboardData } from '../types/newsletterTypes';
+     import type { LeaderboardData } from "../types/newsletterTypes";
      ```
    - Autocomplete should suggest all the new types
    - No red squiggly lines

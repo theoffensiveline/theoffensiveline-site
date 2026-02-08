@@ -90,7 +90,7 @@ const LeagueRosters: React.FC = () => {
           <RosterCard key={roster.roster_id}>
             <TeamHeader>
               <TeamAvatar 
-                src={roster.user?.metadata?.avatar || roster.user?.avatar} 
+                src={roster.user?.metadata?.avatar || roster.user?.avatar || undefined}
                 alt={`${roster.user?.display_name} Avatar`} 
               />
               <TeamInfo>

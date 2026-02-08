@@ -8,12 +8,19 @@ import {
   NewsletterContainer,
   NewsletterTitle,
 } from "../components/newsletters/newsStyles";
+import { MatchupPlot } from "../components/newsletters/chartStyles";
+import { LeaderboardTable } from "../components/newsletters/tableStyles";
 import { computeWeeklyAwards } from "../utils/awards/computeWeeklyAwards";
 import type { WeeklyAward } from "../utils/awards/computeWeeklyAwards";
+import { computeLeaderboard } from "../utils/newsletter/computeLeaderboard";
+import { computeStarters } from "../utils/newsletter/computeStarters";
+import type { LeaderboardData, StartersData } from "../types/newsletterTypes";
 
 export const LeagueWeeklyRecap: React.FC = () => {
   const { leagueId, week } = useParams();
   const [awards, setAwards] = useState<WeeklyAward[]>([]);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardData[]>([]);
+  const [starters, setStarters] = useState<StartersData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,21 +37,34 @@ export const LeagueWeeklyRecap: React.FC = () => {
       try {
         if (!leagueId) {
           setAwards([]);
+          setLeaderboard([]);
+          setStarters([]);
           setError("Missing leagueId");
           return;
         }
 
         if (!Number.isFinite(parsedWeek) || parsedWeek <= 0) {
           setAwards([]);
+          setLeaderboard([]);
+          setStarters([]);
           setError("Invalid week");
           return;
         }
 
-        const computed = await computeWeeklyAwards(leagueId, parsedWeek);
-        setAwards(computed);
+        const [computedAwards, computedLeaderboard, computedStarters] =
+          await Promise.all([
+            computeWeeklyAwards(leagueId, parsedWeek),
+            computeLeaderboard(leagueId, parsedWeek),
+            computeStarters(leagueId, parsedWeek),
+          ]);
+        setAwards(computedAwards);
+        setLeaderboard(computedLeaderboard);
+        setStarters(computedStarters);
       } catch (e) {
-        console.error("Error computing weekly awards:", e);
+        console.error("Error computing weekly recap:", e);
         setAwards([]);
+        setLeaderboard([]);
+        setStarters([]);
         setError("Failed to load weekly recap");
       } finally {
         setIsLoading(false);
@@ -69,7 +89,20 @@ export const LeagueWeeklyRecap: React.FC = () => {
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <AwardsGridV2 awardsData={awards} />
+        <>
+          <AwardsGridV2 awardsData={awards} />
+          <ArticleHeader>Matchups</ArticleHeader>
+          {[...new Set(starters.map((s) => s.matchup_id))]
+            .sort((a, b) => a - b)
+            .map((matchupId) => (
+              <React.Fragment key={matchupId}>
+                <ArticleSubheader>Matchup {matchupId}</ArticleSubheader>
+                <MatchupPlot data={starters} matchupId={matchupId} />
+              </React.Fragment>
+            ))}
+          <ArticleHeader>Standings</ArticleHeader>
+          <LeaderboardTable leaderboardData={leaderboard} />
+        </>
       )}
     </NewsletterContainer>
   );

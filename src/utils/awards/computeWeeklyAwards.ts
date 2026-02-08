@@ -19,7 +19,7 @@ type TeamInfo = {
 
 const getTeamName = (user: User | undefined): string => {
   if (!user) return "Unknown Team";
-  return user?.metadata?.team_name || user?.display_name || user?.username;
+  return user?.metadata?.team_name || user?.display_name || user?.username || "Unknown Team";
 };
 
 const getTeamPhoto = (user: User | undefined): string => {

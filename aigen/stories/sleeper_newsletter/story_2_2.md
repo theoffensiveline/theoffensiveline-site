@@ -1,6 +1,6 @@
 # Story 2.2: Starters/Matchup Plot Data
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 2 - Core Data Transformations
 
@@ -66,10 +66,10 @@ interface StartersData {
 ### Player Name and Nickname Lookup
 
 ```typescript
-import { sleeperPlayers } from '../playerUtils';
+import { sleeperPlayers } from "../playerUtils";
 
 const playerName = sleeperPlayers[playerId]?.full_name || playerId;
-const position = sleeperPlayers[playerId]?.position || 'FLEX';
+const position = sleeperPlayers[playerId]?.position || "FLEX";
 
 // Get custom nickname from roster metadata (set by manager in Sleeper)
 const nickname = roster.metadata?.player_map?.[playerId] || undefined;
@@ -80,11 +80,13 @@ const nickname = roster.metadata?.player_map?.[playerId] || undefined;
 ## Human Testing Steps
 
 1. **Start dev server**:
+
    ```bash
    yarn start
    ```
 
 2. **Navigate to weekly recap**:
+
    ```
    http://localhost:3000/league/1253779168802377728/weekly-recap/8
    ```
@@ -109,12 +111,14 @@ const nickname = roster.metadata?.player_map?.[playerId] || undefined;
 ## Expected Results
 
 **Visual Changes**:
+
 - Matchup plot charts appear for each matchup
 - Player performances displayed as horizontal bars
 - Team names shown
 - Points visible for each player
 
 **Functional Changes**:
+
 - Matchup data fetched and transformed
 - Player names resolved from sleeper_players.json
 - Data sorted by points
