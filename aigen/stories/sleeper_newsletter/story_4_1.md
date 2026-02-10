@@ -1,6 +1,6 @@
 # Story 4.1: Power Rankings Algorithm
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 4 - Power Rankings & Analytics
 
@@ -81,6 +81,7 @@ The power rankings use a **weighted play-all algorithm**:
 12-team league, week 5, Team A's weekly ranks: [3, 1, 4, 2, 1]
 
 **Play-all wins**:
+
 - Week 1 (rank 3): 12-3 = 9 wins, weight 1.0 → 9.0
 - Week 2 (rank 1): 12-1 = 11 wins, weight 1.2 → 13.2
 - Week 3 (rank 4): 12-4 = 8 wins, weight 1.4 → 11.2

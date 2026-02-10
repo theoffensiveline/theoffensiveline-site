@@ -6,26 +6,37 @@
 
 ## Description
 
-Create user-facing guide explaining how to use Sleeper newsletters with examples.
+Produce a polished, user-facing guide that explains how commissioners (or any Sleeper league) can access and share the dynamic newsletter. Include screenshots, URL patterns, and troubleshooting tips so the feature can be adopted without developer support.
 
 ## Files to Create/Modify
 
-- [ ] `docs/sleeper-newsletter-guide.md` (NEW)
+- [ ] `docs/sleeper-newsletter-guide.md` (NEW – primary guide)
+- [ ] `docs/images/newsletter/` (NEW – annotated screenshots)
+- [ ] `README.md` (UPDATE – link to guide)
 
 ## Acceptance Criteria
 
-- [ ] Explain how to access newsletters for any Sleeper league
-- [ ] Document URL pattern
-- [ ] Provide examples
-- [ ] Include troubleshooting
+- [ ] Guide covers prerequisites (league must be public or API token, etc.).
+- [ ] Step-by-step instructions for generating weekly recap URLs, including parameters (`/league/{leagueId}/weekly-recap/{week}`).
+- [ ] Provide at least two real examples with screenshots (desktop + mobile).
+- [ ] Include FAQ/troubleshooting: missing data, caching delays, playoff week behavior, timezone differences.
+- [ ] Document how to prefetch sections, share anchor links, and export to PDF.
+- [ ] Tone should be approachable for non-technical managers; avoid jargon.
+- [ ] Link to support/contact info for bug reports.
+
+## Implementation Notes
+
+1. Use Markdown tables for quick reference (e.g., "Section" → "What it shows" → "Data Source").
+2. Embed images using relative paths so they render on GitHub and docs site.
+3. Provide copy-paste commands for generating static links (maybe small CLI snippet).
 
 ## Human Testing Steps
 
-1. Review guide
-2. Follow steps to access newsletter
-3. Verify instructions are accurate
+1. Have a non-dev teammate follow the guide to open their league recap.
+2. Ask them to share the link with another person; ensure instructions mention shareable query params.
+3. Confirm screenshots render correctly on GitHub (dark/light mode) and in docs build if applicable.
 
 ## Expected Results
 
-- Clear guide for using Sleeper newsletters
-- Easy for any league to adopt
+- League admins can onboard themselves without pinging engineers.
+- Marketing/social teams have ready-made assets to promote the newsletter feature.

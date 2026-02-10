@@ -1,7 +1,8 @@
-import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import { getLeague, getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import { getAvatarUrl } from "../leagueHistory";
 import { getPlayerPhoto, sleeperPlayers } from "../playerUtils";
+import { calculateOptimalScore } from "../newsletter/computeEfficiency";
 
 export interface WeeklyAward {
   award: string;
@@ -44,10 +45,11 @@ export async function computeWeeklyAwards(
   leagueId: string,
   week: number
 ): Promise<WeeklyAward[]> {
-  const [users, rosters, matchups] = await Promise.all([
+  const [users, rosters, matchups, league] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
     getMatchups(leagueId, week),
+    getLeague(leagueId),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
@@ -195,7 +197,7 @@ export async function computeWeeklyAwards(
     }
   }
 
-  // MVP: highest scoring starter across all matchups
+  // Collect player performances for all matchups
   type PlayerPerf = {
     playerId: string;
     points: number;
@@ -234,14 +236,91 @@ export async function computeWeeklyAwards(
     }
   }
 
-  const mvp = starterPerformances.sort((a, b) => b.points - a.points)[0];
+  // --- Warmest Bench: most total bench points ---
+  const benchPointsByRoster = new Map<number, number>();
+  for (const bp of benchPerformances) {
+    benchPointsByRoster.set(
+      bp.rosterId,
+      (benchPointsByRoster.get(bp.rosterId) || 0) + bp.points
+    );
+  }
+
+  let warmestBenchRosterId = -1;
+  let warmestBenchPoints = -1;
+  for (const [rosterId, totalPoints] of benchPointsByRoster) {
+    if (totalPoints > warmestBenchPoints) {
+      warmestBenchPoints = totalPoints;
+      warmestBenchRosterId = rosterId;
+    }
+  }
+
+  if (warmestBenchRosterId > 0) {
+    const team = teamByRosterId.get(warmestBenchRosterId);
+    if (team) {
+      awards.push({
+        award: "Warmest Bench",
+        photo: team.photo || "/banner_logo.png",
+        name: team.name,
+        value: `Left ${warmestBenchPoints.toFixed(2)} points on the bench`,
+        description: "Most points left on the bench",
+      });
+    }
+  }
+
+  // --- Heaviest Top: most optimized lineup (lowest optimal - actual gap) ---
+  // Ties get numbered suffixes (e.g., "Heaviest Top 1", "Heaviest Top 2")
+  if (league?.roster_positions) {
+    const efficiencyGaps: { rosterId: number; gap: number }[] = [];
+
+    for (const m of matchups) {
+      const optimalScore = calculateOptimalScore(m, league.roster_positions);
+      const gap = optimalScore - m.points;
+      efficiencyGaps.push({ rosterId: m.roster_id, gap });
+    }
+
+    efficiencyGaps.sort((a, b) => a.gap - b.gap);
+    const bestGap = efficiencyGaps[0]?.gap;
+
+    if (bestGap !== undefined) {
+      const tied = efficiencyGaps.filter((e) => e.gap === bestGap);
+      const needsNumbering = tied.length > 1;
+
+      tied.forEach((entry, idx) => {
+        const team = teamByRosterId.get(entry.rosterId);
+        if (team) {
+          awards.push({
+            award: needsNumbering
+              ? `Heaviest Top ${idx + 1}`
+              : "Heaviest Top",
+            photo: team.photo || "/banner_logo.png",
+            name: team.name,
+            value: `Left ${entry.gap.toFixed()} points on the bench`,
+            description: "Most optimized lineup of the week",
+          });
+        }
+      });
+    }
+  }
+
+  // --- MVP: highest % of team total, only for players on winning teams ---
+  const winningRosterIds = new Set(resolvedGames
+    .filter((g) => g.margin > 0)
+    .map((g) => g.winner.roster_id));
+
+  const mvpCandidates = starterPerformances
+    .filter((p) => winningRosterIds.has(p.rosterId))
+    .map((p) => {
+      const teamTotal = matchups.find(
+        (m) => m.roster_id === p.rosterId
+      )?.points;
+      const pct = teamTotal && teamTotal > 0 ? (p.points / teamTotal) * 100 : 0;
+      return { ...p, pct };
+    })
+    .sort((a, b) => b.pct - a.pct);
+
+  const mvp = mvpCandidates[0];
   if (mvp && mvp.playerId && Number.isFinite(mvp.points)) {
     const team = teamByRosterId.get(mvp.rosterId);
-    const teamTotal = matchups.find(
-      (m) => m.roster_id === mvp.rosterId
-    )?.points;
-    const pct = teamTotal ? (mvp.points / teamTotal) * 100 : undefined;
-
     const mvpPlayer = sleeperPlayers[mvp.playerId];
     const mvpName = mvpPlayer?.full_name || mvp.playerId;
 
@@ -249,18 +328,14 @@ export async function computeWeeklyAwards(
       award: "MVP",
       photo: getPlayerPhoto(mvp.playerId),
       name: mvpName,
-      value:
-        pct !== undefined
-          ? `Scored ${mvp.points.toFixed(2)} points for ${
-              team?.name || mvp.teamName
-            } which was ${pct.toFixed(2)}% of the team total`
-          : `Scored ${mvp.points.toFixed(2)} points for ${
-              team?.name || mvp.teamName
-            }`,
+      value: `Scored ${mvp.points.toFixed(2)} points for ${
+        team?.name || mvp.teamName
+      } which was ${mvp.pct.toFixed(2)}% of the team total`,
       description: "Highest scoring starter of the week",
     });
   }
 
+  // --- Bench MVP ---
   const benchMvp = benchPerformances.sort((a, b) => b.points - a.points)[0];
   if (benchMvp && benchMvp.playerId && Number.isFinite(benchMvp.points)) {
     const team = teamByRosterId.get(benchMvp.rosterId);
@@ -277,6 +352,46 @@ export async function computeWeeklyAwards(
       }`,
       description: "Highest scoring bench player of the week",
     });
+  }
+
+  // --- Position-specific awards ---
+  const positionAwards: {
+    position: string;
+    award: string;
+    description: string;
+  }[] = [
+    { position: "QB", award: "Literally Throwing", description: "Best QB performance of the week" },
+    { position: "RB", award: "Running Wild", description: "Best RB performance of the week" },
+    { position: "WR", award: "Widest Receiver", description: "Best WR performance of the week" },
+    { position: "TE", award: "Tightest End", description: "Best TE performance of the week" },
+    { position: "K", award: "Das Boot", description: "Best K performance of the week" },
+    { position: "DEF", award: "Biggest D", description: "Best DEF performance of the week" },
+  ];
+
+  for (const pa of positionAwards) {
+    const best = starterPerformances
+      .filter((p) => {
+        const player = sleeperPlayers[p.playerId];
+        const pos = player?.fantasy_positions?.[0] ?? player?.position ?? null;
+        return pos === pa.position;
+      })
+      .sort((a, b) => b.points - a.points)[0];
+
+    if (best && best.playerId && Number.isFinite(best.points)) {
+      const player = sleeperPlayers[best.playerId];
+      const playerName = player?.full_name || best.playerId;
+      const team = teamByRosterId.get(best.rosterId);
+
+      awards.push({
+        award: pa.award,
+        photo: getPlayerPhoto(best.playerId),
+        name: playerName,
+        value: `Scored ${best.points.toFixed(2)} points for ${
+          team?.name || best.teamName
+        }`,
+        description: pa.description,
+      });
+    }
   }
 
   return awards;

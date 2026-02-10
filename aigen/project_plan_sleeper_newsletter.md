@@ -538,7 +538,7 @@ This high-level plan has been broken down into **22 individual stories** for imp
 - **Phase 2** (Core Transformations): 4 stories
 - **Phase 3** (Advanced Analytics): 2 stories
 - **Phase 4** (Power Rankings): 2 stories
-- **Phase 5** (Playoff Analytics): 2 stories
+- **Phase 5** (Playoff Analytics): 1 story
 - **Phase 6** (UI Integration): 2 stories
 - **Phase 7** (Performance): 4 stories
 - **Phase 8** (Testing & Docs): 4 stories

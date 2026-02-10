@@ -157,6 +157,8 @@ export interface MedianData {
 export interface PowerRankingsData {
   /** Power ranking position */
   "P Rank": number;
+  /** Rank change from previous week (positive = moved up, negative = moved down) */
+  Trend: number;
   /** Team name */
   Team: string;
   /** Play-all wins (wins if team played everyone each week) */
@@ -217,16 +219,20 @@ export interface PlayoffTableData {
   "Play-off %": number;
   /** Weighted probability of making playoffs (0-100) */
   "WP Playoff %": number;
-  /** Number representing playoff odds */
-  "Play-off #": number;
+  /** Magic number for clinching playoffs (number) or status ("CLINCHED", "ELIMINATED") */
+  "Play-off #": number | string;
   /** Probability of finishing last (0-100) */
   "Last %": number;
-  /** Number representing last place odds */
-  "Last #": number;
+  /** Magic number for avoiding last place (number) or "SAFE" */
+  "Last #": number | string;
   /** Color for playoff probability display */
   PlayoffColor: string;
   /** Color for weighted playoff probability display */
   WPPlayoffColor: string;
+  /** Color for playoff magic number display */
+  PlayoffMagicColor: string;
   /** Color for last place probability display */
   LastColor: string;
+  /** Color for last place magic number display */
+  LastMagicColor: string;
 }

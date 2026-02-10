@@ -1,6 +1,6 @@
 # Story 3.2: Median Scoring Leaderboard
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 3 - Advanced Analytics
 
