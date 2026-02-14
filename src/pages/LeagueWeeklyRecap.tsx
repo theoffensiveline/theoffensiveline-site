@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
   AwardsGridV2,
+  ArticleCaption,
   ArticleSubheader,
   NewsletterContainer,
   NewsletterTitle,
@@ -10,6 +11,8 @@ import {
 import {
   EfficiencyChart,
   MatchupPlot,
+  StackedHistogram,
+  WeeklyScoringChart,
 } from "../components/newsletters/chartStyles";
 import {
   AltLeaderboardTable,
@@ -17,6 +20,7 @@ import {
   PlayoffTable,
   PowerRankingsTable,
   ScheduleTable,
+  WeeklyMarginTable,
 } from "../components/newsletters/tableStyles";
 import { useNewsletterData } from "../hooks/useNewsletterData";
 import { SectionShell } from "../components/newsletter/SectionShell";
@@ -115,6 +119,17 @@ export const LeagueWeeklyRecap: React.FC = () => {
       shouldRender: true,
     },
     {
+      id: "efficiency",
+      label: "Manager Skill",
+      title: "Manager Skill Assessment",
+      subtitle: undefined,
+      section: newsletter.efficiency,
+      render: () => (
+        <EfficiencyChart chartData={newsletter.efficiency.data ?? []} />
+      ),
+      shouldRender: true,
+    },
+    {
       id: "matchups",
       label: "Matchup Spotlight",
       title: "Matchups",
@@ -136,13 +151,28 @@ export const LeagueWeeklyRecap: React.FC = () => {
       shouldRender: true,
     },
     {
-      id: "efficiency",
-      label: "Manager Skill",
-      title: "Manager Skill Assessment",
+      id: "scoring-distributions",
+      label: "Scoring Distributions",
+      title: "Scoring Distributions",
       subtitle: undefined,
-      section: newsletter.efficiency,
+      section: newsletter.matchupData,
       render: () => (
-        <EfficiencyChart chartData={newsletter.efficiency.data ?? []} />
+        <>
+          <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
+          <StackedHistogram chartData={newsletter.matchupData.data ?? []} />
+          <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
+
+          <ArticleSubheader>Weekly Scoring Chart</ArticleSubheader>
+          <WeeklyScoringChart chartData={newsletter.matchupData.data ?? []} />
+          <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
+
+          <ArticleSubheader>Weekly Margin of Victory</ArticleSubheader>
+          <WeeklyMarginTable
+            matchupData={newsletter.matchupData.data ?? []}
+            leaderboardData={newsletter.leaderboard.data ?? []}
+          />
+          <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
+        </>
       ),
       shouldRender: true,
     },

@@ -1,8 +1,13 @@
-import { getLeague, getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import {
+  getLeague,
+  getMatchups,
+  getRosters,
+  getUsers,
+} from "../api/SleeperAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import { getAvatarUrl } from "../leagueHistory";
 import { getPlayerPhoto, sleeperPlayers } from "../playerUtils";
-import { calculateOptimalScore } from "../newsletter/computeEfficiency";
+import { calculateOptimalScore } from "./computeEfficiency";
 
 export interface WeeklyAward {
   award: string;
@@ -20,7 +25,12 @@ type TeamInfo = {
 
 const getTeamName = (user: User | undefined): string => {
   if (!user) return "Unknown Team";
-  return user?.metadata?.team_name || user?.display_name || user?.username || "Unknown Team";
+  return (
+    user?.metadata?.team_name ||
+    user?.display_name ||
+    user?.username ||
+    "Unknown Team"
+  );
 };
 
 const getTeamPhoto = (user: User | undefined): string => {
@@ -43,7 +53,7 @@ const safeNumber = (n: number | undefined | null): number =>
 
 export async function computeWeeklyAwards(
   leagueId: string,
-  week: number
+  week: number,
 ): Promise<WeeklyAward[]> {
   const [users, rosters, matchups, league] = await Promise.all([
     getUsers(leagueId),
@@ -127,22 +137,22 @@ export async function computeWeeklyAwards(
 
   if (resolvedGames.length > 0) {
     const worstWinner = [...resolvedGames].sort(
-      (a, b) => a.winner.points - b.winner.points
+      (a, b) => a.winner.points - b.winner.points,
     )[0];
     const bestLoser = [...resolvedGames].sort(
-      (a, b) => b.loser.points - a.loser.points
+      (a, b) => b.loser.points - a.loser.points,
     )[0];
     const biggestBlowout = [...resolvedGames].sort(
-      (a, b) => b.margin - a.margin
+      (a, b) => b.margin - a.margin,
     )[0];
     const closestGame = [...resolvedGames].sort(
-      (a, b) => a.margin - b.margin
+      (a, b) => a.margin - b.margin,
     )[0];
 
     const worstWinnerTeam = teamByRosterId.get(worstWinner.winner.roster_id);
     const bestLoserTeam = teamByRosterId.get(bestLoser.loser.roster_id);
     const blowoutWinnerTeam = teamByRosterId.get(
-      biggestBlowout.winner.roster_id
+      biggestBlowout.winner.roster_id,
     );
     const blowoutLoserTeam = teamByRosterId.get(biggestBlowout.loser.roster_id);
     const closeWinnerTeam = teamByRosterId.get(closestGame.winner.roster_id);
@@ -154,7 +164,7 @@ export async function computeWeeklyAwards(
         photo: worstWinnerTeam.photo || "/banner_logo.png",
         name: worstWinnerTeam.name,
         value: `Scored ${worstWinner.winner.points.toFixed(
-          2
+          2,
         )} points in their win`,
         description: "Lowest-scoring team to get a win",
       });
@@ -166,7 +176,7 @@ export async function computeWeeklyAwards(
         photo: bestLoserTeam.photo || "/banner_logo.png",
         name: bestLoserTeam.name,
         value: `Scored ${bestLoser.loser.points.toFixed(
-          2
+          2,
         )} points in their loss`,
         description: "Highest-scoring team to take a loss",
       });
@@ -190,7 +200,7 @@ export async function computeWeeklyAwards(
         photo: closeWinnerTeam.photo || "/banner_logo.png",
         name: closeWinnerTeam.name,
         value: `Defeated ${closeLoserTeam.name} by ${closestGame.margin.toFixed(
-          2
+          2,
         )} points`,
         description: "Closest game of the week",
       });
@@ -236,34 +246,33 @@ export async function computeWeeklyAwards(
     }
   }
 
-  // --- Warmest Bench: most total bench points ---
-  const benchPointsByRoster = new Map<number, number>();
-  for (const bp of benchPerformances) {
-    benchPointsByRoster.set(
-      bp.rosterId,
-      (benchPointsByRoster.get(bp.rosterId) || 0) + bp.points
-    );
-  }
+  // --- Warmest Bench: most points left on bench that could've been in optimal lineup ---
+  if (league?.roster_positions) {
+    const efficiencyGaps: { rosterId: number; gap: number }[] = [];
 
-  let warmestBenchRosterId = -1;
-  let warmestBenchPoints = -1;
-  for (const [rosterId, totalPoints] of benchPointsByRoster) {
-    if (totalPoints > warmestBenchPoints) {
-      warmestBenchPoints = totalPoints;
-      warmestBenchRosterId = rosterId;
+    for (const m of matchups) {
+      const optimalScore = calculateOptimalScore(m, league.roster_positions);
+      const gap = optimalScore - m.points;
+      efficiencyGaps.push({ rosterId: m.roster_id, gap });
     }
-  }
 
-  if (warmestBenchRosterId > 0) {
-    const team = teamByRosterId.get(warmestBenchRosterId);
-    if (team) {
-      awards.push({
-        award: "Warmest Bench",
-        photo: team.photo || "/banner_logo.png",
-        name: team.name,
-        value: `Left ${warmestBenchPoints.toFixed(2)} points on the bench`,
-        description: "Most points left on the bench",
-      });
+    // Sort by gap descending - highest gap = most points left on bench
+    efficiencyGaps.sort((a, b) => b.gap - a.gap);
+
+    const worstGap = efficiencyGaps[0];
+
+    if (worstGap && worstGap.gap > 0) {
+      const team = teamByRosterId.get(worstGap.rosterId);
+      if (team) {
+        awards.push({
+          award: "Warmest Bench",
+          photo: team.photo || "/banner_logo.png",
+          name: team.name,
+          value: `Left ${worstGap.gap.toFixed(2)} points on the bench`,
+          description:
+            "Most points left on the bench that could've been in optimal lineup",
+        });
+      }
     }
   }
 
@@ -289,9 +298,7 @@ export async function computeWeeklyAwards(
         const team = teamByRosterId.get(entry.rosterId);
         if (team) {
           awards.push({
-            award: needsNumbering
-              ? `Heaviest Top ${idx + 1}`
-              : "Heaviest Top",
+            award: needsNumbering ? `Heaviest Top ${idx + 1}` : "Heaviest Top",
             photo: team.photo || "/banner_logo.png",
             name: team.name,
             value: `Left ${entry.gap.toFixed()} points on the bench`,
@@ -303,15 +310,15 @@ export async function computeWeeklyAwards(
   }
 
   // --- MVP: highest % of team total, only for players on winning teams ---
-  const winningRosterIds = new Set(resolvedGames
-    .filter((g) => g.margin > 0)
-    .map((g) => g.winner.roster_id));
+  const winningRosterIds = new Set(
+    resolvedGames.filter((g) => g.margin > 0).map((g) => g.winner.roster_id),
+  );
 
   const mvpCandidates = starterPerformances
     .filter((p) => winningRosterIds.has(p.rosterId))
     .map((p) => {
       const teamTotal = matchups.find(
-        (m) => m.roster_id === p.rosterId
+        (m) => m.roster_id === p.rosterId,
       )?.points;
       const pct = teamTotal && teamTotal > 0 ? (p.points / teamTotal) * 100 : 0;
       return { ...p, pct };
@@ -360,12 +367,36 @@ export async function computeWeeklyAwards(
     award: string;
     description: string;
   }[] = [
-    { position: "QB", award: "Literally Throwing", description: "Best QB performance of the week" },
-    { position: "RB", award: "Running Wild", description: "Best RB performance of the week" },
-    { position: "WR", award: "Widest Receiver", description: "Best WR performance of the week" },
-    { position: "TE", award: "Tightest End", description: "Best TE performance of the week" },
-    { position: "K", award: "Das Boot", description: "Best K performance of the week" },
-    { position: "DEF", award: "Biggest D", description: "Best DEF performance of the week" },
+    {
+      position: "QB",
+      award: "Literally Throwing",
+      description: "Best QB performance of the week",
+    },
+    {
+      position: "RB",
+      award: "Running Wild",
+      description: "Best RB performance of the week",
+    },
+    {
+      position: "WR",
+      award: "Widest Receiver",
+      description: "Best WR performance of the week",
+    },
+    {
+      position: "TE",
+      award: "Tightest End",
+      description: "Best TE performance of the week",
+    },
+    {
+      position: "K",
+      award: "Das Boot",
+      description: "Best K performance of the week",
+    },
+    {
+      position: "DEF",
+      award: "Biggest D",
+      description: "Best DEF performance of the week",
+    },
   ];
 
   for (const pa of positionAwards) {

@@ -43,15 +43,15 @@ Stories are organized into phases, with each story representing a single, testab
 - ⏳ [Story 4.2](story_4_2.md): Strength of Schedule Analytics
 
 ### Phase 5: Matchup & Playoff Analytics (2 stories)
-- ⏳ [Story 5.1](story_5_1.md): Playoff Standings & Scenarios
-- ⏳ [Story 5.2](story_5_2.md): Matchup Data & Narratives
+- ✅ [Story 5.1](story_5_1.md): Playoff Standings & Scenarios
+- ⏳ [Story 5.2](story_5_2.md): Weekly Scoring Distribution & Margin of Victory
 
 ### Phase 6: UI Integration (2 stories)
 - ⏳ [Story 6.1](story_6_1.md): Newsletter Data Hook
 - ⏳ [Story 6.2](story_6_2.md): Complete UI Integration
 
 ### Phase 7: Performance & Polish (4 stories)
-- ⏳ [Story 7.1](story_7_1.md): React Query Caching Strategy
+- ✅ [Story 7.1](story_7_1.md): React Query Caching Strategy
 - ⏳ [Story 7.2](story_7_2.md): Loading States & Skeletons
 - ⏳ [Story 7.3](story_7_3.md): Error Handling & Boundaries
 - ⏳ [Story 7.4](story_7_4.md): Performance Optimization

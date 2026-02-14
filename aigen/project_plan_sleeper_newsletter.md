@@ -257,7 +257,7 @@ LeagueWeeklyRecap.tsx - Updated to use new utilities
 
 ### Phase 5: Matchup & Playoff Analytics
 
-**Duration**: Playoff-specific features
+**Duration**: Playoff-specific features and scoring distribution analysis
 
 **Tasks**:
 
@@ -269,18 +269,27 @@ LeagueWeeklyRecap.tsx - Updated to use new utilities
    - Calculate magic numbers for clinching/elimination
    - Project playoff scenarios
 
-2. **Matchup Data Utility**
+2. **Matchup Data Utility** (Weekly Scoring Distribution & Margin of Victory)
    - File: `src/utils/newsletter/computeMatchupData.ts`
-   - Function: `computeMatchupData(leagueId: string, week: number): Promise<MatchupData>`
-   - Calculate head-to-head statistics
-   - Identify key matchup narratives (rivalries, rematches)
-   - Calculate scoring trends
-   - Format for various newsletter sections
+   - Function: `computeMatchupData(leagueId: string, currentWeek: number): Promise<MatchupData[]>`
+   - Fetch all matchup data from week 1 through currentWeek
+   - Calculate weekly league statistics (Average, Median, Maximum, Minimum)
+   - Calculate margin of victory for each matchup
+   - Color code close matchups (within 5 points)
+   - Format data for three visualizations:
+     - **StackedHistogram**: Distribution of weekly scoring
+     - **WeeklyScoringChart**: Weekly statistics over time (Average, Median, Max, Min)
+     - **WeeklyMarginTable**: W-L records with weekly margin of victory
+   - **Note**: These features were initially missing from the project plan but are present in all main league newsletters
 
 **Deliverables**:
 
 - Two utilities supporting matchup analysis and playoff tracking
 - Support for both regular season and playoff weeks
+- Three scoring distribution visualizations matching main league newsletter format:
+  - Distribution of Scoring (StackedHistogram)
+  - Weekly Scoring Chart (Average/Median/Max/Min trends)
+  - Weekly Margin of Victory Table (color-coded close matchups)
 
 ### Phase 6: UI Integration
 

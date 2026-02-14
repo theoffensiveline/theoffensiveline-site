@@ -1,5 +1,5 @@
 import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
-import type { Matchup, Roster, User } from "../../types/sleeperTypes";
+import type { Roster, User } from "../../types/sleeperTypes";
 import type { StartersData } from "../../types/newsletterTypes";
 import { sleeperPlayers } from "../playerUtils";
 
@@ -15,7 +15,7 @@ function getTeamName(user: User | undefined): string {
 
 export async function computeStarters(
   leagueId: string,
-  week: number
+  week: number,
 ): Promise<StartersData[]> {
   const [matchups, rosters, users] = await Promise.all([
     getMatchups(leagueId, week),
@@ -27,7 +27,7 @@ export async function computeStarters(
 
   // Map roster_id to roster and user info for quick lookup
   const rosterById = new Map<number, Roster>(
-    rosters.map((r) => [r.roster_id, r])
+    rosters.map((r) => [r.roster_id, r]),
   );
 
   const results: StartersData[] = [];
