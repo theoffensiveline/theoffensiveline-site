@@ -25,6 +25,13 @@ import {
 import { useNewsletterData } from "../hooks/useNewsletterData";
 import { SectionShell } from "../components/newsletter/SectionShell";
 import { AnchorNav } from "../components/newsletter/AnchorNav";
+import { ProgressIndicator } from "../components/newsletter/ProgressIndicator";
+import {
+  AwardsSkeleton,
+  TableSkeleton,
+  ChartSkeleton,
+  MatchupSkeleton,
+} from "../components/newsletter/skeletons";
 
 const PageLayout = styled.div`
   display: flex;
@@ -116,6 +123,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       subtitle: undefined,
       section: newsletter.awards,
       render: () => <AwardsGridV2 awardsData={newsletter.awards.data ?? []} />,
+      skeleton: <AwardsSkeleton />,
       shouldRender: true,
     },
     {
@@ -127,6 +135,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       render: () => (
         <EfficiencyChart chartData={newsletter.efficiency.data ?? []} />
       ),
+      skeleton: <ChartSkeleton />,
       shouldRender: true,
     },
     {
@@ -148,6 +157,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
           ))}
         </>
       ),
+      skeleton: <MatchupSkeleton />,
       shouldRender: true,
     },
     {
@@ -174,6 +184,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
           <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
         </>
       ),
+      skeleton: <ChartSkeleton />,
       shouldRender: true,
     },
     {
@@ -185,6 +196,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       render: () => (
         <LeaderboardTable leaderboardData={newsletter.leaderboard.data ?? []} />
       ),
+      skeleton: <TableSkeleton rows={10} columns={6} />,
       shouldRender: true,
     },
     {
@@ -198,6 +210,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
           powerRankingsData={newsletter.powerRankings.data ?? []}
         />
       ),
+      skeleton: <TableSkeleton rows={10} columns={4} />,
       shouldRender: true,
     },
     {
@@ -207,6 +220,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       subtitle: "Total record including matchups and games vs. league median",
       section: newsletter.median,
       render: () => <AltLeaderboardTable data={newsletter.median.data ?? []} />,
+      skeleton: <TableSkeleton rows={10} columns={5} />,
       shouldRender: true,
     },
     {
@@ -218,6 +232,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       render: () => (
         <AltLeaderboardTable data={newsletter.bestBall.data ?? []} />
       ),
+      skeleton: <TableSkeleton rows={10} columns={5} />,
       shouldRender: true,
     },
     {
@@ -229,7 +244,10 @@ export const LeagueWeeklyRecap: React.FC = () => {
       render: () => (
         <PlayoffTable playoffData={newsletter.playoffStandings.data ?? []} />
       ),
-      shouldRender: (newsletter.playoffStandings.data?.length ?? 0) > 0,
+      skeleton: <TableSkeleton rows={10} columns={4} />,
+      shouldRender:
+        newsletter.playoffStandings.status !== "success" ||
+        (newsletter.playoffStandings.data?.length ?? 0) > 0,
     },
     {
       id: "schedule",
@@ -238,10 +256,12 @@ export const LeagueWeeklyRecap: React.FC = () => {
       subtitle: "How would each team fare with different schedules?",
       section: newsletter.schedule,
       render: () => <ScheduleTable data={newsletter.schedule.data!} />,
+      skeleton: <TableSkeleton rows={10} columns={6} />,
       shouldRender:
-        newsletter.schedule.data !== undefined &&
-        newsletter.schedule.data !== null &&
-        newsletter.schedule.data.current_records.length > 0,
+        newsletter.schedule.status !== "success" ||
+        (newsletter.schedule.data !== undefined &&
+          newsletter.schedule.data !== null &&
+          newsletter.schedule.data.current_records.length > 0),
     },
   ];
 
@@ -255,6 +275,11 @@ export const LeagueWeeklyRecap: React.FC = () => {
     isReady: section.section.status === "success",
   }));
 
+  // Count ready sections for progress indicator
+  const readySectionsCount = visibleSections.filter(
+    (s) => s.section.status === "success"
+  ).length;
+
   return (
     <PageLayout>
       <Sidebar>
@@ -267,6 +292,11 @@ export const LeagueWeeklyRecap: React.FC = () => {
             Sleeper Weekly Recap – Week {parsedWeek}
           </ArticleSubheader>
 
+          <ProgressIndicator
+            totalSections={visibleSections.length}
+            readySections={readySectionsCount}
+          />
+
           {visibleSections.map((section) => (
             <SectionShell
               key={section.id}
@@ -276,6 +306,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
               status={section.section.status}
               error={section.section.error}
               onRetry={() => section.section.refetch()}
+              skeleton={section.skeleton}
             >
               {section.render()}
             </SectionShell>

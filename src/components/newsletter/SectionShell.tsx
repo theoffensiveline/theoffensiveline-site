@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ArticleHeader, ArticleSubheader } from "../newsletters/newsStyles";
 
@@ -10,6 +10,7 @@ interface SectionShellProps {
   error?: Error | null;
   onRetry?: () => void;
   children?: React.ReactNode;
+  skeleton?: React.ReactNode;
 }
 
 const SectionContainer = styled.section`
@@ -98,7 +99,8 @@ const ContentWrapper = styled.div`
  *
  * Provides:
  * - Consistent title/subtitle styling
- * - Loading skeleton during data fetch
+ * - Loading skeleton during data fetch (custom or default)
+ * - Minimum display time for skeletons (400ms) to prevent flicker
  * - Error state with retry button
  * - Smooth progressive rendering
  */
@@ -110,19 +112,55 @@ export const SectionShell: React.FC<SectionShellProps> = ({
   error,
   onRetry,
   children,
+  skeleton,
 }) => {
+  const [loadingStartTime, setLoadingStartTime] = useState<number | null>(null);
+  const [showContent, setShowContent] = useState(false);
+
+  // Track when loading starts
+  useEffect(() => {
+    if (status === "pending" && loadingStartTime === null) {
+      setLoadingStartTime(Date.now());
+    }
+  }, [status, loadingStartTime]);
+
+  // Handle minimum display time for skeleton (400ms)
+  useEffect(() => {
+    if (status === "success" && loadingStartTime !== null) {
+      const elapsed = Date.now() - loadingStartTime;
+      const minimumDisplayTime = 400;
+      const remainingTime = Math.max(0, minimumDisplayTime - elapsed);
+
+      const timer = setTimeout(() => {
+        setShowContent(true);
+        setLoadingStartTime(null);
+      }, remainingTime);
+
+      return () => clearTimeout(timer);
+    } else if (status !== "success") {
+      setShowContent(false);
+    }
+  }, [status, loadingStartTime]);
+
+  // Determine what to show
+  const shouldShowSkeleton = status === "pending" || (status === "success" && !showContent);
+
   return (
-    <SectionContainer id={id} aria-live="polite" aria-busy={status === "pending"}>
+    <SectionContainer id={id} aria-live="polite" aria-busy={shouldShowSkeleton}>
       <ArticleHeader>{title}</ArticleHeader>
       {subtitle && <ArticleSubheader>{subtitle}</ArticleSubheader>}
 
-      {status === "pending" && (
+      {shouldShowSkeleton && (
         <SkeletonWrapper role="status" aria-label="Loading content">
-          <SkeletonLine height="40px" />
-          <SkeletonLine width="80%" />
-          <SkeletonLine width="90%" />
-          <SkeletonLine width="70%" />
-          <SkeletonLine height="100px" />
+          {skeleton || (
+            <>
+              <SkeletonLine height="40px" />
+              <SkeletonLine width="80%" />
+              <SkeletonLine width="90%" />
+              <SkeletonLine width="70%" />
+              <SkeletonLine height="100px" />
+            </>
+          )}
         </SkeletonWrapper>
       )}
 
@@ -135,7 +173,9 @@ export const SectionShell: React.FC<SectionShellProps> = ({
         </ErrorContainer>
       )}
 
-      {status === "success" && <ContentWrapper>{children}</ContentWrapper>}
+      {status === "success" && showContent && (
+        <ContentWrapper>{children}</ContentWrapper>
+      )}
     </SectionContainer>
   );
 };
