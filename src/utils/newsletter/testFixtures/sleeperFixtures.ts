@@ -5,7 +5,7 @@
  * only the fields they care about without repeating boilerplate.
  */
 
-import type { League, Matchup, Roster, User } from "../../../../types/sleeperTypes";
+import type { League, Matchup, Roster, User } from "../../../types/sleeperTypes";
 
 // ---------------------------------------------------------------------------
 // User
