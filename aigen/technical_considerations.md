@@ -39,7 +39,55 @@ This document captures lessons learned and important notes for The Offensive Lin
 - **Bundle Size:** Chart components (Victory.js) are now lazy-loaded via `React.lazy` — chunks load on demand after data arrives. The static imports for tableStyles/newsStyles are kept synchronous since they're small.
 - **ErrorBoundary Retry Test Pattern:** When testing retry in an error boundary, update child props via `rerender` BEFORE clicking Retry — otherwise the reset triggers a re-render of the still-throwing child and the boundary immediately re-enters error state
 - **No `@testing-library/jest-dom`:** Project has no `setupTests` file — use `.toBeTruthy()` instead of `.toBeInTheDocument()`, and `.toBeNull()` instead of `.not.toBeInTheDocument()`
-- **`App.test.js` pre-existing failure:** `react-snowfall` uses ESM which Jest can't parse — this is not our code, pre-existing issue, all 33 real tests pass
+
+## Newsletter Stack Architecture
+
+### Data Flow
+
+```
+Sleeper REST API
+  └─ SleeperAPI.ts  (in-flight Map de-duplication per URL)
+       └─ compute* utilities  (src/utils/newsletter/)
+            └─ useNewsletterData.ts  (React Query useQueries — all sections parallel)
+                 └─ LeagueWeeklyRecap  (SectionShell per section, React.memo)
+                      └─ UI components  (lazy-loaded chart chunks via React.lazy)
+```
+
+### Caching Strategy
+
+| Week type | staleTime | gcTime | refetchOnMount | refetchOnWindowFocus |
+|---|---|---|---|---|
+| Completed (week < current NFL week) | 6 hours | 24 hours | false | false |
+| Current week | 1 hour | 2 hours | true | true |
+
+League settings (`getLeague`) use a 24-hour stale time — settings almost never change mid-season.
+NFL state (`getNflState`) uses a 1-hour stale time to detect week transitions.
+
+Query keys follow `['newsletter', leagueId, week, section]` — caches are isolated per league, week, and section.
+
+### Multi-Week Fetching
+
+`computeLeaderboard`, `computeMatchupData`, `computePowerRankings`, `computePlayoffStandings`, and `computeSchedule` fetch weeks 1–N simultaneously via `Promise.all`. Since multiple sections request the same week, SleeperAPI's in-flight Map collapses duplicate HTTP requests automatically — only one request fires per unique URL per tick.
+
+## Troubleshooting FAQ
+
+**Q: Sections show stale data even after scores finalize.**
+A: The current-week cache uses a 1-hour stale time. Either wait for it to expire or call `invalidateNewsletter(queryClient, leagueId, week)` (exported from `useNewsletterData.ts`) to force a refresh.
+
+**Q: Sleeper API returns 429 Too Many Requests.**
+A: The in-flight de-duplication in `SleeperAPI.ts` prevents duplicate concurrent requests, but rapid week-switching can still hit rate limits. Add a short delay between programmatic week changes or rely on React Query's built-in caching to serve already-fetched weeks instantly.
+
+**Q: Avatar images are missing or broken.**
+A: Sleeper avatar URLs are constructed from the user's `avatar` hash. If the hash is `null` (user never set an avatar), the UI falls back to `undefined` and should render initials or a placeholder. Check `getAvatarUrl` in `src/utils/leagueHistory.ts` for the URL pattern.
+
+**Q: Section timing shows >200ms warnings for leaderboard/schedule.**
+A: These utilities fetch N weeks in parallel — as N grows (late season), total time increases. The Sleeper API is the bottleneck. React Query's aggressive caching for completed weeks (6hr stale) mitigates this after the first load.
+
+**Q: Newsletter renders in wrong order (standings before median) for median leagues.**
+A: `useNewsletterData` returns `isMedianLeague` derived from `league.settings.league_average_match === 1`. Pass this flag to `LeagueWeeklyRecap` to swap the standings/median section display order. See Story 7.x for implementation details.
+
+**Q: `computeEfficiency` / `computeBestBall` return unexpected values.**
+A: Both rely on `calculateOptimalScore` from `computeEfficiency.ts`, which uses `sleeperPlayers` to look up position eligibility. If a player ID is missing from `sleeper_players.json`, their score contribution is omitted. Refresh the JSON from the Sleeper players endpoint if this occurs.
 
 ## Common Patterns
 

@@ -1,5 +1,7 @@
 # Get Sleeper Newsletter on par with Main League Newsletters
 
+> **Status: ✅ Complete** — All implementation stories finished. Story 8.4 (Usage Guide) superseded by [public-launch-plan.md](public-launch-plan.md), which defines the broader multi-league platform roadmap including commissioner onboarding.
+
 ## Executive Summary
 
 This project will enhance the generic Sleeper newsletter ([LeagueWeeklyRecap.tsx](../src/pages/LeagueWeeklyRecap.tsx)) to match the feature parity and data richness of the main league newsletters ([Newsletter.jsx](../src/pages/Newsletter.jsx)). Currently, the main league newsletter displays comprehensive weekly analysis using pre-computed JSON data files from R scripts, while the Sleeper newsletter only shows basic weekly awards. By implementing data transformation utilities in TypeScript, we will enable any Sleeper league to generate the full newsletter experience dynamically from the Sleeper API.

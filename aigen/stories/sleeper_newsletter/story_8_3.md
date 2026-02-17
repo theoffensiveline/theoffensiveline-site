@@ -1,6 +1,6 @@
 # Story 8.3: Documentation Updates
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 8 - Testing & Documentation
 
@@ -10,17 +10,17 @@ Refresh internal documentation so future contributors can extend the Sleeper new
 
 ## Files to Create/Modify
 
-- [ ] `CLAUDE.md` (UPDATE – add newsletter utilities + testing commands)
-- [ ] `aigen/technical_considerations.md` (UPDATE – summarize architecture decisions + learned constraints)
-- [ ] `docs/newsletter-data-flow.md` (NEW – visual overview of API → utilities → UI)
+- [x] `CLAUDE.md` (UPDATE – add newsletter utilities + testing commands)
+- [x] `aigen/technical_considerations.md` (UPDATE – summarize architecture decisions + learned constraints)
+- [x] `docs/newsletter-data-flow.md` (NEW – visual overview of API → utilities → UI)
 
 ## Acceptance Criteria
 
-- [ ] Each newsletter utility documented with purpose, inputs/outputs, and primary consumers.
-- [ ] Multi-week fetching + caching strategy explained with diagrams or tables.
-- [ ] Instructions added for running unit/integration tests plus perf diagnostics.
-- [ ] Include troubleshooting FAQ (e.g., Sleeper rate limits, missing avatars, timezone drift).
-- [ ] Documentation references relevant stories for historical context.
+- [x] Each newsletter utility documented with purpose, inputs/outputs, and primary consumers.
+- [x] Multi-week fetching + caching strategy explained with diagrams or tables.
+- [x] Instructions added for running unit/integration tests plus perf diagnostics.
+- [x] Include troubleshooting FAQ (e.g., Sleeper rate limits, missing avatars, timezone drift).
+- [x] Documentation references relevant stories for historical context.
 
 ## Implementation Notes
 

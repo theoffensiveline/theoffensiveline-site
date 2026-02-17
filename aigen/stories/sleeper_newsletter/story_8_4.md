@@ -1,6 +1,6 @@
 # Story 8.4: Usage Guide & Examples
 
-**Status**: ⏳ Pending
+**Status**: 🚫 Superseded — replaced by [public-launch-plan.md](../../public-launch-plan.md), which covers the broader platform vision including commissioner onboarding.
 
 **Phase**: 8 - Testing & Documentation
 

@@ -22,8 +22,14 @@ pnpm install
 # Start development server (opens on localhost:3000)
 pnpm start
 
-# Run tests
+# Run all tests
 pnpm test
+
+# Run only newsletter utility tests
+pnpm test-utils-newsletter
+
+# Enable per-section performance timing in dev server (sections >200ms emit console.warn)
+REACT_APP_NEWSLETTER_PERF=1 pnpm start
 ```
 
 ## Deployment
@@ -180,6 +186,30 @@ See [newsletters/README.md](src/newsletters/README.md) for detailed instructions
 - Use functions from [SleeperAPI.ts](src/utils/api/SleeperAPI.ts)
 - Common functions: `getLeague`, `getRosters`, `getMatchups`, `getTransactions`, `getPlayoffBracket`
 - Player data available in `sleeper_players.json` (large file)
+- `SleeperAPI.ts` de-duplicates concurrent identical requests via a module-level `_inflight` Map — no special handling needed in callers
+
+### Newsletter Compute Utilities
+
+All utilities live in [src/utils/newsletter/](src/utils/newsletter/) and share the same signature: `(leagueId: string, week: number) → Promise<T>`. They are orchestrated in parallel by `useNewsletterData` in [src/hooks/useNewsletterData.ts](src/hooks/useNewsletterData.ts).
+
+| Utility | Output Type | Key Inputs | Primary UI Consumer |
+|---|---|---|---|
+| `computeWeeklyAwards` | `WeeklyAward[]` | rosters, users, matchups, league, players | AwardsGridV2 |
+| `computeLeaderboard` | `LeaderboardData[]` | rosters, users, matchups weeks 1–N | LeaderboardTable |
+| `computeStarters` | `StartersData[]` | matchups (week only), rosters, users, players | StartersTable |
+| `computeEfficiency` | `EfficiencyData[]` | league, matchups, rosters, users, players | EfficiencyChart |
+| `computeBestBall` | `BestBallData[]` | league, matchups, rosters, users | BestBallTable |
+| `computeMedian` | `MedianData[]` | matchups (week only), rosters, users | MedianTable |
+| `computePowerRankings` | `PowerRankingsData[]` | matchups weeks 1–N, rosters, users | PowerRankingsTable |
+| `computePlayoffStandings` | `PlayoffTableData[]` | league, matchups weeks 1–N, rosters, users | PlayoffStandingsTable |
+| `computeSchedule` | `ScheduleData` | matchups weeks 1–N, rosters, users | ScheduleMatrix |
+| `computeMatchupData` | `MatchupData[]` | rosters, users, matchups weeks 1–N | StackedHistogram, WeeklyScoringChart, WeeklyMarginTable |
+
+**Multi-week utilities** (`computeLeaderboard`, `computeMatchupData`, `computePowerRankings`, `computePlayoffStandings`, `computeSchedule`) fetch all weeks 1–N in a single `Promise.all`. The SleeperAPI in-flight cache ensures repeated calls for the same week share one HTTP request.
+
+**Tests** live in [src/utils/newsletter/\_\_tests\_\_/](src/utils/newsletter/__tests__/) and fixtures in [src/utils/newsletter/testFixtures/](src/utils/newsletter/testFixtures/) (outside `__tests__` so Jest doesn't treat them as test suites).
+
+See [docs/newsletter-data-flow.md](docs/newsletter-data-flow.md) for a full architecture diagram.
 
 ## File Naming Conventions
 
