@@ -18,7 +18,7 @@ import { computePowerRankings } from "../utils/newsletter/computePowerRankings";
 import { computePlayoffStandings } from "../utils/newsletter/computePlayoffStandings";
 import { computeSchedule } from "../utils/newsletter/computeSchedule";
 import { computeMatchupData } from "../utils/newsletter/computeMatchupData";
-import { getNflState } from "../utils/api/SleeperAPI";
+import { getLeague, getNflState } from "../utils/api/SleeperAPI";
 import type {
   BestBallData,
   EfficiencyData,
@@ -249,6 +249,8 @@ export interface NewsletterData {
   playoffStandings: SectionResult<PlayoffTableData[]>;
   schedule: SectionResult<ScheduleData>;
   matchupData: SectionResult<MatchupData[]>;
+  /** Whether the league uses median scoring (league_average_match === 1) */
+  isMedianLeague: boolean;
   // Aggregate helpers
   isLoadingAny: boolean;
   hasErrors: boolean;
@@ -317,6 +319,17 @@ export function useNewsletterData(
     staleTime: 60 * 60 * 1000, // 1 hour - NFL week doesn't change often
     gcTime: 24 * 60 * 60 * 1000, // 24 hours
   });
+
+  // Fetch league settings to detect median scoring mode
+  const { data: leagueData } = useQuery({
+    queryKey: ["league", safeLeagueId],
+    queryFn: () => getLeague(safeLeagueId),
+    enabled,
+    staleTime: 24 * 60 * 60 * 1000, // League settings rarely change
+    gcTime: 24 * 60 * 60 * 1000,
+  });
+
+  const isMedianLeague = leagueData?.settings?.league_average_match === 1;
 
   // Determine if requested week is current or completed
   const currentNflWeek = nflState?.week ?? 18; // Default to late season if unknown
@@ -448,6 +461,7 @@ export function useNewsletterData(
     playoffStandings: toSectionResult(playoffStandingsQuery),
     schedule: toSectionResult(scheduleQuery),
     matchupData: toSectionResult(matchupDataQuery),
+    isMedianLeague,
     isLoadingAny,
     hasErrors,
     readySections,

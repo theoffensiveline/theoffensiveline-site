@@ -284,13 +284,20 @@ export const LeagueWeeklyRecap: React.FC = () => {
         id: "standings",
         label: "Standings",
         title: "Standings",
-        subtitle: undefined as string | undefined,
-        section: newsletter.leaderboard,
-        render: () => (
-          <LeaderboardTable
-            leaderboardData={newsletter.leaderboard.data ?? []}
-          />
-        ),
+        subtitle: newsletter.isMedianLeague
+          ? "Record includes matchups against the league median"
+          : (undefined as string | undefined),
+        section: newsletter.isMedianLeague
+          ? newsletter.median
+          : newsletter.leaderboard,
+        render: () =>
+          newsletter.isMedianLeague ? (
+            <AltLeaderboardTable data={newsletter.median.data ?? []} />
+          ) : (
+            <LeaderboardTable
+              leaderboardData={newsletter.leaderboard.data ?? []}
+            />
+          ),
         skeleton: <TableSkeleton rows={10} columns={6} />,
         shouldRender: true,
       },
@@ -311,13 +318,26 @@ export const LeagueWeeklyRecap: React.FC = () => {
       },
       {
         id: "median",
-        label: "Median Scoring",
-        title: "Median Scoring Leaderboard",
-        subtitle: "Total record including matchups and games vs. league median",
-        section: newsletter.median,
-        render: () => (
-          <AltLeaderboardTable data={newsletter.median.data ?? []} />
-        ),
+        label: newsletter.isMedianLeague
+          ? "H2H Only Standings"
+          : "Median Scoring",
+        title: newsletter.isMedianLeague
+          ? "Head-to-Head Only Standings"
+          : "Median Scoring Leaderboard",
+        subtitle: newsletter.isMedianLeague
+          ? "What if we didn't play the median?"
+          : "Total record including matchups and games vs. league median",
+        section: newsletter.isMedianLeague
+          ? newsletter.leaderboard
+          : newsletter.median,
+        render: () =>
+          newsletter.isMedianLeague ? (
+            <LeaderboardTable
+              leaderboardData={newsletter.leaderboard.data ?? []}
+            />
+          ) : (
+            <AltLeaderboardTable data={newsletter.median.data ?? []} />
+          ),
         skeleton: <TableSkeleton rows={10} columns={5} />,
         shouldRender: true,
       },
