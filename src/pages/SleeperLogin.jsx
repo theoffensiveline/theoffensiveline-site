@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getNflState } from '../utils/api/SleeperAPI';
 
 const Container = styled.div`
     display: flex;
@@ -32,6 +33,11 @@ const Button = styled.button`
     cursor: pointer;
 `;
 
+const LoadMoreButton = styled(Button)`
+    margin-top: 15px;
+    opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
+`;
+
 const LeagueItem = styled.div`
     display: flex;
     align-items: center;
@@ -58,11 +64,21 @@ const LeagueName = styled.span`
     flex-grow: 1;
 `;
 
+const YearHeader = styled.h3`
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: ${({ theme }) => theme.text};
+`;
+
 function SleeperLogin() {
     const [username, setUsername] = useState('');
-    const [leagues, setLeagues] = useState([]);
+    const [leaguesByYear, setLeaguesByYear] = useState([]); // [{year, leagues}]
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [nextYear, setNextYear] = useState(null); // next year to fetch on "Load more"
+    const [hasMore, setHasMore] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -71,52 +87,115 @@ function SleeperLogin() {
         const storedUsername = localStorage.getItem('sleeperUsername');
         if (storedUsername) {
             setUsername(storedUsername);
-            // Check for cached leagues
-            const cachedLeagues = localStorage.getItem(`leagues_${storedUsername}`);
-            if (cachedLeagues) {
-                setLeagues(JSON.parse(cachedLeagues));
+            const cached = localStorage.getItem(`leaguesByYear_${storedUsername}`);
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                setLeaguesByYear(parsed.leaguesByYear);
+                setNextYear(parsed.nextYear);
+                setHasMore(parsed.hasMore);
+                setUserId(parsed.userId);
                 setHasSubmitted(true);
             }
         }
     }, [navigate]);
 
+    const fetchLeaguesForYear = async (uid, year) => {
+        const response = await fetch(`https://api.sleeper.app/v1/user/${uid}/leagues/nfl/${year}`);
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+    };
+
     const handleUsernameSubmit = async () => {
         setIsButtonDisabled(true);
-        setTimeout(() => {
-            setIsButtonDisabled(false);
-        }, 3000);
+        setTimeout(() => setIsButtonDisabled(false), 3000);
 
         localStorage.setItem('sleeperUsername', username);
 
         try {
             const userResponse = await fetch(`https://api.sleeper.app/v1/user/${username}`);
             const userData = await userResponse.json();
-            const userId = userData.user_id;
-            const response = await fetch(`https://api.sleeper.app/v1/user/${userId}/leagues/nfl/2025`);
-            const data = await response.json();
+            const uid = userData.user_id;
+            setUserId(uid);
 
-            // Cache the results
-            localStorage.setItem(`leagues_${username}`, JSON.stringify(data));
+            const nflState = await getNflState();
+            let season = parseInt(nflState.season, 10);
 
-            setLeagues(data);
+            let leagues = await fetchLeaguesForYear(uid, season);
+
+            // If no leagues for current season, try previous year
+            if (leagues.length === 0) {
+                season -= 1;
+                leagues = await fetchLeaguesForYear(uid, season);
+            }
+
+            const newLeaguesByYear = leagues.length > 0 ? [{ year: season, leagues }] : [];
+            const moreAvailable = leagues.length > 0;
+            const next = moreAvailable ? season - 1 : null;
+
+            setLeaguesByYear(newLeaguesByYear);
+            setNextYear(next);
+            setHasMore(moreAvailable);
             setHasSubmitted(true);
+
+            localStorage.setItem(`leaguesByYear_${username}`, JSON.stringify({
+                leaguesByYear: newLeaguesByYear,
+                nextYear: next,
+                hasMore: moreAvailable,
+                userId: uid,
+            }));
         } catch (error) {
             console.error("Error fetching leagues:", error);
-            setLeagues([]);
+            setLeaguesByYear([]);
             setHasSubmitted(true);
         }
     };
 
+    const handleLoadMore = async () => {
+        if (nextYear === null || !hasMore || loadingMore) return;
+        setLoadingMore(true);
+
+        try {
+            const leagues = await fetchLeaguesForYear(userId, nextYear);
+
+            if (leagues.length === 0) {
+                setHasMore(false);
+                setLoadingMore(false);
+                // Update cache
+                localStorage.setItem(`leaguesByYear_${username}`, JSON.stringify({
+                    leaguesByYear,
+                    nextYear: null,
+                    hasMore: false,
+                    userId,
+                }));
+                return;
+            }
+
+            const updated = [...leaguesByYear, { year: nextYear, leagues }];
+            const next = nextYear - 1;
+
+            setLeaguesByYear(updated);
+            setNextYear(next);
+            setLoadingMore(false);
+
+            localStorage.setItem(`leaguesByYear_${username}`, JSON.stringify({
+                leaguesByYear: updated,
+                nextYear: next,
+                hasMore: true,
+                userId,
+            }));
+        } catch (error) {
+            console.error("Error loading more leagues:", error);
+            setLoadingMore(false);
+        }
+    };
+
     const handleLeagueSelect = (league) => {
-        // First set the localStorage
         localStorage.setItem('selectedLeagueId', league.league_id);
-
-        // Dispatch a custom event to notify other components
         window.dispatchEvent(new Event('leagueChange'));
-
-        // Then navigate
         navigate(`/home/${league.league_id}`, { state: { league } });
     };
+
+    const totalLeagues = leaguesByYear.reduce((sum, g) => sum + g.leagues.length, 0);
 
     return (
         <Container>
@@ -131,26 +210,36 @@ function SleeperLogin() {
                 {isButtonDisabled ? 'Please wait...' : 'Submit'}
             </Button>
 
-            {hasSubmitted && leagues.length === 0 && (
+            {hasSubmitted && totalLeagues === 0 && (
                 <div>
                     <h3>Are you sure {username} is your Sleeper username?</h3>
                 </div>
             )}
 
-            {leagues.length > 0 && (
+            {totalLeagues > 0 && (
                 <div>
                     <h2>Select a League</h2>
-                    {leagues.map((league) => (
-                        <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
-                            {league.avatar && (
-                                <LeaguePhoto
-                                    src={`https://sleepercdn.com/avatars/${league.avatar}`}
-                                    alt={league.name}
-                                />
-                            )}
-                            <LeagueName>{league.name}</LeagueName>
-                        </LeagueItem>
+                    {leaguesByYear.map(({ year, leagues }) => (
+                        <div key={year}>
+                            <YearHeader>{year} Leagues</YearHeader>
+                            {leagues.map((league) => (
+                                <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
+                                    {league.avatar && (
+                                        <LeaguePhoto
+                                            src={`https://sleepercdn.com/avatars/${league.avatar}`}
+                                            alt={league.name}
+                                        />
+                                    )}
+                                    <LeagueName>{league.name}</LeagueName>
+                                </LeagueItem>
+                            ))}
+                        </div>
                     ))}
+                    {hasMore && (
+                        <LoadMoreButton onClick={handleLoadMore} disabled={loadingMore}>
+                            {loadingMore ? 'Loading...' : 'Load more'}
+                        </LoadMoreButton>
+                    )}
                 </div>
             )}
         </Container>
