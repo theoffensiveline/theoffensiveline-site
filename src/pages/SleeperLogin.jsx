@@ -79,6 +79,7 @@ function SleeperLogin() {
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -107,6 +108,7 @@ function SleeperLogin() {
 
     const handleUsernameSubmit = async () => {
         setIsButtonDisabled(true);
+        setErrorMessage(null);
         setTimeout(() => setIsButtonDisabled(false), 3000);
 
         localStorage.setItem('sleeperUsername', username);
@@ -114,10 +116,26 @@ function SleeperLogin() {
         try {
             const userResponse = await fetch(`https://api.sleeper.app/v1/user/${username}`);
             const userData = await userResponse.json();
-            const uid = userData.user_id;
+            const uid = userData?.user_id;
+
+            if (!uid) {
+                setErrorMessage('username');
+                setLeaguesByYear([]);
+                setHasSubmitted(true);
+                return;
+            }
+
             setUserId(uid);
 
-            const nflState = await getNflState();
+            let nflState;
+            try {
+                nflState = await getNflState();
+            } catch (err) {
+                console.error("Error fetching NFL state:", err);
+                setErrorMessage('connection');
+                return;
+            }
+
             let season = parseInt(nflState.season, 10);
 
             let leagues = await fetchLeaguesForYear(uid, season);
@@ -145,8 +163,7 @@ function SleeperLogin() {
             }));
         } catch (error) {
             console.error("Error fetching leagues:", error);
-            setLeaguesByYear([]);
-            setHasSubmitted(true);
+            setErrorMessage('connection');
         }
     };
 
@@ -210,9 +227,21 @@ function SleeperLogin() {
                 {isButtonDisabled ? 'Please wait...' : 'Submit'}
             </Button>
 
-            {hasSubmitted && totalLeagues === 0 && (
+            {errorMessage === 'connection' && (
+                <div>
+                    <h3>Couldn't connect to Sleeper. Try again.</h3>
+                </div>
+            )}
+
+            {errorMessage === 'username' && (
                 <div>
                     <h3>Are you sure {username} is your Sleeper username?</h3>
+                </div>
+            )}
+
+            {hasSubmitted && !errorMessage && totalLeagues === 0 && (
+                <div>
+                    <h3>No leagues found for {username}.</h3>
                 </div>
             )}
 
