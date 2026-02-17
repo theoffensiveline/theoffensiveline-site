@@ -111,6 +111,12 @@ function SleeperLogin() {
         setErrorMessage(null);
         setTimeout(() => setIsButtonDisabled(false), 3000);
 
+        // Clear stale cache if username changed
+        const previousUsername = localStorage.getItem('sleeperUsername');
+        if (previousUsername && previousUsername !== username) {
+            localStorage.removeItem(`leaguesByYear_${previousUsername}`);
+        }
+
         localStorage.setItem('sleeperUsername', username);
 
         try {
@@ -140,10 +146,12 @@ function SleeperLogin() {
 
             let leagues = await fetchLeaguesForYear(uid, season);
 
-            // If no leagues for current season, try previous year
-            if (leagues.length === 0) {
+            // Walk back up to 3 consecutive empty years to find leagues
+            let emptyYears = leagues.length === 0 ? 1 : 0;
+            while (leagues.length === 0 && emptyYears <= 3) {
                 season -= 1;
                 leagues = await fetchLeaguesForYear(uid, season);
+                if (leagues.length === 0) emptyYears++;
             }
 
             const newLeaguesByYear = leagues.length > 0 ? [{ year: season, leagues }] : [];
