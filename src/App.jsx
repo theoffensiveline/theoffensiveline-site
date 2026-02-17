@@ -96,30 +96,32 @@ const AppRoutes = () => {
       <Route path="/sleeper-login" element={<SleeperLogin />} />
       <Route path="/" element={<Navigate to="/sleeper-login" replace />} />
 
-      {/* Protected routes */}
+      {/* Public routes - no auth required */}
+      <Route path="/home/:leagueId" element={<Home />} />
+      <Route path="/news" element={<News />} />
+      <Route path="/submit/:leagueId" element={<Submit />} />
+      <Route path="/bylaws/:leagueId" element={<Bylaws />} />
+      <Route path="/newsletter/:leagueId/:issue" element={<Newsletter />} />
+      <Route path="/leaderboards/:leagueId" element={<LeaderboardsHome />} />
+      <Route path="/leaderboard/:leaderboardId" element={<Leaderboard />} />
+      <Route path="/leaderboard/overall" element={<OverallLeaderboard />} />
+      <Route path="/league/commishNote1" element={<CommissionerNote />} />
+      <Route path="/league/:leagueId/league-overview" element={<LeagueOverview />} />
+      <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />
+      <Route path="/league/:leagueId/league-history" element={<LeagueHistory />} />
+      <Route path="/league/:leagueId/league-rosters" element={<LeagueRosters />} />
+      <Route path="/league/:leagueId/weekly-recap/:week" element={<LeagueWeeklyRecap />} />
+      <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
+
+      {/* Protected routes - auth required */}
       <Route element={
         <ProtectedRoute>
           <ProtectedLayout />
         </ProtectedRoute>
       }>
-        <Route path="/home/:leagueId" element={<Home />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/submit/:leagueId" element={<Submit />} />
-        <Route path="/bylaws/:leagueId" element={<Bylaws />} />
-        <Route path="/newsletter/:leagueId/:issue" element={<Newsletter />} />
-        <Route path="/leaderboards/:leagueId" element={<LeaderboardsHome />} />
-        <Route path="/leaderboard/:leaderboardId" element={<Leaderboard />} />
-        <Route path="/leaderboard/overall" element={<OverallLeaderboard />} />
         <Route path="/survivorHome/:leagueId" element={<SurvivorHome />} />
         <Route path="/survivor/:leagueId" element={<Survivor />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/league/commishNote1" element={<CommissionerNote />} />
-        <Route path="/league/:leagueId/league-overview" element={<LeagueOverview />} />
-        <Route path="/league/:leagueId/recent-activity" element={<RecentActivity />} />
-        <Route path="/league/:leagueId/league-history" element={<LeagueHistory />} />
-        <Route path="/league/:leagueId/league-rosters" element={<LeagueRosters />} />
-        <Route path="/league/:leagueId/weekly-recap/:week" element={<LeagueWeeklyRecap />} />
-        <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
       </Route>
 
       {/* Fallback route */}
