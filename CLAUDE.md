@@ -17,13 +17,13 @@ Before starting any work, read these files in order:
 
 ```bash
 # Install dependencies
-yarn install
+pnpm install
 
 # Start development server (opens on localhost:3000)
-yarn start
+pnpm start
 
 # Run tests
-yarn test
+pnpm test
 ```
 
 ## Deployment

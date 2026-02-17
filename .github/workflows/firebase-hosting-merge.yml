@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install
-      - run: CI=false yarn build
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: CI=false pnpm build
         env:
           REACT_APP_DISCORD_WEBHOOK_SUBMISSIONS: "${{ secrets.DISCORD_WEBHOOK_SUBMISSIONS }}"
           REACT_APP_DISCORD_WEBHOOK_GENERAL: "${{ secrets.DISCORD_WEBHOOK_GENERAL }}"
