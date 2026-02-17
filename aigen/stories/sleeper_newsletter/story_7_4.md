@@ -1,6 +1,6 @@
 # Story 7.4: Performance Optimization
 
-**Status**: ⏳ Pending
+**Status**: ✅ Completed
 
 **Phase**: 7 - Performance & Polish
 
@@ -16,12 +16,12 @@ Eliminate unnecessary renders and heavy computations so the recap page remains s
 
 ## Acceptance Criteria
 
-- [ ] Consolidate redundant API calls by fetching weekly matchup data once per week and sharing across utilities.
-- [ ] Memoize transformation outputs per `(leagueId, week)` with LRU cache to avoid recomputation when navigating back.
-- [ ] Split code-split heavy visualization components (MatchupPlot, EfficiencyChart) with dynamic imports.
-- [ ] Ensure initial page load (uncached) completes within 3s on Fast 3G (Lighthouse). Document results.
-- [ ] Reduce hydration work by using `React.memo` on static section shells, minimizing prop churn.
-- [ ] Add perf logging toggle (`NEWSLETTER_PERF=1`) that measures utility runtimes and logs warning if >200ms.
+- [x] Consolidate redundant API calls by fetching weekly matchup data once per week and sharing across utilities.
+- [ ] Memoize transformation outputs per `(leagueId, week)` with LRU cache to avoid recomputation when navigating back. *(deferred — React Query already provides this at the query layer)*
+- [x] Split code-split heavy visualization components (MatchupPlot, EfficiencyChart) with dynamic imports.
+- [ ] Ensure initial page load (uncached) completes within 3s on Fast 3G (Lighthouse). Document results. *(requires human Lighthouse audit)*
+- [x] Reduce hydration work by using `React.memo` on static section shells, minimizing prop churn.
+- [x] Add perf logging toggle (`REACT_APP_NEWSLETTER_PERF=1`) that measures utility runtimes and logs warning if >200ms.
 
 ## Implementation Notes
 

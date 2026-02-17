@@ -10,15 +10,40 @@ import type {
 
 const BASE_URL = "https://api.sleeper.app/v1";
 
+// ---------------------------------------------------------------------------
+// In-flight request deduplication cache
+//
+// When multiple compute functions call the same endpoint simultaneously
+// (e.g. getUsers called 10× in parallel at page load), only one HTTP request
+// fires. All callers share the same Promise. The cache entry is removed once
+// the request settles so subsequent calls trigger a fresh fetch.
+// ---------------------------------------------------------------------------
+const _inflight = new Map<string, Promise<unknown>>();
+
+function dedupedFetch<T>(url: string, errorMessage: string): Promise<T> {
+  const cached = _inflight.get(url);
+  if (cached) return cached as Promise<T>;
+
+  const promise: Promise<T> = fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error(errorMessage);
+      return res.json() as Promise<T>;
+    })
+    .finally(() => {
+      _inflight.delete(url);
+    });
+
+  _inflight.set(url, promise);
+  return promise;
+}
+
 // Function to get league
 export const getLeague = async (leagueId: string): Promise<League> => {
   try {
-    const response = await fetch(`${BASE_URL}/league/${leagueId}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch league");
-    }
-    const data = await response.json();
-    return data;
+    return await dedupedFetch<League>(
+      `${BASE_URL}/league/${leagueId}`,
+      "Failed to fetch league"
+    );
   } catch (error) {
     console.error("Error fetching league:", error);
     throw error;
@@ -28,12 +53,10 @@ export const getLeague = async (leagueId: string): Promise<League> => {
 // Function to get all users in a league
 export const getUsers = async (leagueId: string): Promise<User[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/league/${leagueId}/users`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch users");
-    }
-    const data = await response.json();
-    return data;
+    return await dedupedFetch<User[]>(
+      `${BASE_URL}/league/${leagueId}/users`,
+      "Failed to fetch users"
+    );
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
@@ -43,12 +66,10 @@ export const getUsers = async (leagueId: string): Promise<User[]> => {
 // Function to get rosters for a specific league
 export const getRosters = async (leagueId: string): Promise<Roster[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/league/${leagueId}/rosters`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch rosters");
-    }
-    const data = await response.json();
-    return data;
+    return await dedupedFetch<Roster[]>(
+      `${BASE_URL}/league/${leagueId}/rosters`,
+      "Failed to fetch rosters"
+    );
   } catch (error) {
     console.error("Error fetching rosters:", error);
     throw error;
@@ -61,14 +82,10 @@ export const getMatchups = async (
   week: number
 ): Promise<Matchup[]> => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/league/${leagueId}/matchups/${week}`
+    return await dedupedFetch<Matchup[]>(
+      `${BASE_URL}/league/${leagueId}/matchups/${week}`,
+      "Failed to fetch matchups"
     );
-    if (!response.ok) {
-      throw new Error("Failed to fetch matchups");
-    }
-    const data = await response.json();
-    return data;
   } catch (error) {
     console.error("Error fetching matchups:", error);
     throw error;

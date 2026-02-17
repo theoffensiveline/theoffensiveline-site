@@ -31,6 +31,43 @@ import type {
   StartersData,
 } from "../types/newsletterTypes";
 
+// ---------------------------------------------------------------------------
+// Performance logging
+//
+// Set REACT_APP_NEWSLETTER_PERF=1 before starting the dev server to enable
+// per-section timing logs. Sections that exceed 200ms log a console.warn.
+//
+// Usage:
+//   REACT_APP_NEWSLETTER_PERF=1 yarn start
+// ---------------------------------------------------------------------------
+const PERF_ENABLED =
+  process.env.REACT_APP_NEWSLETTER_PERF === "1";
+
+function withPerfLogging<T>(
+  name: string,
+  fn: () => Promise<T>
+): Promise<T> {
+  if (!PERF_ENABLED) return fn();
+
+  const start = performance.now();
+  return fn().then(
+    (result) => {
+      const ms = performance.now() - start;
+      if (ms > 200) {
+        console.warn(`[NEWSLETTER_PERF] ⚠ ${name} took ${ms.toFixed(0)}ms (exceeded 200ms threshold)`);
+      } else {
+        console.log(`[NEWSLETTER_PERF] ✓ ${name} took ${ms.toFixed(0)}ms`);
+      }
+      return result;
+    },
+    (err) => {
+      const ms = performance.now() - start;
+      console.warn(`[NEWSLETTER_PERF] ✗ ${name} failed after ${ms.toFixed(0)}ms`);
+      throw err;
+    }
+  );
+}
+
 /**
  * Cache configuration constants for newsletter data.
  *
@@ -308,61 +345,61 @@ export function useNewsletterData(
     () => [
       {
         queryKey: newsletterQueryKeys.awards(safeLeagueId, week),
-        queryFn: () => computeWeeklyAwards(safeLeagueId, week),
+        queryFn: () => withPerfLogging("awards", () => computeWeeklyAwards(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.leaderboard(safeLeagueId, week),
-        queryFn: () => computeLeaderboard(safeLeagueId, week),
+        queryFn: () => withPerfLogging("leaderboard", () => computeLeaderboard(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.starters(safeLeagueId, week),
-        queryFn: () => computeStarters(safeLeagueId, week),
+        queryFn: () => withPerfLogging("starters", () => computeStarters(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.efficiency(safeLeagueId, week),
-        queryFn: () => computeEfficiency(safeLeagueId, week),
+        queryFn: () => withPerfLogging("efficiency", () => computeEfficiency(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.bestBall(safeLeagueId, week),
-        queryFn: () => computeBestBall(safeLeagueId, week),
+        queryFn: () => withPerfLogging("bestBall", () => computeBestBall(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.median(safeLeagueId, week),
-        queryFn: () => computeMedian(safeLeagueId, week),
+        queryFn: () => withPerfLogging("median", () => computeMedian(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.powerRankings(safeLeagueId, week),
-        queryFn: () => computePowerRankings(safeLeagueId, week),
+        queryFn: () => withPerfLogging("powerRankings", () => computePowerRankings(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.playoffStandings(safeLeagueId, week),
-        queryFn: () => computePlayoffStandings(safeLeagueId, week),
+        queryFn: () => withPerfLogging("playoffStandings", () => computePlayoffStandings(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.schedule(safeLeagueId, week),
-        queryFn: () => computeSchedule(safeLeagueId, week),
+        queryFn: () => withPerfLogging("schedule", () => computeSchedule(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.matchupData(safeLeagueId, week),
-        queryFn: () => computeMatchupData(safeLeagueId, week),
+        queryFn: () => withPerfLogging("matchupData", () => computeMatchupData(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },

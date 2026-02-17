@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { ArticleHeader, ArticleSubheader } from "../newsletters/newsStyles";
+import { NewsletterErrorBoundary } from "./NewsletterErrorBoundary";
+import { getErrorCopy } from "./errorCopy";
+import { logNewsletterError } from "../../utils/logger/newsletterError";
 
 interface SectionShellProps {
   id?: string;
@@ -11,6 +14,14 @@ interface SectionShellProps {
   onRetry?: () => void;
   children?: React.ReactNode;
   skeleton?: React.ReactNode;
+  /** Passed to the error boundary for telemetry and auto-reset */
+  sectionKey?: string;
+  leagueId?: string;
+  week?: number;
+  /** Timestamp of the last successful data fetch, shown in the error panel */
+  lastUpdated?: Date;
+  /** Called when the inner error boundary catches a render error */
+  onBoundaryError?: (error: Error, sectionKey: string) => void;
 }
 
 const SectionContainer = styled.section`
@@ -49,15 +60,31 @@ const ErrorContainer = styled.div`
   padding: 20px;
   text-align: center;
   background: ${({ theme }) => theme.componentBackground};
+  border: 1px solid rgba(255, 51, 102, 0.3);
   border-radius: 4px;
   margin: 16px 8px;
 `;
 
-const ErrorMessage = styled.p`
+const ErrorTitle = styled.p`
   color: ${({ theme }) => theme.newsRed};
   font-family: "Playfair Display", serif;
   font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+`;
+
+const ErrorDescription = styled.p`
+  font-family: "Playfair Display", serif;
+  font-size: 13px;
   margin-bottom: 16px;
+  opacity: 0.75;
+`;
+
+const LastUpdatedNote = styled.p`
+  font-family: "Playfair Display", serif;
+  font-size: 11px;
+  opacity: 0.5;
+  margin-bottom: 12px;
 `;
 
 const RetryButton = styled.button`
@@ -94,17 +121,27 @@ const ContentWrapper = styled.div`
   }
 `;
 
+function formatLastUpdated(date: Date): string {
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
 /**
- * SectionShell - Reusable wrapper for newsletter sections
+ * SectionShell - Reusable wrapper for newsletter sections.
  *
  * Provides:
  * - Consistent title/subtitle styling
  * - Loading skeleton during data fetch (custom or default)
  * - Minimum display time for skeletons (400ms) to prevent flicker
- * - Error state with retry button
+ * - Error state with actionable copy and retry button
+ * - React ErrorBoundary wrapping children to catch render-time JS errors
+ * - Keyboard focus moves to the error panel when it appears
+ * - lastUpdated timestamp shown in the error panel
  * - Smooth progressive rendering
+ *
+ * Wrapped in React.memo so sections that haven't changed don't re-render
+ * when sibling sections finish loading (status/children unchanged = no work).
  */
-export const SectionShell: React.FC<SectionShellProps> = ({
+const SectionShellInner: React.FC<SectionShellProps> = ({
   id,
   title,
   subtitle,
@@ -113,9 +150,15 @@ export const SectionShell: React.FC<SectionShellProps> = ({
   onRetry,
   children,
   skeleton,
+  sectionKey,
+  leagueId,
+  week,
+  lastUpdated,
+  onBoundaryError,
 }) => {
   const [loadingStartTime, setLoadingStartTime] = useState<number | null>(null);
   const [showContent, setShowContent] = useState(false);
+  const errorContainerRef = useRef<HTMLDivElement>(null);
 
   // Track when loading starts
   useEffect(() => {
@@ -142,8 +185,38 @@ export const SectionShell: React.FC<SectionShellProps> = ({
     }
   }, [status, loadingStartTime]);
 
+  // Move keyboard focus to error panel for accessibility
+  useEffect(() => {
+    if (status === "error" && errorContainerRef.current) {
+      errorContainerRef.current.focus();
+    }
+  }, [status]);
+
+  // Log API-level errors via the centralized logger
+  useEffect(() => {
+    if (status === "error" && error) {
+      logNewsletterError(error, {
+        sectionKey: sectionKey ?? id ?? title,
+        leagueId,
+        week,
+        lastUpdated,
+      });
+    }
+    // Only re-run when the error itself changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
   // Determine what to show
-  const shouldShowSkeleton = status === "pending" || (status === "success" && !showContent);
+  const shouldShowSkeleton =
+    status === "pending" || (status === "success" && !showContent);
+
+  const errorCopy = getErrorCopy(error ?? null);
+
+  const resetKeys: Array<string | number | undefined> = [
+    leagueId,
+    week,
+    sectionKey ?? id,
+  ];
 
   return (
     <SectionContainer id={id} aria-live="polite" aria-busy={shouldShowSkeleton}>
@@ -165,17 +238,38 @@ export const SectionShell: React.FC<SectionShellProps> = ({
       )}
 
       {status === "error" && (
-        <ErrorContainer role="alert">
-          <ErrorMessage>
-            {error?.message || "Failed to load this section"}
-          </ErrorMessage>
-          {onRetry && <RetryButton onClick={onRetry}>Retry</RetryButton>}
+        <ErrorContainer
+          role="alert"
+          aria-live="assertive"
+          tabIndex={-1}
+          ref={errorContainerRef}
+        >
+          <ErrorTitle>{errorCopy.title}</ErrorTitle>
+          <ErrorDescription>{errorCopy.description}</ErrorDescription>
+          {lastUpdated && (
+            <LastUpdatedNote>
+              Last successful load: {formatLastUpdated(lastUpdated)}
+            </LastUpdatedNote>
+          )}
+          {onRetry && (
+            <RetryButton onClick={onRetry}>Retry</RetryButton>
+          )}
         </ErrorContainer>
       )}
 
       {status === "success" && showContent && (
-        <ContentWrapper>{children}</ContentWrapper>
+        <NewsletterErrorBoundary
+          sectionKey={sectionKey ?? id ?? title}
+          leagueId={leagueId}
+          week={week}
+          resetKeys={resetKeys}
+          onError={onBoundaryError}
+        >
+          <ContentWrapper>{children}</ContentWrapper>
+        </NewsletterErrorBoundary>
       )}
     </SectionContainer>
   );
 };
+
+export const SectionShell = React.memo(SectionShellInner);
