@@ -70,6 +70,20 @@ const getBaseBarConfig = (theme, color) => ({
     }
 });
 
+/**
+ * Calculates the chart height for the EfficiencyChart based on team count.
+ * Scales at ~35px per team with a minimum height for 4 teams.
+ * @param {number} teamCount - Number of teams in the league
+ * @returns {number} Chart height in pixels
+ */
+const getEfficiencyChartHeight = (teamCount) => {
+    const perTeamHeight = 35;
+    const minTeams = 4;
+    const padding = 60; // top + bottom padding for axes/legend
+    const effectiveTeams = Math.max(teamCount, minTeams);
+    return effectiveTeams * perTeamHeight + padding;
+};
+
 export const EfficiencyChart = ({ chartData }) => {
     const theme = useTheme();
 
@@ -93,10 +107,13 @@ export const EfficiencyChart = ({ chartData }) => {
         bins.push(i);
     }
 
+    const chartHeight = getEfficiencyChartHeight(teamNames.length);
+
     return (
         <VictoryChart
             {...getBaseChartConfig()}
             horizontal
+            height={chartHeight}
             padding={{ top: 25, bottom: 25, left: 10, right: 50 }}
             domainPadding={{ x: 10 }}
         >
