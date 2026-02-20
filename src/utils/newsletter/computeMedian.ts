@@ -1,4 +1,4 @@
-import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import { getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, User } from "../../types/sleeperTypes";
 import type { MedianData } from "../../types/newsletterTypes";
 

@@ -1,4 +1,4 @@
-import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import { getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import type { LeaderboardData } from "../../types/newsletterTypes";
 import { getAvatarUrl } from "../leagueHistory";
