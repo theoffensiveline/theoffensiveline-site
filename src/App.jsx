@@ -5,6 +5,8 @@ import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { ColorConstants } from "./components/constants/ColorConstants";
 import NavBar from "./components/NavBar";
 import SleeperLogin from "./pages/SleeperLogin";
+import EspnLogin from "./pages/EspnLogin";
+import EspnLogin from "./pages/EspnLogin";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import News from "./pages/News";
@@ -94,6 +96,8 @@ const AppRoutes = () => {
       {/* Public routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/sleeper-login" element={<SleeperLogin />} />
+      <Route path="/espn-login" element={<EspnLogin />} />
+      <Route path="/espn-login" element={<EspnLogin />} />
       <Route path="/" element={<Navigate to="/sleeper-login" replace />} />
 
       {/* Public routes - no auth required */}

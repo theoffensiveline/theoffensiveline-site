@@ -3,7 +3,7 @@ import {
   getMatchups,
   getRosters,
   getUsers,
-} from "../api/SleeperAPI";
+} from "../api/FantasyAPI";
 import type { Matchup, User } from "../../types/sleeperTypes";
 import type { BestBallData } from "../../types/newsletterTypes";
 import { calculateOptimalScore } from "./computeEfficiency";

@@ -7,7 +7,7 @@
  * - WeeklyMarginTable (Margin of victory table)
  */
 
-import { getRosters, getUsers, getMatchups } from "../api/SleeperAPI";
+import { getRosters, getUsers, getMatchups } from "../api/FantasyAPI";
 import type { MatchupData } from "../../types/newsletterTypes";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import { ColorConstants } from "../../components/constants/ColorConstants";
