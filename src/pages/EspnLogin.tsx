@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { fetchLeague } from "../utils/api/ESPNApi";
+import { useAuth } from "../contexts/AuthContext";
 
 const Container = styled.div`
   display: flex;
@@ -98,10 +99,23 @@ function EspnLogin() {
     }
   };
 
-  const handleConfirm = () => {
+  const { currentUser, addLeague } = useAuth();
+
+  const handleConfirm = async () => {
     const espnId = `espn_${leagueId.trim()}`;
     localStorage.setItem("selectedLeagueId", espnId);
     window.dispatchEvent(new Event("leagueChange"));
+
+    // Save to Firestore if logged in
+    if (currentUser && leagueInfo) {
+      await addLeague({
+        id: espnId,
+        type: "espn",
+        name: leagueInfo.name,
+        year: leagueInfo.season,
+      });
+    }
+
     navigate(`/home/${espnId}`);
   };
 

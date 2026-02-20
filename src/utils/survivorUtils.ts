@@ -33,9 +33,27 @@ export interface SurvivorPick {
   opponentTeamName?: string;
 }
 
+/**
+ * A saved fantasy league reference stored in the user's Firestore profile.
+ */
+export interface SavedLeague {
+  /** Namespaced league ID (e.g. "espn_123456" or "1253779168802377728") */
+  id: string;
+  /** Platform source */
+  type: "sleeper" | "espn";
+  /** Display name of the league */
+  name: string;
+  /** Season year */
+  year: number;
+  /** Avatar or logo URL */
+  avatar?: string;
+}
+
 export interface UserProfile {
   customDisplayName: string;
   email?: string;
+  /** User's saved leagues across platforms */
+  leagues?: SavedLeague[];
 }
 
 export const getUserProfile = async (
@@ -80,6 +98,66 @@ export const updateUserProfile = async (
     console.error("Error updating user profile:", error);
     return false;
   }
+};
+
+/**
+ * Add a league to the user's saved leagues in Firestore.
+ * Deduplicates by league ID — if the league already exists, it's updated.
+ *
+ * @param userId - Firebase auth user ID
+ * @param league - League to save
+ * @returns True if successful
+ */
+export const addLeagueToProfile = async (
+  userId: string,
+  league: SavedLeague
+): Promise<boolean> => {
+  try {
+    const profile = await getUserProfile(userId);
+    const existing = profile?.leagues ?? [];
+    // Remove any existing entry with same ID, then append
+    const filtered = existing.filter((l) => l.id !== league.id);
+    filtered.push(league);
+    return await updateUserProfile(userId, { leagues: filtered });
+  } catch (error) {
+    console.error("Error adding league to profile:", error);
+    return false;
+  }
+};
+
+/**
+ * Remove a league from the user's saved leagues in Firestore.
+ *
+ * @param userId - Firebase auth user ID
+ * @param leagueId - League ID to remove
+ * @returns True if successful
+ */
+export const removeLeagueFromProfile = async (
+  userId: string,
+  leagueId: string
+): Promise<boolean> => {
+  try {
+    const profile = await getUserProfile(userId);
+    const existing = profile?.leagues ?? [];
+    const filtered = existing.filter((l) => l.id !== leagueId);
+    return await updateUserProfile(userId, { leagues: filtered });
+  } catch (error) {
+    console.error("Error removing league from profile:", error);
+    return false;
+  }
+};
+
+/**
+ * Get the user's saved leagues from Firestore.
+ *
+ * @param userId - Firebase auth user ID
+ * @returns Array of saved leagues (empty if none)
+ */
+export const getUserLeagues = async (
+  userId: string
+): Promise<SavedLeague[]> => {
+  const profile = await getUserProfile(userId);
+  return profile?.leagues ?? [];
 };
 
 export const updateAllUserPicksUsername = async (

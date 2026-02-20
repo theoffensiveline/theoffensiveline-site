@@ -116,7 +116,7 @@ export default function NavBar() {
 
   const redirect = (page: string) => {
     if (page === "Select League" || page === "Change League") {
-      navigate("/");
+      navigate("/league-picker");
     } else if (page === "Home") {
       navigate(`/home/${leagueId}`);
     } else if (page === "Survivor") {
