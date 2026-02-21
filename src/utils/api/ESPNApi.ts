@@ -1,15 +1,41 @@
 // ESPNApi.ts — Raw ESPN fantasy football API fetchers with deduplication
 import type { ESPNLeagueResponse } from "../../types/espnTypes";
+import { getEspnCredentials } from "../espnCredentials";
 
 const ESPN_BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
 
 const _inflight = new Map<string, Promise<unknown>>();
 
+/**
+ * Build fetch headers including ESPN auth cookies when available.
+ *
+ * For private leagues ESPN requires espn_s2 and SWID cookies.
+ * Browser fetch cannot set the Cookie header directly (it's forbidden),
+ * so we pass the values via custom headers that ESPN's API recognises.
+ * If ESPN's CORS policy rejects these headers, a server-side proxy
+ * (e.g. Firebase Cloud Function) will be needed as a follow-up.
+ */
+function buildHeaders(): HeadersInit | undefined {
+  const creds = getEspnCredentials();
+  if (!creds) return undefined;
+  return {
+    "X-Fantasy-espn-s2": creds.espnS2,
+    "X-Fantasy-SWID": creds.swid,
+  };
+}
+
 function dedupedFetch<T>(url: string): Promise<T> {
   const cached = _inflight.get(url);
   if (cached) return cached as Promise<T>;
 
-  const promise: Promise<T> = fetch(url)
+  const headers = buildHeaders();
+
+  const promise: Promise<T> = fetch(url, {
+    headers,
+    // Include credentials so the browser sends any ESPN cookies
+    // the user already has (e.g. if logged into ESPN in this browser).
+    credentials: "include",
+  })
     .then((res) => {
       if (!res.ok) throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
       return res.json() as Promise<T>;
