@@ -19,6 +19,7 @@ import type {
 	ESPNRosterEntry,
 } from "../../types/espnTypes";
 import { fetchLeague, fetchMatchups, fetchRosters, fetchRecord, deriveSeasonYear } from "./ESPNApi";
+import { espnToSleeperId } from "../playerUtils";
 
 // ---------------------------------------------------------------------------
 // ESPN stat ID → Sleeper scoring_settings key mapping
@@ -243,22 +244,50 @@ export async function getUsers(leagueId: string): Promise<User[]> {
 /**
  * Fetch and translate ESPN teams into Sleeper-compatible Roster objects.
  *
+ * Fetches records (wins/losses/points) and current rosters (player lists)
+ * in parallel and merges them by team ID.
+ *
  * @param leagueId - Prefixed ESPN league ID
  * @returns Array of Sleeper-compatible Roster objects
  */
 export async function getRosters(leagueId: string): Promise<Roster[]> {
 	const numericId = stripPrefix(leagueId);
-	const data = await fetchRecord(numericId);
+	const [recordData, rosterData] = await Promise.all([
+		fetchRecord(numericId),
+		fetchRosters(numericId),
+	]);
 
-	return (data.teams ?? []).map((team) => {
+	// Build a map of team ID → roster entries from the mRoster response
+	const rosterEntriesByTeam = new Map<number, ESPNRosterEntry[]>();
+	for (const team of rosterData.teams ?? []) {
+		rosterEntriesByTeam.set(team.id, team.roster?.entries ?? []);
+	}
+
+	return (recordData.teams ?? []).map((team) => {
 		const record = team.record?.overall;
 		const pf = record?.pointsFor ?? 0;
 		const pa = record?.pointsAgainst ?? 0;
+
+		// Translate ESPN player IDs to Sleeper IDs for the current roster
+		const entries = rosterEntriesByTeam.get(team.id) ?? [];
+		const allPlayers: string[] = [];
+		const starterPlayers: string[] = [];
+
+		for (const entry of entries) {
+			if (entry.playerId == null) continue;
+			const espnPid = entry.playerId.toString();
+			const pid = espnToSleeperId[espnPid] ?? espnPid;
+			allPlayers.push(pid);
+			if (entry.lineupSlotId < BENCH_SLOT_ID) {
+				starterPlayers.push(pid);
+			}
+		}
+
 		return {
 			roster_id: team.id,
 			owner_id: team.id.toString(),
-			starters: [],
-			players: [],
+			starters: starterPlayers,
+			players: allPlayers,
 			settings: {
 				wins: record?.wins ?? 0,
 				losses: record?.losses ?? 0,
@@ -297,7 +326,14 @@ export async function getRosters(leagueId: string): Promise<Roster[]> {
  */
 export async function getMatchups(leagueId: string, week: number): Promise<Matchup[]> {
 	const numericId = stripPrefix(leagueId);
-	const data = await fetchMatchups(numericId);
+	// mRoster + scoringPeriodId ensures data.teams[].roster.entries has player
+	// IDs and per-player appliedStatTotal for this specific week.
+	const data = await fetchMatchups(numericId, undefined, week);
+
+	// Build a lookup: teamId → roster entries (with player IDs from mRoster view)
+	const rosterByTeamId = new Map<number, ESPNRosterEntry[]>(
+		(data.teams ?? []).map((team) => [team.id, team.roster?.entries ?? []])
+	);
 
 	// Filter schedule to the requested week
 	const weekSchedule = (data.schedule ?? []).filter(
@@ -309,14 +345,11 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
 	for (const item of weekSchedule) {
 		const matchupId = item.id;
 
-		// Home team entry
 		if (item.home) {
-			matchups.push(buildMatchupEntry(item.home, matchupId, item));
+			matchups.push(buildMatchupEntry(item.home, matchupId, rosterByTeamId));
 		}
-
-		// Away team entry (may not exist for byes)
 		if (item.away) {
-			matchups.push(buildMatchupEntry(item.away, matchupId, item));
+			matchups.push(buildMatchupEntry(item.away, matchupId, rosterByTeamId));
 		}
 	}
 
@@ -324,22 +357,18 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
 }
 
 /**
- * Build a single Sleeper-compatible Matchup entry from an ESPN matchup team side.
+ * Build a single Sleeper-compatible Matchup entry.
  *
- * @param side - The home or away side of an ESPN schedule item
- * @param matchupId - Shared matchup identifier
- * @param item - The full ESPN schedule item (for context)
- * @returns Sleeper-compatible Matchup object
+ * Player entries come from data.teams[].roster.entries (via mRoster view) since
+ * rosterForCurrentScoringPeriod on schedule items contains NFL team-level stats,
+ * not individual fantasy player entries with player IDs.
  */
 function buildMatchupEntry(
 	side: NonNullable<ESPNScheduleItem["home"]>,
 	matchupId: number,
-	_item: ESPNScheduleItem
+	rosterByTeamId: Map<number, ESPNRosterEntry[]>
 ): Matchup {
-	const entries: ESPNRosterEntry[] =
-		side.rosterForCurrentScoringPeriod?.entries ??
-		side.rosterForMatchupPeriod?.entries ??
-		[];
+	const entries = rosterByTeamId.get(side.teamId) ?? [];
 
 	const starters: string[] = [];
 	const startersPoints: number[] = [];
@@ -347,14 +376,24 @@ function buildMatchupEntry(
 	const playersPoints: Record<string, number> = {};
 
 	for (const entry of entries) {
-		const pid = entry.playerId.toString();
-		const pts = entry.playerPoolEntry?.appliedStatTotal ?? 0;
+		// Skip empty roster slots (no player assigned)
+		if (entry.playerId == null) continue;
+
+		const espnPid = entry.playerId.toString();
+		const pid = espnToSleeperId[espnPid] ?? espnPid;
+
+		// appliedStatTotal is the player's fantasy points for the scoring period.
+		// Fall back to the actual-stat entry in player.stats if not present.
+		const pts =
+			entry.playerPoolEntry?.appliedStatTotal ??
+			entry.playerPoolEntry?.player?.stats?.find((s) => s.statSourceId === 0)?.appliedTotal ??
+			0;
 
 		players.push(pid);
 		playersPoints[pid] = pts;
 
-		// Slots < 20 are starters (bench = 20, IR = 21)
-		if (entry.lineupSlotId < BENCH_SLOT_ID) {
+		// Bench=20, IR=21 — everything else (including FLEX=23) is a starter slot
+		if (entry.lineupSlotId !== BENCH_SLOT_ID && entry.lineupSlotId !== IR_SLOT_ID) {
 			starters.push(pid);
 			startersPoints.push(pts);
 		}

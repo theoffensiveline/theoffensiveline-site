@@ -5,6 +5,17 @@ export const sleeperPlayers: {
   [key: string]: Player;
 } = require("./api/sleeper_players.json");
 
+// Reverse map: ESPN player ID (string) → Sleeper player ID (string)
+// Built once at module load from sleeperPlayers.espn_id field.
+export const espnToSleeperId: Record<string, string> = Object.entries(
+  sleeperPlayers
+).reduce<Record<string, string>>((acc, [sleeperId, player]) => {
+  if (player.espn_id != null) {
+    acc[String(player.espn_id)] = sleeperId;
+  }
+  return acc;
+}, {});
+
 // Get player photo URL
 export const getPlayerPhoto = (playerId: string): string => {
   if (/^\d+$/.test(playerId)) {

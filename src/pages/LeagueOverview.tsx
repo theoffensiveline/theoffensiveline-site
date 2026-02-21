@@ -5,7 +5,7 @@ import {
   getLeague,
   getUsers,
   getRosters,
-} from "../utils/api/SleeperAPI";
+} from "../utils/api/FantasyAPI";
 import { useParams } from "react-router-dom";
 import { Roster, User, Matchup, League } from "../types/sleeperTypes";
 import { custom_palette36 } from "../components/constants/ColorConstants";

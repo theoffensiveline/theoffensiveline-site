@@ -80,16 +80,30 @@ export interface ESPNMatchupTeam {
   };
 }
 
+export interface ESPNStat {
+  appliedTotal: number;
+  statSourceId?: number; // 0 = actual, 1 = projected
+  scoringPeriodId?: number;
+  proTeamId?: number;
+}
+
 export interface ESPNRosterEntry {
-  playerId: number;
+  // playerId may be on the entry root OR inside playerPoolEntry depending on
+  // the API view/scoringPeriodId combination. Both locations are typed optional
+  // so the adapter can check both.
+  playerId?: number;
   lineupSlotId: number;
   playerPoolEntry?: {
-    appliedStatTotal: number;
-    onTeamId: number;
+    appliedStatTotal?: number;
+    playerId?: number;      // alternative location for player ID
+    id?: number;            // another alternative
+    onTeamId?: number;
     player?: {
-      fullName: string;
-      defaultPositionId: number;
-      proTeamId: number;
+      id?: number;          // yet another alternative
+      fullName?: string;
+      defaultPositionId?: number;
+      proTeamId?: number;
+      stats?: ESPNStat[];
     };
   };
 }

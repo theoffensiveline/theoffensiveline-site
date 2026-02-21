@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getRosters, getUsers } from '../utils/api/SleeperAPI';
+import { getRosters, getUsers } from '../utils/api/FantasyAPI';
 import type { Roster, User } from '../types/sleeperTypes';
 import { sleeperPlayers, getPlayerPhoto, sortPlayersByPosition } from '../utils/playerUtils';
 import {

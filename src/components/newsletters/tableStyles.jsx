@@ -554,7 +554,7 @@ const BaseStickyDataTable = ({ headers, data, renderCell }) => (
         <tbody>
             {data.map((row, index) => (
                 <tr key={index}>
-                    {headers.map(header => renderCell(row, header))}
+                    {headers.map(header => React.cloneElement(renderCell(row, header), { key: header }))}
                 </tr>
             ))}
         </tbody>

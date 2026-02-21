@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { getLeague } from "../utils/api/SleeperAPI";
+import { getLeague } from "../utils/api/FantasyAPI";
 
 export const useCompletedWeeks = (
   leagueId?: string,

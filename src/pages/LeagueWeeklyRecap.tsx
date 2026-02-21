@@ -114,7 +114,7 @@ const RefreshAllButton = styled.button`
 // Global error toast
 // ---------------------------------------------------------------------------
 
-const ToastContainer = styled.div<{ visible: boolean }>`
+const ToastContainer = styled.div<{ $visible: boolean }>`
   position: fixed;
   bottom: 24px;
   left: 50%;
@@ -128,7 +128,7 @@ const ToastContainer = styled.div<{ visible: boolean }>`
   z-index: 9999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   pointer-events: none;
-  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  opacity: ${({ $visible }: { $visible: boolean }) => ($visible ? 1 : 0)};
   transition: opacity 0.3s ease;
 `;
 
@@ -158,10 +158,12 @@ export const LeagueWeeklyRecap: React.FC = () => {
   const hasValidInputs =
     !!leagueId && Number.isFinite(parsedWeek) && parsedWeek > 0;
 
+  const platformLabel = leagueId?.startsWith("espn_") ? "ESPN" : "Sleeper";
+
   // Set document title for SEO
   useEffect(() => {
     const weekStr = Number.isFinite(parsedWeek) ? parsedWeek : "";
-    document.title = `Sleeper Weekly Recap – Week ${weekStr} | The Offensive Line`;
+    document.title = `${platformLabel} Weekly Recap – Week ${weekStr} | The Offensive Line`;
 
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
@@ -175,7 +177,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       meta.content = `Weekly fantasy football recap for Week ${weekStr}: awards, matchup analysis, power rankings, and playoff predictions.`;
       document.head.appendChild(meta);
     }
-  }, [parsedWeek]);
+  }, [parsedWeek, platformLabel]);
 
   // ---------------------------------------------------------------------------
   // Global toast: show when ≥ MULTI_ERROR_THRESHOLD sections error at once
@@ -468,7 +470,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
         <NewsletterContainer>
           <NewsletterTitle>The Offensive Line</NewsletterTitle>
           <ArticleSubheader>
-            Sleeper Weekly Recap – Week {parsedWeek}
+            {platformLabel} Weekly Recap – Week {parsedWeek}
           </ArticleSubheader>
 
           <ProgressIndicator
@@ -504,7 +506,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
       </MainContent>
 
       <ToastContainer
-        visible={toastVisible}
+        $visible={toastVisible}
         role="status"
         aria-live="polite"
         aria-atomic="true"

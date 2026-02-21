@@ -46,11 +46,17 @@ export async function fetchLeague(
 
 export async function fetchMatchups(
   numericId: string,
-  year?: number
+  year?: number,
+  scoringPeriodId?: number
 ): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
+  const periodParam =
+    scoringPeriodId != null ? `&scoringPeriodId=${scoringPeriodId}` : "";
+  // mRoster is included so data.teams[].roster.entries has player IDs and
+  // per-player appliedStatTotal for the requested scoringPeriodId.
+  // mMatchupScore provides the schedule structure and team total points.
   return dedupedFetch<ESPNLeagueResponse>(
-    `${leagueUrl(numericId, y)}?view=mMatchupScore&view=mStatus&view=mSettings&view=mTeam&view=modular&view=mNav`
+    `${leagueUrl(numericId, y)}?view=mMatchupScore&view=mRoster&view=mStatus&view=mSettings&view=mTeam&view=modular&view=mNav${periodParam}`
   );
 }
 
