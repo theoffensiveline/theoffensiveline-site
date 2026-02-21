@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-The Offensive Line is a fantasy football league website built with React. It features weekly newsletters, league standings, survivor pools, leaderboards, and hot dog tracker functionality. The site uses Firebase for authentication and data storage, Sleeper API for fantasy football data, and is deployed to Firebase Hosting.
+The Offensive Line is a fantasy football league website built with React. It features weekly newsletters, league standings, survivor pools, leaderboards, and hot dog tracker functionality. The site uses Firebase for authentication and data storage, Sleeper and ESPN APIs for fantasy football data, and is deployed to Firebase Hosting.
 
 ## Quick Start for New Sessions
 
@@ -39,145 +39,111 @@ REACT_APP_NEWSLETTER_PERF=1 pnpm start
 
 ## Deployment
 
-The site is deployed to Firebase Hosting:
-
-- Firebase rewrites all routes to `/index.html` for client-side routing
+The site is deployed to Firebase Hosting. Firebase rewrites all routes to `/index.html` for client-side routing.
 
 ## Architecture Overview
 
 ### Core Application Structure
 
-**Authentication & Context:**
-
-- `AuthContext.tsx`: Manages Firebase Google authentication and user profiles
-- `ThemeContext.tsx`: Manages light/dark theme switching (persisted to localStorage)
-- Authentication is required for all routes except `/login` and `/sleeper-login`
-
-**Routing:**
-
-- All routes defined in [App.jsx](src/App.jsx) using `react-router-dom`
-- Routes are protected with `<ProtectedRoute>` wrapper component
-- Most routes include a `:leagueId` parameter to support multiple fantasy leagues
-- Pages are in `/src/pages`, with subfolders for complex features (e.g., `hotDogTracker`)
-
-**State Management:**
-
-- Uses `@tanstack/react-query` for server state (caching, fetching)
-- React Context for auth and theme
-- Local component state for UI concerns
+- `AuthContext.tsx`: Firebase Google authentication and user profiles
+- `ThemeContext.tsx`: Light/dark theme switching (persisted to localStorage)
+- All routes defined in [App.jsx](src/App.jsx) using `react-router-dom`, protected with `<ProtectedRoute>`
+- Most routes include a `:leagueId` parameter; pages are in `/src/pages/`
+- Uses `@tanstack/react-query` for server state, React Context for auth/theme
 
 ### Data Sources & APIs
 
 **Firebase:**
 
 - Configuration in [firebase.js](src/firebase.js)
-- Firestore used for: user profiles, survivor pool picks, hot dog tracking data
+- Firestore used for: user profiles, survivor pool picks, hot dog tracking, ESPN proxy URL
 - Google Auth for authentication
+
+**Multi-Platform Fantasy API:**
+
+All compute functions import from [src/utils/api/FantasyAPI.ts](src/utils/api/FantasyAPI.ts), which routes to the correct platform based on league ID prefix. Do **not** import directly from `SleeperAPI.ts` or `ESPNAdapter.ts` in compute utilities.
+
+- Sleeper league IDs: plain numeric string (e.g., `123456`)
+- ESPN league IDs: prefixed with `espn_` (e.g., `espn_123456`)
 
 **Sleeper API:**
 
-- Wrapper utilities in [src/utils/api/SleeperAPI.ts](src/utils/api/SleeperAPI.ts)
+- [src/utils/api/SleeperAPI.ts](src/utils/api/SleeperAPI.ts) — raw fetchers with in-flight deduplication
 - Player data cached in [sleeper_players.json](src/utils/api/sleeper_players.json)
-- Fetches league data, rosters, matchups, transactions
+- Functions: `getLeague`, `getRosters`, `getMatchups`, `getTransactions`, `getPlayoffBracket`
+
+**ESPN API:**
+
+- [src/utils/api/ESPNApi.ts](src/utils/api/ESPNApi.ts) — raw ESPN API fetchers with in-flight deduplication
+- [src/utils/api/ESPNAdapter.ts](src/utils/api/ESPNAdapter.ts) — translates ESPN responses to Sleeper-compatible types so all compute utilities work unchanged
+- [src/utils/espnCredentials.ts](src/utils/espnCredentials.ts) — localStorage management for `espn_s2` / `SWID` cookies
+- [src/pages/EspnLogin.tsx](src/pages/EspnLogin.tsx) — multi-step league entry flow (public or private with cookie auth)
+- [proxy-service/api/espn.js](proxy-service/api/espn.js) — server-side Vercel proxy that sets Cookie headers for private league requests (browsers can't set Cookie directly)
+- Type definitions in [src/types/espnTypes.ts](src/types/espnTypes.ts)
+- Player photo/headshot helpers in [src/utils/playerUtils.ts](src/utils/playerUtils.ts) (`getPlayerPhoto` handles ESPN CDN vs Sleeper fallback)
+- **Limitations**: transactions and player projections are not available via the ESPN public API
+
+**Private ESPN League Auth Flow:**
+
+```
+User enters espn_s2 + SWID → saved to localStorage
+→ ESPNApi fetches proxy URL from Firestore (config/discord.webhookServiceUrl)
+→ POST to proxy-service with { url, espn_s2, swid }
+→ Proxy adds Cookie header → ESPN Private API
+```
 
 **Discord Integration:**
 
-- Separate serverless service in `/discord-webhook-service`
-- Deployed to Vercel as an API proxy for Discord webhooks
+- Serverless proxy in `/discord-webhook-service`, deployed to Vercel
 - Used via [src/utils/api/discord.js](src/utils/api/discord.js)
 
 ### Newsletter System
 
-Newsletters are the primary content of the site. They are React components with a specific structure:
-
-**Organization:**
-
-- Located in `/src/newsletters/` organized by year (2023, 2024, 2025) and special folders (WalterPicks)
-- Each newsletter is a folder containing the main component file and JSON data files
-- See [src/newsletters/README.md](src/newsletters/README.md) for comprehensive creation guide
-
-**Newsletter Structure:**
-
-- Each newsletter exports `newsDate` and `articles` array (or default object with meta)
+- Located in `/src/newsletters/` organized by year (2023, 2024, 2025)
+- Each newsletter is a folder with a main component + JSON data files
+- Each newsletter exports `newsDate` and `articles` array (or default object with `newsDate`, `articles`, optional `meta`)
 - Articles are React components rendered in masonry layout via [Newsletter.jsx](src/pages/Newsletter.jsx)
-- Data files: `awardsTable.json`, `leaderboard.json`, `starters.json`, `matchupData.json`, etc.
 - Newsletter components imported in [Home.jsx](src/pages/Home.jsx) for navigation
+- Data JSON files generated from the separate `ff-data-analytics` R repository (`main.R` for regular season, `end_of_season_recap.R` for recap)
+- Styled components in [src/components/newsletters/](src/components/newsletters/): `newsStyles.jsx`, `chartStyles.jsx`, `tableStyles.jsx`
+- See [src/newsletters/README.md](src/newsletters/README.md) for the full creation guide
 
-**Newsletter Data Generation:**
+### Newsletter Compute Utilities
 
-- Data JSON files are generated from separate `ff-data-analytics` R repository
-- Regular season: `main.R` script
-- Season recap: `end_of_season_recap.R` script
+All utilities live in [src/utils/newsletter/](src/utils/newsletter/) with signature `(leagueId: string, week: number) → Promise<T>`. Orchestrated in parallel by `useNewsletterData` in [src/hooks/useNewsletterData.ts](src/hooks/useNewsletterData.ts).
 
-**Newsletter Components:**
+| Utility                   | Output Type           | Primary UI Consumer                                     |
+| ------------------------- | --------------------- | ------------------------------------------------------- |
+| `computeWeeklyAwards`     | `WeeklyAward[]`       | AwardsGridV2                                            |
+| `computeLeaderboard`      | `LeaderboardData[]`   | LeaderboardTable                                        |
+| `computeStarters`         | `StartersData[]`      | StartersTable                                           |
+| `computeEfficiency`       | `EfficiencyData[]`    | EfficiencyChart                                         |
+| `computeBestBall`         | `BestBallData[]`      | BestBallTable                                           |
+| `computeMedian`           | `MedianData[]`        | MedianTable                                             |
+| `computePowerRankings`    | `PowerRankingsData[]` | PowerRankingsTable                                      |
+| `computePlayoffStandings` | `PlayoffTableData[]`  | PlayoffStandingsTable                                   |
+| `computeSchedule`         | `ScheduleData`        | ScheduleMatrix                                          |
+| `computeMatchupData`      | `MatchupData[]`       | StackedHistogram, WeeklyScoringChart, WeeklyMarginTable |
 
-- Styled components in [src/components/newsletters/](src/components/newsletters/)
-  - `newsStyles.jsx`: Layout components (ArticleHeader, LeagueQuote, etc.)
-  - `chartStyles.jsx`: Chart components (EfficiencyChart, MatchupPlot, etc.)
-  - `tableStyles.jsx`: Table components (LeaderboardTable, AwardsGridV2, etc.)
+Multi-week utilities fetch all weeks 1–N in a single `Promise.all`. The in-flight cache in both `SleeperAPI.ts` and `ESPNApi.ts` ensures concurrent identical requests share one HTTP request.
+
+Tests live in [src/utils/newsletter/\_\_tests\_\_/](src/utils/newsletter/__tests__/) and fixtures in [src/utils/newsletter/testFixtures/](src/utils/newsletter/testFixtures/) (outside `__tests__` so Jest doesn't treat them as test suites).
+
+See [docs/newsletter-data-flow.md](docs/newsletter-data-flow.md) for a full architecture diagram.
 
 ### Theming & Styling
 
-**Color System:**
-
-- Defined in [ColorConstants.ts](src/components/constants/ColorConstants.ts)
-- Supports light/dark themes with newspaper aesthetic
-- Background: `#ECECDF` (Alabaster) in light mode
-- Data visualization uses gradient between `#FF3366` (Folly) and `#20A4F4` (Celestial Blue)
-- Position-specific colors for player visualizations
-- See [STYLE.md](STYLE.md) for full color palette and guidelines
-
-**Styling Approach:**
-
-- Uses `styled-components` throughout
-- Global styles in [App.jsx](src/App.jsx) via `GlobalStyle`
-- Theme accessed via `useTheme()` hook
-- MUI components used for some UI elements (NavBar, etc.)
-
-### Key Features
-
-**Survivor Pool:**
-
-- Weekly NFL picks competition
-- User picks stored in Firestore at `/survivorPicks/{userId}/weeks/{week}`
-- Components in [src/components/survivor/](src/components/survivor/)
-- Utilities in [src/utils/survivorUtils.ts](src/utils/survivorUtils.ts)
-- Hooks: `useSurvivorData.ts` for fetching/managing picks
-
-**Hot Dog Tracker:**
-
-- Tracks league punishment (hot dog consumption)
-- Data stored in [src/data/hotDogs.json](src/data/hotDogs.json) and Firestore
-- Page at [src/pages/hotDogTracker/HotDogTracker.tsx](src/pages/hotDogTracker/HotDogTracker.tsx)
-
-**Leaderboards:**
-
-- Various scoring leaderboards
-- Utilities in [src/utils/leaderboardUtils.js](src/utils/leaderboardUtils.js)
-- Components in [src/components/leaderboard/](src/components/leaderboard/)
-
-**League Pages:**
-
-- League overview, recent activity, weekly recaps, rosters, history
-- Located in `/src/pages/League*.tsx`
-- Fetch data from Sleeper API using react-query hooks
+- Uses `styled-components` throughout; theme accessed via `useTheme()` hook
+- Color system defined in [ColorConstants.ts](src/components/constants/ColorConstants.ts)
+- Background: `#ECECDF` (Alabaster) light / data viz gradient: `#FF3366` → `#20A4F4`
+- See [STYLE.md](STYLE.md) for full palette and guidelines
 
 ## Common Tasks
-
-### Adding a New Newsletter
-
-1. Create folder in `/src/newsletters/[YEAR]/[Newsletter Name]/`
-2. Create main component file `[Newsletter Name].jsx`
-3. Add required JSON data files from `ff-data-analytics` repo
-4. Export `newsDate` and `articles` array (or default object with `newsDate`, `articles`, optional `meta`)
-5. Update [Home.jsx](src/pages/Home.jsx) `newsletterContent` object with the newsletter path including year folder
-
-See [newsletters/README.md](src/newsletters/README.md) for detailed instructions.
 
 ### Adding a New Page
 
 1. Create component in `/src/pages/`
-2. Add route in [App.jsx](src/App.jsx) within `<ProtectedRoute>` wrapper (or outside for public pages)
+2. Add route in [App.jsx](src/App.jsx) within `<ProtectedRoute>` (or outside for public pages)
 3. Add navigation link in [NavBar.tsx](src/components/NavBar.tsx) if needed
 
 ### Working with Firestore
@@ -186,54 +152,18 @@ See [newsletters/README.md](src/newsletters/README.md) for detailed instructions
 - Use Firestore v9 modular API: `collection`, `doc`, `getDoc`, `setDoc`, `updateDoc`, `query`, etc.
 - See [src/utils/survivorUtils.ts](src/utils/survivorUtils.ts) for examples
 
-### Working with Sleeper API
-
-- Use functions from [SleeperAPI.ts](src/utils/api/SleeperAPI.ts)
-- Common functions: `getLeague`, `getRosters`, `getMatchups`, `getTransactions`, `getPlayoffBracket`
-- Player data available in `sleeper_players.json` (large file)
-- `SleeperAPI.ts` de-duplicates concurrent identical requests via a module-level `_inflight` Map — no special handling needed in callers
-
-### Newsletter Compute Utilities
-
-All utilities live in [src/utils/newsletter/](src/utils/newsletter/) and share the same signature: `(leagueId: string, week: number) → Promise<T>`. They are orchestrated in parallel by `useNewsletterData` in [src/hooks/useNewsletterData.ts](src/hooks/useNewsletterData.ts).
-
-| Utility | Output Type | Key Inputs | Primary UI Consumer |
-|---|---|---|---|
-| `computeWeeklyAwards` | `WeeklyAward[]` | rosters, users, matchups, league, players | AwardsGridV2 |
-| `computeLeaderboard` | `LeaderboardData[]` | rosters, users, matchups weeks 1–N | LeaderboardTable |
-| `computeStarters` | `StartersData[]` | matchups (week only), rosters, users, players | StartersTable |
-| `computeEfficiency` | `EfficiencyData[]` | league, matchups, rosters, users, players | EfficiencyChart |
-| `computeBestBall` | `BestBallData[]` | league, matchups, rosters, users | BestBallTable |
-| `computeMedian` | `MedianData[]` | matchups (week only), rosters, users | MedianTable |
-| `computePowerRankings` | `PowerRankingsData[]` | matchups weeks 1–N, rosters, users | PowerRankingsTable |
-| `computePlayoffStandings` | `PlayoffTableData[]` | league, matchups weeks 1–N, rosters, users | PlayoffStandingsTable |
-| `computeSchedule` | `ScheduleData` | matchups weeks 1–N, rosters, users | ScheduleMatrix |
-| `computeMatchupData` | `MatchupData[]` | rosters, users, matchups weeks 1–N | StackedHistogram, WeeklyScoringChart, WeeklyMarginTable |
-
-**Multi-week utilities** (`computeLeaderboard`, `computeMatchupData`, `computePowerRankings`, `computePlayoffStandings`, `computeSchedule`) fetch all weeks 1–N in a single `Promise.all`. The SleeperAPI in-flight cache ensures repeated calls for the same week share one HTTP request.
-
-**Tests** live in [src/utils/newsletter/\_\_tests\_\_/](src/utils/newsletter/__tests__/) and fixtures in [src/utils/newsletter/testFixtures/](src/utils/newsletter/testFixtures/) (outside `__tests__` so Jest doesn't treat them as test suites).
-
-See [docs/newsletter-data-flow.md](docs/newsletter-data-flow.md) for a full architecture diagram.
-
 ## File Naming Conventions
 
-- Components: PascalCase (e.g., `NavBar.tsx`, `LeagueOverview.tsx`)
-- Utilities: camelCase (e.g., `survivorUtils.ts`, `leaderboardUtils.js`)
-- Styled components: camelCase or PascalCase depending on usage
-- JSON data: camelCase (e.g., `leaderboard.json`, `matchupData.json`)
+- Components: PascalCase (`NavBar.tsx`, `LeagueOverview.tsx`)
+- Utilities: camelCase (`survivorUtils.ts`, `leaderboardUtils.js`)
+- JSON data: camelCase (`leaderboard.json`, `matchupData.json`)
 
-## TypeScript Migration
+## TypeScript
 
-The codebase is partially migrated to TypeScript:
-
-- New files should use `.tsx` for components, `.ts` for utilities
-- Type definitions in `/src/types/` (`sleeperTypes.ts`, `survivorTypes.ts`)
-- Many older components still use `.jsx`
+New files should use `.tsx` for components, `.ts` for utilities. Type definitions in `/src/types/`. Many older components still use `.jsx`.
 
 ## Special Notes
 
 - Snowfall effect displays in December and January (see [App.jsx:58-74](src/App.jsx#L58-L74))
-- League IDs are hardcoded in various places - multi-league support is partial
-- The `/news` route currently loads an external iframe (legacy)
+- The `/news` route loads an external iframe (legacy)
 - Discord webhook service is a separate deployable in `/discord-webhook-service`
