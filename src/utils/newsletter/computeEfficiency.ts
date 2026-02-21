@@ -89,7 +89,7 @@ export function calculateOptimalScore(
 
   // 2. Fill FLEX slots (RB/WR/TE eligible)
   const flexEligible = new Set(["RB", "WR", "TE"]);
-  for (const _ of flexSlots) {
+  flexSlots.forEach(() => {
     const best = playerPool.find(
       (p) => !used.has(p.playerId) && p.position && flexEligible.has(p.position)
     );
@@ -97,11 +97,11 @@ export function calculateOptimalScore(
       used.add(best.playerId);
       optimalScore += best.points;
     }
-  }
+  });
 
   // 3. Fill SUPER_FLEX slots (QB/RB/WR/TE eligible)
   const superFlexEligible = new Set(["QB", "RB", "WR", "TE"]);
-  for (const _ of superFlexSlots) {
+  superFlexSlots.forEach(() => {
     const best = playerPool.find(
       (p) =>
         !used.has(p.playerId) &&
@@ -112,7 +112,7 @@ export function calculateOptimalScore(
       used.add(best.playerId);
       optimalScore += best.points;
     }
-  }
+  });
 
   return optimalScore;
 }
