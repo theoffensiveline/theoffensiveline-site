@@ -390,18 +390,17 @@ function EspnLogin() {
                 <strong>Cmd+Option+I</strong> on Mac.
               </li>
               <li>
-                Click the <strong>Application</strong> tab (Chrome/Edge) or{" "}
-                <strong>Storage</strong> tab (Firefox).
+                Click the <strong>Application</strong> tab (Chrome/Edge) or <strong>Storage</strong>{" "}
+                tab (Firefox).
               </li>
               <li>
                 In the left panel, expand <strong>Cookies</strong>. You&apos;ll see several ESPN
-                domains listed — click through <code>espn.com</code>,{" "}
-                <code>www.espn.com</code>, and <code>fantasy.espn.com</code> until you find both
-                cookies.
+                domains listed — click through <code>espn.com</code>, <code>www.espn.com</code>, and{" "}
+                <code>fantasy.espn.com</code> until you find both cookies.
               </li>
               <li>
-                Find <code>espn_s2</code> and copy its full <strong>Value</strong>. It&apos;s a
-                very long string — make sure you get all of it.
+                Find <code>espn_s2</code> and copy its full <strong>Value</strong>. It&apos;s a very
+                long string — make sure you get all of it.
               </li>
               <li>
                 Find <code>SWID</code> and copy its full <strong>Value</strong>. It looks like{" "}
@@ -410,20 +409,24 @@ function EspnLogin() {
               </li>
             </ol>
             <p>
-              <strong>Tip:</strong> If you can&apos;t find the cookies, make sure you&apos;re
-              fully logged in and try refreshing the ESPN page before checking. Cookies also expire
+              <strong>Tip:</strong> If you can&apos;t find the cookies, make sure you&apos;re fully
+              logged in and try refreshing the ESPN page before checking. Cookies also expire
               periodically — if this stops working later, repeat these steps for fresh values.
             </p>
           </InstructionBox>
 
-          <CookieInputLabel>espn_s2 {hasSavedCreds && espnS2 && <SavedBadge>Saved</SavedBadge>}</CookieInputLabel>
+          <CookieInputLabel>
+            espn_s2 {hasSavedCreds && espnS2 && <SavedBadge>Saved</SavedBadge>}
+          </CookieInputLabel>
           <CookieTextarea
             value={espnS2}
             onChange={(e) => setEspnS2(e.target.value)}
             placeholder="Paste your espn_s2 cookie value here (very long string)"
           />
 
-          <CookieInputLabel>SWID {hasSavedCreds && swid && <SavedBadge>Saved</SavedBadge>}</CookieInputLabel>
+          <CookieInputLabel>
+            SWID {hasSavedCreds && swid && <SavedBadge>Saved</SavedBadge>}
+          </CookieInputLabel>
           <Input
             type="text"
             value={swid}
