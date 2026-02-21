@@ -82,7 +82,7 @@ const buildTeamMetadata = (rosters: Roster[], users: User[]) => {
           avatar_url: avatarUrl,
         },
       ];
-    }),
+    })
   );
 };
 
@@ -95,20 +95,17 @@ const buildTeamMetadata = (rosters: Roster[], users: User[]) => {
  */
 export const computeMatchupData = async (
   leagueId: string,
-  currentWeek: number,
+  currentWeek: number
 ): Promise<MatchupData[]> => {
   // Fetch rosters and users
-  const [rosters, users] = await Promise.all([
-    getRosters(leagueId),
-    getUsers(leagueId),
-  ]);
+  const [rosters, users] = await Promise.all([getRosters(leagueId), getUsers(leagueId)]);
 
   // Build team metadata map
   const teamMetadata = buildTeamMetadata(rosters, users);
 
   // Fetch all weeks of matchup data in parallel
   const allWeeksMatchups = await Promise.all(
-    Array.from({ length: currentWeek }, (_, i) => getMatchups(leagueId, i + 1)),
+    Array.from({ length: currentWeek }, (_, i) => getMatchups(leagueId, i + 1))
   );
 
   // Process each week and collect all margins for color scaling
@@ -153,9 +150,7 @@ export const computeMatchupData = async (
 
       // Find opponent (same matchup_id, different roster_id)
       const opponentMatchups = matchupMap.get(matchup.matchup_id!) || [];
-      const opponent = opponentMatchups.find(
-        (m) => m.roster_id !== matchup.roster_id,
-      );
+      const opponent = opponentMatchups.find((m) => m.roster_id !== matchup.roster_id);
 
       // Calculate margin of victory (rounded to 2 decimal places)
       const opponentPoints = opponent?.points || 0;

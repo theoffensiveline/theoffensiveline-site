@@ -6,7 +6,9 @@ jest.mock("../../api/SleeperAPI");
 
 const mockGetRosters = SleeperAPI.getRosters as jest.MockedFunction<typeof SleeperAPI.getRosters>;
 const mockGetUsers = SleeperAPI.getUsers as jest.MockedFunction<typeof SleeperAPI.getUsers>;
-const mockGetMatchups = SleeperAPI.getMatchups as jest.MockedFunction<typeof SleeperAPI.getMatchups>;
+const mockGetMatchups = SleeperAPI.getMatchups as jest.MockedFunction<
+  typeof SleeperAPI.getMatchups
+>;
 
 const LEAGUE_ID = "league_123";
 
@@ -23,8 +25,14 @@ beforeEach(() => {
 // Helpers
 // ---------------------------------------------------------------------------
 function setupTwoTeams() {
-  const user1 = makeUser({ user_id: "user_1", metadata: { team_name: "Team Alpha", avatar: "avatar_a" } });
-  const user2 = makeUser({ user_id: "user_2", metadata: { team_name: "Team Beta", avatar: "avatar_b" } });
+  const user1 = makeUser({
+    user_id: "user_1",
+    metadata: { team_name: "Team Alpha", avatar: "avatar_a" },
+  });
+  const user2 = makeUser({
+    user_id: "user_2",
+    metadata: { team_name: "Team Beta", avatar: "avatar_b" },
+  });
   const roster1 = makeRoster({ roster_id: 1, owner_id: "user_1" });
   const roster2 = makeRoster({ roster_id: 2, owner_id: "user_2" });
 
@@ -88,9 +96,7 @@ describe("computeMatchupData", () => {
         makeMatchup({ roster_id: 2, matchup_id: 1, points: 100 }),
       ];
 
-      mockGetMatchups
-        .mockResolvedValueOnce(weekData)
-        .mockResolvedValueOnce(weekData);
+      mockGetMatchups.mockResolvedValueOnce(weekData).mockResolvedValueOnce(weekData);
 
       const result = await computeMatchupData(LEAGUE_ID, 2);
       // 2 teams × 2 weeks = 4 rows
@@ -262,9 +268,7 @@ describe("computeMatchupData", () => {
         makeMatchup({ roster_id: 2, matchup_id: 1, points: 90 }),
       ];
 
-      mockGetMatchups
-        .mockResolvedValueOnce(weekData)
-        .mockResolvedValueOnce(weekData);
+      mockGetMatchups.mockResolvedValueOnce(weekData).mockResolvedValueOnce(weekData);
 
       const result = await computeMatchupData(LEAGUE_ID, 2);
       const week1Rows = result.filter((r) => r.week === 1);
@@ -283,7 +287,9 @@ describe("computeMatchupData", () => {
       });
       mockGetUsers.mockResolvedValue([user]);
       mockGetRosters.mockResolvedValue([makeRoster({ roster_id: 1, owner_id: "user_1" })]);
-      mockGetMatchups.mockResolvedValue([makeMatchup({ roster_id: 1, matchup_id: 1, points: 100 })]);
+      mockGetMatchups.mockResolvedValue([
+        makeMatchup({ roster_id: 1, matchup_id: 1, points: 100 }),
+      ]);
 
       const result = await computeMatchupData(LEAGUE_ID, 1);
       expect(result[0].team_name).toBe("Metadata Name");
@@ -298,7 +304,9 @@ describe("computeMatchupData", () => {
       });
       mockGetUsers.mockResolvedValue([user]);
       mockGetRosters.mockResolvedValue([makeRoster({ roster_id: 1, owner_id: "user_1" })]);
-      mockGetMatchups.mockResolvedValue([makeMatchup({ roster_id: 1, matchup_id: 1, points: 100 })]);
+      mockGetMatchups.mockResolvedValue([
+        makeMatchup({ roster_id: 1, matchup_id: 1, points: 100 }),
+      ]);
 
       const result = await computeMatchupData(LEAGUE_ID, 1);
       expect(result[0].team_name).toBe("DisplayFallback");
@@ -307,7 +315,9 @@ describe("computeMatchupData", () => {
     it("falls back to Team {rosterId} when no user is found", async () => {
       mockGetUsers.mockResolvedValue([]);
       mockGetRosters.mockResolvedValue([makeRoster({ roster_id: 5, owner_id: "nobody" })]);
-      mockGetMatchups.mockResolvedValue([makeMatchup({ roster_id: 5, matchup_id: 1, points: 100 })]);
+      mockGetMatchups.mockResolvedValue([
+        makeMatchup({ roster_id: 5, matchup_id: 1, points: 100 }),
+      ]);
 
       const result = await computeMatchupData(LEAGUE_ID, 1);
       expect(result[0].team_name).toBe("Team 5");
@@ -317,7 +327,8 @@ describe("computeMatchupData", () => {
       setupTwoTeams();
       mockGetMatchups
         .mockResolvedValueOnce([]) // Week 1 empty
-        .mockResolvedValueOnce([   // Week 2 has data
+        .mockResolvedValueOnce([
+          // Week 2 has data
           makeMatchup({ roster_id: 1, matchup_id: 1, points: 100 }),
           makeMatchup({ roster_id: 2, matchup_id: 1, points: 90 }),
         ]);

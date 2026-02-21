@@ -1,34 +1,24 @@
-import { getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
+import { getMatchups, getPlayers, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Roster, User } from "../../types/sleeperTypes";
 import type { StartersData } from "../../types/newsletterTypes";
-import { sleeperPlayers } from "../playerUtils";
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
-export async function computeStarters(
-  leagueId: string,
-  week: number,
-): Promise<StartersData[]> {
-  const [matchups, rosters, users] = await Promise.all([
+export async function computeStarters(leagueId: string, week: number): Promise<StartersData[]> {
+  const [matchups, rosters, users, players] = await Promise.all([
     getMatchups(leagueId, week),
     getRosters(leagueId),
     getUsers(leagueId),
+    getPlayers(leagueId),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
 
   // Map roster_id to roster and user info for quick lookup
-  const rosterById = new Map<number, Roster>(
-    rosters.map((r) => [r.roster_id, r]),
-  );
+  const rosterById = new Map<number, Roster>(rosters.map((r) => [r.roster_id, r]));
 
   const results: StartersData[] = [];
 
@@ -38,7 +28,7 @@ export async function computeStarters(
     const teamName = getTeamName(user);
 
     const entries = matchup.starters.map((playerId, index) => {
-      const player = sleeperPlayers[playerId];
+      const player = players[playerId];
       const points = matchup.starters_points?.[index] ?? 0;
 
       // Get custom nickname from roster player_map

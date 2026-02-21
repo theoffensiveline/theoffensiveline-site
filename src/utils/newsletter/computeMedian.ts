@@ -29,12 +29,7 @@ function interpolateColor(value: number, min: number, max: number): string {
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 type MedianStanding = {
@@ -63,18 +58,13 @@ function calculateMedianScore(matchups: Matchup[]): number {
   }
 }
 
-export async function computeMedian(
-  leagueId: string,
-  throughWeek: number,
-): Promise<MedianData[]> {
+export async function computeMedian(leagueId: string, throughWeek: number): Promise<MedianData[]> {
   if (throughWeek <= 0) return [];
 
   const [users, rosters, ...weeklyMatchups] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
-    ...Array.from({ length: throughWeek }, (_, i) =>
-      getMatchups(leagueId, i + 1),
-    ),
+    ...Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1)),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));

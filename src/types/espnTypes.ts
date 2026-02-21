@@ -95,11 +95,11 @@ export interface ESPNRosterEntry {
   lineupSlotId: number;
   playerPoolEntry?: {
     appliedStatTotal?: number;
-    playerId?: number;      // alternative location for player ID
-    id?: number;            // another alternative
+    playerId?: number; // alternative location for player ID
+    id?: number; // another alternative
     onTeamId?: number;
     player?: {
-      id?: number;          // yet another alternative
+      id?: number; // yet another alternative
       fullName?: string;
       defaultPositionId?: number;
       proTeamId?: number;

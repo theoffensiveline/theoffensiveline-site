@@ -13,7 +13,9 @@ jest.mock("../../api/SleeperAPI");
 const mockGetLeague = SleeperAPI.getLeague as jest.MockedFunction<typeof SleeperAPI.getLeague>;
 const mockGetUsers = SleeperAPI.getUsers as jest.MockedFunction<typeof SleeperAPI.getUsers>;
 const mockGetRosters = SleeperAPI.getRosters as jest.MockedFunction<typeof SleeperAPI.getRosters>;
-const mockGetMatchups = SleeperAPI.getMatchups as jest.MockedFunction<typeof SleeperAPI.getMatchups>;
+const mockGetMatchups = SleeperAPI.getMatchups as jest.MockedFunction<
+  typeof SleeperAPI.getMatchups
+>;
 
 const LEAGUE_ID = "league_123";
 
@@ -29,11 +31,13 @@ beforeEach(() => {
  * Build an N-team league where week 1 matchup results are provided.
  * Remaining rosters score 0 points with bye-week placeholder matchups.
  */
-function setupLeague(opts: {
-  numTeams?: number;
-  playoffWeekStart?: number;
-  playoffTeams?: number;
-} = {}) {
+function setupLeague(
+  opts: {
+    numTeams?: number;
+    playoffWeekStart?: number;
+    playoffTeams?: number;
+  } = {}
+) {
   const { numTeams = 4, playoffWeekStart = 5, playoffTeams = 2 } = opts;
 
   const league = makeLeague({
@@ -163,9 +167,7 @@ describe("computePlayoffStandings", () => {
       // Week 2: Team 1 wins again
       const week2 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 110, points2: 80 });
 
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computePlayoffStandings(LEAGUE_ID, 2);
       const team1 = result.find((r) => r.Team === "Team 1")!;
@@ -180,9 +182,7 @@ describe("computePlayoffStandings", () => {
       const week1 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 120, points2: 90 });
       const week2 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 110, points2: 80 });
 
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computePlayoffStandings(LEAGUE_ID, 2);
       const team2 = result.find((r) => r.Team === "Team 2")!;
@@ -198,9 +198,7 @@ describe("computePlayoffStandings", () => {
       const week1 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 120, points2: 90 });
       const week2 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 110, points2: 80 });
 
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computePlayoffStandings(LEAGUE_ID, 2);
       const leader = result[0]; // Team 1 (2W-0L) — safely cannot finish last
@@ -257,9 +255,7 @@ describe("computePlayoffStandings", () => {
       setupLeague({ numTeams: 2, playoffWeekStart: 3, playoffTeams: 1 });
       const week1 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 120, points2: 90 });
       const week2 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 110, points2: 80 });
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computePlayoffStandings(LEAGUE_ID, 2);
       const clinched = result.find((r) => r["Play-off #"] === "CLINCHED")!;
@@ -270,9 +266,7 @@ describe("computePlayoffStandings", () => {
       setupLeague({ numTeams: 2, playoffWeekStart: 3, playoffTeams: 1 });
       const week1 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 120, points2: 90 });
       const week2 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 110, points2: 80 });
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computePlayoffStandings(LEAGUE_ID, 2);
       const eliminated = result.find((r) => r["Play-off #"] === "ELIMINATED")!;
@@ -283,9 +277,7 @@ describe("computePlayoffStandings", () => {
       setupLeague({ numTeams: 2, playoffWeekStart: 3, playoffTeams: 1 });
       const week1 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 120, points2: 90 });
       const week2 = makeMatchupPair({ roster1Id: 1, roster2Id: 2, points1: 110, points2: 80 });
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computePlayoffStandings(LEAGUE_ID, 2);
       const safe = result.find((r) => r["Last #"] === "SAFE")!;

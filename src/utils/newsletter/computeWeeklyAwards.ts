@@ -1,12 +1,7 @@
-import {
-  getLeague,
-  getMatchups,
-  getRosters,
-  getUsers,
-} from "../api/FantasyAPI";
+import { getLeague, getMatchups, getPlayers, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import { getAvatarUrl } from "../leagueHistory";
-import { getPlayerPhoto, sleeperPlayers } from "../playerUtils";
+import { getPlayerPhoto } from "../playerUtils";
 import { calculateOptimalScore } from "./computeEfficiency";
 
 export interface WeeklyAward {
@@ -25,12 +20,7 @@ type TeamInfo = {
 
 const getTeamName = (user: User | undefined): string => {
   if (!user) return "Unknown Team";
-  return (
-    user?.metadata?.team_name ||
-    user?.display_name ||
-    user?.username ||
-    "Unknown Team"
-  );
+  return user?.metadata?.team_name || user?.display_name || user?.username || "Unknown Team";
 };
 
 const getTeamPhoto = (user: User | undefined): string => {
@@ -51,15 +41,14 @@ const matchupPairsById = (matchups: Matchup[]): Map<number, Matchup[]> => {
 const safeNumber = (n: number | undefined | null): number =>
   typeof n === "number" && Number.isFinite(n) ? n : 0;
 
-export async function computeWeeklyAwards(
-  leagueId: string,
-  week: number,
-): Promise<WeeklyAward[]> {
-  const [users, rosters, matchups, league] = await Promise.all([
+export async function computeWeeklyAwards(leagueId: string, week: number): Promise<WeeklyAward[]> {
+  const isEspn = leagueId.startsWith("espn_");
+  const [users, rosters, matchups, league, playerMap] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
     getMatchups(leagueId, week),
     getLeague(leagueId),
+    getPlayers(leagueId),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
@@ -136,24 +125,14 @@ export async function computeWeeklyAwards(
   }
 
   if (resolvedGames.length > 0) {
-    const worstWinner = [...resolvedGames].sort(
-      (a, b) => a.winner.points - b.winner.points,
-    )[0];
-    const bestLoser = [...resolvedGames].sort(
-      (a, b) => b.loser.points - a.loser.points,
-    )[0];
-    const biggestBlowout = [...resolvedGames].sort(
-      (a, b) => b.margin - a.margin,
-    )[0];
-    const closestGame = [...resolvedGames].sort(
-      (a, b) => a.margin - b.margin,
-    )[0];
+    const worstWinner = [...resolvedGames].sort((a, b) => a.winner.points - b.winner.points)[0];
+    const bestLoser = [...resolvedGames].sort((a, b) => b.loser.points - a.loser.points)[0];
+    const biggestBlowout = [...resolvedGames].sort((a, b) => b.margin - a.margin)[0];
+    const closestGame = [...resolvedGames].sort((a, b) => a.margin - b.margin)[0];
 
     const worstWinnerTeam = teamByRosterId.get(worstWinner.winner.roster_id);
     const bestLoserTeam = teamByRosterId.get(bestLoser.loser.roster_id);
-    const blowoutWinnerTeam = teamByRosterId.get(
-      biggestBlowout.winner.roster_id,
-    );
+    const blowoutWinnerTeam = teamByRosterId.get(biggestBlowout.winner.roster_id);
     const blowoutLoserTeam = teamByRosterId.get(biggestBlowout.loser.roster_id);
     const closeWinnerTeam = teamByRosterId.get(closestGame.winner.roster_id);
     const closeLoserTeam = teamByRosterId.get(closestGame.loser.roster_id);
@@ -163,9 +142,7 @@ export async function computeWeeklyAwards(
         award: "Worst Winner",
         photo: worstWinnerTeam.photo || "/banner_logo.png",
         name: worstWinnerTeam.name,
-        value: `Scored ${worstWinner.winner.points.toFixed(
-          2,
-        )} points in their win`,
+        value: `Scored ${worstWinner.winner.points.toFixed(2)} points in their win`,
         description: "Lowest-scoring team to get a win",
       });
     }
@@ -175,9 +152,7 @@ export async function computeWeeklyAwards(
         award: "Best Loser",
         photo: bestLoserTeam.photo || "/banner_logo.png",
         name: bestLoserTeam.name,
-        value: `Scored ${bestLoser.loser.points.toFixed(
-          2,
-        )} points in their loss`,
+        value: `Scored ${bestLoser.loser.points.toFixed(2)} points in their loss`,
         description: "Highest-scoring team to take a loss",
       });
     }
@@ -187,9 +162,7 @@ export async function computeWeeklyAwards(
         award: "Deadest Horse",
         photo: blowoutWinnerTeam.photo || "/banner_logo.png",
         name: blowoutWinnerTeam.name,
-        value: `Defeated ${
-          blowoutLoserTeam.name
-        } by ${biggestBlowout.margin.toFixed(2)} points`,
+        value: `Defeated ${blowoutLoserTeam.name} by ${biggestBlowout.margin.toFixed(2)} points`,
         description: "Biggest margin of victory",
       });
     }
@@ -199,9 +172,7 @@ export async function computeWeeklyAwards(
         award: "Photo Finish",
         photo: closeWinnerTeam.photo || "/banner_logo.png",
         name: closeWinnerTeam.name,
-        value: `Defeated ${closeLoserTeam.name} by ${closestGame.margin.toFixed(
-          2,
-        )} points`,
+        value: `Defeated ${closeLoserTeam.name} by ${closestGame.margin.toFixed(2)} points`,
         description: "Closest game of the week",
       });
     }
@@ -251,7 +222,7 @@ export async function computeWeeklyAwards(
     const efficiencyGaps: { rosterId: number; gap: number }[] = [];
 
     for (const m of matchups) {
-      const optimalScore = calculateOptimalScore(m, league.roster_positions);
+      const optimalScore = calculateOptimalScore(m, league.roster_positions, playerMap);
       const gap = optimalScore - m.points;
       efficiencyGaps.push({ rosterId: m.roster_id, gap });
     }
@@ -269,8 +240,7 @@ export async function computeWeeklyAwards(
           photo: team.photo || "/banner_logo.png",
           name: team.name,
           value: `Left ${worstGap.gap.toFixed(2)} points on the bench`,
-          description:
-            "Most points left on the bench that could've been in optimal lineup",
+          description: "Most points left on the bench that could've been in optimal lineup",
         });
       }
     }
@@ -282,7 +252,7 @@ export async function computeWeeklyAwards(
     const efficiencyGaps: { rosterId: number; gap: number }[] = [];
 
     for (const m of matchups) {
-      const optimalScore = calculateOptimalScore(m, league.roster_positions);
+      const optimalScore = calculateOptimalScore(m, league.roster_positions, playerMap);
       const gap = optimalScore - m.points;
       efficiencyGaps.push({ rosterId: m.roster_id, gap });
     }
@@ -311,15 +281,13 @@ export async function computeWeeklyAwards(
 
   // --- MVP: highest % of team total, only for players on winning teams ---
   const winningRosterIds = new Set(
-    resolvedGames.filter((g) => g.margin > 0).map((g) => g.winner.roster_id),
+    resolvedGames.filter((g) => g.margin > 0).map((g) => g.winner.roster_id)
   );
 
   const mvpCandidates = starterPerformances
     .filter((p) => winningRosterIds.has(p.rosterId))
     .map((p) => {
-      const teamTotal = matchups.find(
-        (m) => m.roster_id === p.rosterId,
-      )?.points;
+      const teamTotal = matchups.find((m) => m.roster_id === p.rosterId)?.points;
       const pct = teamTotal && teamTotal > 0 ? (p.points / teamTotal) * 100 : 0;
       return { ...p, pct };
     })
@@ -328,12 +296,12 @@ export async function computeWeeklyAwards(
   const mvp = mvpCandidates[0];
   if (mvp && mvp.playerId && Number.isFinite(mvp.points)) {
     const team = teamByRosterId.get(mvp.rosterId);
-    const mvpPlayer = sleeperPlayers[mvp.playerId];
+    const mvpPlayer = playerMap[mvp.playerId];
     const mvpName = mvpPlayer?.full_name || mvp.playerId;
 
     awards.push({
       award: "MVP",
-      photo: getPlayerPhoto(mvp.playerId),
+      photo: getPlayerPhoto(mvp.playerId, isEspn, playerMap[mvp.playerId]?.espn_team_abbrev),
       name: mvpName,
       value: `Scored ${mvp.points.toFixed(2)} points for ${
         team?.name || mvp.teamName
@@ -347,12 +315,16 @@ export async function computeWeeklyAwards(
   if (benchMvp && benchMvp.playerId && Number.isFinite(benchMvp.points)) {
     const team = teamByRosterId.get(benchMvp.rosterId);
 
-    const benchPlayer = sleeperPlayers[benchMvp.playerId];
+    const benchPlayer = playerMap[benchMvp.playerId];
     const benchName = benchPlayer?.full_name || benchMvp.playerId;
 
     awards.push({
       award: "Bench MVP",
-      photo: getPlayerPhoto(benchMvp.playerId),
+      photo: getPlayerPhoto(
+        benchMvp.playerId,
+        isEspn,
+        playerMap[benchMvp.playerId]?.espn_team_abbrev
+      ),
       name: benchName,
       value: `Scored ${benchMvp.points.toFixed(2)} points on the bench for ${
         team?.name || benchMvp.teamName
@@ -402,24 +374,22 @@ export async function computeWeeklyAwards(
   for (const pa of positionAwards) {
     const best = starterPerformances
       .filter((p) => {
-        const player = sleeperPlayers[p.playerId];
+        const player = playerMap[p.playerId];
         const pos = player?.fantasy_positions?.[0] ?? player?.position ?? null;
         return pos === pa.position;
       })
       .sort((a, b) => b.points - a.points)[0];
 
     if (best && best.playerId && Number.isFinite(best.points)) {
-      const player = sleeperPlayers[best.playerId];
+      const player = playerMap[best.playerId];
       const playerName = player?.full_name || best.playerId;
       const team = teamByRosterId.get(best.rosterId);
 
       awards.push({
         award: pa.award,
-        photo: getPlayerPhoto(best.playerId),
+        photo: getPlayerPhoto(best.playerId, isEspn, playerMap[best.playerId]?.espn_team_abbrev),
         name: playerName,
-        value: `Scored ${best.points.toFixed(2)} points for ${
-          team?.name || best.teamName
-        }`,
+        value: `Scored ${best.points.toFixed(2)} points for ${team?.name || best.teamName}`,
         description: pa.description,
       });
     }

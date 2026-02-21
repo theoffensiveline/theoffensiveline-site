@@ -1,4 +1,4 @@
-import { Player } from '../types/sleeperTypes';
+import { Player } from "../types/sleeperTypes";
 
 // Import the players data
 export const sleeperPlayers: {
@@ -7,18 +7,33 @@ export const sleeperPlayers: {
 
 // Reverse map: ESPN player ID (string) → Sleeper player ID (string)
 // Built once at module load from sleeperPlayers.espn_id field.
-export const espnToSleeperId: Record<string, string> = Object.entries(
-  sleeperPlayers
-).reduce<Record<string, string>>((acc, [sleeperId, player]) => {
+export const espnToSleeperId: Record<string, string> = Object.entries(sleeperPlayers).reduce<
+  Record<string, string>
+>((acc, [sleeperId, player]) => {
   if (player.espn_id != null) {
     acc[String(player.espn_id)] = sleeperId;
   }
   return acc;
 }, {});
 
-// Get player photo URL
-export const getPlayerPhoto = (playerId: string): string => {
+// Get player photo URL.
+// Pass isEspn=true for ESPN leagues so unmapped players (whose IDs are raw
+// ESPN numeric IDs not present in sleeperPlayers) get the ESPN CDN photo.
+// Mapped ESPN players already use Sleeper IDs and continue using Sleeper CDN.
+// Pass espnTeamAbbrev (e.g. "buf") for ESPN DEF entries to use the NFL team
+// logo CDN instead of the player headshot CDN.
+export const getPlayerPhoto = (
+  playerId: string,
+  isEspn?: boolean,
+  espnTeamAbbrev?: string
+): string => {
+  if (espnTeamAbbrev) {
+    return `https://a.espncdn.com/i/teamlogos/nfl/500/${espnTeamAbbrev}.png`;
+  }
   if (/^\d+$/.test(playerId)) {
+    if (isEspn && !sleeperPlayers[playerId]) {
+      return `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${playerId}.png&w=350&h=254`;
+    }
     return `https://sleepercdn.com/content/nfl/players/${playerId}.jpg`;
   }
   return `https://sleepercdn.com/images/team_logos/nfl/${playerId.toLowerCase()}.png`;
@@ -38,10 +53,12 @@ export const getPositionSortOrder = (position: string | null): number => {
 };
 
 // Sort players by their positions
-export const sortPlayersByPosition = (players: string[]): string[] => {
-  return [...players].sort((a, b) => {
-    const playerA = sleeperPlayers[a];
-    const playerB = sleeperPlayers[b];
-    return getPositionSortOrder(playerA?.position) - getPositionSortOrder(playerB?.position);
-  });
+export const sortPlayersByPosition = (
+  playerIds: string[],
+  playerMap: Record<string, { position: string | null }>
+): string[] => {
+  return [...playerIds].sort(
+    (a, b) =>
+      getPositionSortOrder(playerMap[a]?.position) - getPositionSortOrder(playerMap[b]?.position)
+  );
 };

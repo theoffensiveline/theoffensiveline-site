@@ -1,8 +1,7 @@
 // ESPNApi.ts — Raw ESPN fantasy football API fetchers with deduplication
 import type { ESPNLeagueResponse } from "../../types/espnTypes";
 
-const ESPN_BASE =
-  "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
+const ESPN_BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
 
 const _inflight = new Map<string, Promise<unknown>>();
 
@@ -12,8 +11,7 @@ function dedupedFetch<T>(url: string): Promise<T> {
 
   const promise: Promise<T> = fetch(url)
     .then((res) => {
-      if (!res.ok)
-        throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
+      if (!res.ok) throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
       return res.json() as Promise<T>;
     })
     .finally(() => {
@@ -36,10 +34,7 @@ export function deriveSeasonYear(): number {
   return month >= 7 ? now.getFullYear() : now.getFullYear() - 1;
 }
 
-export async function fetchLeague(
-  numericId: string,
-  year?: number
-): Promise<ESPNLeagueResponse> {
+export async function fetchLeague(numericId: string, year?: number): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
   return dedupedFetch<ESPNLeagueResponse>(leagueUrl(numericId, y));
 }
@@ -50,8 +45,7 @@ export async function fetchMatchups(
   scoringPeriodId?: number
 ): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
-  const periodParam =
-    scoringPeriodId != null ? `&scoringPeriodId=${scoringPeriodId}` : "";
+  const periodParam = scoringPeriodId != null ? `&scoringPeriodId=${scoringPeriodId}` : "";
   // mRoster is included so data.teams[].roster.entries has player IDs and
   // per-player appliedStatTotal for the requested scoringPeriodId.
   // mMatchupScore provides the schedule structure and team total points.
@@ -60,20 +54,12 @@ export async function fetchMatchups(
   );
 }
 
-export async function fetchRosters(
-  numericId: string,
-  year?: number
-): Promise<ESPNLeagueResponse> {
+export async function fetchRosters(numericId: string, year?: number): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
-  return dedupedFetch<ESPNLeagueResponse>(
-    `${leagueUrl(numericId, y)}?view=mRoster`
-  );
+  return dedupedFetch<ESPNLeagueResponse>(`${leagueUrl(numericId, y)}?view=mRoster`);
 }
 
-export async function fetchRecord(
-  numericId: string,
-  year?: number
-): Promise<ESPNLeagueResponse> {
+export async function fetchRecord(numericId: string, year?: number): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
   return dedupedFetch<ESPNLeagueResponse>(
     `${leagueUrl(numericId, y)}?view=mStatus&view=mSettings&view=mTeam&view=mTransactions2&view=modular&view=mNav`

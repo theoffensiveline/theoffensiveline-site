@@ -40,10 +40,7 @@ function dedupedFetch<T>(url: string, errorMessage: string): Promise<T> {
 // Function to get league
 export const getLeague = async (leagueId: string): Promise<League> => {
   try {
-    return await dedupedFetch<League>(
-      `${BASE_URL}/league/${leagueId}`,
-      "Failed to fetch league"
-    );
+    return await dedupedFetch<League>(`${BASE_URL}/league/${leagueId}`, "Failed to fetch league");
   } catch (error) {
     console.error("Error fetching league:", error);
     throw error;
@@ -77,10 +74,7 @@ export const getRosters = async (leagueId: string): Promise<Roster[]> => {
 };
 
 // Function to get matchups for a specific league and week
-export const getMatchups = async (
-  leagueId: string,
-  week: number
-): Promise<Matchup[]> => {
+export const getMatchups = async (leagueId: string, week: number): Promise<Matchup[]> => {
   try {
     return await dedupedFetch<Matchup[]>(
       `${BASE_URL}/league/${leagueId}/matchups/${week}`,
@@ -143,14 +137,9 @@ export const getPlayerProjections = async (
   }
 };
 
-export const getTransactions = async (
-  leagueId: string,
-  leg: number
-): Promise<Transactions[]> => {
+export const getTransactions = async (leagueId: string, leg: number): Promise<Transactions[]> => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/league/${leagueId}/transactions/${leg}`
-    );
+    const response = await fetch(`${BASE_URL}/league/${leagueId}/transactions/${leg}`);
     if (!response.ok) {
       throw new Error("Failed to fetch transactions");
     }
@@ -168,9 +157,7 @@ export const getBracketMatchups = async (
 ): Promise<BracketMatchup[]> => {
   try {
     const response = await fetch(
-      `${BASE_URL}/league/${leagueId}/${
-        winnersBracket ? "winners_bracket" : "losers_bracket"
-      }`
+      `${BASE_URL}/league/${leagueId}/${winnersBracket ? "winners_bracket" : "losers_bracket"}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch bracket matchups");

@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { getRosters, getUsers } from '../utils/api/FantasyAPI';
-import type { Roster, User } from '../types/sleeperTypes';
-import { sleeperPlayers, getPlayerPhoto, sortPlayersByPosition } from '../utils/playerUtils';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { getRosters, getUsers, getPlayers } from "../utils/api/FantasyAPI";
+import type { GenericPlayer } from "../utils/api/FantasyAPI";
+import type { Roster, User } from "../types/sleeperTypes";
+import { getPlayerPhoto, sortPlayersByPosition } from "../utils/playerUtils";
 import {
   Container,
   Card,
   PlayerPhoto,
   PlayerPosition,
   PlayerName,
-  PlayerRow
-} from '../components/shared/PlayerComponents';
-import {
-  TeamAvatar,
-  TeamHeader,
-  TeamInfo
-} from '../components/shared/PageComponents';
+  PlayerRow,
+} from "../components/shared/PlayerComponents";
+import { TeamAvatar, TeamHeader, TeamInfo } from "../components/shared/PageComponents";
 
 const RosterGrid = styled.div`
   display: grid;
@@ -24,8 +21,7 @@ const RosterGrid = styled.div`
   gap: 20px;
 `;
 
-const RosterCard = styled(Card)`
-`;
+const RosterCard = styled(Card)``;
 
 const RecordText = styled.p`
   color: ${({ theme }) => theme.text};
@@ -39,33 +35,36 @@ interface RosterWithUser extends Roster {
 const LeagueRosters: React.FC = () => {
   const { leagueId } = useParams<{ leagueId: string }>();
   const [rosters, setRosters] = useState<RosterWithUser[]>([]);
+  const [players, setPlayers] = useState<Record<string, GenericPlayer>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRostersAndUsers = async () => {
       if (!leagueId) {
-        setError('League ID is required');
+        setError("League ID is required");
         setLoading(false);
         return;
       }
 
       try {
-        const [rostersData, usersData] = await Promise.all([
+        const [rostersData, usersData, playersData] = await Promise.all([
           getRosters(leagueId),
-          getUsers(leagueId)
+          getUsers(leagueId),
+          getPlayers(leagueId),
         ]);
 
         // Combine roster data with user data
-        const rostersWithUsers = rostersData.map(roster => ({
+        const rostersWithUsers = rostersData.map((roster) => ({
           ...roster,
-          user: usersData.find(user => user.user_id === roster.owner_id)
+          user: usersData.find((user) => user.user_id === roster.owner_id),
         }));
 
         setRosters(rostersWithUsers);
+        setPlayers(playersData);
       } catch (err) {
-        setError('Failed to fetch roster data');
-        console.error('Error fetching roster data:', err);
+        setError("Failed to fetch roster data");
+        console.error("Error fetching roster data:", err);
       } finally {
         setLoading(false);
       }
@@ -89,9 +88,9 @@ const LeagueRosters: React.FC = () => {
         {rosters.map((roster) => (
           <RosterCard key={roster.roster_id}>
             <TeamHeader>
-              <TeamAvatar 
+              <TeamAvatar
                 src={roster.user?.metadata?.avatar || roster.user?.avatar || undefined}
-                alt={`${roster.user?.display_name} Avatar`} 
+                alt={`${roster.user?.display_name} Avatar`}
               />
               <TeamInfo>
                 <h3>{roster.user?.metadata?.team_name || roster.user?.display_name}</h3>
@@ -102,16 +101,21 @@ const LeagueRosters: React.FC = () => {
               Record: {roster.settings.wins}-{roster.settings.losses}
               {roster.settings.ties > 0 && `-${roster.settings.ties}`}
             </RecordText>
-            {sortPlayersByPosition(roster.players || []).map((playerId) => {
-              const position = sleeperPlayers[playerId]?.position || 'FLEX';
+            {sortPlayersByPosition(roster.players || [], players).map((playerId) => {
+              const player = players[playerId];
+              const position = player?.position || "FLEX";
               return (
                 <PlayerRow key={playerId}>
                   <PlayerPosition position={position}>{position}</PlayerPosition>
                   <PlayerPhoto
-                    src={getPlayerPhoto(playerId)}
-                    alt={sleeperPlayers[playerId]?.full_name || "Unknown Player"}
+                    src={getPlayerPhoto(
+                      playerId,
+                      leagueId?.startsWith("espn_"),
+                      player?.espn_team_abbrev
+                    )}
+                    alt={player?.full_name || "Unknown Player"}
                   />
-                  <PlayerName>{sleeperPlayers[playerId]?.full_name}</PlayerName>
+                  <PlayerName>{player?.full_name}</PlayerName>
                 </PlayerRow>
               );
             })}

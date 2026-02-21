@@ -10,11 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import {
-  getMatchups,
-  getNflState,
-  SleeperTeamIdMapping,
-} from "./api/SleeperAPI";
+import { getMatchups, getNflState, SleeperTeamIdMapping } from "./api/SleeperAPI";
 import { Player } from "../types/sleeperTypes";
 
 export interface SurvivorPick {
@@ -56,9 +52,7 @@ export interface UserProfile {
   leagues?: SavedLeague[];
 }
 
-export const getUserProfile = async (
-  userId: string
-): Promise<UserProfile | null> => {
+export const getUserProfile = async (userId: string): Promise<UserProfile | null> => {
   try {
     const docRef = doc(db, "users", userId);
     const docSnap = await getDoc(docRef);
@@ -72,10 +66,7 @@ export const getUserProfile = async (
   }
 };
 
-export const setUserProfile = async (
-  userId: string,
-  profile: UserProfile
-): Promise<boolean> => {
+export const setUserProfile = async (userId: string, profile: UserProfile): Promise<boolean> => {
   try {
     const docRef = doc(db, "users", userId);
     await setDoc(docRef, profile);
@@ -108,10 +99,7 @@ export const updateUserProfile = async (
  * @param league - League to save
  * @returns True if successful
  */
-export const addLeagueToProfile = async (
-  userId: string,
-  league: SavedLeague
-): Promise<boolean> => {
+export const addLeagueToProfile = async (userId: string, league: SavedLeague): Promise<boolean> => {
   try {
     const profile = await getUserProfile(userId);
     const existing = profile?.leagues ?? [];
@@ -153,9 +141,7 @@ export const removeLeagueFromProfile = async (
  * @param userId - Firebase auth user ID
  * @returns Array of saved leagues (empty if none)
  */
-export const getUserLeagues = async (
-  userId: string
-): Promise<SavedLeague[]> => {
+export const getUserLeagues = async (userId: string): Promise<SavedLeague[]> => {
   const profile = await getUserProfile(userId);
   return profile?.leagues ?? [];
 };
@@ -165,10 +151,7 @@ export const updateAllUserPicksUsername = async (
   newUsername: string
 ): Promise<boolean> => {
   try {
-    const q = query(
-      collection(db, "survivorPicks"),
-      where("userId", "==", userId)
-    );
+    const q = query(collection(db, "survivorPicks"), where("userId", "==", userId));
 
     const querySnapshot = await getDocs(q);
     const updatePromises = querySnapshot.docs.map((doc) =>
@@ -186,18 +169,21 @@ export const updateAllUserPicksUsername = async (
 export const createPlayerMap = (
   playerData: Record<string, Player>
 ): Record<string, string | null> => {
-  return Object.entries(playerData).reduce((map, [id, player]) => {
-    let playerName: string | null = null;
-    if (player.position === "DEF") {
-      playerName = player.team; // This assumes player.team is a string or null
-    } else {
-      playerName = `${player.first_name} ${player.last_name}`;
-    }
-    if (playerName !== null) {
-      map[id] = playerName;
-    }
-    return map;
-  }, {} as Record<string, string | null>);
+  return Object.entries(playerData).reduce(
+    (map, [id, player]) => {
+      let playerName: string | null = null;
+      if (player.position === "DEF") {
+        playerName = player.team; // This assumes player.team is a string or null
+      } else {
+        playerName = `${player.first_name} ${player.last_name}`;
+      }
+      if (playerName !== null) {
+        map[id] = playerName;
+      }
+      return map;
+    },
+    {} as Record<string, string | null>
+  );
 };
 
 export const getSelectedTeamName = (
@@ -253,8 +239,7 @@ export const canMakeSelection = (
   if (isBlackoutPeriod) {
     return {
       canSelect: false,
-      reason:
-        "Selections are locked during the weekend (Thursday 8 PM ET to Tuesday 8 AM ET)",
+      reason: "Selections are locked during the weekend (Thursday 8 PM ET to Tuesday 8 AM ET)",
     };
   }
 
@@ -275,9 +260,7 @@ export const buildRecord = (details: {
   team_ties: number;
 }): string => {
   const { team_wins, team_losses, team_ties } = details;
-  return `${team_wins} - ${team_losses}${
-    team_ties > 0 ? ` - ${team_ties}` : ""
-  }`;
+  return `${team_wins} - ${team_losses}${team_ties > 0 ? ` - ${team_ties}` : ""}`;
 };
 
 export const saveSurvivorPick = async (
@@ -287,9 +270,8 @@ export const saveSurvivorPick = async (
   const pickWithOwner = {
     ...pick,
     ownerName:
-      SleeperTeamIdMapping[
-        pick.teamIdSelected as keyof typeof SleeperTeamIdMapping
-      ] || "Unknown Owner",
+      SleeperTeamIdMapping[pick.teamIdSelected as keyof typeof SleeperTeamIdMapping] ||
+      "Unknown Owner",
   };
   try {
     // First, check if a pick already exists for this user, league, and week
@@ -374,7 +356,7 @@ export const getUserSurvivorPicks = async (
         ({
           id: doc.id,
           ...doc.data(),
-        } as SurvivorPick)
+        }) as SurvivorPick
     );
   } catch (error) {
     console.error("Error getting user survivor picks:", error);
@@ -395,13 +377,16 @@ export const getMatchupResults = async (leagueId: string, week: number) => {
     > = {};
 
     // Group matchups by matchup_id
-    const groupedMatchups = matchups.reduce((groups, matchup) => {
-      if (!groups[matchup.matchup_id]) {
-        groups[matchup.matchup_id] = [];
-      }
-      groups[matchup.matchup_id].push(matchup);
-      return groups;
-    }, {} as Record<number, typeof matchups>);
+    const groupedMatchups = matchups.reduce(
+      (groups, matchup) => {
+        if (!groups[matchup.matchup_id]) {
+          groups[matchup.matchup_id] = [];
+        }
+        groups[matchup.matchup_id].push(matchup);
+        return groups;
+      },
+      {} as Record<number, typeof matchups>
+    );
 
     // Determine winner for each matchup
     Object.entries(groupedMatchups).forEach(([matchupId, matchupPair]) => {
@@ -412,8 +397,8 @@ export const getMatchupResults = async (leagueId: string, week: number) => {
             team1.points > team2.points
               ? team1.roster_id.toString()
               : team2.points > team1.points
-              ? team2.roster_id.toString()
-              : null,
+                ? team2.roster_id.toString()
+                : null,
           team1: {
             rosterId: team1.roster_id,
             points: team1.points,
@@ -441,10 +426,7 @@ export const getSurvivorStandings = async (
 }> => {
   try {
     // Get all survivor picks
-    const q = query(
-      collection(db, "survivorPicks"),
-      where("leagueId", "==", leagueId)
-    );
+    const q = query(collection(db, "survivorPicks"), where("leagueId", "==", leagueId));
 
     const querySnapshot = await getDocs(q);
     const allPicks = querySnapshot.docs.map(
@@ -452,30 +434,23 @@ export const getSurvivorStandings = async (
         ({
           id: doc.id,
           ...doc.data(),
-        } as SurvivorPick)
+        }) as SurvivorPick
     );
 
     // Get current week to determine which weeks are completed
     const nflState = await getNflState();
     const currentWeek = nflState.week;
-    const completedWeeks = Array.from(
-      { length: currentWeek - 1 },
-      (_, i) => i + 1
-    );
+    const completedWeeks = Array.from({ length: currentWeek - 1 }, (_, i) => i + 1);
 
     // Get matchup results for completed weeks
-    const weeklyResults: Record<
-      number,
-      Awaited<ReturnType<typeof getMatchupResults>>
-    > = {};
+    const weeklyResults: Record<number, Awaited<ReturnType<typeof getMatchupResults>>> = {};
     for (const week of completedWeeks) {
       weeklyResults[week] = await getMatchupResults(leagueId, week);
     }
 
     // Process each user's picks
     const userPicks = new Map<string, SurvivorPick[]>();
-    const userStatus: Record<string, { lives: number; isEliminated: boolean }> =
-      {};
+    const userStatus: Record<string, { lives: number; isEliminated: boolean }> = {};
 
     // Initialize user status with 2 lives
     allPicks.forEach((pick) => {
@@ -580,8 +555,7 @@ export const getSurvivorStandings = async (
         if (statusA.isEliminated && !statusB.isEliminated) return 1;
 
         // More lives comes first
-        if (statusA.lives !== statusB.lives)
-          return statusB.lives - statusA.lives;
+        if (statusA.lives !== statusB.lives) return statusB.lives - statusA.lives;
 
         // Finally sort by username
         return a.username.localeCompare(b.username);
@@ -644,9 +618,7 @@ export const handleTeamSelect = async (
 
   try {
     // Find the roster ID for the selected team first
-    const rosterEntry = Object.entries(teams).find(
-      ([_, t]) => t.team_id === team.team_id
-    );
+    const rosterEntry = Object.entries(teams).find(([_, t]) => t.team_id === team.team_id);
     if (!rosterEntry) {
       throw new Error("Could not find roster for selected team");
     }
@@ -663,9 +635,7 @@ export const handleTeamSelect = async (
           if (!pickMotwData) return true; // assume not motw if no data
           return !pickMotwData.rosters.includes(parseInt(pick.teamIdSelected));
         }) || [];
-      const hasPickedBefore = previousNonMotwPicks.some(
-        (pick) => pick.teamIdSelected === rosterId
-      );
+      const hasPickedBefore = previousNonMotwPicks.some((pick) => pick.teamIdSelected === rosterId);
       if (hasPickedBefore) {
         return {
           success: false,

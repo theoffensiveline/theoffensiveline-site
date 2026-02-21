@@ -1,9 +1,7 @@
 import { getLeague, getRosters, getUsers } from "./api/SleeperAPI";
 import { League, LeagueHistory, Roster, User } from "../types/sleeperTypes";
 
-export async function fetchLeagueHistory(
-  leagueId: string
-): Promise<LeagueHistory> {
+export async function fetchLeagueHistory(leagueId: string): Promise<LeagueHistory> {
   const leagues: League[] = [];
   const rosters: Record<string, Roster[]> = {};
   const users: Record<string, User[]> = {};
