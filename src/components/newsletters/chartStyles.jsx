@@ -72,12 +72,12 @@ const getBaseBarConfig = (theme, color) => ({
 
 /**
  * Calculates the chart height for the EfficiencyChart based on team count.
- * Scales at ~35px per team with a minimum height for 4 teams.
+ * Scales at ~30px per team with a minimum height for 4 teams.
  * @param {number} teamCount - Number of teams in the league
  * @returns {number} Chart height in pixels
  */
 const getEfficiencyChartHeight = (teamCount) => {
-    const perTeamHeight = 35;
+    const perTeamHeight = 30;
     const minTeams = 4;
     const padding = 60; // top + bottom padding for axes/legend
     const effectiveTeams = Math.max(teamCount, minTeams);
