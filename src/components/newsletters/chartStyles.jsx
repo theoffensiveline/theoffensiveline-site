@@ -77,7 +77,7 @@ const getBaseBarConfig = (theme, color) => ({
  * @returns {number} Chart height in pixels
  */
 const getEfficiencyChartHeight = (teamCount) => {
-    const perTeamHeight = 30;
+    const perTeamHeight = 20;
     const minTeams = 4;
     const padding = 60; // top + bottom padding for axes/legend
     const effectiveTeams = Math.max(teamCount, minTeams);
