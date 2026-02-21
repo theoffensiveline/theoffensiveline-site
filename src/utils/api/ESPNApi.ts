@@ -1,5 +1,7 @@
 // ESPNApi.ts — Raw ESPN fantasy football API fetchers with deduplication
 import type { ESPNLeagueResponse } from "../../types/espnTypes";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { getEspnCredentials } from "../espnCredentials";
 
 const ESPN_BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
@@ -7,35 +9,49 @@ const ESPN_BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
 const _inflight = new Map<string, Promise<unknown>>();
 
 /**
- * Build fetch headers including ESPN auth cookies when available.
+ * Fetch and cache the ESPN proxy URL from Firestore.
  *
- * For private leagues ESPN requires espn_s2 and SWID cookies.
- * Browser fetch cannot set the Cookie header directly (it's forbidden),
- * so we pass the values via custom headers that ESPN's API recognises.
- * If ESPN's CORS policy rejects these headers, a server-side proxy
- * (e.g. Firebase Cloud Function) will be needed as a follow-up.
+ * The proxy service URL is stored in config/discord.webhookServiceUrl.
+ * We derive the ESPN endpoint by replacing /api/webhook with /api/espn.
+ * Cached after first fetch so Firestore is only hit once per session.
  */
-function buildHeaders(): HeadersInit | undefined {
-  const creds = getEspnCredentials();
-  if (!creds) return undefined;
-  return {
-    "X-Fantasy-espn-s2": creds.espnS2,
-    "X-Fantasy-SWID": creds.swid,
-  };
+let _proxyUrlPromise: Promise<string> | null = null;
+
+function getEspnProxyUrl(): Promise<string> {
+  if (_proxyUrlPromise) return _proxyUrlPromise;
+  _proxyUrlPromise = getDoc(doc(db, "config", "discord"))
+    .then((snap) => {
+      if (!snap.exists()) return "";
+      const webhookServiceUrl: string = snap.data().webhookServiceUrl ?? "";
+      // Build the ESPN proxy URL from the same host, regardless of path
+      const url = new URL(webhookServiceUrl);
+      url.pathname = "/api/espn";
+      return url.toString();
+    })
+    .catch(() => "");
+  return _proxyUrlPromise;
 }
 
 function dedupedFetch<T>(url: string): Promise<T> {
   const cached = _inflight.get(url);
   if (cached) return cached as Promise<T>;
 
-  const headers = buildHeaders();
+  const creds = getEspnCredentials();
 
-  const promise: Promise<T> = fetch(url, {
-    headers,
-    // Include credentials so the browser sends any ESPN cookies
-    // the user already has (e.g. if logged into ESPN in this browser).
-    credentials: "include",
-  })
+  // If credentials are saved, route through the server-side proxy so the
+  // Cookie header can be set. Browser fetch cannot set Cookie directly.
+  // Otherwise, attempt a direct request (works for public leagues).
+  const promise: Promise<T> = (creds ? getEspnProxyUrl() : Promise.resolve(""))
+    .then((proxyUrl) => {
+      if (creds && proxyUrl) {
+        return fetch(proxyUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url, espn_s2: creds.espnS2, swid: creds.swid }),
+        });
+      }
+      return fetch(url, { credentials: "include" });
+    })
     .then((res) => {
       if (!res.ok) throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
       return res.json() as Promise<T>;
@@ -72,9 +88,6 @@ export async function fetchMatchups(
 ): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
   const periodParam = scoringPeriodId != null ? `&scoringPeriodId=${scoringPeriodId}` : "";
-  // mRoster is included so data.teams[].roster.entries has player IDs and
-  // per-player appliedStatTotal for the requested scoringPeriodId.
-  // mMatchupScore provides the schedule structure and team total points.
   return dedupedFetch<ESPNLeagueResponse>(
     `${leagueUrl(numericId, y)}?view=mMatchupScore&view=mRoster&view=mStatus&view=mSettings&view=mTeam&view=modular&view=mNav${periodParam}`
   );
