@@ -19,7 +19,10 @@ import {
   setUserProfile,
   updateUserProfile,
   updateAllUserPicksUsername,
+  addLeagueToProfile,
+  removeLeagueFromProfile,
   UserProfile,
+  SavedLeague,
 } from "../utils/survivorUtils";
 
 interface AuthContextType {
@@ -30,6 +33,12 @@ interface AuthContextType {
   profile: UserProfile | null;
   loadingProfile: boolean;
   updateProfile: (updates: Partial<UserProfile>) => Promise<boolean>;
+  /** User's saved leagues from Firestore */
+  savedLeagues: SavedLeague[];
+  /** Add a league to the user's saved leagues */
+  addLeague: (league: SavedLeague) => Promise<void>;
+  /** Remove a league from the user's saved leagues */
+  removeLeague: (leagueId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -41,6 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(false);
+  const [savedLeagues, setSavedLeagues] = useState<SavedLeague[]>([]);
   const auth = getAuth(app);
 
   const loadProfile = useCallback(
@@ -56,6 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         };
         await setUserProfile(userId, newProfile);
         setProfile(newProfile);
+        setSavedLeagues([]);
       } else if (userProfile) {
         // Update existing profile if email is missing or different
         if (!userProfile.email || userProfile.email !== currentEmail) {
@@ -65,8 +76,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         } else {
           setProfile(userProfile);
         }
+        setSavedLeagues(userProfile.leagues ?? []);
       } else {
         setProfile(null);
+        setSavedLeagues([]);
       }
       setLoadingProfile(false);
     },
@@ -81,6 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setLoading(false);
       } else {
         setProfile(null);
+        setSavedLeagues([]);
         setLoading(false);
       }
     });
@@ -128,6 +142,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return success;
   };
 
+  /**
+   * Add a league to the user's saved leagues (Firestore + local state).
+   */
+  const addLeague = async (league: SavedLeague): Promise<void> => {
+    if (!currentUser) return;
+    const success = await addLeagueToProfile(currentUser.uid, league);
+    if (success) {
+      setSavedLeagues((prev) => {
+        const filtered = prev.filter((l) => l.id !== league.id);
+        return [...filtered, league];
+      });
+    }
+  };
+
+  /**
+   * Remove a league from the user's saved leagues (Firestore + local state).
+   */
+  const removeLeague = async (leagueId: string): Promise<void> => {
+    if (!currentUser) return;
+    const success = await removeLeagueFromProfile(currentUser.uid, leagueId);
+    if (success) {
+      setSavedLeagues((prev) => prev.filter((l) => l.id !== leagueId));
+    }
+  };
+
   const value = {
     currentUser,
     loading,
@@ -136,6 +175,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     profile,
     loadingProfile,
     updateProfile,
+    savedLeagues,
+    addLeague,
+    removeLeague,
   };
 
   return (

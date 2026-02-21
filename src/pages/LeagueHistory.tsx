@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getBracketMatchups } from "../utils/api/SleeperAPI";
+import { getBracketMatchups } from "../utils/api/FantasyAPI";
 import { fetchLeagueHistory } from "../utils/leagueHistory";
 import { UserCard } from "../components/UserCard";
 import {

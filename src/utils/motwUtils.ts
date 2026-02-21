@@ -6,10 +6,7 @@ export interface MotwData {
   rosters: number[];
 }
 
-const motwCache = new Map<
-  string,
-  { data: Map<number, MotwData>; maxWeek: number }
->();
+const motwCache = new Map<string, { data: Map<number, MotwData>; maxWeek: number }>();
 
 export const computeMotwChain = async (
   targetWeek: number,
@@ -24,9 +21,7 @@ export const computeMotwChain = async (
   const cached = motwCache.get(leagueId);
   if (cached && cached.maxWeek >= targetWeek) {
     // Return slice up to targetWeek
-    return new Map(
-      Array.from(cached.data.entries()).filter(([w]) => w <= targetWeek)
-    );
+    return new Map(Array.from(cached.data.entries()).filter(([w]) => w <= targetWeek));
   } else if (cached) {
     // Return the cached data, since we don't have data for newer weeks yet
     return cached.data;
@@ -43,13 +38,11 @@ export const computeMotwChain = async (
     try {
       const matchupsData = await getMatchups(leagueId, w);
       const updatedMatchups = matchupsData.map((matchup: Matchup) => {
-        const startersWithPositions = matchup.starters.map(
-          (starterId, index) => ({
-            id: starterId,
-            position: rosterPositions[index] || "Unknown",
-            points: matchup.players_points[starterId] || 0,
-          })
-        );
+        const startersWithPositions = matchup.starters.map((starterId, index) => ({
+          id: starterId,
+          position: rosterPositions[index] || "Unknown",
+          points: matchup.players_points[starterId] || 0,
+        }));
         return { ...matchup, starters: startersWithPositions };
       });
 
@@ -58,9 +51,7 @@ export const computeMotwChain = async (
         currentMotwId = 1;
       } else {
         const currentWinner = previousWinner;
-        const winnerMatchup = updatedMatchups.find(
-          (m) => m.roster_id === currentWinner
-        );
+        const winnerMatchup = updatedMatchups.find((m) => m.roster_id === currentWinner);
         if (!winnerMatchup) {
           console.error(`Could not find matchup for winner in week ${w}`);
           continue; // Skip this week instead of stopping
@@ -68,17 +59,14 @@ export const computeMotwChain = async (
         currentMotwId = winnerMatchup.matchup_id;
       }
 
-      const motwMatchups = updatedMatchups.filter(
-        (m) => m.matchup_id === currentMotwId
-      );
+      const motwMatchups = updatedMatchups.filter((m) => m.matchup_id === currentMotwId);
       if (motwMatchups.length !== 2) {
         console.error(`Invalid MotW matchups for week ${w}`);
         continue; // Skip this week instead of stopping
       }
 
       const [teamA, teamB] = motwMatchups;
-      previousWinner =
-        teamA.points > teamB.points ? teamA.roster_id : teamB.roster_id;
+      previousWinner = teamA.points > teamB.points ? teamA.roster_id : teamB.roster_id;
 
       motwData.set(w, {
         matchupId: currentMotwId,

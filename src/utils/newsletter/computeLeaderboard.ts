@@ -1,4 +1,4 @@
-import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import { getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import type { LeaderboardData } from "../../types/newsletterTypes";
 import { getAvatarUrl } from "../leagueHistory";
@@ -44,9 +44,7 @@ type TeamStanding = {
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name || user.display_name || user.username || "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 function computeStandings(
@@ -126,9 +124,7 @@ export async function computeLeaderboard(
   const [users, rosters, ...weeklyMatchups] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
-    ...Array.from({ length: throughWeek }, (_, i) =>
-      getMatchups(leagueId, i + 1)
-    ),
+    ...Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1)),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));

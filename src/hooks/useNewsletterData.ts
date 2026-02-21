@@ -18,7 +18,7 @@ import { computePowerRankings } from "../utils/newsletter/computePowerRankings";
 import { computePlayoffStandings } from "../utils/newsletter/computePlayoffStandings";
 import { computeSchedule } from "../utils/newsletter/computeSchedule";
 import { computeMatchupData } from "../utils/newsletter/computeMatchupData";
-import { getLeague, getNflState } from "../utils/api/SleeperAPI";
+import { getLeague, getNflState } from "../utils/api/FantasyAPI";
 import type {
   BestBallData,
   EfficiencyData,
@@ -314,8 +314,8 @@ export function useNewsletterData(
 
   // Fetch NFL state to determine current week
   const { data: nflState } = useQuery({
-    queryKey: newsletterQueryKeys.nflState(),
-    queryFn: getNflState,
+    queryKey: [...newsletterQueryKeys.nflState(), safeLeagueId],
+    queryFn: () => getNflState(safeLeagueId || undefined),
     staleTime: 60 * 60 * 1000, // 1 hour - NFL week doesn't change often
     gcTime: 24 * 60 * 60 * 1000, // 24 hours
   });

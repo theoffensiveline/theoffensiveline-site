@@ -1,4 +1,4 @@
-import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import { getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, User } from "../../types/sleeperTypes";
 import type { PowerRankingsData } from "../../types/newsletterTypes";
 
@@ -29,12 +29,7 @@ function interpolateColor(value: number, min: number, max: number): string {
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 /**
@@ -98,16 +93,14 @@ function rankTeamsByPoints(matchups: Matchup[]): Map<number, number> {
  */
 export async function computePowerRankings(
   leagueId: string,
-  throughWeek: number,
+  throughWeek: number
 ): Promise<PowerRankingsData[]> {
   if (throughWeek <= 0) return [];
 
   const [users, rosters, ...weeklyMatchups] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
-    ...Array.from({ length: throughWeek }, (_, i) =>
-      getMatchups(leagueId, i + 1),
-    ),
+    ...Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1)),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
@@ -191,7 +184,7 @@ export async function computePowerRankings(
       if (team.opponentRanks.length > 0) {
         const sosSum = team.opponentRanks.reduce(
           (sum, opponentRank) => sum + (N - opponentRank),
-          0,
+          0
         );
         team.sos = sosSum / team.opponentRanks.length;
       }
@@ -244,13 +237,11 @@ export async function computePowerRankings(
 
     // Team Ability = win percentage scaled to 1-100
     const totalGames = team.unweightedWins + team.unweightedLosses;
-    const teamAbility =
-      totalGames > 0 ? (team.unweightedWins / totalGames) * 99 + 1 : 1;
+    const teamAbility = totalGames > 0 ? (team.unweightedWins / totalGames) * 99 + 1 : 1;
 
     // Str of Sched scaled to 1-100
     // SOS = 0 means played worst teams (1), SOS = maxPossibleSOS means played best teams (100)
-    const strOfSched =
-      maxPossibleSOS > 0 ? (team.sos / maxPossibleSOS) * 99 + 1 : 1;
+    const strOfSched = maxPossibleSOS > 0 ? (team.sos / maxPossibleSOS) * 99 + 1 : 1;
 
     return {
       "P Rank": currentRank,

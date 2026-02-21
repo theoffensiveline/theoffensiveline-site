@@ -13,8 +13,12 @@ jest.mock("../../leagueHistory");
 
 const mockGetUsers = SleeperAPI.getUsers as jest.MockedFunction<typeof SleeperAPI.getUsers>;
 const mockGetRosters = SleeperAPI.getRosters as jest.MockedFunction<typeof SleeperAPI.getRosters>;
-const mockGetMatchups = SleeperAPI.getMatchups as jest.MockedFunction<typeof SleeperAPI.getMatchups>;
-const mockGetAvatarUrl = leagueHistory.getAvatarUrl as jest.MockedFunction<typeof leagueHistory.getAvatarUrl>;
+const mockGetMatchups = SleeperAPI.getMatchups as jest.MockedFunction<
+  typeof SleeperAPI.getMatchups
+>;
+const mockGetAvatarUrl = leagueHistory.getAvatarUrl as jest.MockedFunction<
+  typeof leagueHistory.getAvatarUrl
+>;
 
 const LEAGUE_ID = "league_123";
 
@@ -28,7 +32,11 @@ beforeEach(() => {
 // ---------------------------------------------------------------------------
 function setupTwoTeamLeague() {
   const user1 = makeUser({ user_id: "user_1", metadata: { team_name: "Team Alpha", avatar: "" } });
-  const user2 = makeUser({ user_id: "user_2", display_name: "Beta", metadata: { team_name: "", avatar: "" } });
+  const user2 = makeUser({
+    user_id: "user_2",
+    display_name: "Beta",
+    metadata: { team_name: "", avatar: "" },
+  });
   const roster1 = makeRoster({ roster_id: 1, owner_id: "user_1" });
   const roster2 = makeRoster({ roster_id: 2, owner_id: "user_2" });
 
@@ -112,9 +120,7 @@ describe("computeLeaderboard", () => {
       // Week 2: Team 1 wins big — overtakes via PF tiebreak if needed
       const week2 = makeMatchupPair({ points1: 200, points2: 50 });
 
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computeLeaderboard(LEAGUE_ID, 2);
 
@@ -130,9 +136,7 @@ describe("computeLeaderboard", () => {
       const week1 = makeMatchupPair({ points1: 150, points2: 80 }); // Team 1 leads
       const week2 = makeMatchupPair({ points1: 50, points2: 200 }); // Team 2 takes over
 
-      mockGetMatchups
-        .mockResolvedValueOnce([...week1])
-        .mockResolvedValueOnce([...week2]);
+      mockGetMatchups.mockResolvedValueOnce([...week1]).mockResolvedValueOnce([...week2]);
 
       const result = await computeLeaderboard(LEAGUE_ID, 2);
 
@@ -146,9 +150,7 @@ describe("computeLeaderboard", () => {
     it("returns neutral color #f3f7f3 when all teams have equal PF", async () => {
       setupTwoTeamLeague();
       // Both score the same — min === max triggers neutral branch
-      mockGetMatchups.mockResolvedValue([
-        ...makeMatchupPair({ points1: 100, points2: 100 }),
-      ]);
+      mockGetMatchups.mockResolvedValue([...makeMatchupPair({ points1: 100, points2: 100 })]);
 
       const result = await computeLeaderboard(LEAGUE_ID, 1);
 
@@ -160,9 +162,7 @@ describe("computeLeaderboard", () => {
 
     it("top PF gets green-ish color, bottom PF gets red-ish color", async () => {
       setupTwoTeamLeague();
-      mockGetMatchups.mockResolvedValue([
-        ...makeMatchupPair({ points1: 200, points2: 50 }),
-      ]);
+      mockGetMatchups.mockResolvedValue([...makeMatchupPair({ points1: 200, points2: 50 })]);
 
       const result = await computeLeaderboard(LEAGUE_ID, 1);
 
@@ -186,9 +186,7 @@ describe("computeLeaderboard", () => {
       });
       mockGetUsers.mockResolvedValue([user]);
       mockGetRosters.mockResolvedValue([makeRoster({ roster_id: 1, owner_id: "user_1" })]);
-      mockGetMatchups.mockResolvedValue([
-        makeMatchupPair({ roster1Id: 1, roster2Id: 1 })[0],
-      ]);
+      mockGetMatchups.mockResolvedValue([makeMatchupPair({ roster1Id: 1, roster2Id: 1 })[0]]);
 
       const result = await computeLeaderboard(LEAGUE_ID, 1);
       expect(result[0].Team).toBe("Metadata Team");
@@ -203,9 +201,7 @@ describe("computeLeaderboard", () => {
       });
       mockGetUsers.mockResolvedValue([user]);
       mockGetRosters.mockResolvedValue([makeRoster({ roster_id: 1, owner_id: "user_1" })]);
-      mockGetMatchups.mockResolvedValue([
-        makeMatchupPair({ roster1Id: 1, roster2Id: 1 })[0],
-      ]);
+      mockGetMatchups.mockResolvedValue([makeMatchupPair({ roster1Id: 1, roster2Id: 1 })[0]]);
 
       const result = await computeLeaderboard(LEAGUE_ID, 1);
       expect(result[0].Team).toBe("FallbackDisplay");

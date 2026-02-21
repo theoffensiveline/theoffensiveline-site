@@ -1,9 +1,4 @@
-import {
-  getLeague,
-  getMatchups,
-  getRosters,
-  getUsers,
-} from "../api/SleeperAPI";
+import { getLeague, getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import type { PlayoffTableData } from "../../types/newsletterTypes";
 
@@ -47,12 +42,7 @@ type TeamStanding = {
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 /**
@@ -61,7 +51,7 @@ function getTeamName(user: User | undefined): string {
 function computeStandings(
   rosters: Roster[],
   userById: Map<string, User>,
-  weeklyMatchups: Matchup[][],
+  weeklyMatchups: Matchup[][]
 ): TeamStanding[] {
   const standings = new Map<number, TeamStanding>();
 
@@ -130,10 +120,7 @@ function sortStandings(standings: TeamStanding[]): TeamStanding[] {
 /**
  * Estimate team strength based on average points per game with recency weighting
  */
-function estimateTeamStrength(
-  rosterId: number,
-  weeklyMatchups: Matchup[][],
-): number {
+function estimateTeamStrength(rosterId: number, weeklyMatchups: Matchup[][]): number {
   let totalWeightedPoints = 0;
   let totalWeight = 0;
 
@@ -185,7 +172,7 @@ function runMonteCarloSimulation(
   currentWeek: number,
   totalWeeks: number,
   playoffSpots: number,
-  simulations: number = 10000,
+  simulations: number = 10000
 ): { playoffProbs: Map<number, number>; lastProbs: Map<number, number> } {
   const playoffCounts = new Map<number, number>();
   const lastPlaceCounts = new Map<number, number>();
@@ -199,10 +186,7 @@ function runMonteCarloSimulation(
   // Estimate team strengths from historical data
   const teamStrengths = new Map<number, number>();
   standings.forEach((team) => {
-    teamStrengths.set(
-      team.rosterId,
-      estimateTeamStrength(team.rosterId, weeklyMatchups),
-    );
+    teamStrengths.set(team.rosterId, estimateTeamStrength(team.rosterId, weeklyMatchups));
   });
 
   // Get remaining schedule (weeks currentWeek+1 to totalWeeks)
@@ -279,16 +263,10 @@ function runMonteCarloSimulation(
     // Count playoff appearances
     finalStandings.forEach((team, index) => {
       if (index < playoffSpots) {
-        playoffCounts.set(
-          team.rosterId,
-          (playoffCounts.get(team.rosterId) || 0) + 1,
-        );
+        playoffCounts.set(team.rosterId, (playoffCounts.get(team.rosterId) || 0) + 1);
       }
       if (index === finalStandings.length - 1) {
-        lastPlaceCounts.set(
-          team.rosterId,
-          (lastPlaceCounts.get(team.rosterId) || 0) + 1,
-        );
+        lastPlaceCounts.set(team.rosterId, (lastPlaceCounts.get(team.rosterId) || 0) + 1);
       }
     });
   }
@@ -311,7 +289,7 @@ function runMonteCarloSimulation(
  */
 export async function computePlayoffStandings(
   leagueId: string,
-  currentWeek: number,
+  currentWeek: number
 ): Promise<PlayoffTableData[]> {
   if (currentWeek <= 0) return [];
 
@@ -320,9 +298,7 @@ export async function computePlayoffStandings(
     getLeague(leagueId),
     getUsers(leagueId),
     getRosters(leagueId),
-    ...Array.from({ length: currentWeek }, (_, i) =>
-      getMatchups(leagueId, i + 1),
-    ),
+    ...Array.from({ length: currentWeek }, (_, i) => getMatchups(leagueId, i + 1)),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
@@ -351,7 +327,7 @@ export async function computePlayoffStandings(
     weeklyMatchups,
     currentWeek,
     totalWeeks,
-    playoffSpots,
+    playoffSpots
   );
 
   // Get probability ranges for color interpolation
@@ -390,14 +366,10 @@ export async function computePlayoffStandings(
     }
   });
 
-  const minPlayoffMagic =
-    playoffMagicNumbers.length > 0 ? Math.min(...playoffMagicNumbers) : 0;
-  const maxPlayoffMagic =
-    playoffMagicNumbers.length > 0 ? Math.max(...playoffMagicNumbers) : 0;
-  const minLastMagic =
-    lastMagicNumbers.length > 0 ? Math.min(...lastMagicNumbers) : 0;
-  const maxLastMagic =
-    lastMagicNumbers.length > 0 ? Math.max(...lastMagicNumbers) : 0;
+  const minPlayoffMagic = playoffMagicNumbers.length > 0 ? Math.min(...playoffMagicNumbers) : 0;
+  const maxPlayoffMagic = playoffMagicNumbers.length > 0 ? Math.max(...playoffMagicNumbers) : 0;
+  const minLastMagic = lastMagicNumbers.length > 0 ? Math.min(...lastMagicNumbers) : 0;
+  const maxLastMagic = lastMagicNumbers.length > 0 ? Math.max(...lastMagicNumbers) : 0;
 
   // Build result
   return sortedStandings.map((team, index): PlayoffTableData => {
@@ -446,11 +418,7 @@ export async function computePlayoffStandings(
       playoffMagicColor = "#bc293d"; // Red
     } else if (typeof playoffStatus === "number") {
       // Lower magic number = better (closer to clinching), so invert the scale
-      playoffMagicColor = interpolateColor(
-        playoffStatus,
-        maxPlayoffMagic,
-        minPlayoffMagic,
-      );
+      playoffMagicColor = interpolateColor(playoffStatus, maxPlayoffMagic, minPlayoffMagic);
     } else {
       playoffMagicColor = "#f3f7f3"; // Neutral
     }
@@ -476,11 +444,7 @@ export async function computePlayoffStandings(
       "Play-off #": playoffStatus,
       "Last %": Math.round(lastProb * 100) / 100,
       "Last #": lastStatus,
-      PlayoffColor: interpolateColor(
-        playoffProb,
-        minPlayoffProb,
-        maxPlayoffProb,
-      ),
+      PlayoffColor: interpolateColor(playoffProb, minPlayoffProb, maxPlayoffProb),
       WPPlayoffColor: "#f3f7f3", // Out of scope
       PlayoffMagicColor: playoffMagicColor,
       // Last %: inverted color (low % = green/safe, high % = red/danger)

@@ -9,8 +9,7 @@ import {
 // Query keys for consistent caching
 export const survivorQueryKeys = {
   all: ["survivor"] as const,
-  standings: (leagueId: string) =>
-    [...survivorQueryKeys.all, "standings", leagueId] as const,
+  standings: (leagueId: string) => [...survivorQueryKeys.all, "standings", leagueId] as const,
   userPick: (leagueId: string, userId: string, week: number) =>
     [...survivorQueryKeys.all, "userPick", leagueId, userId, week] as const,
   userPicks: (leagueId: string, userId: string) =>
@@ -29,11 +28,7 @@ export const useSurvivorStandings = (leagueId: string) => {
   });
 };
 
-export const useUserSurvivorPick = (
-  leagueId: string,
-  userId: string,
-  week: number
-) => {
+export const useUserSurvivorPick = (leagueId: string, userId: string, week: number) => {
   return useQuery({
     queryKey: survivorQueryKeys.userPick(leagueId, userId, week),
     queryFn: () => getUserSurvivorPick(leagueId, userId, week),

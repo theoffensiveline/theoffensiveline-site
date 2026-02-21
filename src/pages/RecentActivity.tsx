@@ -6,7 +6,7 @@ import {
   getLeague,
   getRosters,
   getUsers,
-} from "../utils/api/SleeperAPI";
+} from "../utils/api/FantasyAPI";
 import { Transactions, League } from "../types/sleeperTypes";
 import { sleeperPlayers, getPlayerPhoto } from '../utils/playerUtils';
 import {

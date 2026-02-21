@@ -147,13 +147,7 @@ export interface MatchupPairOptions {
 }
 
 export function makeMatchupPair(opts: MatchupPairOptions = {}): [Matchup, Matchup] {
-  const {
-    matchupId = 1,
-    roster1Id = 1,
-    roster2Id = 2,
-    points1 = 100,
-    points2 = 90,
-  } = opts;
+  const { matchupId = 1, roster1Id = 1, roster2Id = 2, points1 = 100, points2 = 90 } = opts;
 
   return [
     makeMatchup({ roster_id: roster1Id, matchup_id: matchupId, points: points1 }),

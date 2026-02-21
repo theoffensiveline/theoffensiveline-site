@@ -1,15 +1,10 @@
-import { getMatchups, getRosters, getUsers } from "../api/SleeperAPI";
+import { getMatchups, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, User } from "../../types/sleeperTypes";
 import type { ScheduleData, RecordData } from "../../types/newsletterTypes";
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 /**
@@ -30,7 +25,7 @@ interface WeeklyMatchup {
  */
 export async function computeSchedule(
   leagueId: string,
-  throughWeek: number,
+  throughWeek: number
 ): Promise<ScheduleData> {
   if (throughWeek <= 0) {
     return {
@@ -44,9 +39,7 @@ export async function computeSchedule(
   const [users, rosters, ...weeklyMatchups] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
-    ...Array.from({ length: throughWeek }, (_, i) =>
-      getMatchups(leagueId, i + 1),
-    ),
+    ...Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1)),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
@@ -105,10 +98,7 @@ export async function computeSchedule(
 
   // Map to store all simulated records
   // Key: `${team1RosterId}-${team2RosterId}`, Value: { wins, losses, ties }
-  const simulatedRecords = new Map<
-    string,
-    { wins: number; losses: number; ties: number }
-  >();
+  const simulatedRecords = new Map<string, { wins: number; losses: number; ties: number }>();
 
   for (const team1Id of allRosterIds) {
     for (const team2Id of allRosterIds) {
@@ -160,8 +150,7 @@ export async function computeSchedule(
 
     // Find best record (most wins)
     let bestWins = -1;
-    let bestRecord: { wins: number; losses: number; ties: number } | null =
-      null;
+    let bestRecord: { wins: number; losses: number; ties: number } | null = null;
     const bestScheduleTeams: string[] = [];
 
     for (const team2Id of allRosterIds) {
@@ -191,8 +180,7 @@ export async function computeSchedule(
 
     // Find worst record (fewest wins)
     let worstWins = Infinity;
-    let worstRecord: { wins: number; losses: number; ties: number } | null =
-      null;
+    let worstRecord: { wins: number; losses: number; ties: number } | null = null;
     const worstScheduleTeams: string[] = [];
 
     for (const team2Id of allRosterIds) {
@@ -235,8 +223,7 @@ export async function computeSchedule(
   }
 
   // Sort all records alphabetically by team name
-  const sortByTeamName = (a: RecordData, b: RecordData) =>
-    a.team1.localeCompare(b.team1);
+  const sortByTeamName = (a: RecordData, b: RecordData) => a.team1.localeCompare(b.team1);
 
   return {
     best_records: bestRecords.sort(sortByTeamName),

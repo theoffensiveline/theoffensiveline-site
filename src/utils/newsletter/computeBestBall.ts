@@ -1,9 +1,4 @@
-import {
-  getLeague,
-  getMatchups,
-  getRosters,
-  getUsers,
-} from "../api/SleeperAPI";
+import { getLeague, getMatchups, getPlayers, getRosters, getUsers } from "../api/FantasyAPI";
 import type { Matchup, User } from "../../types/sleeperTypes";
 import type { BestBallData } from "../../types/newsletterTypes";
 import { calculateOptimalScore } from "./computeEfficiency";
@@ -35,12 +30,7 @@ function interpolateColor(value: number, min: number, max: number): string {
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 type BestBallStanding = {
@@ -54,18 +44,24 @@ type BestBallStanding = {
 
 export async function computeBestBall(
   leagueId: string,
-  throughWeek: number,
+  throughWeek: number
 ): Promise<BestBallData[]> {
   if (throughWeek <= 0) return [];
 
-  const [league, users, rosters, ...weeklyMatchups] = await Promise.all([
+  const [league, users, rosters, players] = await Promise.all([
     getLeague(leagueId),
     getUsers(leagueId),
     getRosters(leagueId),
-    ...Array.from({ length: throughWeek }, (_, i) =>
-      getMatchups(leagueId, i + 1),
-    ),
+    // TODO: For ESPN leagues, this fetches throughWeek's roster to resolve player
+    // positions for calculateOptimalScore. Players dropped before throughWeek may
+    // still be missing, causing their position to be null and optimal scores for
+    // early weeks to be slightly underestimated. A fully accurate fix would fetch
+    // a per-week player map inside the week loop (N extra API calls).
+    getPlayers(leagueId, throughWeek),
   ]);
+  const weeklyMatchups: Matchup[][] = await Promise.all(
+    Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1))
+  );
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
 
@@ -104,8 +100,8 @@ export async function computeBestBall(
         if (!standingA || !standingB) continue;
 
         // Calculate optimal scores for both teams
-        const optimalA = calculateOptimalScore(a, league.roster_positions);
-        const optimalB = calculateOptimalScore(b, league.roster_positions);
+        const optimalA = calculateOptimalScore(a, league.roster_positions, players);
+        const optimalB = calculateOptimalScore(b, league.roster_positions, players);
 
         // Best ball: everyone plays optimal lineups
         standingA.pf += optimalA;

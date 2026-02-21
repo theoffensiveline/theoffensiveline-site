@@ -1,29 +1,22 @@
-import {
-  getLeague,
-  getMatchups,
-  getRosters,
-  getUsers,
-} from "../api/SleeperAPI";
+import { getLeague, getMatchups, getPlayers, getRosters, getUsers } from "../api/FantasyAPI";
+import type { GenericPlayer } from "../api/FantasyAPI";
 import type { Matchup, Roster, User } from "../../types/sleeperTypes";
 import type { EfficiencyData } from "../../types/newsletterTypes";
-import { sleeperPlayers } from "../playerUtils";
 
 function getTeamName(user: User | undefined): string {
   if (!user) return "Unknown Team";
-  return (
-    user.metadata?.team_name ||
-    user.display_name ||
-    user.username ||
-    "Unknown Team"
-  );
+  return user.metadata?.team_name || user.display_name || user.username || "Unknown Team";
 }
 
 /**
  * Determines the fantasy position of a player by their ID.
  * Returns the primary fantasy position (QB, RB, WR, TE, K, DEF).
  */
-function getPlayerPosition(playerId: string): string | null {
-  const player = sleeperPlayers[playerId];
+function getPlayerPosition(
+  playerId: string,
+  players: Record<string, GenericPlayer>
+): string | null {
+  const player = players[playerId];
   if (!player) return null;
   // fantasy_positions is an array; use first entry as primary position
   return player.fantasy_positions?.[0] ?? player.position ?? null;
@@ -42,13 +35,14 @@ function getPlayerPosition(playerId: string): string | null {
  */
 export function calculateOptimalScore(
   matchup: Matchup,
-  rosterPositions: string[]
+  rosterPositions: string[],
+  players: Record<string, GenericPlayer>
 ): number {
   // Build a list of { playerId, position, points } for all players
   const playerPool = matchup.players
     .map((playerId) => ({
       playerId,
-      position: getPlayerPosition(playerId),
+      position: getPlayerPosition(playerId, players),
       points: matchup.players_points?.[playerId] ?? 0,
     }))
     // Sort descending by points so greedy picks top scorers first
@@ -78,9 +72,7 @@ export function calculateOptimalScore(
 
   // 1. Fill position-locked slots
   for (const slot of positionSlots) {
-    const best = playerPool.find(
-      (p) => !used.has(p.playerId) && p.position === slot
-    );
+    const best = playerPool.find((p) => !used.has(p.playerId) && p.position === slot);
     if (best) {
       used.add(best.playerId);
       optimalScore += best.points;
@@ -103,10 +95,7 @@ export function calculateOptimalScore(
   const superFlexEligible = new Set(["QB", "RB", "WR", "TE"]);
   superFlexSlots.forEach(() => {
     const best = playerPool.find(
-      (p) =>
-        !used.has(p.playerId) &&
-        p.position &&
-        superFlexEligible.has(p.position)
+      (p) => !used.has(p.playerId) && p.position && superFlexEligible.has(p.position)
     );
     if (best) {
       used.add(best.playerId);
@@ -117,21 +106,17 @@ export function calculateOptimalScore(
   return optimalScore;
 }
 
-export async function computeEfficiency(
-  leagueId: string,
-  week: number
-): Promise<EfficiencyData[]> {
-  const [league, matchups, rosters, users] = await Promise.all([
+export async function computeEfficiency(leagueId: string, week: number): Promise<EfficiencyData[]> {
+  const [league, matchups, rosters, users, players] = await Promise.all([
     getLeague(leagueId),
     getMatchups(leagueId, week),
     getRosters(leagueId),
     getUsers(leagueId),
+    getPlayers(leagueId, week),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
-  const rosterById = new Map<number, Roster>(
-    rosters.map((r) => [r.roster_id, r])
-  );
+  const rosterById = new Map<number, Roster>(rosters.map((r) => [r.roster_id, r]));
 
   const results: EfficiencyData[] = [];
 
@@ -141,10 +126,9 @@ export async function computeEfficiency(
     const teamName = getTeamName(user);
 
     const actualPoints = matchup.points;
-    const maxPoints = calculateOptimalScore(matchup, league.roster_positions);
+    const maxPoints = calculateOptimalScore(matchup, league.roster_positions, players);
 
-    const percentage =
-      maxPoints > 0 ? (actualPoints / maxPoints) * 100 : 100;
+    const percentage = maxPoints > 0 ? (actualPoints / maxPoints) * 100 : 100;
 
     results.push({
       week,
