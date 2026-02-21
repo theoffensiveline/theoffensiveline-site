@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { colorsByPosition } from '../constants/ColorConstants';
+import styled from "styled-components";
+import { colorsByPosition } from "../constants/ColorConstants";
 
 export const Container = styled.div`
   padding: 20px;

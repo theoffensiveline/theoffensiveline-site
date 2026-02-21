@@ -1,14 +1,6 @@
-import {
-  useQueries,
-  UseQueryResult,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQueries, UseQueryResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
-import {
-  computeWeeklyAwards,
-  WeeklyAward,
-} from "../utils/newsletter/computeWeeklyAwards";
+import { computeWeeklyAwards, WeeklyAward } from "../utils/newsletter/computeWeeklyAwards";
 import { computeLeaderboard } from "../utils/newsletter/computeLeaderboard";
 import { computeStarters } from "../utils/newsletter/computeStarters";
 import { computeEfficiency } from "../utils/newsletter/computeEfficiency";
@@ -40,13 +32,9 @@ import type {
 // Usage:
 //   REACT_APP_NEWSLETTER_PERF=1 yarn start
 // ---------------------------------------------------------------------------
-const PERF_ENABLED =
-  process.env.REACT_APP_NEWSLETTER_PERF === "1";
+const PERF_ENABLED = process.env.REACT_APP_NEWSLETTER_PERF === "1";
 
-function withPerfLogging<T>(
-  name: string,
-  fn: () => Promise<T>
-): Promise<T> {
+function withPerfLogging<T>(name: string, fn: () => Promise<T>): Promise<T> {
   if (!PERF_ENABLED) return fn();
 
   const start = performance.now();
@@ -54,7 +42,9 @@ function withPerfLogging<T>(
     (result) => {
       const ms = performance.now() - start;
       if (ms > 200) {
-        console.warn(`[NEWSLETTER_PERF] ⚠ ${name} took ${ms.toFixed(0)}ms (exceeded 200ms threshold)`);
+        console.warn(
+          `[NEWSLETTER_PERF] ⚠ ${name} took ${ms.toFixed(0)}ms (exceeded 200ms threshold)`
+        );
       } else {
         console.log(`[NEWSLETTER_PERF] ✓ ${name} took ${ms.toFixed(0)}ms`);
       }
@@ -107,8 +97,7 @@ const CACHE_CONFIG = {
  * This ensures caches are isolated per league, week, and section.
  */
 export const newsletterQueryKeys = {
-  all: (leagueId: string, week: number) =>
-    ["newsletter", leagueId, week] as const,
+  all: (leagueId: string, week: number) => ["newsletter", leagueId, week] as const,
   nflState: () => ["nflState"] as const,
   awards: (leagueId: string, week: number) =>
     [...newsletterQueryKeys.all(leagueId, week), "awards"] as const,
@@ -167,7 +156,7 @@ export async function prefetchNewsletterSection(
   queryClient: ReturnType<typeof useQueryClient>,
   leagueId: string,
   week: number,
-  section: NewsletterSection,
+  section: NewsletterSection
 ): Promise<void> {
   const sectionFunctions: Record<
     NewsletterSection,
@@ -214,12 +203,10 @@ export async function prefetchNewsletterSection(
 export async function invalidateNewsletter(
   queryClient: ReturnType<typeof useQueryClient>,
   leagueId: string,
-  week?: number,
+  week?: number
 ): Promise<void> {
   const queryKey =
-    week !== undefined
-      ? newsletterQueryKeys.all(leagueId, week)
-      : ["newsletter", leagueId];
+    week !== undefined ? newsletterQueryKeys.all(leagueId, week) : ["newsletter", leagueId];
 
   await queryClient.invalidateQueries({ queryKey });
 }
@@ -261,9 +248,7 @@ export interface NewsletterData {
 /**
  * Helper to transform UseQueryResult to SectionResult
  */
-function toSectionResult<T>(
-  queryResult: UseQueryResult<T, Error>,
-): SectionResult<T> {
+function toSectionResult<T>(queryResult: UseQueryResult<T, Error>): SectionResult<T> {
   return {
     data: queryResult.data,
     status: queryResult.status,
@@ -301,10 +286,7 @@ function toSectionResult<T>(
  * return <AwardsGridV2 awardsData={newsletter.awards.data} />;
  * ```
  */
-export function useNewsletterData(
-  leagueId: string | undefined,
-  week: number,
-): NewsletterData {
+export function useNewsletterData(leagueId: string | undefined, week: number): NewsletterData {
   // Validation - don't throw errors to avoid breaking React Hook rules
   // Instead, disable queries if invalid
   const enabled = !!leagueId && Number.isFinite(week) && week > 0;
@@ -344,13 +326,11 @@ export function useNewsletterData(
       staleTime: isCurrentWeek
         ? CACHE_CONFIG.CURRENT_STALE_TIME
         : CACHE_CONFIG.COMPLETED_STALE_TIME,
-      gcTime: isCurrentWeek
-        ? CACHE_CONFIG.CURRENT_GC_TIME
-        : CACHE_CONFIG.COMPLETED_GC_TIME,
+      gcTime: isCurrentWeek ? CACHE_CONFIG.CURRENT_GC_TIME : CACHE_CONFIG.COMPLETED_GC_TIME,
       refetchOnMount: isCurrentWeek, // Don't refetch completed weeks on mount
       refetchOnWindowFocus: isCurrentWeek, // Only refetch current week on focus
     }),
-    [isCurrentWeek],
+    [isCurrentWeek]
   );
 
   // Memoize queries configuration to avoid re-registering
@@ -394,13 +374,15 @@ export function useNewsletterData(
       },
       {
         queryKey: newsletterQueryKeys.powerRankings(safeLeagueId, week),
-        queryFn: () => withPerfLogging("powerRankings", () => computePowerRankings(safeLeagueId, week)),
+        queryFn: () =>
+          withPerfLogging("powerRankings", () => computePowerRankings(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
       {
         queryKey: newsletterQueryKeys.playoffStandings(safeLeagueId, week),
-        queryFn: () => withPerfLogging("playoffStandings", () => computePlayoffStandings(safeLeagueId, week)),
+        queryFn: () =>
+          withPerfLogging("playoffStandings", () => computePlayoffStandings(safeLeagueId, week)),
         enabled,
         ...cachePolicy,
       },
@@ -417,7 +399,7 @@ export function useNewsletterData(
         ...cachePolicy,
       },
     ],
-    [safeLeagueId, week, enabled, cachePolicy],
+    [safeLeagueId, week, enabled, cachePolicy]
   );
 
   // Fetch all sections in parallel using useQueries
@@ -425,22 +407,13 @@ export function useNewsletterData(
 
   // Access queries by index with proper typing
   const awardsQuery = queries[0] as UseQueryResult<WeeklyAward[], Error>;
-  const leaderboardQuery = queries[1] as UseQueryResult<
-    LeaderboardData[],
-    Error
-  >;
+  const leaderboardQuery = queries[1] as UseQueryResult<LeaderboardData[], Error>;
   const startersQuery = queries[2] as UseQueryResult<StartersData[], Error>;
   const efficiencyQuery = queries[3] as UseQueryResult<EfficiencyData[], Error>;
   const bestBallQuery = queries[4] as UseQueryResult<BestBallData[], Error>;
   const medianQuery = queries[5] as UseQueryResult<MedianData[], Error>;
-  const powerRankingsQuery = queries[6] as UseQueryResult<
-    PowerRankingsData[],
-    Error
-  >;
-  const playoffStandingsQuery = queries[7] as UseQueryResult<
-    PlayoffTableData[],
-    Error
-  >;
+  const powerRankingsQuery = queries[6] as UseQueryResult<PowerRankingsData[], Error>;
+  const playoffStandingsQuery = queries[7] as UseQueryResult<PlayoffTableData[], Error>;
   const scheduleQuery = queries[8] as UseQueryResult<ScheduleData, Error>;
   const matchupDataQuery = queries[9] as UseQueryResult<MatchupData[], Error>;
 

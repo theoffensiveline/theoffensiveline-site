@@ -68,12 +68,7 @@ const CancelButton = styled.button`
   }
 `;
 
-const CustomConfirm: React.FC<CustomConfirmProps> = ({
-  message,
-  onConfirm,
-  onCancel,
-  isOpen,
-}) => {
+const CustomConfirm: React.FC<CustomConfirmProps> = ({ message, onConfirm, onCancel, isOpen }) => {
   if (!isOpen) return null;
 
   return (

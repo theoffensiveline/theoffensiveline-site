@@ -24,10 +24,7 @@ export const getBaseChartConfig = () => ({
 });
 
 // Common axis configuration with configurable gridlines
-const getAxisConfigWithGrid = (
-  theme: any,
-  options: { grid?: boolean } = {}
-) => {
+const getAxisConfigWithGrid = (theme: any, options: { grid?: boolean } = {}) => {
   const config: any = {
     style: {
       tickLabels: { fill: theme.text },
@@ -37,9 +34,7 @@ const getAxisConfigWithGrid = (
   };
 
   if (options.grid) {
-    config.gridComponent = (
-      <line style={{ stroke: "grey", strokeDasharray: "4 4" }} />
-    );
+    config.gridComponent = <line style={{ stroke: "grey", strokeDasharray: "4 4" }} />;
   }
 
   return config;
@@ -369,21 +364,15 @@ const HotDogTracker: React.FC = () => {
             <VictoryBar
               data={countDistributionData.map((item) => ({
                 count: item.count,
-                frequency:
-                  (item.hotdogFrequency || 0) + (item.shotFrequency || 0),
+                frequency: (item.hotdogFrequency || 0) + (item.shotFrequency || 0),
               }))}
               x="count"
               y="frequency"
               style={{ data: { fill: "transparent" } }}
               barWidth={20}
-              labels={({ datum }) =>
-                datum.frequency > 0 ? datum.frequency : null
-              }
+              labels={({ datum }) => (datum.frequency > 0 ? datum.frequency : null)}
               labelComponent={
-                <VictoryLabel
-                  dy={-10}
-                  style={{ fill: theme.text, fontWeight: "bold" }}
-                />
+                <VictoryLabel dy={-10} style={{ fill: theme.text, fontWeight: "bold" }} />
               }
             />
           </VictoryChart>
@@ -408,11 +397,7 @@ const MatchupTable: React.FC<{ matchupData: any[] }> = ({ matchupData }) => {
         return (
           <td>
             {row.Video ? (
-              <VideoLink
-                href={row.Video}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <VideoLink href={row.Video} target="_blank" rel="noopener noreferrer">
                 {row.Loser}
               </VideoLink>
             ) : (
@@ -440,9 +425,7 @@ const MatchupTable: React.FC<{ matchupData: any[] }> = ({ matchupData }) => {
       </thead>
       <tbody>
         {matchupData.map((row, index) => (
-          <tr key={index}>
-            {headers.map((header) => renderCell(row, header))}
-          </tr>
+          <tr key={index}>{headers.map((header) => renderCell(row, header))}</tr>
         ))}
       </tbody>
     </StyledTable>

@@ -2,7 +2,14 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc, query, collection, getDocs, where } from "firebase/firestore";
 import { db } from "../../firebase";
-import { formatResult, fetchAndSortResults, POINTS_MAP, getMedalEmoji, getAllSubmissions, timeToMs } from "../../utils/leaderboardUtils";
+import {
+  formatResult,
+  fetchAndSortResults,
+  POINTS_MAP,
+  getMedalEmoji,
+  getAllSubmissions,
+  timeToMs,
+} from "../../utils/leaderboardUtils";
 import styled from "styled-components";
 import { Plus } from "lucide-react";
 import LeaderboardSubmitModal from "./LeaderboardSubmitModal";
@@ -116,8 +123,8 @@ const Score = styled.div`
 
 const Points = styled.div`
   font-size: 0.8em;
-  color: ${props => props.$hasPoints ? props.theme.newsBlue : props.theme.text}99;
-  font-weight: ${props => props.$hasPoints ? '500' : '400'};
+  color: ${(props) => (props.$hasPoints ? props.theme.newsBlue : props.theme.text)}99;
+  font-weight: ${(props) => (props.$hasPoints ? "500" : "400")};
 `;
 
 const ReferenceDivider = styled.div`
@@ -130,8 +137,8 @@ const ReferenceDivider = styled.div`
   border-top: 1px solid ${({ theme }) => theme.text}33;
   border-bottom: 1px solid ${({ theme }) => theme.text}33;
   margin: 8px 0;
-  cursor: ${props => props.$clickable ? 'pointer' : 'default'};
-  text-decoration: ${props => props.$clickable ? 'underline' : 'none'};
+  cursor: ${(props) => (props.$clickable ? "pointer" : "default")};
+  text-decoration: ${(props) => (props.$clickable ? "underline" : "none")};
 `;
 
 const ConfirmationModalContent = styled.div`
@@ -206,8 +213,8 @@ const ToggleContainer = styled.div`
 
 const ToggleLabel = styled.span`
   font-size: 0.9em;
-  color: ${props => props.$active ? props.theme.newsBlue : props.theme.text}99;
-  font-weight: ${props => props.$active ? '600' : '400'};
+  color: ${(props) => (props.$active ? props.theme.newsBlue : props.theme.text)}99;
+  font-weight: ${(props) => (props.$active ? "600" : "400")};
 `;
 
 const Leaderboard = () => {
@@ -225,12 +232,16 @@ const Leaderboard = () => {
 
   // Add reference times for NFL players
   const nflReferenceTimes = [
-    { name: 'Xavier Worthy', time: 4.21, link: 'https://www.youtube.com/watch?v=M1xhUAMEA2E' },
+    { name: "Xavier Worthy", time: 4.21, link: "https://www.youtube.com/watch?v=M1xhUAMEA2E" },
     { name: "Tom Brady", time: 5.28, link: "https://www.youtube.com/watch?v=kxx_u67eUSA" },
     { name: "Patrick Mahomes", time: 4.8, link: "https://www.youtube.com/watch?v=7Q0XWPEdXlg" },
     { name: "Josh Allen", time: 4.75, link: "https://www.youtube.com/watch?v=Xofxch7fuE8" },
     { name: "Derrick Henry", time: 4.54, link: "https://www.youtube.com/watch?v=-BN1T7JTNyc" },
-    { name: "Isaiah Thompson", time: 6.07, link: "https://youtu.be/m7Phlyq6uiE?si=IpnHG9hQ_lF-364C&t=198" },
+    {
+      name: "Isaiah Thompson",
+      time: 6.07,
+      link: "https://youtu.be/m7Phlyq6uiE?si=IpnHG9hQ_lF-364C&t=198",
+    },
   ];
   const sortedNflReferenceTimes = [...nflReferenceTimes].sort((a, b) => a.time - b.time);
 
@@ -259,10 +270,10 @@ const Leaderboard = () => {
 
         // Check for duplicate submissions
         const nameCounts = {};
-        rawResults.forEach(result => {
+        rawResults.forEach((result) => {
           nameCounts[result.name] = (nameCounts[result.name] || 0) + 1;
         });
-        const hasDuplicates = Object.values(nameCounts).some(count => count > 1);
+        const hasDuplicates = Object.values(nameCounts).some((count) => count > 1);
         setHasDuplicateSubmissions(hasDuplicates);
 
         // Get unique results for points calculation
@@ -352,7 +363,7 @@ const Leaderboard = () => {
     const position = tiedPositions[index];
 
     // Count how many results share this position (are tied)
-    const tiedCount = tiedPositions.filter(pos => pos === position).length;
+    const tiedCount = tiedPositions.filter((pos) => pos === position).length;
 
     // Calculate the actual leaderboard place (1-based)
     const actualPlace = position + 1;
@@ -384,7 +395,7 @@ const Leaderboard = () => {
             refresh: fetchLeaderboard,
             sortType: leaderboard.sort,
             leaderboardId: leaderboardId,
-            currentResults: uniqueResults
+            currentResults: uniqueResults,
           }}
         />
       )}
@@ -396,16 +407,12 @@ const Leaderboard = () => {
         <ConfirmationModalContent>
           <ModalTitle>External Link</ModalTitle>
           <ModalText>
-            You are now leaving The Offensive Line to go to{" "}
-            <strong>{selectedResult?.link}</strong>, continue?
+            You are now leaving The Offensive Line to go to <strong>{selectedResult?.link}</strong>,
+            continue?
           </ModalText>
           <ButtonContainer>
-            <CancelButton onClick={() => setConfirmModalVisible(false)}>
-              Cancel
-            </CancelButton>
-            <ContinueButton onClick={handleConfirmNavigation}>
-              Continue
-            </ContinueButton>
+            <CancelButton onClick={() => setConfirmModalVisible(false)}>Cancel</CancelButton>
+            <ContinueButton onClick={handleConfirmNavigation}>Continue</ContinueButton>
           </ButtonContainer>
         </ConfirmationModalContent>
       </Modal>
@@ -421,12 +428,8 @@ const Leaderboard = () => {
             <strong>{leaderboard?.rules}</strong>, continue?
           </ModalText>
           <ButtonContainer>
-            <CancelButton onClick={() => setRulesModalVisible(false)}>
-              Cancel
-            </CancelButton>
-            <ContinueButton onClick={handleRulesNavigation}>
-              Continue
-            </ContinueButton>
+            <CancelButton onClick={() => setRulesModalVisible(false)}>Cancel</CancelButton>
+            <ContinueButton onClick={handleRulesNavigation}>Continue</ContinueButton>
           </ButtonContainer>
         </ConfirmationModalContent>
       </Modal>
@@ -451,9 +454,7 @@ const Leaderboard = () => {
 
         {leaderboardId !== "QSv4tImm8DuHqC5wI5rY" && hasDuplicateSubmissions && (
           <ToggleContainer>
-            <ToggleLabel $active={!showAllSubmissions}>
-              Best Submissions
-            </ToggleLabel>
+            <ToggleLabel $active={!showAllSubmissions}>Best Submissions</ToggleLabel>
             <FormControlLabel
               control={
                 <Switch
@@ -464,16 +465,15 @@ const Leaderboard = () => {
               }
               label=""
             />
-            <ToggleLabel $active={showAllSubmissions}>
-              All Submissions
-            </ToggleLabel>
+            <ToggleLabel $active={showAllSubmissions}>All Submissions</ToggleLabel>
           </ToggleContainer>
         )}
 
         {displayResults.map((result, index) => {
           // Find the index in uniqueResults for points calculation
-          const uniqueIndex = uniqueResults.findIndex(r => r.id === result.id);
-          const points = uniqueIndex !== -1 ? calculatePointsForPosition(uniqueIndex, uniqueResults) : "-";
+          const uniqueIndex = uniqueResults.findIndex((r) => r.id === result.id);
+          const points =
+            uniqueIndex !== -1 ? calculatePointsForPosition(uniqueIndex, uniqueResults) : "-";
 
           // Insert reference times at appropriate positions
           const referenceTimes = [];
@@ -488,7 +488,14 @@ const Leaderboard = () => {
                   <ReferenceDivider
                     key={`ref-${refIndex}`}
                     $clickable={!!ref.link}
-                    onClick={ref.link ? (e) => { e.stopPropagation(); window.open(ref.link, '_blank'); } : undefined}
+                    onClick={
+                      ref.link
+                        ? (e) => {
+                            e.stopPropagation();
+                            window.open(ref.link, "_blank");
+                          }
+                        : undefined
+                    }
                   >
                     {ref.name}: {ref.time} seconds
                   </ReferenceDivider>
@@ -532,7 +539,7 @@ const Leaderboard = () => {
                 <ReferenceDivider
                   key={`ref-end-${refIndex}`}
                   $clickable={!!ref.link}
-                  onClick={ref.link ? () => window.open(ref.link, '_blank') : undefined}
+                  onClick={ref.link ? () => window.open(ref.link, "_blank") : undefined}
                 >
                   {ref.name}: {ref.time} seconds
                 </ReferenceDivider>

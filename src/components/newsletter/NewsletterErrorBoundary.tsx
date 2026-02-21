@@ -61,20 +61,13 @@ export class NewsletterErrorBoundary extends React.Component<Props, State> {
    * Reset the boundary when resetKeys change — mirrors react-error-boundary's
    * behaviour so navigating to a new week always clears the error state.
    */
-  static getDerivedStateFromProps(
-    props: Props,
-    state: State,
-  ): Partial<State> | null {
+  static getDerivedStateFromProps(props: Props, state: State): Partial<State> | null {
     if (!state.hasError) return null;
 
     const { resetKeys } = props;
     const { errorResetKeys } = state;
 
-    if (
-      resetKeys &&
-      errorResetKeys &&
-      resetKeys.some((key, i) => key !== errorResetKeys[i])
-    ) {
+    if (resetKeys && errorResetKeys && resetKeys.some((key, i) => key !== errorResetKeys[i])) {
       return { hasError: false, error: null, errorResetKeys: undefined };
     }
 
@@ -120,11 +113,7 @@ interface FallbackProps {
   onRetry: () => void;
 }
 
-const RenderErrorFallback: React.FC<FallbackProps> = ({
-  title,
-  description,
-  onRetry,
-}) => (
+const RenderErrorFallback: React.FC<FallbackProps> = ({ title, description, onRetry }) => (
   <div
     role="alert"
     aria-live="assertive"

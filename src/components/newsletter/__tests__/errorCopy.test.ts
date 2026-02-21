@@ -59,9 +59,7 @@ describe("getErrorCopy", () => {
     for (const err of errors) {
       const copy = getErrorCopy(err);
       // Description should suggest an action (retry / refresh / check)
-      expect(
-        /retry|refresh|check|try again|wait/i.test(copy.description),
-      ).toBe(true);
+      expect(/retry|refresh|check|try again|wait/i.test(copy.description)).toBe(true);
     }
   });
 });

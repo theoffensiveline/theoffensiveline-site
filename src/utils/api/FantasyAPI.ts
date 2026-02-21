@@ -176,7 +176,10 @@ export const getBracketMatchups = async (
  * @param leagueId - League identifier
  * @returns Map of player ID → GenericPlayer
  */
-export const getPlayers = async (leagueId: string, week?: number): Promise<Record<string, GenericPlayer>> => {
+export const getPlayers = async (
+  leagueId: string,
+  week?: number
+): Promise<Record<string, GenericPlayer>> => {
   if (isEspn(leagueId)) {
     return ESPNAdapter.getPlayers(leagueId, week);
   }

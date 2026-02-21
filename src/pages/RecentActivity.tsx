@@ -1,32 +1,27 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
-import {
-  getTransactions,
-  getLeague,
-  getRosters,
-  getUsers,
-} from "../utils/api/FantasyAPI";
+import { getTransactions, getLeague, getRosters, getUsers } from "../utils/api/FantasyAPI";
 import { Transactions, League } from "../types/sleeperTypes";
-import { sleeperPlayers, getPlayerPhoto } from '../utils/playerUtils';
+import { sleeperPlayers, getPlayerPhoto } from "../utils/playerUtils";
 import {
   PlayerPhoto,
   PlayerPosition,
   PlayerName,
-  PlayerRow
-} from '../components/shared/PlayerComponents';
-import { 
-  Container, 
-  LoadingState, 
+  PlayerRow,
+} from "../components/shared/PlayerComponents";
+import {
+  Container,
+  LoadingState,
   TeamAvatar,
   TeamHeader,
-  TeamInfo 
-} from '../components/shared/PageComponents';
+  TeamInfo,
+} from "../components/shared/PageComponents";
 
 const TransactionCard = styled.div`
   margin-bottom: 20px;
   padding: 20px;
-  border: 1px solid ${({ theme }) => theme.newsBlue };
+  border: 1px solid ${({ theme }) => theme.newsBlue};
   border-radius: 10px;
 `;
 
@@ -57,8 +52,7 @@ const FilterButton = styled.button<{ active: boolean }>`
   padding: 8px 16px;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.newsBlue};
-  background-color: ${({ active, theme }) =>
-    active ? theme.newsBlue : "transparent"};
+  background-color: ${({ active, theme }) => (active ? theme.newsBlue : "transparent")};
   color: ${({ active, theme }) => (active ? theme.background : theme.text)};
   cursor: pointer;
   &:hover {
@@ -75,18 +69,19 @@ const ActionCard = styled.div<{ isAdded: boolean }>`
   position: relative;
   margin: 10px 0;
   padding: 15px;
-  border: 2px solid ${({ isAdded }) => isAdded ? '#4CAF50' : '#F44336'};
+  border: 2px solid ${({ isAdded }) => (isAdded ? "#4CAF50" : "#F44336")};
   border-radius: 8px;
-  background-color: ${({ isAdded }) => isAdded ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)'};
+  background-color: ${({ isAdded }) =>
+    isAdded ? "rgba(76, 175, 80, 0.1)" : "rgba(244, 67, 54, 0.1)"};
 
   &::before {
-    content: '${({ isAdded }) => isAdded ? '+' : '-'}';
+    content: "${({ isAdded }) => (isAdded ? "+" : "-")}";
     position: absolute;
     top: 8px;
     left: 8px;
     font-size: 16px;
     font-weight: bold;
-    color: ${({ isAdded }) => isAdded ? '#4CAF50' : '#F44336'};
+    color: ${({ isAdded }) => (isAdded ? "#4CAF50" : "#F44336")};
   }
 `;
 
@@ -110,18 +105,18 @@ const TradeTeamSection = styled.div`
 const TradeCard = styled.div`
   position: relative;
   padding: 15px;
-  border: 2px solid #4CAF50;
+  border: 2px solid #4caf50;
   border-radius: 8px;
   background-color: rgba(76, 175, 80, 0.1);
 
   &::before {
-    content: '+';
+    content: "+";
     position: absolute;
     top: 8px;
     left: 8px;
     font-size: 16px;
     font-weight: bold;
-    color: #4CAF50;
+    color: #4caf50;
   }
 `;
 
@@ -158,9 +153,7 @@ const RecentActivity = () => {
       try {
         if (leagueId) {
           const transactionsData = await getTransactions(leagueId, weekNumber);
-          return transactionsData.sort(
-            (a: Transactions, b: Transactions) => b.created - a.created
-          );
+          return transactionsData.sort((a: Transactions, b: Transactions) => b.created - a.created);
         }
         return [];
       } catch (error) {
@@ -171,12 +164,15 @@ const RecentActivity = () => {
     [leagueId]
   );
 
-  const getRosterWithUser = useCallback((rosterId: number) => {
-    const roster = rosters.find(r => r.roster_id === rosterId);
-    if (!roster) return null;
-    const user = users.find(u => u.user_id === roster.owner_id);
-    return { ...roster, user };
-  }, [rosters, users]);
+  const getRosterWithUser = useCallback(
+    (rosterId: number) => {
+      const roster = rosters.find((r) => r.roster_id === rosterId);
+      if (!roster) return null;
+      const user = users.find((u) => u.user_id === roster.owner_id);
+      return { ...roster, user };
+    },
+    [rosters, users]
+  );
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -229,10 +225,7 @@ const RecentActivity = () => {
       }
 
       if (filteredMoreTransactions.length > 0) {
-        setTransactions((prevTransactions) => [
-          ...prevTransactions,
-          ...moreTransactions,
-        ]);
+        setTransactions((prevTransactions) => [...prevTransactions, ...moreTransactions]);
         setCurrentWeek(previousWeek);
       }
     } catch (error) {
@@ -304,9 +297,7 @@ const RecentActivity = () => {
       <TradeContainer>
         {Object.entries(tradesByTeam).map(([rosterId, details]) => {
           const hasContent =
-            details.adds.length > 0 ||
-            details.picks.length > 0 ||
-            details.faab > 0;
+            details.adds.length > 0 || details.picks.length > 0 || details.faab > 0;
           if (!hasContent) return null;
 
           const rosterWithUser = getRosterWithUser(Number(rosterId));
@@ -314,13 +305,17 @@ const RecentActivity = () => {
 
           return (
             <TradeTeamSection key={rosterId}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}
+              >
                 <TeamAvatar
                   src={rosterWithUser.user?.metadata?.avatar || rosterWithUser.user?.avatar}
                   alt={`${rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name} Avatar`}
                 />
                 <TeamInfo>
-                  <h3>{rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name}</h3>
+                  <h3>
+                    {rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name}
+                  </h3>
                 </TeamInfo>
               </div>
               <TradeCard>
@@ -329,8 +324,8 @@ const RecentActivity = () => {
                     <div>
                       {details.adds.map((playerId) => (
                         <PlayerRow key={playerId}>
-                          <PlayerPosition position={sleeperPlayers[playerId]?.position || 'FLEX'}>
-                            {sleeperPlayers[playerId]?.position || 'FLEX'}
+                          <PlayerPosition position={sleeperPlayers[playerId]?.position || "FLEX"}>
+                            {sleeperPlayers[playerId]?.position || "FLEX"}
                           </PlayerPosition>
                           <PlayerPhoto
                             src={getPlayerPhoto(playerId)}
@@ -343,14 +338,10 @@ const RecentActivity = () => {
                   )}
                   {details.picks.length > 0 && (
                     <TradePicks>
-                      {details.picks
-                        .map((pick) => `${pick.season} Round ${pick.round}`)
-                        .join(", ")}
+                      {details.picks.map((pick) => `${pick.season} Round ${pick.round}`).join(", ")}
                     </TradePicks>
                   )}
-                  {details.faab > 0 && (
-                    <TradeFaab>FAAB: ${details.faab}</TradeFaab>
-                  )}
+                  {details.faab > 0 && <TradeFaab>FAAB: ${details.faab}</TradeFaab>}
                 </TradeContent>
               </TradeCard>
             </TradeTeamSection>
@@ -367,10 +358,7 @@ const RecentActivity = () => {
   return (
     <Container>
       <FilterContainer>
-        <FilterButton
-          active={selectedFilter === "all"}
-          onClick={() => setSelectedFilter("all")}
-        >
+        <FilterButton active={selectedFilter === "all"} onClick={() => setSelectedFilter("all")}>
           All
         </FilterButton>
         <FilterButton
@@ -396,21 +384,28 @@ const RecentActivity = () => {
         <TransactionCard key={transaction.transaction_id}>
           <TransactionHeader>
             <TeamHeader>
-              {transaction.type !== "trade" && transaction.roster_ids.map((rosterId) => {
-                const rosterWithUser = getRosterWithUser(rosterId);
-                if (!rosterWithUser) return null;
-                return (
-                  <div key={rosterId} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <TeamAvatar 
-                      src={rosterWithUser.user?.metadata?.avatar || rosterWithUser.user?.avatar}
-                      alt={`${rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name} Avatar`}
-                    />
-                    <TeamInfo>
-                      <h3>{rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name}</h3>
-                    </TeamInfo>
-                  </div>
-                );
-              })}
+              {transaction.type !== "trade" &&
+                transaction.roster_ids.map((rosterId) => {
+                  const rosterWithUser = getRosterWithUser(rosterId);
+                  if (!rosterWithUser) return null;
+                  return (
+                    <div
+                      key={rosterId}
+                      style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                    >
+                      <TeamAvatar
+                        src={rosterWithUser.user?.metadata?.avatar || rosterWithUser.user?.avatar}
+                        alt={`${rosterWithUser.user?.metadata?.team_name || rosterWithUser.user?.display_name} Avatar`}
+                      />
+                      <TeamInfo>
+                        <h3>
+                          {rosterWithUser.user?.metadata?.team_name ||
+                            rosterWithUser.user?.display_name}
+                        </h3>
+                      </TeamInfo>
+                    </div>
+                  );
+                })}
             </TeamHeader>
             <TransactionType>{getTransactionType(transaction)}</TransactionType>
           </TransactionHeader>
@@ -425,8 +420,8 @@ const RecentActivity = () => {
                     <ActionContent>
                       {Object.entries(transaction.adds).map(([playerId]) => (
                         <PlayerRow key={playerId}>
-                          <PlayerPosition position={sleeperPlayers[playerId]?.position || 'FLEX'}>
-                            {sleeperPlayers[playerId]?.position || 'FLEX'}
+                          <PlayerPosition position={sleeperPlayers[playerId]?.position || "FLEX"}>
+                            {sleeperPlayers[playerId]?.position || "FLEX"}
                           </PlayerPosition>
                           <PlayerPhoto
                             src={getPlayerPhoto(playerId)}
@@ -451,8 +446,8 @@ const RecentActivity = () => {
                     <ActionContent>
                       {Object.entries(transaction.drops).map(([playerId]) => (
                         <PlayerRow key={playerId}>
-                          <PlayerPosition position={sleeperPlayers[playerId]?.position || 'FLEX'}>
-                            {sleeperPlayers[playerId]?.position || 'FLEX'}
+                          <PlayerPosition position={sleeperPlayers[playerId]?.position || "FLEX"}>
+                            {sleeperPlayers[playerId]?.position || "FLEX"}
                           </PlayerPosition>
                           <PlayerPhoto
                             src={getPlayerPhoto(playerId)}
@@ -470,11 +465,7 @@ const RecentActivity = () => {
         </TransactionCard>
       ))}
       {currentWeek && currentWeek > 1 && (
-        <LoadMoreButton
-          active={false}
-          onClick={handleLoadMore}
-          disabled={loadingMore}
-        >
+        <LoadMoreButton active={false} onClick={handleLoadMore} disabled={loadingMore}>
           {loadingMore ? "Loading..." : "Load More"}
         </LoadMoreButton>
       )}

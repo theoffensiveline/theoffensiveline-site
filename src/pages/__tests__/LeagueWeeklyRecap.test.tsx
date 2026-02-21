@@ -50,11 +50,7 @@ jest.mock("../../components/newsletters/chartStyles", () => ({
 
 type SectionStatus = "pending" | "success" | "error";
 
-const makeSection = (
-  status: SectionStatus,
-  data: unknown = null,
-  error: Error | null = null,
-) => ({
+const makeSection = (status: SectionStatus, data: unknown = null, error: Error | null = null) => ({
   data,
   status,
   error,
@@ -67,9 +63,7 @@ const makeSection = (
  * Defaults to all sections "pending" so ALL 10 sections are always visible
  * (pending sections always pass the `shouldRender` check).
  */
-const makeNewsletterResult = (
-  overrides: Record<string, ReturnType<typeof makeSection>> = {},
-) => ({
+const makeNewsletterResult = (overrides: Record<string, ReturnType<typeof makeSection>> = {}) => ({
   awards: makeSection("pending"),
   leaderboard: makeSection("pending"),
   starters: makeSection("pending"),
@@ -103,15 +97,12 @@ const renderPage = (leagueId = "league123", week = "10") => {
         <AppThemeProvider>
           <MemoryRouter initialEntries={[path]}>
             <Routes>
-              <Route
-                path="/league/:leagueId/weekly-recap/:week"
-                element={<LeagueWeeklyRecap />}
-              />
+              <Route path="/league/:leagueId/weekly-recap/:week" element={<LeagueWeeklyRecap />} />
             </Routes>
           </MemoryRouter>
         </AppThemeProvider>
       </StyledThemeProvider>
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 };
 
@@ -158,7 +149,7 @@ describe("LeagueWeeklyRecap", () => {
               </MemoryRouter>
             </AppThemeProvider>
           </StyledThemeProvider>
-        </QueryClientProvider>,
+        </QueryClientProvider>
       );
       // Either "Missing league ID" or "Invalid week number" — inputs are invalid
       const title = screen.getByText("The Offensive Line");
@@ -208,9 +199,7 @@ describe("LeagueWeeklyRecap", () => {
 
     it("does not show the Refresh all button while loading", () => {
       renderPage();
-      expect(
-        screen.queryByText("Refresh all sections"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText("Refresh all sections")).not.toBeInTheDocument();
     });
   });
 
@@ -231,7 +220,7 @@ describe("LeagueWeeklyRecap", () => {
           median: makeSection("success", []),
           bestBall: makeSection("success", []),
           // Leave playoff and schedule pending so they stay visible
-        }) as any,
+        }) as any
       );
     });
 
@@ -242,9 +231,7 @@ describe("LeagueWeeklyRecap", () => {
 
     it("renders the week subtitle", () => {
       renderPage("league123", "7");
-      expect(
-        screen.getByText("Sleeper Weekly Recap – Week 7"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Sleeper Weekly Recap – Week 7")).toBeInTheDocument();
     });
 
     it("does not show error alerts when all sections succeed", () => {
@@ -254,9 +241,7 @@ describe("LeagueWeeklyRecap", () => {
 
     it("does not show Refresh all sections button when no errors", () => {
       renderPage();
-      expect(
-        screen.queryByText("Refresh all sections"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText("Refresh all sections")).not.toBeInTheDocument();
     });
   });
 
@@ -269,7 +254,7 @@ describe("LeagueWeeklyRecap", () => {
       jest.spyOn(newsletterDataHook, "useNewsletterData").mockReturnValue(
         makeNewsletterResult({
           awards: makeSection("error", null, new Error("API failure")),
-        }) as any,
+        }) as any
       );
       renderPage();
       expect(screen.getByRole("alert")).toBeInTheDocument();
@@ -279,12 +264,10 @@ describe("LeagueWeeklyRecap", () => {
       jest.spyOn(newsletterDataHook, "useNewsletterData").mockReturnValue(
         makeNewsletterResult({
           awards: makeSection("error", null, new Error("API failure")),
-        }) as any,
+        }) as any
       );
       renderPage();
-      expect(
-        screen.getByRole("button", { name: "Retry" }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
     });
 
     it("calls section refetch when Retry is clicked", () => {
@@ -298,7 +281,7 @@ describe("LeagueWeeklyRecap", () => {
             isLoading: false,
             refetch: awardsRefetch,
           },
-        }) as any,
+        }) as any
       );
       renderPage();
       fireEvent.click(screen.getByRole("button", { name: "Retry" }));
@@ -309,7 +292,7 @@ describe("LeagueWeeklyRecap", () => {
       jest.spyOn(newsletterDataHook, "useNewsletterData").mockReturnValue(
         makeNewsletterResult({
           awards: makeSection("error", null, new Error("fail")),
-        }) as any,
+        }) as any
       );
       renderPage();
       expect(screen.getByText("Refresh all sections")).toBeInTheDocument();
@@ -334,7 +317,7 @@ describe("LeagueWeeklyRecap", () => {
             isLoading: false,
             refetch: leaderboardRefetch,
           },
-        }) as any,
+        }) as any
       );
       renderPage();
       fireEvent.click(screen.getByText("Refresh all sections"));
@@ -353,12 +336,10 @@ describe("LeagueWeeklyRecap", () => {
         makeNewsletterResult({
           awards: makeSection("error", null, new Error("fail")),
           leaderboard: makeSection("error", null, new Error("fail")),
-        }) as any,
+        }) as any
       );
       renderPage();
-      expect(
-        screen.getByText(/Multiple sections failed to load/),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Multiple sections failed to load/)).toBeInTheDocument();
     });
 
     it("does not show the toast text when only one section fails", () => {
@@ -368,7 +349,7 @@ describe("LeagueWeeklyRecap", () => {
       jest.spyOn(newsletterDataHook, "useNewsletterData").mockReturnValue(
         makeNewsletterResult({
           awards: makeSection("error", null, new Error("fail")),
-        }) as any,
+        }) as any
       );
       renderPage();
       // One error → single alert panel, Refresh all button present
@@ -383,20 +364,17 @@ describe("LeagueWeeklyRecap", () => {
   describe("document title and SEO", () => {
     it("sets the document title with the correct week number", () => {
       renderPage("league123", "10");
-      expect(document.title).toBe(
-        "Sleeper Weekly Recap – Week 10 | The Offensive Line",
-      );
+      expect(document.title).toBe("Sleeper Weekly Recap – Week 10 | The Offensive Line");
     });
 
     it("updates the document title when a different week is rendered", () => {
       renderPage("league123", "3");
-      expect(document.title).toBe(
-        "Sleeper Weekly Recap – Week 3 | The Offensive Line",
-      );
+      expect(document.title).toBe("Sleeper Weekly Recap – Week 3 | The Offensive Line");
     });
 
     it("adds a meta description tag containing the week number", () => {
       renderPage("league123", "5");
+      // eslint-disable-next-line testing-library/no-node-access -- meta tags aren't accessible via Testing Library queries
       const meta = document.querySelector('meta[name="description"]');
       expect(meta).not.toBeNull();
       expect(meta!.getAttribute("content")).toContain("Week 5");
@@ -411,9 +389,7 @@ describe("LeagueWeeklyRecap", () => {
     it("does not render nav when no sections are ready", () => {
       // All sections are pending by default → AnchorNav returns null
       renderPage();
-      expect(
-        screen.queryByRole("navigation", { name: "Section navigation" }),
-      ).toBeNull();
+      expect(screen.queryByRole("navigation", { name: "Section navigation" })).toBeNull();
     });
 
     it("renders nav with correct links when sections are ready", () => {
@@ -421,23 +397,21 @@ describe("LeagueWeeklyRecap", () => {
         makeNewsletterResult({
           awards: makeSection("success", []),
           leaderboard: makeSection("success", []),
-        }) as any,
+        }) as any
       );
       renderPage();
       const nav = screen.getByRole("navigation", { name: "Section navigation" });
       expect(nav).toBeInTheDocument();
       // Awards and Standings links should be present
       expect(screen.getByRole("link", { name: "Awards" })).toBeInTheDocument();
-      expect(
-        screen.getByRole("link", { name: "Standings" }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: "Standings" })).toBeInTheDocument();
     });
 
     it("marks not-yet-ready section links as disabled", () => {
       jest.spyOn(newsletterDataHook, "useNewsletterData").mockReturnValue(
         makeNewsletterResult({
           awards: makeSection("success", []),
-        }) as any,
+        }) as any
       );
       renderPage();
       // Standings is still pending — its nav link should be aria-disabled

@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider as CustomThemeProvider, useTheme } from "./ThemeContext";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { ColorConstants } from "./components/constants/ColorConstants";
@@ -67,14 +67,16 @@ const ThemeWithStyledThemeProvider = () => {
       <GlobalStyle />
       <BackgroundWrapper $background={currentTheme.background}>
         <BrowserRouter>
-          {isWinterMonth() && <Snowfall
-            style={{
-              position: "fixed",
-              width: '100vw',
-              height: '100vh',
-              zIndex: 9999
-            }}
-          />}
+          {isWinterMonth() && (
+            <Snowfall
+              style={{
+                position: "fixed",
+                width: "100vw",
+                height: "100vh",
+                zIndex: 9999,
+              }}
+            />
+          )}
           <NavBar />
           <Box sx={{ paddingTop: "64px" }}>
             <AppRoutes />
@@ -118,11 +120,13 @@ const AppRoutes = () => {
       <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
 
       {/* Protected routes - auth required */}
-      <Route element={
-        <ProtectedRoute>
-          <ProtectedLayout />
-        </ProtectedRoute>
-      }>
+      <Route
+        element={
+          <ProtectedRoute>
+            <ProtectedLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route path="/survivorHome/:leagueId" element={<SurvivorHome />} />
         <Route path="/survivor/:leagueId" element={<Survivor />} />
         <Route path="/profile" element={<Profile />} />

@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import { ExtendedMatchup, Team } from "../types/survivorTypes";
 import { MotwData, computeMotwChain } from "../utils/motwUtils";
-import {
-  getLeague,
-  getMatchups,
-  getNflState,
-  getUsers,
-  getRosters,
-} from "../utils/api/SleeperAPI";
+import { getLeague, getMatchups, getNflState, getUsers, getRosters } from "../utils/api/SleeperAPI";
 import { Matchup, Roster, User } from "../types/sleeperTypes";
 
 export const useSurvivorData = (leagueId: string) => {
@@ -18,9 +12,7 @@ export const useSurvivorData = (leagueId: string) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [motwMatchupId, setMotwMatchupId] = useState<number | null>(null);
-  const [allMotwData, setAllMotwData] = useState<Map<number, MotwData>>(
-    new Map()
-  );
+  const [allMotwData, setAllMotwData] = useState<Map<number, MotwData>>(new Map());
 
   const fetchWeekFromSleeper = async (): Promise<number> => {
     try {
@@ -48,17 +40,15 @@ export const useSurvivorData = (leagueId: string) => {
         const rosterPositions = leagueData.roster_positions;
 
         // Update the matchups to include roster positions
-        const updatedMatchups = (matchupsData as Matchup[]).map(
-          (matchup: Matchup) => {
-            const { starters, players_points } = matchup;
-            const startersWithPositions = starters.map((starterId, index) => ({
-              id: starterId,
-              position: rosterPositions[index] || "Unknown",
-              points: (players_points ?? {})[starterId] || 0,
-            }));
-            return { ...matchup, starters: startersWithPositions };
-          }
-        );
+        const updatedMatchups = (matchupsData as Matchup[]).map((matchup: Matchup) => {
+          const { starters, players_points } = matchup;
+          const startersWithPositions = starters.map((starterId, index) => ({
+            id: starterId,
+            position: rosterPositions[index] || "Unknown",
+            points: (players_points ?? {})[starterId] || 0,
+          }));
+          return { ...matchup, starters: startersWithPositions };
+        });
 
         // Now we can safely set the matchups with the correct type
         setMatchups(updatedMatchups as ExtendedMatchup[]);
@@ -68,32 +58,23 @@ export const useSurvivorData = (leagueId: string) => {
         const usersData = await getUsers(leagueId);
 
         // Map rosters to teams
-        const teamMap = rostersData.reduce(
-          (map: Record<number, Team>, roster: Roster) => {
-            const user = usersData.find(
-              (user: User) => user.user_id === roster.owner_id
-            );
-            if (user) {
-              map[roster.roster_id] = {
-                team_id: roster.owner_id,
-                team_name: user.metadata?.team_name || user.username || user.display_name,
-                team_logo: user.metadata.avatar
-                  ? `${user.metadata.avatar}`
-                  : "default-avatar.png",
-                team_wins: roster.settings.wins,
-                team_losses: roster.settings.losses,
-                team_ties: roster.settings.ties,
-                team_points_for:
-                  roster.settings.fpts + roster.settings.fpts_decimal / 100,
-                team_points_against:
-                  roster.settings.fpts_against +
-                  roster.settings.fpts_against_decimal / 100,
-              };
-            }
-            return map;
-          },
-          {}
-        );
+        const teamMap = rostersData.reduce((map: Record<number, Team>, roster: Roster) => {
+          const user = usersData.find((user: User) => user.user_id === roster.owner_id);
+          if (user) {
+            map[roster.roster_id] = {
+              team_id: roster.owner_id,
+              team_name: user.metadata?.team_name || user.username || user.display_name,
+              team_logo: user.metadata.avatar ? `${user.metadata.avatar}` : "default-avatar.png",
+              team_wins: roster.settings.wins,
+              team_losses: roster.settings.losses,
+              team_ties: roster.settings.ties,
+              team_points_for: roster.settings.fpts + roster.settings.fpts_decimal / 100,
+              team_points_against:
+                roster.settings.fpts_against + roster.settings.fpts_against_decimal / 100,
+            };
+          }
+          return map;
+        }, {});
         setTeams(teamMap);
       }
     } catch (err) {

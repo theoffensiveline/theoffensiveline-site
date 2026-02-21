@@ -114,19 +114,11 @@ const SurvivorHome: React.FC = () => {
   const LEAGUE_ID = leagueIds.mainLeague;
 
   // Use React Query for survivor standings data
-  const {
-    data: survivorData,
-    isLoading,
-    error: queryError,
-  } = useSurvivorStandings(LEAGUE_ID);
+  const { data: survivorData, isLoading, error: queryError } = useSurvivorStandings(LEAGUE_ID);
 
   const computeMotw = useCallback(
     async (targetWeek: number, currentWeekParam: number) => {
-      const motwData = await computeMotwChain(
-        targetWeek,
-        currentWeekParam,
-        LEAGUE_ID
-      );
+      const motwData = await computeMotwChain(targetWeek, currentWeekParam, LEAGUE_ID);
       const newMotwRosters = new Map<number, number[]>();
       motwData.forEach((data, week) => {
         newMotwRosters.set(week, data.rosters);
@@ -173,8 +165,7 @@ const SurvivorHome: React.FC = () => {
           sortedPicks.forEach((pick) => {
             picksByWeek.set(pick.week, {
               week: pick.week,
-              teamName:
-                pick.ownerName || `Team ${pick.teamIdSelected?.slice(0, 6)}`,
+              teamName: pick.ownerName || `Team ${pick.teamIdSelected?.slice(0, 6)}`,
               status: pick.status || "pending",
               opponentTeamName: pick.opponentTeamName,
               teamScore: pick.teamScore,
@@ -242,9 +233,7 @@ const SurvivorHome: React.FC = () => {
     processStandingsData();
   }, [survivorData, computeMotw]);
 
-  const currentUserStanding = standings.find(
-    (standing) => standing.userId === currentUser?.uid
-  );
+  const currentUserStanding = standings.find((standing) => standing.userId === currentUser?.uid);
 
   const handleMakePick = () => {
     navigate(`/survivor/${LEAGUE_ID}`);
@@ -253,8 +242,8 @@ const SurvivorHome: React.FC = () => {
   // Generate weeks array for the table, only including weeks with data
   const weeks = useMemo(() => {
     const weeksWithData = new Set<number>();
-    standings.forEach(standing => {
-      standing.picks.forEach(pick => {
+    standings.forEach((standing) => {
+      standing.picks.forEach((pick) => {
         if (pick.teamName !== "-") {
           weeksWithData.add(pick.week);
         }
@@ -297,9 +286,7 @@ const SurvivorHome: React.FC = () => {
             </p>
           </div>
           <Button onClick={handleMakePick}>
-            {currentUserStanding.isEliminated
-              ? "View Picks"
-              : "Make/Update Pick"}
+            {currentUserStanding.isEliminated ? "View Picks" : "Make/Update Pick"}
           </Button>
         </Card>
       )}
@@ -326,10 +313,7 @@ const SurvivorHome: React.FC = () => {
                 {standings.map((standing, index) => {
                   const isCurrentUser = standing.userId === currentUser?.uid;
                   return (
-                    <tr
-                      key={standing.userId}
-                      className={isCurrentUser ? "current-user" : ""}
-                    >
+                    <tr key={standing.userId} className={isCurrentUser ? "current-user" : ""}>
                       <td>{index + 1}</td>
                       <td>{standing.userName}</td>
                       <td>
@@ -340,12 +324,9 @@ const SurvivorHome: React.FC = () => {
                             })`}
                       </td>
                       {weeks.map((week) => {
-                        const pick = standing.picks.find(
-                          (p) => p.week === week
-                        );
+                        const pick = standing.picks.find((p) => p.week === week);
 
-                        const isCurrentUser =
-                          standing.userId === currentUser?.uid;
+                        const isCurrentUser = standing.userId === currentUser?.uid;
                         const isEliminated = standing.isEliminated;
                         const userEliminatedBeforeThisWeek =
                           isEliminated && week > standing.currentWeek;
@@ -353,10 +334,8 @@ const SurvivorHome: React.FC = () => {
                           pick &&
                           pick.teamName !== "-" &&
                           (week < currentWeek ||
-                            (week === currentWeek &&
-                              (isCurrentUser || canViewOtherPicks())) ||
-                            (week > currentWeek &&
-                              !userEliminatedBeforeThisWeek));
+                            (week === currentWeek && (isCurrentUser || canViewOtherPicks())) ||
+                            (week > currentWeek && !userEliminatedBeforeThisWeek));
 
                         if (!pick && !userEliminatedBeforeThisWeek) {
                           return <td key={week}></td>;
@@ -372,17 +351,9 @@ const SurvivorHome: React.FC = () => {
                                 {pick.status === "loss" && " ✗"}
                               </>
                             ) : userEliminatedBeforeThisWeek ? (
-                              <span
-                                style={{ color: "#666", fontStyle: "italic" }}
-                              >
-                                N/A
-                              </span>
+                              <span style={{ color: "#666", fontStyle: "italic" }}>N/A</span>
                             ) : (
-                              <span
-                                style={{ color: "#888", fontStyle: "italic" }}
-                              >
-                                ⏳ Pending
-                              </span>
+                              <span style={{ color: "#888", fontStyle: "italic" }}>⏳ Pending</span>
                             )}
                           </td>
                         );

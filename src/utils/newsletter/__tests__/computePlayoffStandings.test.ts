@@ -1,12 +1,6 @@
 import { computePlayoffStandings } from "../computePlayoffStandings";
 import * as SleeperAPI from "../../api/SleeperAPI";
-import {
-  makeUser,
-  makeRoster,
-  makeLeague,
-  makeMatchupPair,
-  makeMatchup,
-} from "../testFixtures/sleeperFixtures";
+import { makeUser, makeRoster, makeLeague, makeMatchupPair } from "../testFixtures/sleeperFixtures";
 
 jest.mock("../../api/SleeperAPI");
 

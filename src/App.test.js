@@ -1,10 +1,12 @@
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
+
+import App from "./App";
 
 // Mock react-snowfall (uses ESM syntax incompatible with Jest's CommonJS transform)
-jest.mock('react-snowfall', () => ({ __esModule: true, default: () => null }));
+jest.mock("react-snowfall", () => ({ __esModule: true, default: () => null }));
 
 // Mock the entire AuthContext to avoid Firebase lifecycle complexity in tests
-jest.mock('./contexts/AuthContext', () => ({
+jest.mock("./contexts/AuthContext", () => ({
   AuthProvider: ({ children }) => children,
   useAuth: () => ({
     currentUser: null,
@@ -18,11 +20,9 @@ jest.mock('./contexts/AuthContext', () => ({
 }));
 
 // Mock Firebase modules (still needed by direct firebase.js import in App)
-jest.mock('./firebase', () => ({ app: {}, auth: {}, db: {} }));
+jest.mock("./firebase", () => ({ app: {}, auth: {}, db: {} }));
 
-import App from './App';
-
-test('renders without crashing', () => {
+test("renders without crashing", () => {
   render(<App />);
   expect(document.body).toBeDefined();
 });

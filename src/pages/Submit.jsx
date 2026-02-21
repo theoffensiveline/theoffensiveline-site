@@ -1,9 +1,9 @@
-import { db } from '../firebase';
+import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { styled } from "styled-components"
-import { sendDiscordNotification } from '../utils/api/discord';
+import { styled } from "styled-components";
+import { sendDiscordNotification } from "../utils/api/discord";
 
 const StyledForm = styled.div`
   max-width: 400px;
@@ -41,59 +41,60 @@ const StyledButton = styled(Button)`
 `;
 
 export default function Submit() {
-    const [submission, setSubmission] = useState("");
-    const [name, setName] = useState("");
-    const [loading, setLoading] = useState(false);
+  const [submission, setSubmission] = useState("");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const isBlank = (str) => {
-        return (!str || /^\s*$/.test(str));
-    };
+  const isBlank = (str) => {
+    return !str || /^\s*$/.test(str);
+  };
 
-    const submit = async () => {
-        if (!isBlank(submission)) {
-            try {
-                setLoading(true);
-                await addDoc(collection(db, "submissions"), {
-                    name: name,
-                    content: submission,
-                });
+  const submit = async () => {
+    if (!isBlank(submission)) {
+      try {
+        setLoading(true);
+        await addDoc(collection(db, "submissions"), {
+          name: name,
+          content: submission,
+        });
 
-                // Send Discord notification
-                await sendDiscordNotification({
-                    name: name || "Anonymous League Manager",
-                    content: submission
-                }, "submissions");
+        // Send Discord notification
+        await sendDiscordNotification(
+          {
+            name: name || "Anonymous League Manager",
+            content: submission,
+          },
+          "submissions"
+        );
 
-                setSubmission("");
-                setName("");
-            } catch (e) {
-                console.error("Error during submission: ", e);
-            } finally {
-                setLoading(false);
-            }
-        } else {
-            //TODO: bully user
-        }
+        setSubmission("");
+        setName("");
+      } catch (e) {
+        console.error("Error during submission: ", e);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      //TODO: bully user
     }
+  };
 
-    return (
-        <StyledForm>
-            <StyledLabel>
-                Name (optional):
-                <StyledInput
-                    type="text"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                />
-            </StyledLabel>
-            <StyledTextarea
-                name="postContent"
-                rows={4}
-                cols={40}
-                value={submission}
-                onChange={(event) => setSubmission(event.target.value)}
-            />
-            <StyledButton onClick={submit} disabled={loading}>Submit</StyledButton>
-        </StyledForm>
-    );
+  return (
+    <StyledForm>
+      <StyledLabel>
+        Name (optional):
+        <StyledInput type="text" value={name} onChange={(event) => setName(event.target.value)} />
+      </StyledLabel>
+      <StyledTextarea
+        name="postContent"
+        rows={4}
+        cols={40}
+        value={submission}
+        onChange={(event) => setSubmission(event.target.value)}
+      />
+      <StyledButton onClick={submit} disabled={loading}>
+        Submit
+      </StyledButton>
+    </StyledForm>
+  );
 }

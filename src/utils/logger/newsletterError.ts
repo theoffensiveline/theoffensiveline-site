@@ -35,10 +35,7 @@ export interface NewsletterErrorPayload {
  * @param error - The caught Error (or unknown thrown value)
  * @param context - Metadata about which section/league/week failed
  */
-export function logNewsletterError(
-  error: unknown,
-  context: NewsletterErrorContext,
-): void {
+export function logNewsletterError(error: unknown, context: NewsletterErrorContext): void {
   const err = error instanceof Error ? error : new Error(String(error));
 
   const payload: NewsletterErrorPayload = {

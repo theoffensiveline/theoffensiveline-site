@@ -106,10 +106,7 @@ const LeaderboardsHome = () => {
             <YearTitle>{year}</YearTitle>
             <LeaderboardList>
               {groupedByYear[year].map((leaderboard) => (
-                <LeaderboardCard
-                  key={leaderboard.id}
-                  leaderboard={leaderboard}
-                />
+                <LeaderboardCard key={leaderboard.id} leaderboard={leaderboard} />
               ))}
             </LeaderboardList>
           </YearGroup>

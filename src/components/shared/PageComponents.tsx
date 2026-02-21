@@ -12,13 +12,9 @@ export const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
-export const LoadingState = ({ message = "Loading..." }) => (
-  <Container>{message}</Container>
-);
+export const LoadingState = ({ message = "Loading..." }) => <Container>{message}</Container>;
 
-export const ErrorState = ({ message }: { message: string }) => (
-  <Container>{message}</Container>
-);
+export const ErrorState = ({ message }: { message: string }) => <Container>{message}</Container>;
 
 export const TeamAvatar = styled.img`
   width: 50px;
@@ -47,10 +43,5 @@ export const TeamInfo = styled.div`
 export const getTeamNameFromRoster = (roster: Roster | undefined | null, users: User[]): string => {
   if (!roster) return "Unknown Team";
   const user = users.find((u) => u.user_id === roster.owner_id);
-  return (
-    user?.metadata?.team_name ||
-    user?.display_name ||
-    user?.username ||
-    "Unknown Team"
-  );
+  return user?.metadata?.team_name || user?.display_name || user?.username || "Unknown Team";
 };

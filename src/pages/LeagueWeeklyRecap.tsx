@@ -1,10 +1,4 @@
-import React, {
-  useMemo,
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -149,14 +143,11 @@ export const LeagueWeeklyRecap: React.FC = () => {
   // Extract matchup IDs for matchup section
   const matchupIds = useMemo(() => {
     if (!newsletter.starters.data) return [];
-    return [...new Set(newsletter.starters.data.map((s) => s.matchup_id))].sort(
-      (a, b) => a - b,
-    );
+    return [...new Set(newsletter.starters.data.map((s) => s.matchup_id))].sort((a, b) => a - b);
   }, [newsletter.starters.data]);
 
   // Determine if inputs are valid
-  const hasValidInputs =
-    !!leagueId && Number.isFinite(parsedWeek) && parsedWeek > 0;
+  const hasValidInputs = !!leagueId && Number.isFinite(parsedWeek) && parsedWeek > 0;
 
   const platformLabel = leagueId?.startsWith("espn_") ? "ESPN" : "Sleeper";
 
@@ -169,7 +160,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        `Weekly fantasy football recap for Week ${weekStr}: awards, matchup analysis, power rankings, and playoff predictions.`,
+        `Weekly fantasy football recap for Week ${weekStr}: awards, matchup analysis, power rankings, and playoff predictions.`
       );
     } else {
       const meta = document.createElement("meta");
@@ -187,20 +178,15 @@ export const LeagueWeeklyRecap: React.FC = () => {
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Track render-time boundary errors alongside API errors
-  const [boundaryErrorSections, setBoundaryErrorSections] = useState<
-    Set<string>
-  >(new Set());
+  const [boundaryErrorSections, setBoundaryErrorSections] = useState<Set<string>>(new Set());
 
-  const handleBoundaryError = useCallback(
-    (_error: Error, sectionKey: string) => {
-      setBoundaryErrorSections((prev) => {
-        const next = new Set(prev);
-        next.add(sectionKey);
-        return next;
-      });
-    },
-    [],
-  );
+  const handleBoundaryError = useCallback((_error: Error, sectionKey: string) => {
+    setBoundaryErrorSections((prev) => {
+      const next = new Set(prev);
+      next.add(sectionKey);
+      return next;
+    });
+  }, []);
 
   // Build sections config — memoized so handleRefreshAll can reference it stably
   const sections = useMemo(
@@ -211,9 +197,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
         title: "Awards and Recap",
         subtitle: undefined as string | undefined,
         section: newsletter.awards,
-        render: () => (
-          <AwardsGridV2 awardsData={newsletter.awards.data ?? []} />
-        ),
+        render: () => <AwardsGridV2 awardsData={newsletter.awards.data ?? []} />,
         skeleton: <AwardsSkeleton />,
         shouldRender: true,
       },
@@ -242,10 +226,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
             {matchupIds.map((matchupId) => (
               <React.Fragment key={matchupId}>
                 <ArticleSubheader>Matchup {matchupId}</ArticleSubheader>
-                <MatchupPlot
-                  data={newsletter.starters.data ?? []}
-                  matchupId={matchupId}
-                />
+                <MatchupPlot data={newsletter.starters.data ?? []} matchupId={matchupId} />
               </React.Fragment>
             ))}
           </React.Suspense>
@@ -263,9 +244,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
           <React.Suspense fallback={<ChartSkeleton />}>
             <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
             <StackedHistogram chartData={newsletter.matchupData.data ?? []} />
-            <ArticleCaption>
-              Weekly Scoring Distribution w/ Historical Scores
-            </ArticleCaption>
+            <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
 
             <ArticleSubheader>Weekly Scoring Chart</ArticleSubheader>
             <WeeklyScoringChart chartData={newsletter.matchupData.data ?? []} />
@@ -289,16 +268,12 @@ export const LeagueWeeklyRecap: React.FC = () => {
         subtitle: newsletter.isMedianLeague
           ? "Record includes matchups against the league median"
           : (undefined as string | undefined),
-        section: newsletter.isMedianLeague
-          ? newsletter.median
-          : newsletter.leaderboard,
+        section: newsletter.isMedianLeague ? newsletter.median : newsletter.leaderboard,
         render: () =>
           newsletter.isMedianLeague ? (
             <AltLeaderboardTable data={newsletter.median.data ?? []} />
           ) : (
-            <LeaderboardTable
-              leaderboardData={newsletter.leaderboard.data ?? []}
-            />
+            <LeaderboardTable leaderboardData={newsletter.leaderboard.data ?? []} />
           ),
         skeleton: <TableSkeleton rows={10} columns={6} />,
         shouldRender: true,
@@ -307,36 +282,27 @@ export const LeagueWeeklyRecap: React.FC = () => {
         id: "power-rankings",
         label: "Power Rankings",
         title: "Power Rankings",
-        subtitle:
-          "Rankings based on recent performance and strength of schedule",
+        subtitle: "Rankings based on recent performance and strength of schedule",
         section: newsletter.powerRankings,
         render: () => (
-          <PowerRankingsTable
-            powerRankingsData={newsletter.powerRankings.data ?? []}
-          />
+          <PowerRankingsTable powerRankingsData={newsletter.powerRankings.data ?? []} />
         ),
         skeleton: <TableSkeleton rows={10} columns={4} />,
         shouldRender: true,
       },
       {
         id: "median",
-        label: newsletter.isMedianLeague
-          ? "H2H Only Standings"
-          : "Median Scoring",
+        label: newsletter.isMedianLeague ? "H2H Only Standings" : "Median Scoring",
         title: newsletter.isMedianLeague
           ? "Head-to-Head Only Standings"
           : "Median Scoring Leaderboard",
         subtitle: newsletter.isMedianLeague
           ? "What if we didn't play the median?"
           : "Total record including matchups and games vs. league median",
-        section: newsletter.isMedianLeague
-          ? newsletter.leaderboard
-          : newsletter.median,
+        section: newsletter.isMedianLeague ? newsletter.leaderboard : newsletter.median,
         render: () =>
           newsletter.isMedianLeague ? (
-            <LeaderboardTable
-              leaderboardData={newsletter.leaderboard.data ?? []}
-            />
+            <LeaderboardTable leaderboardData={newsletter.leaderboard.data ?? []} />
           ) : (
             <AltLeaderboardTable data={newsletter.median.data ?? []} />
           ),
@@ -349,9 +315,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
         title: "Best Ball Standings",
         subtitle: "What if everyone played optimal lineups?",
         section: newsletter.bestBall,
-        render: () => (
-          <AltLeaderboardTable data={newsletter.bestBall.data ?? []} />
-        ),
+        render: () => <AltLeaderboardTable data={newsletter.bestBall.data ?? []} />,
         skeleton: <TableSkeleton rows={10} columns={5} />,
         shouldRender: true,
       },
@@ -361,9 +325,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
         title: "Playoff Probabilities",
         subtitle: "Monte Carlo simulation of playoff and last place chances",
         section: newsletter.playoffStandings,
-        render: () => (
-          <PlayoffTable playoffData={newsletter.playoffStandings.data ?? []} />
-        ),
+        render: () => <PlayoffTable playoffData={newsletter.playoffStandings.data ?? []} />,
         skeleton: <TableSkeleton rows={10} columns={4} />,
         shouldRender:
           newsletter.playoffStandings.status !== "success" ||
@@ -397,18 +359,13 @@ export const LeagueWeeklyRecap: React.FC = () => {
       newsletter.playoffStandings,
       newsletter.schedule,
       matchupIds,
-    ],
+    ]
   );
 
-  const visibleSections = useMemo(
-    () => sections.filter((s) => s.shouldRender),
-    [sections],
-  );
+  const visibleSections = useMemo(() => sections.filter((s) => s.shouldRender), [sections]);
 
   // Count errored sections (API errors + render boundary errors)
-  const apiErrorCount = visibleSections.filter(
-    (s) => s.section.status === "error",
-  ).length;
+  const apiErrorCount = visibleSections.filter((s) => s.section.status === "error").length;
   const totalErrorCount = apiErrorCount + boundaryErrorSections.size;
 
   // Show toast when ≥ MULTI_ERROR_THRESHOLD sections error simultaneously
@@ -455,9 +412,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
   }));
 
   // Count ready sections for progress indicator
-  const readySectionsCount = visibleSections.filter(
-    (s) => s.section.status === "success",
-  ).length;
+  const readySectionsCount = visibleSections.filter((s) => s.section.status === "success").length;
 
   const hasAnyError = totalErrorCount > 0;
 
@@ -479,9 +434,7 @@ export const LeagueWeeklyRecap: React.FC = () => {
           />
 
           {hasAnyError && (
-            <RefreshAllButton onClick={handleRefreshAll}>
-              Refresh all sections
-            </RefreshAllButton>
+            <RefreshAllButton onClick={handleRefreshAll}>Refresh all sections</RefreshAllButton>
           )}
 
           {visibleSections.map((section) => (
@@ -505,14 +458,8 @@ export const LeagueWeeklyRecap: React.FC = () => {
         </NewsletterContainer>
       </MainContent>
 
-      <ToastContainer
-        $visible={toastVisible}
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        Multiple sections failed to load. Check your connection or hit "Refresh
-        all sections".
+      <ToastContainer $visible={toastVisible} role="status" aria-live="polite" aria-atomic="true">
+        Multiple sections failed to load. Check your connection or hit "Refresh all sections".
       </ToastContainer>
     </PageLayout>
   );

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import {
   getAuth,
   onAuthStateChanged,
@@ -43,9 +37,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -124,19 +116,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const updateProfile = async (
-    updates: Partial<UserProfile>
-  ): Promise<boolean> => {
+  const updateProfile = async (updates: Partial<UserProfile>): Promise<boolean> => {
     if (!currentUser) return false;
     const success = await updateUserProfile(currentUser.uid, updates);
     if (success) {
       setProfile((prev) => (prev ? { ...prev, ...updates } : null));
       // Update all existing picks with the new username
       if (updates.customDisplayName) {
-        await updateAllUserPicksUsername(
-          currentUser.uid,
-          updates.customDisplayName
-        );
+        await updateAllUserPicksUsername(currentUser.uid, updates.customDisplayName);
       }
     }
     return success;
@@ -180,11 +167,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     removeLeague,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getLeague } from "../utils/api/FantasyAPI";
 
-export const useCompletedWeeks = (
-  leagueId?: string,
-  enabled: boolean = true
-) => {
+export const useCompletedWeeks = (leagueId?: string, enabled: boolean = true) => {
   const [completedWeeks, setCompletedWeeks] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,8 +28,8 @@ export const useCompletedWeeks = (
           typeof lastScoredLeg === "number" && lastScoredLeg > 0
             ? lastScoredLeg
             : typeof lastReport === "number" && lastReport > 0
-            ? lastReport
-            : 0;
+              ? lastReport
+              : 0;
 
         const weeks = Array.from({ length: count }, (_, i) => i + 1);
 

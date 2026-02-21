@@ -27,10 +27,9 @@ const createWrapper = () => {
 
 describe("useNewsletterData", () => {
   it("should return structure when leagueId is missing (but queries disabled)", () => {
-    const { result } = renderHook(
-      () => useNewsletterData(undefined, 10),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData(undefined, 10), {
+      wrapper: createWrapper(),
+    });
 
     // Hook should still return structure, just with no data
     expect(result.current).toHaveProperty("awards");
@@ -38,10 +37,9 @@ describe("useNewsletterData", () => {
   });
 
   it("should return structure when week is invalid (but queries disabled)", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", 0),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", 0), {
+      wrapper: createWrapper(),
+    });
 
     // Hook should still return structure, just with no data
     expect(result.current).toHaveProperty("awards");
@@ -49,10 +47,9 @@ describe("useNewsletterData", () => {
   });
 
   it("should return structure when week is NaN (but queries disabled)", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", NaN),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", NaN), {
+      wrapper: createWrapper(),
+    });
 
     // Hook should still return structure, just with no data
     expect(result.current).toHaveProperty("awards");
@@ -60,10 +57,9 @@ describe("useNewsletterData", () => {
   });
 
   it("should return newsletter data structure with all sections", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", 10),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", 10), {
+      wrapper: createWrapper(),
+    });
 
     expect(result.current).toHaveProperty("awards");
     expect(result.current).toHaveProperty("leaderboard");
@@ -78,10 +74,9 @@ describe("useNewsletterData", () => {
   });
 
   it("should return aggregate helpers", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", 10),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", 10), {
+      wrapper: createWrapper(),
+    });
 
     expect(result.current).toHaveProperty("isLoadingAny");
     expect(result.current).toHaveProperty("hasErrors");
@@ -91,10 +86,9 @@ describe("useNewsletterData", () => {
   });
 
   it("should have proper section structure", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", 10),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", 10), {
+      wrapper: createWrapper(),
+    });
 
     const section = result.current.awards;
     expect(section).toHaveProperty("data");
@@ -106,19 +100,17 @@ describe("useNewsletterData", () => {
   });
 
   it("should initially have isLoadingAny true", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", 10),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", 10), {
+      wrapper: createWrapper(),
+    });
 
     expect(result.current.isLoadingAny).toBe(true);
   });
 
   it("should have readySections equal to 0 initially", () => {
-    const { result } = renderHook(
-      () => useNewsletterData("123456", 10),
-      { wrapper: createWrapper() }
-    );
+    const { result } = renderHook(() => useNewsletterData("123456", 10), {
+      wrapper: createWrapper(),
+    });
 
     expect(result.current.readySections).toBe(0);
   });
@@ -128,11 +120,7 @@ describe("useNewsletterData", () => {
       const leagueId = "123456";
       const week = 10;
 
-      expect(newsletterQueryKeys.all(leagueId, week)).toEqual([
-        "newsletter",
-        leagueId,
-        week,
-      ]);
+      expect(newsletterQueryKeys.all(leagueId, week)).toEqual(["newsletter", leagueId, week]);
       expect(newsletterQueryKeys.awards(leagueId, week)).toEqual([
         "newsletter",
         leagueId,
@@ -235,20 +223,18 @@ describe("useNewsletterData", () => {
       );
 
       // Test completed week (week 5, current is week 10)
-      const { result: completedResult } = renderHook(
-        () => useNewsletterData("123456", 5),
-        { wrapper }
-      );
+      const { result: completedResult } = renderHook(() => useNewsletterData("123456", 5), {
+        wrapper,
+      });
 
       await waitFor(() => {
         expect(completedResult.current).toBeDefined();
       });
 
       // Test current week (week 10)
-      const { result: currentResult } = renderHook(
-        () => useNewsletterData("123456", 10),
-        { wrapper }
-      );
+      const { result: currentResult } = renderHook(() => useNewsletterData("123456", 10), {
+        wrapper,
+      });
 
       await waitFor(() => {
         expect(currentResult.current).toBeDefined();
@@ -307,17 +293,6 @@ describe("useNewsletterData", () => {
           },
         },
       });
-
-      // Mock the compute functions to avoid actual API calls
-      const mockAwardsData = [
-        {
-          award: "Test Award",
-          photo: "test.jpg",
-          name: "Test Player",
-          value: "100",
-          description: "Test description",
-        },
-      ];
 
       // Spy on the query cache
       const prefetchSpy = jest.spyOn(queryClient, "prefetchQuery");

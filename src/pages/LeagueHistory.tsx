@@ -4,17 +4,8 @@ import styled from "styled-components";
 import { getBracketMatchups } from "../utils/api/FantasyAPI";
 import { fetchLeagueHistory } from "../utils/leagueHistory";
 import { UserCard } from "../components/UserCard";
-import {
-  Container,
-  Title,
-  LoadingState,
-  ErrorState,
-} from "../components/shared/PageComponents";
-import type {
-  LeagueHistory as LeagueHistoryType,
-  Roster,
-  User,
-} from "../types/sleeperTypes";
+import { Container, Title, LoadingState, ErrorState } from "../components/shared/PageComponents";
+import type { LeagueHistory as LeagueHistoryType, Roster, User } from "../types/sleeperTypes";
 
 const CardsGrid = styled.div`
   display: grid;
@@ -30,9 +21,7 @@ const SeasonDivider = styled.div`
 
 function LeagueHistory() {
   const { leagueId } = useParams<{ leagueId: string }>();
-  const [leagueHistory, setLeagueHistory] = useState<LeagueHistoryType | null>(
-    null
-  );
+  const [leagueHistory, setLeagueHistory] = useState<LeagueHistoryType | null>(null);
   const [seasonData, setSeasonData] = useState<
     Array<{
       winner: { user: User | null; roster: Roster | null; season: string };
@@ -55,67 +44,46 @@ function LeagueHistory() {
 
         const seasonsData = await Promise.all(
           history.leagues.map(async (league) => {
-            const winnersBracket = await getBracketMatchups(
-              league.league_id,
-              true
-            );
-            const losersBracket = await getBracketMatchups(
-              league.league_id,
-              false
-            );
+            const winnersBracket = await getBracketMatchups(league.league_id, true);
+            const losersBracket = await getBracketMatchups(league.league_id, false);
             const rosters = history.rosters[league.league_id];
             const users = history.users[league.league_id];
 
             // Determine the actual winner from the winners bracket
             // Only show a winner if the championship match (final round) is completed
-            const finalRound = Math.max(
-              ...winnersBracket.map((match) => match.r)
-            );
+            const finalRound = Math.max(...winnersBracket.map((match) => match.r));
             const championshipMatch = winnersBracket.find(
               (match) => match.r === finalRound && match.w !== null
             );
             const winningRoster = championshipMatch
-              ? rosters.find(
-                  (roster) => roster.roster_id === championshipMatch.w
-                )
+              ? rosters.find((roster) => roster.roster_id === championshipMatch.w)
               : null;
 
             const highestPointsRoster = rosters.reduce((highest, current) => {
-              const currentPoints =
-                current.settings.fpts + current.settings.fpts_decimal / 100;
-              const highestPoints =
-                highest.settings.fpts + highest.settings.fpts_decimal / 100;
+              const currentPoints = current.settings.fpts + current.settings.fpts_decimal / 100;
+              const highestPoints = highest.settings.fpts + highest.settings.fpts_decimal / 100;
               return currentPoints > highestPoints ? current : highest;
             }, rosters[0]);
 
             const losingRoster = rosters.reduce((worst, current) => {
-              const currentPoints =
-                current.settings.fpts + current.settings.fpts_decimal / 100;
-              const worstPoints =
-                worst.settings.fpts + worst.settings.fpts_decimal / 100;
+              const currentPoints = current.settings.fpts + current.settings.fpts_decimal / 100;
+              const worstPoints = worst.settings.fpts + worst.settings.fpts_decimal / 100;
               return current.settings.wins < worst.settings.wins ||
-                (current.settings.wins === worst.settings.wins &&
-                  currentPoints < worstPoints)
+                (current.settings.wins === worst.settings.wins && currentPoints < worstPoints)
                 ? current
                 : worst;
             }, rosters[0]);
 
             const finalLosersBracketMatch = losersBracket.find(
-              (match) =>
-                match.r === Math.max(...losersBracket.map((m) => m.r)) &&
-                match.w !== null
+              (match) => match.r === Math.max(...losersBracket.map((m) => m.r)) && match.w !== null
             );
 
             const toiletBowlRoster = finalLosersBracketMatch
-              ? rosters.find(
-                  (roster) => roster.roster_id === finalLosersBracketMatch.w
-                )
+              ? rosters.find((roster) => roster.roster_id === finalLosersBracketMatch.w)
               : null;
 
             const findUser = (rosterId: string | null) =>
-              rosterId
-                ? users.find((user) => user.user_id === rosterId) || null
-                : null;
+              rosterId ? users.find((user) => user.user_id === rosterId) || null : null;
 
             return {
               winner: {
@@ -128,9 +96,7 @@ function LeagueHistory() {
                 roster: losingRoster || null,
               },
               toiletBowlChamp: {
-                user: toiletBowlRoster
-                  ? findUser(toiletBowlRoster?.owner_id)
-                  : null,
+                user: toiletBowlRoster ? findUser(toiletBowlRoster?.owner_id) : null,
                 roster: toiletBowlRoster || null,
               },
               highestPoints: {
@@ -155,14 +121,12 @@ function LeagueHistory() {
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={error} />;
-  if (!leagueHistory)
-    return <ErrorState message="No league history available" />;
+  if (!leagueHistory) return <ErrorState message="No league history available" />;
 
   return (
     <Container>
       <Title>
-        League History ({leagueHistory.metadata.startYear} -{" "}
-        {leagueHistory.metadata.endYear})
+        League History ({leagueHistory.metadata.startYear} - {leagueHistory.metadata.endYear})
       </Title>
 
       {seasonData.map((season, index) => (

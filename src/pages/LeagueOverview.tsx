@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LeaderboardTable } from "../components/newsletters/tableStyles";
-import {
-  getMatchups,
-  getLeague,
-  getUsers,
-  getRosters,
-} from "../utils/api/FantasyAPI";
+import { getMatchups, getLeague, getUsers, getRosters } from "../utils/api/FantasyAPI";
 import { useParams } from "react-router-dom";
 import { Roster, User, Matchup, League } from "../types/sleeperTypes";
 import { custom_palette36 } from "../components/constants/ColorConstants";
@@ -42,8 +37,7 @@ export const LeagueOverview: React.FC = () => {
         const teamNames = new Map();
         rosters.forEach((roster: Roster) => {
           const user = users.find((u: User) => u.user_id === roster.owner_id);
-          const teamName =
-            user?.metadata?.team_name || user?.display_name || user?.username;
+          const teamName = user?.metadata?.team_name || user?.display_name || user?.username;
           teamNames.set(roster.roster_id, teamName);
         });
 
@@ -86,16 +80,8 @@ export const LeagueOverview: React.FC = () => {
               L: team.losses,
               PF: Number(team.pointsFor.toFixed(1)),
               PA: Number(team.pointsAgainst.toFixed(1)),
-              PFColor: calculateColor(
-                team.pointsFor,
-                Object.values(teamStats),
-                "PF"
-              ),
-              PAColor: calculateColor(
-                team.pointsAgainst,
-                Object.values(teamStats),
-                "PA"
-              ),
+              PFColor: calculateColor(team.pointsFor, Object.values(teamStats), "PF"),
+              PAColor: calculateColor(team.pointsAgainst, Object.values(teamStats), "PA"),
             };
           });
 
@@ -113,20 +99,13 @@ export const LeagueOverview: React.FC = () => {
   return (
     <div className="container mx-auto px-8 sm:px-16 max-w-7xl">
       <h1 className="text-2xl font-bold mb-4">League Standings</h1>
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <LeaderboardTable leaderboardData={standings} />
-      )}
+      {isLoading ? <LoadingSpinner /> : <LeaderboardTable leaderboardData={standings} />}
     </div>
   );
 };
 
 // Helper function to calculate standings from matchups
-const calculateStandings = (
-  matchups: Matchup[],
-  teamNames: Map<number, string>
-) => {
+const calculateStandings = (matchups: Matchup[], teamNames: Map<number, string>) => {
   const standings: Record<string, any> = {};
 
   // Initialize standings with roster settings
@@ -144,23 +123,29 @@ const calculateStandings = (
   });
 
   // Group matchups by week
-  const matchupsByWeek = matchups.reduce((acc, matchup) => {
-    if (!acc[matchup.week!]) {
-      acc[matchup.week!] = [];
-    }
-    acc[matchup.week!].push(matchup);
-    return acc;
-  }, {} as Record<number, Matchup[]>);
+  const matchupsByWeek = matchups.reduce(
+    (acc, matchup) => {
+      if (!acc[matchup.week!]) {
+        acc[matchup.week!] = [];
+      }
+      acc[matchup.week!].push(matchup);
+      return acc;
+    },
+    {} as Record<number, Matchup[]>
+  );
 
   // Calculate points for/against by week
   Object.values(matchupsByWeek).forEach((weekMatchups) => {
-    const matchupPairs = weekMatchups.reduce((acc, matchup) => {
-      if (!acc[matchup.matchup_id]) {
-        acc[matchup.matchup_id] = [];
-      }
-      acc[matchup.matchup_id].push(matchup);
-      return acc;
-    }, {} as Record<number, Matchup[]>);
+    const matchupPairs = weekMatchups.reduce(
+      (acc, matchup) => {
+        if (!acc[matchup.matchup_id]) {
+          acc[matchup.matchup_id] = [];
+        }
+        acc[matchup.matchup_id].push(matchup);
+        return acc;
+      },
+      {} as Record<number, Matchup[]>
+    );
 
     Object.values(matchupPairs).forEach((pair) => {
       pair.forEach((matchup) => {
@@ -186,10 +171,7 @@ const calculateStandings = (
 };
 
 // Helper function to get previous rank
-const getPreviousRank = (
-  teamId: string,
-  previousStats: Record<string, any>
-) => {
+const getPreviousRank = (teamId: string, previousStats: Record<string, any>) => {
   // If there are no previous stats, return 0 to indicate no previous ranking
   if (Object.keys(previousStats).length === 0) return 0;
 
@@ -213,9 +195,7 @@ const getTrend = (currentRank: number, previousRank: number): string => {
 
 // Helper function to calculate colors based on values
 const calculateColor = (value: number, data: any[], type: "PF" | "PA") => {
-  const allValues = data.map((team) =>
-    type === "PF" ? team.pointsFor : team.pointsAgainst
-  );
+  const allValues = data.map((team) => (type === "PF" ? team.pointsFor : team.pointsAgainst));
   const max = Math.max(...allValues);
   const min = Math.min(...allValues);
 

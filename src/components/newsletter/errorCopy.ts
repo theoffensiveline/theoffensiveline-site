@@ -26,8 +26,7 @@ const ERROR_COPY_MAP: Array<{ match: RegExp; copy: ErrorCopy }> = [
     match: /network|failed to fetch|NetworkError|net::ERR/i,
     copy: {
       title: "Network connection issue",
-      description:
-        "Couldn't reach the Sleeper API. Check your connection and try again.",
+      description: "Couldn't reach the Sleeper API. Check your connection and try again.",
     },
   },
   {
@@ -42,8 +41,7 @@ const ERROR_COPY_MAP: Array<{ match: RegExp; copy: ErrorCopy }> = [
     match: /429|rate limit|too many requests/i,
     copy: {
       title: "Too many requests",
-      description:
-        "Sleeper is rate-limiting requests right now. Wait a moment and retry.",
+      description: "Sleeper is rate-limiting requests right now. Wait a moment and retry.",
     },
   },
   {
@@ -58,16 +56,14 @@ const ERROR_COPY_MAP: Array<{ match: RegExp; copy: ErrorCopy }> = [
     match: /invalid.*data|parse|JSON|unexpected token/i,
     copy: {
       title: "Unexpected data format",
-      description:
-        "The data returned from Sleeper looks different than expected. Try refreshing.",
+      description: "The data returned from Sleeper looks different than expected. Try refreshing.",
     },
   },
 ];
 
 const DEFAULT_COPY: ErrorCopy = {
   title: "Couldn't load this section",
-  description:
-    "Something went wrong fetching data from Sleeper. Hit Retry or refresh the page.",
+  description: "Something went wrong fetching data from Sleeper. Hit Retry or refresh the page.",
 };
 
 /**

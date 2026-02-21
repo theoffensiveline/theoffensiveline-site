@@ -74,19 +74,13 @@ const Survivor: React.FC = () => {
 
   const { data: standingsData } = useSurvivorStandings(LEAGUE_ID);
 
-  const { data: allUserPicks } = useUserSurvivorPicks(
-    LEAGUE_ID,
-    currentUser?.uid || ""
-  );
+  const { data: allUserPicks } = useUserSurvivorPicks(LEAGUE_ID, currentUser?.uid || "");
 
   // Create a map from player ID to player name using utility
-  const playerMap = createPlayerMap(
-    playerData as unknown as Record<string, Player>
-  );
+  const playerMap = createPlayerMap(playerData as unknown as Record<string, Player>);
 
   // Derive user status from standings data
-  const userStatus =
-    standingsData?.userStatus?.[currentUser?.uid || ""] || null;
+  const userStatus = standingsData?.userStatus?.[currentUser?.uid || ""] || null;
 
   const onTeamSelect = async (teamId: number, matchupId: number) => {
     if (isSubmitting) return; // Prevent multiple submissions
@@ -97,9 +91,7 @@ const Survivor: React.FC = () => {
       if (!team) return;
 
       // Find roster ID
-      const rosterEntry = Object.entries(teams).find(
-        ([_, t]) => t.team_id === team.team_id
-      );
+      const rosterEntry = Object.entries(teams).find(([_, t]) => t.team_id === team.team_id);
       if (!rosterEntry) return;
       const rosterId = rosterEntry[0];
 
@@ -110,9 +102,7 @@ const Survivor: React.FC = () => {
       const currentPickOwnerName = Object.keys(SleeperTeamIdMapping).includes(
         userPick.teamIdSelected
       )
-        ? SleeperTeamIdMapping[
-            userPick.teamIdSelected as keyof typeof SleeperTeamIdMapping
-          ]
+        ? SleeperTeamIdMapping[userPick.teamIdSelected as keyof typeof SleeperTeamIdMapping]
         : "Unknown Owner";
 
       const newOwnerName = Object.keys(SleeperTeamIdMapping).includes(rosterId)
@@ -146,13 +136,7 @@ const Survivor: React.FC = () => {
         motwMatchupId,
         teams,
       };
-      const result = await handleTeamSelect(
-        teamId,
-        matchupId,
-        params,
-        navigate,
-        refetchUserPick
-      );
+      const result = await handleTeamSelect(teamId, matchupId, params, navigate, refetchUserPick);
       if (result.message) {
         setAlertMessage(result.message);
         setIsAlertOpen(true);
@@ -164,10 +148,7 @@ const Survivor: React.FC = () => {
 
   const handleConfirm = async () => {
     if (pendingTeamSelect) {
-      await performTeamSelect(
-        pendingTeamSelect.teamId,
-        pendingTeamSelect.matchupId
-      );
+      await performTeamSelect(pendingTeamSelect.teamId, pendingTeamSelect.matchupId);
       setIsConfirmOpen(false);
       setPendingTeamSelect(null);
     }
@@ -222,9 +203,7 @@ const Survivor: React.FC = () => {
               <span>
                 Selection: {getSelectedTeamName(userPick, teams)}
                 {userStatus?.lives !== undefined &&
-                  ` (${userStatus.lives} ${
-                    userStatus.lives === 1 ? "life" : "lives"
-                  } remaining)`}
+                  ` (${userStatus.lives} ${userStatus.lives === 1 ? "life" : "lives"} remaining)`}
               </span>
             )}
           </div>
@@ -240,8 +219,11 @@ const Survivor: React.FC = () => {
         <div>
           {/* Check if user can make a selection using utility after data is loaded */}
           {(() => {
-            const { canSelect: userCanMakeSelection, reason: selectionReason } =
-              canMakeSelection(userStatus, week, currentWeek);
+            const { canSelect: userCanMakeSelection, reason: selectionReason } = canMakeSelection(
+              userStatus,
+              week,
+              currentWeek
+            );
             return Object.keys(groupedMatchups)
               .sort((a, b) => {
                 if (b === motwMatchupId?.toString()) return 1;
@@ -273,11 +255,7 @@ const Survivor: React.FC = () => {
       ) : !loading ? (
         <p>No matchups available for this week.</p>
       ) : null}
-      <CustomAlert
-        message={alertMessage}
-        onClose={closeAlert}
-        isOpen={isAlertOpen}
-      />
+      <CustomAlert message={alertMessage} onClose={closeAlert} isOpen={isAlertOpen} />
       <CustomConfirm
         message={confirmMessage}
         onConfirm={handleConfirm}
