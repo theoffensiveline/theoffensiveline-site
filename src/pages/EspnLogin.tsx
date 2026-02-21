@@ -36,6 +36,36 @@ const Input = styled.input`
   width: 300px;
 `;
 
+const CookieTextarea = styled.textarea`
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 12px;
+  font-family: monospace;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 420px;
+  height: 80px;
+  resize: vertical;
+  word-break: break-all;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
+const CookieInputLabel = styled.p`
+  font-size: 12px;
+  color: ${({ theme }: any) => theme.text};
+  opacity: 0.6;
+  margin: 4px 0 0;
+  align-self: flex-start;
+  margin-left: calc(50% - 210px);
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+  }
+`;
+
 const Button = styled.button`
   padding: 10px 20px;
   background-color: ${({ theme }: any) => theme.neutral3};
@@ -337,52 +367,71 @@ function EspnLogin() {
             <summary>How to find your ESPN cookies</summary>
             <ol>
               <li>
-                Open{" "}
-                <a href="https://fantasy.espn.com" target="_blank" rel="noreferrer">
-                  fantasy.espn.com
-                </a>{" "}
-                and log in.
+                {espnLeagueUrl ? (
+                  <>
+                    Open{" "}
+                    <a href={espnLeagueUrl} target="_blank" rel="noreferrer">
+                      your ESPN league
+                    </a>{" "}
+                    and make sure you&apos;re logged in.
+                  </>
+                ) : (
+                  <>
+                    Open{" "}
+                    <a href="https://fantasy.espn.com" target="_blank" rel="noreferrer">
+                      fantasy.espn.com
+                    </a>{" "}
+                    and log in.
+                  </>
+                )}
               </li>
-              <li>Open your browser&apos;s Developer Tools (F12 or Cmd+Option+I on Mac).</li>
               <li>
-                Go to the <strong>Application</strong> tab (Chrome) or <strong>Storage</strong> tab
-                (Firefox).
+                Open Developer Tools: press <strong>F12</strong> on Windows/Linux, or{" "}
+                <strong>Cmd+Option+I</strong> on Mac.
               </li>
               <li>
-                In the left sidebar, expand <strong>Cookies</strong> → click on{" "}
-                <code>https://fantasy.espn.com</code>.
+                Click the <strong>Application</strong> tab (Chrome/Edge) or{" "}
+                <strong>Storage</strong> tab (Firefox).
               </li>
               <li>
-                Find <code>espn_s2</code> — copy the entire <strong>Value</strong> (it&apos;s a long
-                string).
+                In the left panel, expand <strong>Cookies</strong>. You&apos;ll see several ESPN
+                domains listed — click through <code>espn.com</code>,{" "}
+                <code>www.espn.com</code>, and <code>fantasy.espn.com</code> until you find both
+                cookies.
               </li>
               <li>
-                Find <code>SWID</code> — copy the entire <strong>Value</strong> (looks like{" "}
-                <code>{"{XXXXXXXX-XXXX-...}"}</code>).
+                Find <code>espn_s2</code> and copy its full <strong>Value</strong>. It&apos;s a
+                very long string — make sure you get all of it.
+              </li>
+              <li>
+                Find <code>SWID</code> and copy its full <strong>Value</strong>. It looks like{" "}
+                <code>{"{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}"}</code> —{" "}
+                <strong>include the curly braces</strong>.
               </li>
             </ol>
             <p>
-              <strong>Tip:</strong> These cookies expire periodically. If you get errors after a
-              while, repeat these steps to get fresh values.
+              <strong>Tip:</strong> If you can&apos;t find the cookies, make sure you&apos;re
+              fully logged in and try refreshing the ESPN page before checking. Cookies also expire
+              periodically — if this stops working later, repeat these steps for fresh values.
             </p>
           </InstructionBox>
 
-          <Input
-            type="text"
+          <CookieInputLabel>espn_s2 {hasSavedCreds && espnS2 && <SavedBadge>Saved</SavedBadge>}</CookieInputLabel>
+          <CookieTextarea
             value={espnS2}
             onChange={(e) => setEspnS2(e.target.value)}
-            placeholder="espn_s2 cookie value"
+            placeholder="Paste your espn_s2 cookie value here (very long string)"
           />
-          {hasSavedCreds && espnS2 && <SavedBadge>Saved</SavedBadge>}
 
+          <CookieInputLabel>SWID {hasSavedCreds && swid && <SavedBadge>Saved</SavedBadge>}</CookieInputLabel>
           <Input
             type="text"
             value={swid}
             onChange={(e) => setSwid(e.target.value)}
-            placeholder="SWID cookie value (e.g. {XXXX-...})"
+            placeholder="{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}"
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+            style={{ width: 420, fontFamily: "monospace", fontSize: 13 }}
           />
-          {hasSavedCreds && swid && <SavedBadge>Saved</SavedBadge>}
 
           {hasSavedCreds && (
             <SecondaryButton onClick={handleClearCreds}>Clear saved cookies</SecondaryButton>
