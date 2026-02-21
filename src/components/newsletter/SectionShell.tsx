@@ -207,16 +207,11 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
   }, [error]);
 
   // Determine what to show
-  const shouldShowSkeleton =
-    status === "pending" || (status === "success" && !showContent);
+  const shouldShowSkeleton = status === "pending" || (status === "success" && !showContent);
 
   const errorCopy = getErrorCopy(error ?? null);
 
-  const resetKeys: Array<string | number | undefined> = [
-    leagueId,
-    week,
-    sectionKey ?? id,
-  ];
+  const resetKeys: Array<string | number | undefined> = [leagueId, week, sectionKey ?? id];
 
   return (
     <SectionContainer id={id} aria-live="polite" aria-busy={shouldShowSkeleton}>
@@ -238,12 +233,7 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
       )}
 
       {status === "error" && (
-        <ErrorContainer
-          role="alert"
-          aria-live="assertive"
-          tabIndex={-1}
-          ref={errorContainerRef}
-        >
+        <ErrorContainer role="alert" aria-live="assertive" tabIndex={-1} ref={errorContainerRef}>
           <ErrorTitle>{errorCopy.title}</ErrorTitle>
           <ErrorDescription>{errorCopy.description}</ErrorDescription>
           {lastUpdated && (
@@ -251,9 +241,7 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
               Last successful load: {formatLastUpdated(lastUpdated)}
             </LastUpdatedNote>
           )}
-          {onRetry && (
-            <RetryButton onClick={onRetry}>Retry</RetryButton>
-          )}
+          {onRetry && <RetryButton onClick={onRetry}>Retry</RetryButton>}
         </ErrorContainer>
       )}
 

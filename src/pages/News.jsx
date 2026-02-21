@@ -6,9 +6,9 @@ const NewsHolder = styled.iframe`
 `;
 
 export default function News() {
-    return (
-        <>
-            <NewsHolder src="https://trevormart.in/FantasyFootball23/Week12/Week12.html" />
-        </>
-    );
-};
+  return (
+    <>
+      <NewsHolder src="https://trevormart.in/FantasyFootball23/Week12/Week12.html" />
+    </>
+  );
+}

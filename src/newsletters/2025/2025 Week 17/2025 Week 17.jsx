@@ -1,119 +1,170 @@
-import { MotWRules, ArticleHeader, ImageWrapper, ArticleImage, ArticleSubheader, EfficiencyChart, StackedHistogram, MatchupPlot, MotwTable, ShotsDistributionChart, ArticleCaption, LeagueQuote, AwardsGridV2, WeeklyScoringChart, WeeklyMarginTable } from '../../../components/newsletters/newsStyles';
-import awardsData from './awardsTable.json';
-import efficiencyData from './efficiencyData.json';
-import leaderboardData from './leaderboard.json';
-import matchupData from './matchupData.json';
-import motwHistoryData from './motwTable.json';
-import shotsDistData from './shotsDist.json';
-import starterData from './starters.json';
-import { leagueIds } from '../../../components/constants/LeagueConstants';
+import {
+  MotWRules,
+  ArticleHeader,
+  ImageWrapper,
+  ArticleImage,
+  ArticleSubheader,
+  EfficiencyChart,
+  StackedHistogram,
+  MatchupPlot,
+  MotwTable,
+  ShotsDistributionChart,
+  ArticleCaption,
+  LeagueQuote,
+  AwardsGridV2,
+  WeeklyScoringChart,
+  WeeklyMarginTable,
+} from "../../../components/newsletters/newsStyles";
+import awardsData from "./awardsTable.json";
+import efficiencyData from "./efficiencyData.json";
+import leaderboardData from "./leaderboard.json";
+import matchupData from "./matchupData.json";
+import motwHistoryData from "./motwTable.json";
+import shotsDistData from "./shotsDist.json";
+import starterData from "./starters.json";
+import { leagueIds } from "../../../components/constants/LeagueConstants";
 
-export const newsDate = '2026-01-01';
+export const newsDate = "2026-01-01";
 
 const AwardsAndRecapArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>Awards and Recap</ArticleHeader>
-            <ArticleSubheader>Week 17</ArticleSubheader>
-            <AwardsGridV2 awardsData={awardsData} />
-            <p>
-                The championship matchup was extremely underwhelming, aside from the fact that it was the closest game of the week. The Barkley Brawlers defeated Uncle Rico Went Pro by 8.82 points in the championship final. They had the best WR and DEF this week, and the most points left on the bench and the individual bench performance as well. The best loser of the week, Worst Management, scored more points than our champion did.
-            </p>
-            <ArticleSubheader>Manager Skill Assessment</ArticleSubheader>
-            <EfficiencyChart chartData={efficiencyData} />
-            <ArticleCaption>Weekly Manager Skill Assessment</ArticleCaption>
-            <p>
-                The worst manager of the week was our champion The Barkley Brawlers at just 71.8% efficiency. Luckily for them their opponent was also low efficiency at just 75.1% this week with a lower ceiling.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Awards and Recap</ArticleHeader>
+      <ArticleSubheader>Week 17</ArticleSubheader>
+      <AwardsGridV2 awardsData={awardsData} />
+      <p>
+        The championship matchup was extremely underwhelming, aside from the fact that it was the
+        closest game of the week. The Barkley Brawlers defeated Uncle Rico Went Pro by 8.82 points
+        in the championship final. They had the best WR and DEF this week, and the most points left
+        on the bench and the individual bench performance as well. The best loser of the week, Worst
+        Management, scored more points than our champion did.
+      </p>
+      <ArticleSubheader>Manager Skill Assessment</ArticleSubheader>
+      <EfficiencyChart chartData={efficiencyData} />
+      <ArticleCaption>Weekly Manager Skill Assessment</ArticleCaption>
+      <p>
+        The worst manager of the week was our champion The Barkley Brawlers at just 71.8%
+        efficiency. Luckily for them their opponent was also low efficiency at just 75.1% this week
+        with a lower ceiling.
+      </p>
+    </div>
+  );
+};
 
 const MotwArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>Matchup of the Week</ArticleHeader>
-            <ArticleSubheader>Championship Game</ArticleSubheader>
-            <p>
-                The Barkley Brawlers ended their season on a fitting note, with their opponent scoring only 102.16 points to win them the championship. The Saints carried this team this week with a combined 52.4 points from Chris Olave, Juwan Johnson, and NO DEF. Barkley, Cook, Moore and Dicker let them down but it didn't matter in the end.
-            </p>
-            <p>
-                Uncle Rico Went Pro had a chance in this one on Monday Night Football with Matthew Stafford needing 21.6 points to get them the win, something he had done 8 times this season. He ended up having his 3rd worst game of the season with just 12.76 points. Chase Brown and Cam Little popped off this week but they couldn't overcome the hole that Jaylen Waddle left when he got injured early in his game.
-            </p>
-            <MatchupPlot data={starterData} matchupId={1} />
-            <p>
-                Congratulations to The Barkley Brawlers who have won their first championship in this league. Uncle Rico Went Pro will be doing 5 shots/dogs as a result of this loss.
-            </p>
-            <ArticleSubheader>Matchup of the Week 2025</ArticleSubheader>
-            <MotwTable motwHistoryData={motwHistoryData} />
-            <ArticleCaption>
-                <a href={`/league/${leagueIds.mainLeague}/hot-dogs`}>Full Matchup of the Week History</a>
-            </ArticleCaption>
-            <p>
-                The Barkley Brawlers earned their 6th MotW victory, tied for 4th most all-time. Their 28 shots/dogs given out is 4th most all-time. Uncle Rico Went Pro lost their 7th MotW and 3rd this season. Their 29 shots/dogs consumed is 5th most all-time.
-            </p>
-            <ArticleSubheader>Potential # of Shots/Dogs</ArticleSubheader>
-            <ShotsDistributionChart chartData={shotsDistData} />
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Matchup of the Week</ArticleHeader>
+      <ArticleSubheader>Championship Game</ArticleSubheader>
+      <p>
+        The Barkley Brawlers ended their season on a fitting note, with their opponent scoring only
+        102.16 points to win them the championship. The Saints carried this team this week with a
+        combined 52.4 points from Chris Olave, Juwan Johnson, and NO DEF. Barkley, Cook, Moore and
+        Dicker let them down but it didn't matter in the end.
+      </p>
+      <p>
+        Uncle Rico Went Pro had a chance in this one on Monday Night Football with Matthew Stafford
+        needing 21.6 points to get them the win, something he had done 8 times this season. He ended
+        up having his 3rd worst game of the season with just 12.76 points. Chase Brown and Cam
+        Little popped off this week but they couldn't overcome the hole that Jaylen Waddle left when
+        he got injured early in his game.
+      </p>
+      <MatchupPlot data={starterData} matchupId={1} />
+      <p>
+        Congratulations to The Barkley Brawlers who have won their first championship in this
+        league. Uncle Rico Went Pro will be doing 5 shots/dogs as a result of this loss.
+      </p>
+      <ArticleSubheader>Matchup of the Week 2025</ArticleSubheader>
+      <MotwTable motwHistoryData={motwHistoryData} />
+      <ArticleCaption>
+        <a href={`/league/${leagueIds.mainLeague}/hot-dogs`}>Full Matchup of the Week History</a>
+      </ArticleCaption>
+      <p>
+        The Barkley Brawlers earned their 6th MotW victory, tied for 4th most all-time. Their 28
+        shots/dogs given out is 4th most all-time. Uncle Rico Went Pro lost their 7th MotW and 3rd
+        this season. Their 29 shots/dogs consumed is 5th most all-time.
+      </p>
+      <ArticleSubheader>Potential # of Shots/Dogs</ArticleSubheader>
+      <ShotsDistributionChart chartData={shotsDistData} />
+    </div>
+  );
+};
 
 const MatchupArticleTwo = () => {
-    return (
-        <div>
-            <ArticleHeader>3rd Place Game</ArticleHeader>
-            <ArticleSubheader>BBCU Yearns For Olave</ArticleSubheader>
-            <p>
-                BBCU put up 146.4 points last week in the playoff semi-finals, and 145.94 points this week in the 3rd place game. If they didn't do the Chris Olave for $100 FAAB and Ladd McConkey trade this season, they would've been the champion of the league. Instead they got 3rd place and Bijan and Trey McBride put up huge numbers in a meaningless game.
-            </p>
-            <p>
-                Worst Management had Drake Maye go for 32.44, and their team total of 111.24 also would've won them the championship over either of the actual competitors. Omarion Hampton had 20 and Jonathan Taylor had 17.4 points in week 17.
-            </p>
-            <MatchupPlot data={starterData} matchupId={2} />
-            <p>
-                Both of these teams will regret their week 16 performances since they could've won it all if they had won week 16.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>3rd Place Game</ArticleHeader>
+      <ArticleSubheader>BBCU Yearns For Olave</ArticleSubheader>
+      <p>
+        BBCU put up 146.4 points last week in the playoff semi-finals, and 145.94 points this week
+        in the 3rd place game. If they didn't do the Chris Olave for $100 FAAB and Ladd McConkey
+        trade this season, they would've been the champion of the league. Instead they got 3rd place
+        and Bijan and Trey McBride put up huge numbers in a meaningless game.
+      </p>
+      <p>
+        Worst Management had Drake Maye go for 32.44, and their team total of 111.24 also would've
+        won them the championship over either of the actual competitors. Omarion Hampton had 20 and
+        Jonathan Taylor had 17.4 points in week 17.
+      </p>
+      <MatchupPlot data={starterData} matchupId={2} />
+      <p>
+        Both of these teams will regret their week 16 performances since they could've won it all if
+        they had won week 16.
+      </p>
+    </div>
+  );
+};
 
 const MatchupArticleThree = () => {
-    return (
-        <div>
-            <ArticleHeader>Toilet Bowl Final</ArticleHeader>
-            <ArticleSubheader>RB Hell</ArticleSubheader>
-            <p>
-                Bye Week Curious got a win in the toilet bowl championship by putting up 95.48 points, led by Colston Loveland who had 21.4 points this week. RJ Harvey had 18.6 and PHI DEF had 13 points. This was enough to avoid a music video getting tacked on to the punishment they already have.
-            </p>
-            <p>
-                Worse Management had a rough week at the RB and TE position, which are all barely legible on this chart. Josh Jacobs had 1.3 points with 4 carries for 3 yards and 1 catch for no yards. Tyjae Spears had 1.1 points with 6 carries for 2 yards and 1 catch for -1 yard. Taysom Hill had 0 points with 3 carries for 0 yards. Their bench TE option was Darren Waller who had 1 point with 1 catch for 0 yards. Their 75.32 points was really low but was not the lowest of all teams this week.
-            </p>
-            <MatchupPlot data={starterData} matchupId={4} />
-            <p>
-                The argument about the punishment for this matchup is still ongoing, with the league commissioner in line for the punishment making the discussion very interesting.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Toilet Bowl Final</ArticleHeader>
+      <ArticleSubheader>RB Hell</ArticleSubheader>
+      <p>
+        Bye Week Curious got a win in the toilet bowl championship by putting up 95.48 points, led
+        by Colston Loveland who had 21.4 points this week. RJ Harvey had 18.6 and PHI DEF had 13
+        points. This was enough to avoid a music video getting tacked on to the punishment they
+        already have.
+      </p>
+      <p>
+        Worse Management had a rough week at the RB and TE position, which are all barely legible on
+        this chart. Josh Jacobs had 1.3 points with 4 carries for 3 yards and 1 catch for no yards.
+        Tyjae Spears had 1.1 points with 6 carries for 2 yards and 1 catch for -1 yard. Taysom Hill
+        had 0 points with 3 carries for 0 yards. Their bench TE option was Darren Waller who had 1
+        point with 1 catch for 0 yards. Their 75.32 points was really low but was not the lowest of
+        all teams this week.
+      </p>
+      <MatchupPlot data={starterData} matchupId={4} />
+      <p>
+        The argument about the punishment for this matchup is still ongoing, with the league
+        commissioner in line for the punishment making the discussion very interesting.
+      </p>
+    </div>
+  );
+};
 
 const MatchupArticleFour = () => {
-    return (
-        <div>
-            <ArticleHeader>10th Place Game</ArticleHeader>
-            <ArticleSubheader>8 BIG DOOMS</ArticleSubheader>
-            <p>
-                Costco Guys started 9 healthy players this week and only one of those players scored over 10 points. Tony Pollard was their highest scorer with 11.5 points. Their total of 68.08 points was the 2nd lowest score of any team this season, only above their own week 13 score of 53.04 points.
-            </p>
-            <p>
-                Super Ja'Marrio Bros. nearly doubled up on their opponent this week with 132.14 points. Ja'Marr Chase and Wan'Dale Robinson both had over 22 points and Baker Mayfield, Kyren Williams and Brandon Aubrey all had 16+ points. They would've won this game with only any 4 of these 5 players.
-            </p>
-            <MatchupPlot data={starterData} matchupId={5} />
-            <p>
-                Costco Guys will have 8 shots/dogs to consume thanks to this loss.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>10th Place Game</ArticleHeader>
+      <ArticleSubheader>8 BIG DOOMS</ArticleSubheader>
+      <p>
+        Costco Guys started 9 healthy players this week and only one of those players scored over 10
+        points. Tony Pollard was their highest scorer with 11.5 points. Their total of 68.08 points
+        was the 2nd lowest score of any team this season, only above their own week 13 score of
+        53.04 points.
+      </p>
+      <p>
+        Super Ja'Marrio Bros. nearly doubled up on their opponent this week with 132.14 points.
+        Ja'Marr Chase and Wan'Dale Robinson both had over 22 points and Baker Mayfield, Kyren
+        Williams and Brandon Aubrey all had 16+ points. They would've won this game with only any 4
+        of these 5 players.
+      </p>
+      <MatchupPlot data={starterData} matchupId={5} />
+      <p>Costco Guys will have 8 shots/dogs to consume thanks to this loss.</p>
+    </div>
+  );
+};
 
 // const MatchupArticleFive = () => {
 //     return (
@@ -154,28 +205,25 @@ const MatchupArticleFour = () => {
 // }
 
 const ScoringDistributionArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>Scoring Distributions</ArticleHeader>
-            <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
-            <StackedHistogram chartData={matchupData} />
-            <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
-            <p>
-                Who knew the playoffs would be so low scoring?
-            </p>
-            <WeeklyScoringChart chartData={matchupData} />
-            <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
-            <p>
-                Downwards trends all around in the final week of the season.
-            </p>
-            <WeeklyMarginTable matchupData={matchupData} leaderboardData={leaderboardData} />
-            <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
-            <p>
-                The championship was the only close game this week, and the only close game in either main bracket in the playoffs.
-            </p>
-        </div >
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Scoring Distributions</ArticleHeader>
+      <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
+      <StackedHistogram chartData={matchupData} />
+      <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
+      <p>Who knew the playoffs would be so low scoring?</p>
+      <WeeklyScoringChart chartData={matchupData} />
+      <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
+      <p>Downwards trends all around in the final week of the season.</p>
+      <WeeklyMarginTable matchupData={matchupData} leaderboardData={leaderboardData} />
+      <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
+      <p>
+        The championship was the only close game this week, and the only close game in either main
+        bracket in the playoffs.
+      </p>
+    </div>
+  );
+};
 
 // const TradingVolumeArticle = () => {
 //     return (
@@ -329,237 +377,231 @@ const ScoringDistributionArticle = () => {
 // }
 
 const LeagueBuzzArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>League Buzz</ArticleHeader>
-            <ArticleSubheader>League Submissions</ArticleSubheader>
-            <LeagueQuote>
-                "Matt smith is a fucking pussy - make the song"<br />- Alec
-            </LeagueQuote>
-            <p>
-                Alec is taking a strong stance here, but much of the league agrees with his sentiment. Matt Smith is being a stickler for the "rules" and is avoiding a punishment in a punishment league.
-            </p>
-        </div >
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>League Buzz</ArticleHeader>
+      <ArticleSubheader>League Submissions</ArticleSubheader>
+      <LeagueQuote>
+        "Matt smith is a fucking pussy - make the song"
+        <br />- Alec
+      </LeagueQuote>
+      <p>
+        Alec is taking a strong stance here, but much of the league agrees with his sentiment. Matt
+        Smith is being a stickler for the "rules" and is avoiding a punishment in a punishment
+        league.
+      </p>
+    </div>
+  );
+};
 
 const Meme1 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/3lOw8pD.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/3lOw8pD.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme2 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/HWcgdRn.jpeg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/HWcgdRn.jpeg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme3 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/GLCw5sn.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/GLCw5sn.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme4 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/YdWNOHq.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/YdWNOHq.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme5 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/v1NabQZ.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/v1NabQZ.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme6 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/LWYbCiU.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/LWYbCiU.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme7 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/veHPtXh.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/veHPtXh.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme8 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/PpKPy3j.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/PpKPy3j.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme9 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgur.com/F1xJeY9.png"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgur.com/F1xJeY9.png"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 export const articles = [
-    {
-        id: 1,
-        content: AwardsAndRecapArticle,
-    },
-    {
-        id: 2,
-        content: MotwArticle,
-    },
-    {
-        id: 3,
-        content: MatchupArticleTwo,
-    },
-    {
-        id: 4,
-        content: MatchupArticleThree,
-    },
-    {
-        id: 5,
-        content: MatchupArticleFour,
-    },
-    // {
-    //     id: 6,
-    //     content: MatchupArticleFive,
-    // },
-    // {
-    //     id: 7,
-    //     content: MatchupArticleSix,
-    // },
-    {
-        id: 8,
-        content: ScoringDistributionArticle,
-    },
-    // {
-    //     id: 9,
-    //     content: TradingVolumeArticle,
-    // },
-    // {
-    //     id: 10,
-    //     content: StandingsArticle,
-    // },
-    // {
-    //     id: 11,
-    //     content: PowerRankingsArticle,
-    // },
-    // {
-    //     id: 12,
-    //     content: PlayoffOutlookArticle,
-    // },
-    // {
-    //     id: 13,
-    //     content: AlternateUniverseArticleOne,
-    // },
-    // {
-    //     id: 14,
-    //     content: AlternateUniverseArticleTwo,
-    // },
-    // {
-    //     id: 15,
-    //     content: AlternateUniverseArticleThree,
-    // },
-    // {
-    //     id: 16,
-    //     content: DivisionArticle,
-    // },
-    // {
-    //     id: 17,
-    //     content: MotWDangerArticle,
-    // },
-    {
-        id: 18,
-        content: LeagueBuzzArticle,
-    },
-    // {
-    //     id: 20,
-    //     content: VideoMeme,
-    // },
-    {
-        id: 20,
-        content: Meme1,
-    },
-    {
-        id: 21,
-        content: Meme2,
-    },
-    {
-        id: 22,
-        content: Meme3,
-    },
-    {
-        id: 23,
-        content: Meme4,
-    },
-    {
-        id: 24,
-        content: Meme5,
-    },
-    {
-        id: 25,
-        content: Meme6,
-    },
-    {
-        id: 26,
-        content: Meme7,
-    },
-    {
-        id: 27,
-        content: Meme8,
-    },
-    {
-        id: 28,
-        content: Meme9,
-    },
-    {
-        id: 30,
-        content: MotWRules,
-    },
+  {
+    id: 1,
+    content: AwardsAndRecapArticle,
+  },
+  {
+    id: 2,
+    content: MotwArticle,
+  },
+  {
+    id: 3,
+    content: MatchupArticleTwo,
+  },
+  {
+    id: 4,
+    content: MatchupArticleThree,
+  },
+  {
+    id: 5,
+    content: MatchupArticleFour,
+  },
+  // {
+  //     id: 6,
+  //     content: MatchupArticleFive,
+  // },
+  // {
+  //     id: 7,
+  //     content: MatchupArticleSix,
+  // },
+  {
+    id: 8,
+    content: ScoringDistributionArticle,
+  },
+  // {
+  //     id: 9,
+  //     content: TradingVolumeArticle,
+  // },
+  // {
+  //     id: 10,
+  //     content: StandingsArticle,
+  // },
+  // {
+  //     id: 11,
+  //     content: PowerRankingsArticle,
+  // },
+  // {
+  //     id: 12,
+  //     content: PlayoffOutlookArticle,
+  // },
+  // {
+  //     id: 13,
+  //     content: AlternateUniverseArticleOne,
+  // },
+  // {
+  //     id: 14,
+  //     content: AlternateUniverseArticleTwo,
+  // },
+  // {
+  //     id: 15,
+  //     content: AlternateUniverseArticleThree,
+  // },
+  // {
+  //     id: 16,
+  //     content: DivisionArticle,
+  // },
+  // {
+  //     id: 17,
+  //     content: MotWDangerArticle,
+  // },
+  {
+    id: 18,
+    content: LeagueBuzzArticle,
+  },
+  // {
+  //     id: 20,
+  //     content: VideoMeme,
+  // },
+  {
+    id: 20,
+    content: Meme1,
+  },
+  {
+    id: 21,
+    content: Meme2,
+  },
+  {
+    id: 22,
+    content: Meme3,
+  },
+  {
+    id: 23,
+    content: Meme4,
+  },
+  {
+    id: 24,
+    content: Meme5,
+  },
+  {
+    id: 25,
+    content: Meme6,
+  },
+  {
+    id: 26,
+    content: Meme7,
+  },
+  {
+    id: 27,
+    content: Meme8,
+  },
+  {
+    id: 28,
+    content: Meme9,
+  },
+  {
+    id: 30,
+    content: MotWRules,
+  },
 ];
 
 const newsletterData = {
-    newsDate: newsDate,
-    articles: articles,
-    meta: {
-        title: "2025 Week 17",
-        description: "Testing this feature out to see if it works",
-        image: "/banner_logo.png"
-    }
+  newsDate: newsDate,
+  articles: articles,
+  meta: {
+    title: "2025 Week 17",
+    description: "Testing this feature out to see if it works",
+    image: "/banner_logo.png",
+  },
 };
 
 export default newsletterData;

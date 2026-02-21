@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
 import { styled } from "styled-components";
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBurger } from "@fortawesome/free-solid-svg-icons";
 // import { ColorConstants } from "../components/constants/ColorConstants";
 import LeaderboardSubmitModal from "../components/leaderboard/LeaderboardSubmitModal";
-import { Switch, FormControlLabel } from '@mui/material';
+import { Switch, FormControlLabel } from "@mui/material";
 
 const ResultsContainer = styled.div`
   width: 100%;
@@ -43,12 +43,12 @@ const Eaterboard = () => {
 
         return {
           id: doc.id,
-          name: doc.data().name || '',
+          name: doc.data().name || "",
           minutes: minutes,
           seconds: seconds,
           hs: hs,
           dnf: dnf,
-          link: doc.data().link || '',
+          link: doc.data().link || "",
           score: score,
         };
       });
@@ -81,7 +81,7 @@ const Eaterboard = () => {
           props={{
             visible: submitModalVisible,
             setVisible: setSubmitModalVisible,
-            refresh: fetchResults
+            refresh: fetchResults,
           }}
         />
       )}
@@ -105,36 +105,44 @@ const Eaterboard = () => {
                 color="primary"
               />
             }
-            label={showUnique ? 'Unique Leaders' : 'All Times'}
-            style={{ marginBottom: '10px' }}
+            label={showUnique ? "Unique Leaders" : "All Times"}
+            style={{ marginBottom: "10px" }}
           />
           {showUnique
             ? uniqueResults.map((res, iter) => (
-              <LeaderboardResult
-                key={res.id}
-                props={{ ...res, iter: iter + 1 }}
-              />
-            ))
+                <LeaderboardResult key={res.id} props={{ ...res, iter: iter + 1 }} />
+              ))
             : results.map((res, iter) => (
-              <LeaderboardResult
-                key={res.id}
-                props={{ ...res, iter: iter + 1 }}
-              />
-            ))
-          }
+                <LeaderboardResult key={res.id} props={{ ...res, iter: iter + 1 }} />
+              ))}
           <p>
             Rules:
             <br />
             <ul>
               <li>Must get a burger with whatever comes on it.</li>
               <li>Must get fries and apple slices.</li>
-              <li>Must get a non-water drink in the drink cup (no milk or juice box), with a standard amount of ice.</li>
+              <li>
+                Must get a non-water drink in the drink cup (no milk or juice box), with a standard
+                amount of ice.
+              </li>
               <li>Timer starts when the box is touched and ends when the mouth is empty.</li>
-              <li>Unpackaging is part of the time; no scissors, knives, or other tools are allowed to assist in unpackaging.</li>
+              <li>
+                Unpackaging is part of the time; no scissors, knives, or other tools are allowed to
+                assist in unpackaging.
+              </li>
               <li>Everyone must submit a rule abiding video by 8/25 at 11:59 PM ET.</li>
-              <li>Anyone who does not submit a video will receive the last draft pick selection and lose their last-round pick in the draft.</li>
-              <li>After the 8/25 deadline, everyone who submitted a video will have the opportunity to eat additional Happy Meals until 8/28 at 11:59 PM ET.</li>
-              <li>Any submissions after 8/25 must have evidence present in the video that it was filmed after 8/25.</li>
+              <li>
+                Anyone who does not submit a video will receive the last draft pick selection and
+                lose their last-round pick in the draft.
+              </li>
+              <li>
+                After the 8/25 deadline, everyone who submitted a video will have the opportunity to
+                eat additional Happy Meals until 8/28 at 11:59 PM ET.
+              </li>
+              <li>
+                Any submissions after 8/25 must have evidence present in the video that it was
+                filmed after 8/25.
+              </li>
             </ul>
           </p>
         </ResultsColumn>

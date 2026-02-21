@@ -21,12 +21,8 @@ export default function NavBar() {
   const { theme, toggleTheme } = useTheme();
   const { currentUser, signOut } = useAuth();
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [isVisible, setIsVisible] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
   const [leagueId, setLeagueId] = React.useState<string | null>(null);
@@ -101,15 +97,7 @@ export default function NavBar() {
     if (leagueId !== leagueIds.mainLeague) {
       return ["Home", "Change League"];
     }
-    return [
-      "Home",
-      "Submit",
-      "Bylaws",
-      "Leaderboards",
-      "Survivor",
-      "Hot Dogs",
-      "Change League",
-    ];
+    return ["Home", "Submit", "Bylaws", "Leaderboards", "Survivor", "Hot Dogs", "Change League"];
   };
 
   const pages = getPages();
@@ -238,11 +226,7 @@ export default function NavBar() {
                 </Menu>
               </div>
             ) : (
-              <Button
-                color="inherit"
-                onClick={() => navigate("/login")}
-                sx={{ ml: 2 }}
-              >
+              <Button color="inherit" onClick={() => navigate("/login")} sx={{ ml: 2 }}>
                 Login
               </Button>
             )}

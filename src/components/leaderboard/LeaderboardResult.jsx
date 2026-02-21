@@ -21,8 +21,7 @@ const Time = styled.div`
 `;
 
 const LeaderboardResult = ({ props }) => {
-  const { name, hours, minutes, seconds, milliseconds, link, dnf, iter } =
-    props;
+  const { name, hours, minutes, seconds, milliseconds, link, dnf, iter } = props;
 
   return (
     <ResultContainer>
@@ -33,8 +32,9 @@ const LeaderboardResult = ({ props }) => {
       <Time>
         {dnf
           ? "DNF"
-          : `${hours && hours > 0 ? `${hours}h ` : ""}${minutes || 0}m ${seconds || 0
-          }s ${String(milliseconds || 0).padStart(3, '0')}ms`}
+          : `${hours && hours > 0 ? `${hours}h ` : ""}${minutes || 0}m ${
+              seconds || 0
+            }s ${String(milliseconds || 0).padStart(3, "0")}ms`}
       </Time>
     </ResultContainer>
   );

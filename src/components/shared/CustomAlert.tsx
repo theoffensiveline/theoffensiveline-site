@@ -49,11 +49,7 @@ const CloseButton = styled.button`
   }
 `;
 
-const CustomAlert: React.FC<CustomAlertProps> = ({
-  message,
-  onClose,
-  isOpen,
-}) => {
+const CustomAlert: React.FC<CustomAlertProps> = ({ message, onClose, isOpen }) => {
   if (!isOpen) return null;
 
   return (

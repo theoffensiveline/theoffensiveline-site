@@ -73,18 +73,12 @@ const NavLink = styled.a<{ $isActive: boolean; $isDisabled: boolean }>`
   padding: 6px 10px;
   font-family: "Playfair Display", serif;
   font-size: 13px;
-  color: ${({ theme, $isDisabled }) =>
-    $isDisabled ? theme.neutral3 : theme.text};
+  color: ${({ theme, $isDisabled }) => ($isDisabled ? theme.neutral3 : theme.text)};
   text-decoration: none;
   border-left: 3px solid
     ${({ theme, $isActive, $isDisabled }) =>
-      $isDisabled
-        ? "transparent"
-        : $isActive
-          ? theme.newsBlue
-          : "transparent"};
-  background: ${({ $isActive, theme }) =>
-    $isActive ? theme.background : "transparent"};
+      $isDisabled ? "transparent" : $isActive ? theme.newsBlue : "transparent"};
+  background: ${({ $isActive, theme }) => ($isActive ? theme.background : "transparent")};
   transition: all 0.2s ease;
   cursor: ${({ $isDisabled }) => ($isDisabled ? "not-allowed" : "pointer")};
   opacity: ${({ $isDisabled }) => ($isDisabled ? 0.5 : 1)};
@@ -175,9 +169,7 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ sections }) => {
             href={`#${section.id}`}
             $isActive={activeSection === section.id}
             $isDisabled={!section.isReady}
-            onClick={(e) =>
-              section.isReady ? handleNavClick(e, section.id) : e.preventDefault()
-            }
+            onClick={(e) => (section.isReady ? handleNavClick(e, section.id) : e.preventDefault())}
             aria-current={activeSection === section.id ? "location" : undefined}
             aria-disabled={!section.isReady}
           >
@@ -194,11 +186,7 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ sections }) => {
       >
         <option value="">Select a section...</option>
         {sections.map((section) => (
-          <option
-            key={section.id}
-            value={section.id}
-            disabled={!section.isReady}
-          >
+          <option key={section.id} value={section.id} disabled={!section.isReady}>
             {section.label}
             {!section.isReady ? " (Loading...)" : ""}
           </option>

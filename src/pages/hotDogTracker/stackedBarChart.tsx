@@ -40,8 +40,7 @@ export const renderStackedBarChart = (
   const dataWithTotals = data
     .map((item) => {
       const total = yearKeys.reduce(
-        (sum, key) =>
-          sum + (typeof item[key] === "number" ? (item[key] as number) : 0),
+        (sum, key) => sum + (typeof item[key] === "number" ? (item[key] as number) : 0),
         0
       );
       return { ...item, total };

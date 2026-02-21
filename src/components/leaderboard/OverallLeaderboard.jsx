@@ -118,21 +118,21 @@ const OverallLeaderboard = () => {
         where("year", "==", "2025")
       );
       const leaderboardsSnapshot = await getDocs(leaderboardsQuery);
-      const leaderboards = leaderboardsSnapshot.docs.map(doc => ({
+      const leaderboards = leaderboardsSnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
 
       // Get all results for these leaderboards
-      const leaderboardIds = leaderboards.map(l => l.id);
+      const leaderboardIds = leaderboards.map((l) => l.id);
       const resultsQuery = query(
         collection(db, "leaderboard-results"),
         where("leaderboard_id", "in", leaderboardIds)
       );
       const resultsSnapshot = await getDocs(resultsQuery);
-      const allResults = resultsSnapshot.docs.map(doc => ({
+      const allResults = resultsSnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
 
       const standingsArray = await calculateOverallStandings(leaderboards, allResults);
@@ -158,13 +158,17 @@ const OverallLeaderboard = () => {
           <CardHeader>
             <Position>#{index + 1}</Position>
             <Name>{standing.name}</Name>
-            <Score>{Number.isInteger(standing.totalPoints) ? standing.totalPoints : Number(standing.totalPoints).toFixed(1)}</Score>
+            <Score>
+              {Number.isInteger(standing.totalPoints)
+                ? standing.totalPoints
+                : Number(standing.totalPoints).toFixed(1)}
+            </Score>
           </CardHeader>
           <Stats>
             <StatRow>
               <StatLabel>1st Place:</StatLabel>
               <ChallengeList>
-                {standing.firstPlaceChallenges?.map(challenge => (
+                {standing.firstPlaceChallenges?.map((challenge) => (
                   <ChallengeTag key={challenge}>{challenge}</ChallengeTag>
                 ))}
               </ChallengeList>
@@ -172,7 +176,7 @@ const OverallLeaderboard = () => {
             <StatRow>
               <StatLabel>Top 3:</StatLabel>
               <ChallengeList>
-                {standing.topThreeChallenges?.map(challenge => (
+                {standing.topThreeChallenges?.map((challenge) => (
                   <ChallengeTag key={challenge}>{challenge}</ChallengeTag>
                 ))}
               </ChallengeList>
@@ -183,7 +187,9 @@ const OverallLeaderboard = () => {
             </StatRow>
             <StatRow>
               <StatLabel>Submissions:</StatLabel>
-              <StatValue>{standing.submissionCount} submission{standing.submissionCount === 1 ? '' : 's'}</StatValue>
+              <StatValue>
+                {standing.submissionCount} submission{standing.submissionCount === 1 ? "" : "s"}
+              </StatValue>
             </StatRow>
           </Stats>
         </Card>

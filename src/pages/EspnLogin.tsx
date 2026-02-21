@@ -91,9 +91,7 @@ function EspnLogin() {
         season: data.seasonId,
       });
     } catch (err) {
-      setError(
-        "League not found. Make sure your league is public and the ID is correct."
-      );
+      setError("League not found. Make sure your league is public and the ID is correct.");
     } finally {
       setLoading(false);
     }
@@ -150,11 +148,13 @@ function EspnLogin() {
       <HelpText>
         Find your League ID in the ESPN URL when viewing your league:
         <br />
-        <code>espn.com/fantasy/football/league?leagueId=<b>123456</b></code>
+        <code>
+          espn.com/fantasy/football/league?leagueId=<b>123456</b>
+        </code>
         <br />
         <br />
-        Note: Only public leagues are supported. Private league support is
-        coming in a future update.
+        Note: Only public leagues are supported. Private league support is coming in a future
+        update.
       </HelpText>
     </Container>
   );

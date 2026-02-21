@@ -21,10 +21,7 @@ export const timeToMs = ({
 }) => {
   if (dnf) return Number.MAX_SAFE_INTEGER; // DNF entries should sort to the bottom for low_time
   return (
-    (hours || 0) * 3600000 +
-    (minutes || 0) * 60000 +
-    (seconds || 0) * 1000 +
-    (milliseconds || 0)
+    (hours || 0) * 3600000 + (minutes || 0) * 60000 + (seconds || 0) * 1000 + (milliseconds || 0)
   );
 };
 
@@ -89,9 +86,7 @@ export const formatResult = (result, sortType) => {
   return `${result.hours && result.hours > 0 ? `${result.hours}h ` : ""}${
     result.minutes || 0
   }m ${result.seconds || 0}s${
-    result.milliseconds
-      ? ` ${String(result.milliseconds).padStart(3, "0")}ms`
-      : ""
+    result.milliseconds ? ` ${String(result.milliseconds).padStart(3, "0")}ms` : ""
   }`;
 };
 
@@ -146,9 +141,7 @@ export const fetchAndSortResults = async (leaderboardId, sortType) => {
       return [];
     }
 
-    const response = await fetch(
-      `https://api.sleeper.app/v1/league/${leagueId}/users`
-    );
+    const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`);
     const leagueMembers = await response.json();
 
     // Initialize submission counts for all league members
@@ -288,12 +281,7 @@ const initializePlayerStats = (name, submissionCount = 0) => ({
   submissionCount: submissionCount,
 });
 
-const processTiedPlayers = (
-  tiedPlayers,
-  currentPlace,
-  leaderboardName,
-  playerStats
-) => {
+const processTiedPlayers = (tiedPlayers, currentPlace, leaderboardName, playerStats) => {
   const points = calculatePoints(currentPlace, tiedPlayers.length);
   tiedPlayers.forEach((player) => {
     if (!playerStats[player.name]) {
@@ -326,24 +314,14 @@ const handleTiedResults = (sortedResults, leaderboardName, playerStats) => {
     } else if (score === currentScore) {
       tiedPlayers.push(result);
     } else {
-      processTiedPlayers(
-        tiedPlayers,
-        currentPlace,
-        leaderboardName,
-        playerStats
-      );
+      processTiedPlayers(tiedPlayers, currentPlace, leaderboardName, playerStats);
       currentPlace += tiedPlayers.length;
       currentScore = score;
       tiedPlayers = [result];
     }
 
     if (index === sortedResults.length - 1) {
-      processTiedPlayers(
-        tiedPlayers,
-        currentPlace,
-        leaderboardName,
-        playerStats
-      );
+      processTiedPlayers(tiedPlayers, currentPlace, leaderboardName, playerStats);
     }
   });
 };
@@ -373,9 +351,7 @@ export const calculateSubmissionCounts = async (leagueId) => {
   }));
 
   // Get all league members
-  const response = await fetch(
-    `https://api.sleeper.app/v1/league/${leagueId}/users`
-  );
+  const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`);
   const leagueMembers = await response.json();
 
   // Initialize submission counts for all league members
@@ -410,19 +386,12 @@ export const calculateOverallStandings = async (leaderboards, allResults) => {
 
   // Process each leaderboard
   leaderboards.forEach((leaderboard) => {
-    const leaderboardResults = allResults.filter(
-      (r) => r.leaderboard_id === leaderboard.id
-    );
+    const leaderboardResults = allResults.filter((r) => r.leaderboard_id === leaderboard.id);
 
     // Use getAllSubmissions to get results with best submission flags
-    const resultsWithFlags = getAllSubmissions(
-      leaderboardResults,
-      leaderboard.sort
-    );
+    const resultsWithFlags = getAllSubmissions(leaderboardResults, leaderboard.sort);
     // Only use the best submissions for points calculation
-    const bestResults = resultsWithFlags.filter(
-      (result) => result.isBestSubmission
-    );
+    const bestResults = resultsWithFlags.filter((result) => result.isBestSubmission);
     handleTiedResults(bestResults, leaderboard.name, playerStats);
   });
 
@@ -456,12 +425,10 @@ export const calculateOverallStandings = async (leaderboards, allResults) => {
   // Sort by total points, then apply tiebreakers
   standingsArray.sort((a, b) => {
     if (a.totalPoints !== b.totalPoints) return b.totalPoints - a.totalPoints;
-    if (a.headToHeadWins !== b.headToHeadWins)
-      return b.headToHeadWins - a.headToHeadWins;
+    if (a.headToHeadWins !== b.headToHeadWins) return b.headToHeadWins - a.headToHeadWins;
     if (a.firstPlace !== b.firstPlace) return b.firstPlace - a.firstPlace;
     if (a.topThree !== b.topThree) return b.topThree - a.topThree;
-    if (a.submissionCount !== b.submissionCount)
-      return a.submissionCount - b.submissionCount;
+    if (a.submissionCount !== b.submissionCount) return a.submissionCount - b.submissionCount;
     return b.challengesCompleted - a.challengesCompleted;
   });
 

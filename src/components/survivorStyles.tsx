@@ -1,8 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import {
-  ColorConstants,
-  colorsByPosition,
-} from "./constants/ColorConstants.ts";
+import { ColorConstants, colorsByPosition } from "./constants/ColorConstants.ts";
 
 export const SurvivorContainer = styled.div`
   max-width: 400px;
@@ -170,9 +167,7 @@ export const SurvivorButton = styled.button.withConfig({
 })<SurvivorButtonProps>`
   padding: 10px 20px;
   background-color: ${(props) =>
-    props.isSelected
-      ? ColorConstants["light"].success
-      : ColorConstants["light"].newsBlue};
+    props.isSelected ? ColorConstants["light"].success : ColorConstants["light"].newsBlue};
   border: none;
   border-radius: 5px;
   color: ${ColorConstants["light"].background};
@@ -209,8 +204,8 @@ export const SurvivorButton = styled.button.withConfig({
       props.isSelected
         ? ColorConstants["light"].successDark
         : props.disabled
-        ? ColorConstants["light"].newsBlue
-        : ColorConstants["light"].newsBlueDark};
+          ? ColorConstants["light"].newsBlue
+          : ColorConstants["light"].newsBlueDark};
     transform: ${(props) => (!props.disabled ? "translateY(-1px)" : "none")};
   }
 

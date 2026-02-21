@@ -89,23 +89,14 @@ const GoogleIcon = () => (
 );
 
 const EditIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
     <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z" />
   </svg>
 );
 const Profile: React.FC = () => {
   const { profile, loadingProfile, updateProfile } = useAuth();
-  const [customDisplayName, setCustomDisplayName] = useState(
-    profile?.customDisplayName || ""
-  );
+  const [customDisplayName, setCustomDisplayName] = useState(profile?.customDisplayName || "");
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
 
@@ -141,22 +132,16 @@ const Profile: React.FC = () => {
       <Card>
         <Title>Profile</Title>
         <div style={{ marginBottom: "1rem" }}>
-          <label style={{ display: "block", marginBottom: "0.5rem" }}>
-            Email:
-          </label>
+          <label style={{ display: "block", marginBottom: "0.5rem" }}>Email:</label>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <GoogleIcon />
             <span>{profile?.email}</span>
           </div>
         </div>
         <div style={{ marginBottom: "1rem" }}>
-          <label style={{ display: "block", marginBottom: "0.5rem" }}>
-            Display Name:
-          </label>
+          <label style={{ display: "block", marginBottom: "0.5rem" }}>Display Name:</label>
           {!isEditing ? (
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-            >
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <span>{profile?.customDisplayName || "Not set"}</span>
               <button
                 onClick={handleEdit}
@@ -178,17 +163,11 @@ const Profile: React.FC = () => {
                 value={customDisplayName}
                 onChange={(e) => setCustomDisplayName(e.target.value)}
               />
-              <div
-                style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}
-              >
+              <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
                 <Button onClick={handleSave} disabled={updating}>
                   {updating ? "Saving..." : "Save"}
                 </Button>
-                <Button
-                  onClick={handleCancel}
-                  disabled={updating}
-                  style={{ background: "#ccc" }}
-                >
+                <Button onClick={handleCancel} disabled={updating} style={{ background: "#ccc" }}>
                   Cancel
                 </Button>
               </div>

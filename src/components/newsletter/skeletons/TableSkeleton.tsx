@@ -61,10 +61,7 @@ interface TableSkeletonProps {
  * Skeleton loader for table sections (standings, leaderboards, etc.)
  * Approximates table layout with headers and rows
  */
-export const TableSkeleton: React.FC<TableSkeletonProps> = ({
-  rows = 10,
-  columns = 5,
-}) => {
+export const TableSkeleton: React.FC<TableSkeletonProps> = ({ rows = 10, columns = 5 }) => {
   return (
     <TableWrapper role="status" aria-label="Loading table">
       <Table>
@@ -76,11 +73,7 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
         {[...Array(rows)].map((_, rowIndex) => (
           <TableRow key={rowIndex} $columns={columns}>
             {[...Array(columns)].map((_, colIndex) => (
-              <SkeletonBox
-                key={colIndex}
-                height="16px"
-                width={colIndex === 0 ? "60%" : "40%"}
-              />
+              <SkeletonBox key={colIndex} height="16px" width={colIndex === 0 ? "60%" : "40%"} />
             ))}
           </TableRow>
         ))}

@@ -38,7 +38,7 @@ describe("NewsletterErrorBoundary", () => {
     render(
       <NewsletterErrorBoundary sectionKey="awards">
         <ThrowingComponent shouldThrow={false} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     expect(screen.getByText("Rendered successfully")).toBeTruthy();
@@ -48,7 +48,7 @@ describe("NewsletterErrorBoundary", () => {
     render(
       <NewsletterErrorBoundary sectionKey="awards">
         <ThrowingComponent shouldThrow={true} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     // Children should not be visible
@@ -62,7 +62,7 @@ describe("NewsletterErrorBoundary", () => {
     render(
       <NewsletterErrorBoundary sectionKey="efficiency">
         <ThrowingComponent shouldThrow={true} message="Network error occurred" />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     // Should show friendly network error copy, not the raw error message
@@ -73,7 +73,7 @@ describe("NewsletterErrorBoundary", () => {
     const { rerender } = render(
       <NewsletterErrorBoundary sectionKey="awards">
         <ThrowingComponent shouldThrow={true} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     // Boundary is in error state
@@ -83,7 +83,7 @@ describe("NewsletterErrorBoundary", () => {
     rerender(
       <NewsletterErrorBoundary sectionKey="awards">
         <ThrowingComponent shouldThrow={false} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     // Now click retry — boundary resets and renders the (now non-throwing) child
@@ -101,7 +101,7 @@ describe("NewsletterErrorBoundary", () => {
         resetKeys={["league-1", 1, "awards"]}
       >
         <ThrowingComponent shouldThrow={true} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     // Error state
@@ -116,7 +116,7 @@ describe("NewsletterErrorBoundary", () => {
         resetKeys={["league-1", 2, "awards"]}
       >
         <ThrowingComponent shouldThrow={false} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     // Boundary should have reset and now show children
@@ -130,7 +130,7 @@ describe("NewsletterErrorBoundary", () => {
     render(
       <NewsletterErrorBoundary sectionKey="standings" onError={onError}>
         <ThrowingComponent shouldThrow={true} message="Standings render crash" />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     expect(onError).toHaveBeenCalledTimes(1);
@@ -150,7 +150,7 @@ describe("NewsletterErrorBoundary", () => {
     render(
       <NewsletterErrorBoundary sectionKey="awards" fallback={customFallback}>
         <ThrowingComponent shouldThrow={true} />
-      </NewsletterErrorBoundary>,
+      </NewsletterErrorBoundary>
     );
 
     expect(screen.getByText("Custom fallback UI")).toBeTruthy();
@@ -166,7 +166,7 @@ describe("NewsletterErrorBoundary", () => {
         <NewsletterErrorBoundary sectionKey="standings">
           <ThrowingComponent shouldThrow={false} />
         </NewsletterErrorBoundary>
-      </div>,
+      </div>
     );
 
     // First boundary is in error state — retry button present

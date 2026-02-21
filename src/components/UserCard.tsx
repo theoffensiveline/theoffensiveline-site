@@ -45,16 +45,9 @@ export function UserCard({ title, user, roster, season }: UserCardProps) {
   return (
     <Card>
       <h2>{title}</h2>
-      {avatarUrl && (
-        <Avatar
-          src={avatarUrl}
-          alt={`${user?.display_name}'s avatar`}
-        />
-      )}
+      {avatarUrl && <Avatar src={avatarUrl} alt={`${user?.display_name}'s avatar`} />}
       <h3>{user?.display_name}</h3>
-      {user?.metadata.team_name && (
-        <p>Team: {user.metadata.team_name}</p>
-      )}
+      {user?.metadata.team_name && <p>Team: {user.metadata.team_name}</p>}
       {roster && (
         <>
           <p>Record: {formatRecord(roster)}</p>

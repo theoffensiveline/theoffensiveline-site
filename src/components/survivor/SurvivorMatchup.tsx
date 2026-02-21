@@ -51,12 +51,8 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
   const [team1, team2] = matchups;
   const team1StartersSet = new Set(team1.starters.map((s) => s.id));
   const team2StartersSet = new Set(team2.starters.map((s) => s.id));
-  const team1BenchPlayers = team1.players.filter(
-    (id: string) => !team1StartersSet.has(id)
-  );
-  const team2BenchPlayers = team2.players.filter(
-    (id: string) => !team2StartersSet.has(id)
-  );
+  const team1BenchPlayers = team1.players.filter((id: string) => !team1StartersSet.has(id));
+  const team2BenchPlayers = team2.players.filter((id: string) => !team2StartersSet.has(id));
 
   const hasPickedTeamBefore = (rosterId: string, matchupId: number) => {
     const isMotw = matchupId === motwMatchupId;
@@ -68,9 +64,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
         if (!pickMotwData) return true; // assume not motw if no data
         return !pickMotwData.rosters.includes(parseInt(pick.teamIdSelected));
       }) || [];
-    return previousNonMotwPicks.some(
-      (pick) => pick.teamIdSelected === rosterId
-    );
+    return previousNonMotwPicks.some((pick) => pick.teamIdSelected === rosterId);
   };
 
   const team1Details = teams[team1.roster_id] || {
@@ -84,9 +78,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
 
   const buildRecord = (details: Team) => {
     const { team_wins, team_losses, team_ties } = details;
-    return `${team_wins} - ${team_losses}${
-      team_ties > 0 ? ` - ${team_ties}` : ""
-    }`;
+    return `${team_wins} - ${team_losses}${team_ties > 0 ? ` - ${team_ties}` : ""}`;
   };
 
   return (
@@ -96,9 +88,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
         <span
           style={{
             color:
-              parseInt(matchupId) === motwMatchupId
-                ? ColorConstants.light.hotDogYellow
-                : "inherit",
+              parseInt(matchupId) === motwMatchupId ? ColorConstants.light.hotDogYellow : "inherit",
           }}
         >
           {parseInt(matchupId) === motwMatchupId
@@ -124,30 +114,24 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
             disabled={
               !canMakeSelection ||
               userPick?.teamIdSelected === team1.roster_id.toString() ||
-              hasPickedTeamBefore(
-                team1.roster_id.toString(),
-                parseInt(matchupId)
-              )
+              hasPickedTeamBefore(team1.roster_id.toString(), parseInt(matchupId))
             }
             isSelected={userPick?.teamIdSelected === team1.roster_id.toString()}
             title={
               userStatus?.isEliminated
                 ? "You have been eliminated"
-                : hasPickedTeamBefore(
-                    team1.roster_id.toString(),
-                    parseInt(matchupId)
-                  )
-                ? `Already picked ${team1Details.team_name} in a previous non-MotW week`
-                : !canMakeSelection && selectionReason
-                ? selectionReason
-                : ""
+                : hasPickedTeamBefore(team1.roster_id.toString(), parseInt(matchupId))
+                  ? `Already picked ${team1Details.team_name} in a previous non-MotW week`
+                  : !canMakeSelection && selectionReason
+                    ? selectionReason
+                    : ""
             }
           >
             {userPick?.teamIdSelected === team1.roster_id.toString()
               ? "Selected"
               : userPick && canMakeSelection
-              ? "Switch"
-              : "Select"}
+                ? "Switch"
+                : "Select"}
           </SurvivorButton>
         </SurvivorMatchupTeamInfo>
         <SurvivorMatchupVs>VS</SurvivorMatchupVs>
@@ -166,30 +150,24 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
             disabled={
               !canMakeSelection ||
               userPick?.teamIdSelected === team2.roster_id.toString() ||
-              hasPickedTeamBefore(
-                team2.roster_id.toString(),
-                parseInt(matchupId)
-              )
+              hasPickedTeamBefore(team2.roster_id.toString(), parseInt(matchupId))
             }
             isSelected={userPick?.teamIdSelected === team2.roster_id.toString()}
             title={
               userStatus?.isEliminated
                 ? "You have been eliminated"
-                : hasPickedTeamBefore(
-                    team2.roster_id.toString(),
-                    parseInt(matchupId)
-                  )
-                ? `Already picked ${team2Details.team_name} in a previous non-MotW week`
-                : !canMakeSelection && selectionReason
-                ? selectionReason
-                : ""
+                : hasPickedTeamBefore(team2.roster_id.toString(), parseInt(matchupId))
+                  ? `Already picked ${team2Details.team_name} in a previous non-MotW week`
+                  : !canMakeSelection && selectionReason
+                    ? selectionReason
+                    : ""
             }
           >
             {userPick?.teamIdSelected === team2.roster_id.toString()
               ? "Selected"
               : userPick && canMakeSelection
-              ? "Switch"
-              : "Select"}
+                ? "Switch"
+                : "Select"}
           </SurvivorButton>
         </SurvivorMatchupTeamInfo>
       </SurvivorMatchupTeamRow>
@@ -214,9 +192,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
             }}
           >
             <div style={{ textAlign: "left" }}>{playerMap[id] || "N/A"}</div>
-            <div style={{ textAlign: "right" }}>
-              {team1.players_points[id] || "0"}
-            </div>
+            <div style={{ textAlign: "right" }}>{team1.players_points[id] || "0"}</div>
           </div>
         ))}
       </SurvivorMatchupPlayerRows>
@@ -239,9 +215,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
               justifyContent: "space-between",
             }}
           >
-            <div style={{ textAlign: "left" }}>
-              {team2.players_points[id] || "0"}
-            </div>
+            <div style={{ textAlign: "left" }}>{team2.players_points[id] || "0"}</div>
             <div style={{ textAlign: "right" }}>{playerMap[id] || "N/A"}</div>
           </div>
         ))}

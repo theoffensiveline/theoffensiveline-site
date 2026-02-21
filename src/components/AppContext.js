@@ -11,9 +11,7 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ selectedTeam, onSelectTeam }}>
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={{ selectedTeam, onSelectTeam }}>{children}</AppContext.Provider>
   );
 };
 

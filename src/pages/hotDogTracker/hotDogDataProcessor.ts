@@ -146,14 +146,11 @@ export const processHotDogData = (): ProcessedHotDogData => {
     }
 
     // Count by year and name
-    winnersByYearAndName[year][winner] =
-      (winnersByYearAndName[year][winner] || 0) + 1;
-    losersByYearAndName[year][loser] =
-      (losersByYearAndName[year][loser] || 0) + 1;
+    winnersByYearAndName[year][winner] = (winnersByYearAndName[year][winner] || 0) + 1;
+    losersByYearAndName[year][loser] = (losersByYearAndName[year][loser] || 0) + 1;
     winnerHotDogsByYearAndName[year][winner] =
       (winnerHotDogsByYearAndName[year][winner] || 0) + count;
-    loserHotDogsByYearAndName[year][loser] =
-      (loserHotDogsByYearAndName[year][loser] || 0) + count;
+    loserHotDogsByYearAndName[year][loser] = (loserHotDogsByYearAndName[year][loser] || 0) + count;
   });
 
   // Convert to arrays for charts
@@ -198,21 +195,15 @@ export const processHotDogData = (): ProcessedHotDogData => {
 
       return {
         name,
-        hotdogsPerLoss:
-          totalLosses > 0 ? totalHotDogsConsumed / totalLosses : 0,
+        hotdogsPerLoss: totalLosses > 0 ? totalHotDogsConsumed / totalLosses : 0,
         shotsPerLoss: totalLosses > 0 ? totalShotsConsumed / totalLosses : 0,
         totalPerLoss:
-          totalLosses > 0
-            ? (totalHotDogsConsumed + totalShotsConsumed) / totalLosses
-            : 0,
+          totalLosses > 0 ? (totalHotDogsConsumed + totalShotsConsumed) / totalLosses : 0,
         totalLosses,
       };
     })
     .filter((person) => person.totalLosses > 0) // Only show people who have lost at least once
-    .sort(
-      (a, b) =>
-        a.hotdogsPerLoss + a.shotsPerLoss - (b.hotdogsPerLoss + b.shotsPerLoss)
-    );
+    .sort((a, b) => a.hotdogsPerLoss + a.shotsPerLoss - (b.hotdogsPerLoss + b.shotsPerLoss));
 
   // Process data for stacked bar charts by person with years as stacks
   const processStackedData = (
@@ -254,14 +245,8 @@ export const processHotDogData = (): ProcessedHotDogData => {
   // Create stacked data for each chart - show up to 15 names
   const stackedWinnerData = processStackedData(winnersByYearAndName, 15);
   const stackedLoserData = processStackedData(losersByYearAndName, 15);
-  const stackedWinnerHotDogData = processStackedData(
-    winnerHotDogsByYearAndName,
-    15
-  );
-  const stackedLoserHotDogData = processStackedData(
-    loserHotDogsByYearAndName,
-    15
-  );
+  const stackedWinnerHotDogData = processStackedData(winnerHotDogsByYearAndName, 15);
+  const stackedLoserHotDogData = processStackedData(loserHotDogsByYearAndName, 15);
 
   // Get all years for legend creation
   const allYears = [...new Set(hotDogsData.map((item) => item.year))].sort();

@@ -582,9 +582,8 @@ export async function getPlayers(
   // were on teams then (but since dropped/traded) are included in the map.
   // Without this, getPlayerPosition() returns null for those players and
   // calculateOptimalScore() underestimates the max score for historical weeks.
-  const data = week != null
-    ? await fetchMatchups(numericId, undefined, week)
-    : await fetchRosters(numericId);
+  const data =
+    week != null ? await fetchMatchups(numericId, undefined, week) : await fetchRosters(numericId);
 
   const players: Record<string, import("./FantasyAPI").GenericPlayer> = {};
 

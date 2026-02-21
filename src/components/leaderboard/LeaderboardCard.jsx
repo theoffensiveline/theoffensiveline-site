@@ -5,14 +5,9 @@ import {
   formatResult,
   getMedalEmoji,
   fetchAndSortResults,
-  calculateOverallStandings
+  calculateOverallStandings,
 } from "../../utils/leaderboardUtils";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { leagueIds } from "../constants/LeagueConstants";
 
@@ -118,39 +113,45 @@ const LeaderboardCard = ({ leaderboard }) => {
           where("year", "==", "2025")
         );
         const leaderboardsSnapshot = await getDocs(leaderboardsQuery);
-        const leaderboards = leaderboardsSnapshot.docs.map(doc => ({
+        const leaderboards = leaderboardsSnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
 
         // Get all results for these leaderboards
-        const leaderboardIds = leaderboards.map(l => l.id);
+        const leaderboardIds = leaderboards.map((l) => l.id);
         const resultsQuery = query(
           collection(db, "leaderboard-results"),
           where("leaderboard_id", "in", leaderboardIds)
         );
         const resultsSnapshot = await getDocs(resultsQuery);
-        const allResults = resultsSnapshot.docs.map(doc => ({
+        const allResults = resultsSnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
 
         // Calculate standings using shared function
         const standings = await calculateOverallStandings(leaderboards, allResults);
 
         // Get top 3 players
-        const topPlayers = standings.slice(0, 3).map(player => ({
+        const topPlayers = standings.slice(0, 3).map((player) => ({
           id: player.name,
           name: player.name,
-          score: Number.isInteger(player.totalPoints) ? player.totalPoints : Number(player.totalPoints).toFixed(1)
+          score: Number.isInteger(player.totalPoints)
+            ? player.totalPoints
+            : Number(player.totalPoints).toFixed(1),
         }));
 
         setTopEntries(topPlayers);
       } else {
         const sortedResults = await fetchAndSortResults(leaderboard.id, leaderboard.sort);
         // Get top 3 distinct names
-        const uniqueNames = Array.from(new Set(sortedResults.map(result => result.name)));
-        setTopEntries(uniqueNames.slice(0, 3).map(name => sortedResults.find(result => result.name === name)));
+        const uniqueNames = Array.from(new Set(sortedResults.map((result) => result.name)));
+        setTopEntries(
+          uniqueNames
+            .slice(0, 3)
+            .map((name) => sortedResults.find((result) => result.name === name))
+        );
       }
     } catch (e) {
       console.error("Error fetching top entries:", e);
@@ -167,7 +168,9 @@ const LeaderboardCard = ({ leaderboard }) => {
 
   return (
     <Card onClick={handleClick}>
-      <Title>{leaderboard.creator} - {leaderboard.name}</Title>
+      <Title>
+        {leaderboard.creator} - {leaderboard.name}
+      </Title>
       {topEntries.length > 0 ? (
         <TopEntriesContainer>
           {topEntries.map((entry, index) => (

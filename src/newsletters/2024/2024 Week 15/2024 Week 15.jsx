@@ -1,120 +1,188 @@
-import { MotWRules, ArticleHeader, ImageWrapper, ArticleImage, ArticleSubheader, EfficiencyChart, StackedHistogram, MatchupPlot, MotwTable, ShotsDistributionChart, ArticleCaption, LeagueQuote, AwardsGridV2, WeeklyScoringChart, WeeklyMarginTable } from '../../../components/newsletters/newsStyles';
-import awardsData from './awardsTable.json';
+import {
+  MotWRules,
+  ArticleHeader,
+  ImageWrapper,
+  ArticleImage,
+  ArticleSubheader,
+  EfficiencyChart,
+  StackedHistogram,
+  MatchupPlot,
+  MotwTable,
+  ShotsDistributionChart,
+  ArticleCaption,
+  LeagueQuote,
+  AwardsGridV2,
+  WeeklyScoringChart,
+  WeeklyMarginTable,
+} from "../../../components/newsletters/newsStyles";
+import awardsData from "./awardsTable.json";
 // import bestBallLbData from './bestBallLb.json';
-import efficiencyData from './efficiencyData.json';
-import leaderboardData from './leaderboard.json';
-import matchupData from './matchupData.json';
+import efficiencyData from "./efficiencyData.json";
+import leaderboardData from "./leaderboard.json";
+import matchupData from "./matchupData.json";
 // import medianLbData from './medianLb.json';
-import motwHistoryData from './motwTable.json';
+import motwHistoryData from "./motwTable.json";
 // import playoffData from './playoffTable.json';
 // import powerRankingsData from './powerRankings.json';
 // import scheduleData from './scheduleData.json';
-import shotsDistData from './shotsDist.json';
-import starterData from './starters.json';
+import shotsDistData from "./shotsDist.json";
+import starterData from "./starters.json";
 
-export const newsDate = '2024-12-19';
+export const newsDate = "2024-12-19";
 
 const AwardsAndRecapArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>Awards and Recap</ArticleHeader>
-            <ArticleSubheader>Week 15</ArticleSubheader>
-            <AwardsGridV2 awardsData={awardsData} />
-            <p>
-                Week 15 was the first round of the playoffs and the toilet bowl, and 4 teams were sitting on the sidelines watching the madness take place. We had our #1 Best Managed Team of the season this week from Costo Guys who scored 192.3 points in the first round of the playoffs. Maybe they lost all those games because they knew they didn't wanna waste this week during a playoff bye. This #1 performance also led to the #1 Deadest Horse of the season, and they were so close to defeating Giving Me a Chubb by 100 points. Costo Guys had the top scoring RB, WR, and DEF this week.
-            </p>
-            <p>
-                We also had the 4th lowest score of the season from Youngster Joey, who only scored 76.96 points in their playoff loss. This isn't their lowest score this season, they scored 64.26 points just last week. This is the lowest score of any playoff team in recorded league history. There wasn't one player on their team who scored at least 12 points this week. This team really made the playoffs? They would've lost to any toilet bowl team this week.
-            </p>
-            <ArticleSubheader>Manager Skill Assessment</ArticleSubheader>
-            <EfficiencyChart chartData={efficiencyData} />
-            <ArticleCaption>Weekly Manager Skill Assessment</ArticleCaption>
-            <p>
-                Costo Guys put up the most points this week, but wasn't the most efficient. That award went to Kirk Thuggins & The Boys, who scored 99.5% of their maximum and only left 0.8 points on their bench this week. The least efficient manager was Fortnite Master Builder, but they were still able to pull out the win so they're fine with that.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Awards and Recap</ArticleHeader>
+      <ArticleSubheader>Week 15</ArticleSubheader>
+      <AwardsGridV2 awardsData={awardsData} />
+      <p>
+        Week 15 was the first round of the playoffs and the toilet bowl, and 4 teams were sitting on
+        the sidelines watching the madness take place. We had our #1 Best Managed Team of the season
+        this week from Costo Guys who scored 192.3 points in the first round of the playoffs. Maybe
+        they lost all those games because they knew they didn't wanna waste this week during a
+        playoff bye. This #1 performance also led to the #1 Deadest Horse of the season, and they
+        were so close to defeating Giving Me a Chubb by 100 points. Costo Guys had the top scoring
+        RB, WR, and DEF this week.
+      </p>
+      <p>
+        We also had the 4th lowest score of the season from Youngster Joey, who only scored 76.96
+        points in their playoff loss. This isn't their lowest score this season, they scored 64.26
+        points just last week. This is the lowest score of any playoff team in recorded league
+        history. There wasn't one player on their team who scored at least 12 points this week. This
+        team really made the playoffs? They would've lost to any toilet bowl team this week.
+      </p>
+      <ArticleSubheader>Manager Skill Assessment</ArticleSubheader>
+      <EfficiencyChart chartData={efficiencyData} />
+      <ArticleCaption>Weekly Manager Skill Assessment</ArticleCaption>
+      <p>
+        Costo Guys put up the most points this week, but wasn't the most efficient. That award went
+        to Kirk Thuggins & The Boys, who scored 99.5% of their maximum and only left 0.8 points on
+        their bench this week. The least efficient manager was Fortnite Master Builder, but they
+        were still able to pull out the win so they're fine with that.
+      </p>
+    </div>
+  );
+};
 
 const MotwArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>Matchup of the Week</ArticleHeader>
-            <ArticleSubheader>We've Officially Come Full Circle</ArticleSubheader>
-            <p>
-                In the final MotW of the season, Fortnite Master Builder was able to secure the victory, just like they were able to do in the toilet bowl last season. They will start next season with MotW the same way they started this season with MotW. If the theory holds about how Sleeper creates schedules, and we don't make any changes, we could see a rematch between Fortnite Master Builder and League Loser Prophecy in the first MotW of next season. Fortnite Master Builder was able to get this win thanks in large part to Mike Evans dropping 36.9 points. He was 0.4 points away from being the Widest Receiver this week.
-            </p>
-            <p>
-                Njorkin da Tenis had a good run in MotW for being last in PF this season. This team knows how to put up points under duress. Sadly this week, they couldn't get it done in the toilet bowl, and will be advancing to the semi-finals of the toilet bowl. Rhamondre Stevenson, Kyle Pitts, Daniel Carlson, and ARI DEF all scored below 10 points, so 4 shots/dogs are in order.
-            </p>
-            <MatchupPlot data={starterData} matchupId={4} />
-            <p>
-                Fortnite Master Builder will matchup with Kirk Thuggins & The Boys in the 8th place game. Njorkin da Tenis moves on to the 2nd round of the toilet bowl where they face off with League Loser Prophecy, who is coming off of a first round bye.
-            </p>
-            <ArticleSubheader>Matchup of the Week 2023-24</ArticleSubheader>
-            <MotwTable motwHistoryData={motwHistoryData} />
-            <ArticleSubheader>Potential # of Shots/Dogs</ArticleSubheader>
-            <ShotsDistributionChart chartData={shotsDistData} />
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Matchup of the Week</ArticleHeader>
+      <ArticleSubheader>We've Officially Come Full Circle</ArticleSubheader>
+      <p>
+        In the final MotW of the season, Fortnite Master Builder was able to secure the victory,
+        just like they were able to do in the toilet bowl last season. They will start next season
+        with MotW the same way they started this season with MotW. If the theory holds about how
+        Sleeper creates schedules, and we don't make any changes, we could see a rematch between
+        Fortnite Master Builder and League Loser Prophecy in the first MotW of next season. Fortnite
+        Master Builder was able to get this win thanks in large part to Mike Evans dropping 36.9
+        points. He was 0.4 points away from being the Widest Receiver this week.
+      </p>
+      <p>
+        Njorkin da Tenis had a good run in MotW for being last in PF this season. This team knows
+        how to put up points under duress. Sadly this week, they couldn't get it done in the toilet
+        bowl, and will be advancing to the semi-finals of the toilet bowl. Rhamondre Stevenson, Kyle
+        Pitts, Daniel Carlson, and ARI DEF all scored below 10 points, so 4 shots/dogs are in order.
+      </p>
+      <MatchupPlot data={starterData} matchupId={4} />
+      <p>
+        Fortnite Master Builder will matchup with Kirk Thuggins & The Boys in the 8th place game.
+        Njorkin da Tenis moves on to the 2nd round of the toilet bowl where they face off with
+        League Loser Prophecy, who is coming off of a first round bye.
+      </p>
+      <ArticleSubheader>Matchup of the Week 2023-24</ArticleSubheader>
+      <MotwTable motwHistoryData={motwHistoryData} />
+      <ArticleSubheader>Potential # of Shots/Dogs</ArticleSubheader>
+      <ShotsDistributionChart chartData={shotsDistData} />
+    </div>
+  );
+};
 
 const MatchupArticleTwo = () => {
-    return (
-        <div>
-            <ArticleHeader>The Other Toilet Bowl Game</ArticleHeader>
-            <ArticleSubheader>Two Teams That Would've Beaten Youngster Joey by 60+, and Won Youngster Joey's Playoff Matchup</ArticleSubheader>
-            <p>
-                Two teams that were in the playoffs last year found themselves in the toilet bowl this year, and this matchup was electric. Twin Bowers schedule difficulty carried into the toilet bowl, playing against the 2nd highest scoring team of the week while scoring the 3rd most points. This was a week for the Brown's, with both A.J. and Chase scoring over 25 points for this team. DEN DEF also chipped in 20 points, but it wasn't enough. An atypical rough game from Brock Bowers was likely the difference maker in this one.
-            </p>
-            <p>
-                Kirk Thuggins & The Boys was able to win this matchup thanks to a well rounded team performance, with only their defense scoring less that 10 points. The standout was Baker Mayfield, who scored 28.02 points this week while feeding Mike Evans. Jerry Jeudy and Keenan Allen both scored over 20 points as well to help this team win.
-            </p>
-            <MatchupPlot data={starterData} matchupId={5} />
-            <p>
-                Kirk Thuggins & The Boys advances to the 8th place game against Fortnite Master Builder. Twin Bowers moves on to the 2nd round of the toilet bowl where they face off with First Down Syndrome, who is coming off of a first round bye.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>The Other Toilet Bowl Game</ArticleHeader>
+      <ArticleSubheader>
+        Two Teams That Would've Beaten Youngster Joey by 60+, and Won Youngster Joey's Playoff
+        Matchup
+      </ArticleSubheader>
+      <p>
+        Two teams that were in the playoffs last year found themselves in the toilet bowl this year,
+        and this matchup was electric. Twin Bowers schedule difficulty carried into the toilet bowl,
+        playing against the 2nd highest scoring team of the week while scoring the 3rd most points.
+        This was a week for the Brown's, with both A.J. and Chase scoring over 25 points for this
+        team. DEN DEF also chipped in 20 points, but it wasn't enough. An atypical rough game from
+        Brock Bowers was likely the difference maker in this one.
+      </p>
+      <p>
+        Kirk Thuggins & The Boys was able to win this matchup thanks to a well rounded team
+        performance, with only their defense scoring less that 10 points. The standout was Baker
+        Mayfield, who scored 28.02 points this week while feeding Mike Evans. Jerry Jeudy and Keenan
+        Allen both scored over 20 points as well to help this team win.
+      </p>
+      <MatchupPlot data={starterData} matchupId={5} />
+      <p>
+        Kirk Thuggins & The Boys advances to the 8th place game against Fortnite Master Builder.
+        Twin Bowers moves on to the 2nd round of the toilet bowl where they face off with First Down
+        Syndrome, who is coming off of a first round bye.
+      </p>
+    </div>
+  );
+};
 
 const MatchupArticleThree = () => {
-    return (
-        <div>
-            <ArticleHeader>Playoff Quarter-Final #1</ArticleHeader>
-            <ArticleSubheader>Youngster Joey Hurt Himself In Confusion!</ArticleSubheader>
-            <p>
-                Youngster Joey scored the 4th least points of any team this season this week in their first playoff appearance. Their top scorer was Brian Robinson, who scored 11.7 points this week. They had 3 other players above 10 points, and 5 players who scored less than 10 points, including their first and second round picks, Saquon Barkley and Marvin Harrison Jr.
-            </p>
-            <p>
-                Calvin's Cold Streak essentially had a playoff bye in round 1, but that didn't stop them from putting up points. Jared Goff had 41.06 points this week in a shootout with the Bills, and this was the 5th best MVP performance of the season, scoring 32.29% of the team total. Other top contributors were Josh Jacobs and Ja'Marr Chase.
-            </p>
-            <MatchupPlot data={starterData} matchupId={2} />
-            <p>
-                Youngster Joey will move into the 5th place game against Giving Me a Chubb. Calvin's Cold Streak advances to the second round and will face off against the 2 seed, Pink Pony Kupp.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Playoff Quarter-Final #1</ArticleHeader>
+      <ArticleSubheader>Youngster Joey Hurt Himself In Confusion!</ArticleSubheader>
+      <p>
+        Youngster Joey scored the 4th least points of any team this season this week in their first
+        playoff appearance. Their top scorer was Brian Robinson, who scored 11.7 points this week.
+        They had 3 other players above 10 points, and 5 players who scored less than 10 points,
+        including their first and second round picks, Saquon Barkley and Marvin Harrison Jr.
+      </p>
+      <p>
+        Calvin's Cold Streak essentially had a playoff bye in round 1, but that didn't stop them
+        from putting up points. Jared Goff had 41.06 points this week in a shootout with the Bills,
+        and this was the 5th best MVP performance of the season, scoring 32.29% of the team total.
+        Other top contributors were Josh Jacobs and Ja'Marr Chase.
+      </p>
+      <MatchupPlot data={starterData} matchupId={2} />
+      <p>
+        Youngster Joey will move into the 5th place game against Giving Me a Chubb. Calvin's Cold
+        Streak advances to the second round and will face off against the 2 seed, Pink Pony Kupp.
+      </p>
+    </div>
+  );
+};
 
 const MatchupArticleFour = () => {
-    return (
-        <div>
-            <ArticleHeader>Playoff Quarter-Final #2</ArticleHeader>
-            <ArticleSubheader>Biggest Blowout Ever?</ArticleSubheader>
-            <p>
-                If we don't count the Damar Hamlin game, this might be the biggest blowout in league history. Costo Guys won this matchup by nearly 100 points. They had 2 players score over 35 points, and 5 players who scored 22 or more points. Impressive stuff, hopefully they didn't blow their full load in round 1.
-            </p>
-            <p>
-                Giving Me a Chubb couldn't hit triple digit points in the playoffs, but gets to hide this poor performance behind Youngster Joey's awful performance. Their top scorer was Trey McBride who scored 17.7 points, and they got a 0 from Amari Cooper while the Bills offense otherwise went crazy this week. They didn't really have a chance to win this, but would've liked to have put up more of a fight.
-            </p>
-            <MatchupPlot data={starterData} matchupId={1} />
-            <p>
-                Costo Guys will advance to the second round of the playoffs against the 1 seed Just Joshin pt. 2. Giving Me a Chubb will play in the 5th place game against Youngster Joey.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Playoff Quarter-Final #2</ArticleHeader>
+      <ArticleSubheader>Biggest Blowout Ever?</ArticleSubheader>
+      <p>
+        If we don't count the Damar Hamlin game, this might be the biggest blowout in league
+        history. Costo Guys won this matchup by nearly 100 points. They had 2 players score over 35
+        points, and 5 players who scored 22 or more points. Impressive stuff, hopefully they didn't
+        blow their full load in round 1.
+      </p>
+      <p>
+        Giving Me a Chubb couldn't hit triple digit points in the playoffs, but gets to hide this
+        poor performance behind Youngster Joey's awful performance. Their top scorer was Trey
+        McBride who scored 17.7 points, and they got a 0 from Amari Cooper while the Bills offense
+        otherwise went crazy this week. They didn't really have a chance to win this, but would've
+        liked to have put up more of a fight.
+      </p>
+      <MatchupPlot data={starterData} matchupId={1} />
+      <p>
+        Costo Guys will advance to the second round of the playoffs against the 1 seed Just Joshin
+        pt. 2. Giving Me a Chubb will play in the 5th place game against Youngster Joey.
+      </p>
+    </div>
+  );
+};
 
 // const MatchupArticleFive = () => {
 //     return (
@@ -155,28 +223,31 @@ const MatchupArticleFour = () => {
 // }
 
 const ScoringDistributionArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>Scoring Distributions</ArticleHeader>
-            <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
-            <StackedHistogram chartData={matchupData} />
-            <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
-            <p>
-                A new high this week, and another really low game as well.
-            </p>
-            <WeeklyScoringChart chartData={matchupData} />
-            <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
-            <p>
-                Interestingly a new high with the top 2 teams on bye, and another really low with the worst 2 teams on bye.
-            </p>
-            <WeeklyMarginTable matchupData={matchupData} leaderboardData={leaderboardData} />
-            <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
-            <p>
-                Fortnite Master Builder earned their 3rd close victory, and are now 3-5 in close games this season. Njorkin da Tenis was handed their 4th close defeat, and move to 1-4 in close games. Kirk Thuggins & The Boys earned their 4th close victory, and move to 4-1 in close games. Twin Bowers was handed 2nd straight close defeat, and their 3rd of the season. They are now 2-3 in close games.
-            </p>
-        </div >
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>Scoring Distributions</ArticleHeader>
+      <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
+      <StackedHistogram chartData={matchupData} />
+      <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
+      <p>A new high this week, and another really low game as well.</p>
+      <WeeklyScoringChart chartData={matchupData} />
+      <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
+      <p>
+        Interestingly a new high with the top 2 teams on bye, and another really low with the worst
+        2 teams on bye.
+      </p>
+      <WeeklyMarginTable matchupData={matchupData} leaderboardData={leaderboardData} />
+      <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
+      <p>
+        Fortnite Master Builder earned their 3rd close victory, and are now 3-5 in close games this
+        season. Njorkin da Tenis was handed their 4th close defeat, and move to 1-4 in close games.
+        Kirk Thuggins & The Boys earned their 4th close victory, and move to 4-1 in close games.
+        Twin Bowers was handed 2nd straight close defeat, and their 3rd of the season. They are now
+        2-3 in close games.
+      </p>
+    </div>
+  );
+};
 
 // const StandingsArticle = () => {
 //     return (
@@ -310,250 +381,261 @@ const ScoringDistributionArticle = () => {
 // }
 
 const LeagueBuzzArticle = () => {
-    return (
-        <div>
-            <ArticleHeader>League Buzz</ArticleHeader>
-            <ArticleSubheader>MotW Videos</ArticleSubheader>
-            <LeagueQuote>
-                "Nikhil where's your video pal"<br />- Alec Maxwell
-            </LeagueQuote>
-            <p>
-                Alec has reason to question his fellow manager, who released a trailer for his MotW video multiple weeks ago, with no release date. Releasing a trailer for a MotW video is a first, and league managers have no idea about the timeline of the actual video. Luckily Nikhil was able to win this matchup this week, or he would've lost 2 additional MotW's since this video was assigned to him.
-            </p>
-            <p>
-                Anthony also released his MotW video this week, and kept it "short and sweet". One thing in his video was not short however.
-            </p>
-            <LeagueQuote>
-                "Crazy cameo from Steven Adams"<br />- Josh K
-            </LeagueQuote>
-            <LeagueQuote>
-                "Zach Edey is that you?"<br />- Devan
-            </LeagueQuote>
-            <ArticleSubheader>Other Submissions</ArticleSubheader>
-            <LeagueQuote>
-                "We should switch to a college football selection format because there is no way that Anthony should be in the playoffs"<br />- Anonymous League Manager
-            </LeagueQuote>
-            <p>
-                One playoff format that some leagues use is reserving the final playoff spot for the manager with the most points, regardless of record. In this format Nikhil would've made the playoffs over Anthony. This doesn't make any sense for our punishment league, as Alec would've been 32 points away from making the playoffs while being in last, but it is interesting to note. It is also interesting to note that Anthony was outside the top 6 in the power rankings, and if we used those as a selection committee both Nikhil and Alec would've made the playoffs over Anthony and Devan, the two lowest playoff teams.
-            </p>
-            <p>
-                Alec, who was on bye in the toilet bowl this week and didn't even set his lineup, would've beaten any team that played this week besides Greg. His team popped off and he scored over 150 points, with Davante Adams, CeeDee Lamb, and Terry McLaurin all going crazy. Davante Adams led all scorers this week with 42.8 points, and Lamb and Terry were 15 and 16 respectively. If only this performance wasn't wasted on a bye week, and could've helped them win one more regular season game.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArticleHeader>League Buzz</ArticleHeader>
+      <ArticleSubheader>MotW Videos</ArticleSubheader>
+      <LeagueQuote>
+        "Nikhil where's your video pal"
+        <br />- Alec Maxwell
+      </LeagueQuote>
+      <p>
+        Alec has reason to question his fellow manager, who released a trailer for his MotW video
+        multiple weeks ago, with no release date. Releasing a trailer for a MotW video is a first,
+        and league managers have no idea about the timeline of the actual video. Luckily Nikhil was
+        able to win this matchup this week, or he would've lost 2 additional MotW's since this video
+        was assigned to him.
+      </p>
+      <p>
+        Anthony also released his MotW video this week, and kept it "short and sweet". One thing in
+        his video was not short however.
+      </p>
+      <LeagueQuote>
+        "Crazy cameo from Steven Adams"
+        <br />- Josh K
+      </LeagueQuote>
+      <LeagueQuote>
+        "Zach Edey is that you?"
+        <br />- Devan
+      </LeagueQuote>
+      <ArticleSubheader>Other Submissions</ArticleSubheader>
+      <LeagueQuote>
+        "We should switch to a college football selection format because there is no way that
+        Anthony should be in the playoffs"
+        <br />- Anonymous League Manager
+      </LeagueQuote>
+      <p>
+        One playoff format that some leagues use is reserving the final playoff spot for the manager
+        with the most points, regardless of record. In this format Nikhil would've made the playoffs
+        over Anthony. This doesn't make any sense for our punishment league, as Alec would've been
+        32 points away from making the playoffs while being in last, but it is interesting to note.
+        It is also interesting to note that Anthony was outside the top 6 in the power rankings, and
+        if we used those as a selection committee both Nikhil and Alec would've made the playoffs
+        over Anthony and Devan, the two lowest playoff teams.
+      </p>
+      <p>
+        Alec, who was on bye in the toilet bowl this week and didn't even set his lineup, would've
+        beaten any team that played this week besides Greg. His team popped off and he scored over
+        150 points, with Davante Adams, CeeDee Lamb, and Terry McLaurin all going crazy. Davante
+        Adams led all scorers this week with 42.8 points, and Lamb and Terry were 15 and 16
+        respectively. If only this performance wasn't wasted on a bye week, and could've helped them
+        win one more regular season game.
+      </p>
+    </div>
+  );
+};
 
 const Meme1 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ecrp0.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ecrp0.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme2 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ecrio.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by Josh K</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ecrio.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by Josh K</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme3 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ecsal.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ecsal.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme4 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ecsd1.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ecsd1.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme5 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ecsxx.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ecsxx.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme6 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ect93.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ect93.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme7 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ectgm.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ectgm.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme8 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ectlr.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ectlr.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme9 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ectte.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ectte.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 const Meme10 = () => {
-    return (
-        <ImageWrapper>
-            <ArticleImage src={"https://i.imgflip.com/9ecu7b.jpg"}>
-            </ArticleImage>
-            <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
-        </ImageWrapper>
-    )
-}
+  return (
+    <ImageWrapper>
+      <ArticleImage src={"https://i.imgflip.com/9ecu7b.jpg"}></ArticleImage>
+      <ArticleCaption>Submitted by The Offensive Line</ArticleCaption>
+    </ImageWrapper>
+  );
+};
 
 export const articles = [
-    {
-        id: 1,
-        content: AwardsAndRecapArticle,
-    },
-    {
-        id: 2,
-        content: MotwArticle,
-    },
-    {
-        id: 3,
-        content: MatchupArticleTwo,
-    },
-    {
-        id: 4,
-        content: MatchupArticleThree,
-    },
-    {
-        id: 5,
-        content: MatchupArticleFour,
-    },
-    // {
-    //     id: 6,
-    //     content: MatchupArticleFive,
-    // },
-    // {
-    //     id: 7,
-    //     content: MatchupArticleSix,
-    // },
-    {
-        id: 8,
-        content: ScoringDistributionArticle,
-    },
-    // {
-    //     id: 9,
-    //     content: StandingsArticle,
-    // },
-    // {
-    //     id: 10,
-    //     content: PowerRankingsArticle,
-    // },
-    // {
-    //     id: 11,
-    //     content: PlayoffOutlookArticle,
-    // },
-    // {
-    //     id: 12,
-    //     content: AlternateUniverseArticleOne,
-    // },
-    // {
-    //     id: 13,
-    //     content: AlternateUniverseArticleTwo,
-    // },
-    // {
-    //     id: 14,
-    //     content: AlternateUniverseArticleThree,
-    // },
-    // {
-    //     id: 15,
-    //     content: MotWDangerArticle,
-    // },
-    // {
-    //     id: 16,
-    //     content: TradingVolumeArticle,
-    // },
-    {
-        id: 17,
-        content: LeagueBuzzArticle,
-    },
-    {
-        id: 18,
-        content: Meme1,
-    },
-    {
-        id: 19,
-        content: Meme2,
-    },
-    {
-        id: 20,
-        content: Meme3,
-    },
-    {
-        id: 21,
-        content: Meme4,
-    },
-    {
-        id: 22,
-        content: Meme5,
-    },
-    {
-        id: 23,
-        content: Meme6,
-    },
-    {
-        id: 24,
-        content: Meme7,
-    },
-    {
-        id: 25,
-        content: Meme8,
-    },
-    {
-        id: 26,
-        content: Meme9,
-    },
-    {
-        id: 27,
-        content: Meme10,
-    },
-    {
-        id: 30,
-        content: MotWRules,
-    },
+  {
+    id: 1,
+    content: AwardsAndRecapArticle,
+  },
+  {
+    id: 2,
+    content: MotwArticle,
+  },
+  {
+    id: 3,
+    content: MatchupArticleTwo,
+  },
+  {
+    id: 4,
+    content: MatchupArticleThree,
+  },
+  {
+    id: 5,
+    content: MatchupArticleFour,
+  },
+  // {
+  //     id: 6,
+  //     content: MatchupArticleFive,
+  // },
+  // {
+  //     id: 7,
+  //     content: MatchupArticleSix,
+  // },
+  {
+    id: 8,
+    content: ScoringDistributionArticle,
+  },
+  // {
+  //     id: 9,
+  //     content: StandingsArticle,
+  // },
+  // {
+  //     id: 10,
+  //     content: PowerRankingsArticle,
+  // },
+  // {
+  //     id: 11,
+  //     content: PlayoffOutlookArticle,
+  // },
+  // {
+  //     id: 12,
+  //     content: AlternateUniverseArticleOne,
+  // },
+  // {
+  //     id: 13,
+  //     content: AlternateUniverseArticleTwo,
+  // },
+  // {
+  //     id: 14,
+  //     content: AlternateUniverseArticleThree,
+  // },
+  // {
+  //     id: 15,
+  //     content: MotWDangerArticle,
+  // },
+  // {
+  //     id: 16,
+  //     content: TradingVolumeArticle,
+  // },
+  {
+    id: 17,
+    content: LeagueBuzzArticle,
+  },
+  {
+    id: 18,
+    content: Meme1,
+  },
+  {
+    id: 19,
+    content: Meme2,
+  },
+  {
+    id: 20,
+    content: Meme3,
+  },
+  {
+    id: 21,
+    content: Meme4,
+  },
+  {
+    id: 22,
+    content: Meme5,
+  },
+  {
+    id: 23,
+    content: Meme6,
+  },
+  {
+    id: 24,
+    content: Meme7,
+  },
+  {
+    id: 25,
+    content: Meme8,
+  },
+  {
+    id: 26,
+    content: Meme9,
+  },
+  {
+    id: 27,
+    content: Meme10,
+  },
+  {
+    id: 30,
+    content: MotWRules,
+  },
 ];

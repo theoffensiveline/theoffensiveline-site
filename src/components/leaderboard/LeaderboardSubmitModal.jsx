@@ -35,7 +35,8 @@ const NiceBox = styled(Box)`
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  h3, h4 {
+  h3,
+  h4 {
     color: ${({ theme }) => theme.text};
     margin-bottom: 8px;
   }
@@ -46,7 +47,7 @@ const NiceBox = styled(Box)`
 
   .MuiOutlinedInput-root {
     color: ${({ theme }) => theme.text};
-    
+
     .MuiOutlinedInput-notchedOutline {
       border-color: ${({ theme }) => theme.text}33;
     }
@@ -66,7 +67,7 @@ const NiceBox = styled(Box)`
 
   .MuiMenuItem-root {
     color: ${({ theme }) => theme.text};
-    
+
     &:hover {
       background-color: ${({ theme }) => theme.newsBlue}22;
     }
@@ -123,11 +124,7 @@ const LeaderboardSubmitModal = ({ props }) => {
         return !isEmpty(score) || dnf;
       } else if (sortType.includes("time")) {
         return (
-          dnf ||
-          !isEmpty(hours) ||
-          !isEmpty(minutes) ||
-          !isEmpty(seconds) ||
-          !isEmpty(milliseconds)
+          dnf || !isEmpty(hours) || !isEmpty(minutes) || !isEmpty(seconds) || !isEmpty(milliseconds)
         );
       }
       return false;
@@ -140,13 +137,10 @@ const LeaderboardSubmitModal = ({ props }) => {
       setLoading(true);
       try {
         // Get the league ID from localStorage or use the hardcoded one from LeaderboardsHome
-        const leagueId =
-          localStorage.getItem("selectedLeagueId") || leagueIds.mainLeague;
+        const leagueId = localStorage.getItem("selectedLeagueId") || leagueIds.mainLeague;
 
         // Fetch league users
-        const response = await fetch(
-          `https://api.sleeper.app/v1/league/${leagueId}/users`
-        );
+        const response = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`);
         const data = await response.json();
 
         if (data && Array.isArray(data)) {
@@ -204,13 +198,15 @@ const LeaderboardSubmitModal = ({ props }) => {
     const topThreeDistinct = getTopNDistinct(sortedSubmissions, 3);
 
     // Check if the new submission is in the top 3 distinct results
-    return topThreeDistinct.some(sub =>
-      sub.name === submission.name &&
-      (sortType.includes("score") ? sub.score === submission.score :
-        sub.hours === submission.hours &&
-        sub.minutes === submission.minutes &&
-        sub.seconds === submission.seconds &&
-        sub.milliseconds === submission.milliseconds)
+    return topThreeDistinct.some(
+      (sub) =>
+        sub.name === submission.name &&
+        (sortType.includes("score")
+          ? sub.score === submission.score
+          : sub.hours === submission.hours &&
+            sub.minutes === submission.minutes &&
+            sub.seconds === submission.seconds &&
+            sub.milliseconds === submission.milliseconds)
     );
   };
 
@@ -258,16 +254,20 @@ const LeaderboardSubmitModal = ({ props }) => {
           // Get distinct top 3 (best result per person)
           const topThreeDistinct = getTopNDistinct(sortedSubmissions, 3);
 
-          const topThree = topThreeDistinct.map((sub, index) => {
-            const subResult = sub.dnf ? "DNF" :
-              sortType.includes("score") ? sub.score :
-                `${sub.hours}:${sub.minutes}:${sub.seconds}.${sub.milliseconds}`;
-            return `${index + 1}. ${sub.name}: ${subResult}`;
-          }).join('\n');
+          const topThree = topThreeDistinct
+            .map((sub, index) => {
+              const subResult = sub.dnf
+                ? "DNF"
+                : sortType.includes("score")
+                  ? sub.score
+                  : `${sub.hours}:${sub.minutes}:${sub.seconds}.${sub.milliseconds}`;
+              return `${index + 1}. ${sub.name}: ${subResult}`;
+            })
+            .join("\n");
 
           const discordMessage = {
             name: name,
-            content: `New Top 3 Leaderboard Submission for ${leaderboardName}:\nResult: ${result}${link ? `\nLink: ${link}` : ''}\n\nCurrent Top 3:\n${topThree}`
+            content: `New Top 3 Leaderboard Submission for ${leaderboardName}:\nResult: ${result}${link ? `\nLink: ${link}` : ""}\n\nCurrent Top 3:\n${topThree}`,
           };
 
           try {
