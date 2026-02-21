@@ -28,6 +28,11 @@ pnpm test
 # Run only newsletter utility tests
 pnpm test-utils-newsletter
 
+# Lint, type-check, and verify formatting (all run in CI — must pass before committing)
+pnpm lint
+pnpm typecheck
+pnpm format:check
+
 # Enable per-section performance timing in dev server (sections >200ms emit console.warn)
 REACT_APP_NEWSLETTER_PERF=1 pnpm start
 ```
