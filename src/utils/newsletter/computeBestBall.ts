@@ -52,7 +52,12 @@ export async function computeBestBall(
     getLeague(leagueId),
     getUsers(leagueId),
     getRosters(leagueId),
-    getPlayers(leagueId),
+    // TODO: For ESPN leagues, this fetches throughWeek's roster to resolve player
+    // positions for calculateOptimalScore. Players dropped before throughWeek may
+    // still be missing, causing their position to be null and optimal scores for
+    // early weeks to be slightly underestimated. A fully accurate fix would fetch
+    // a per-week player map inside the week loop (N extra API calls).
+    getPlayers(leagueId, throughWeek),
   ]);
   const weeklyMatchups: Matchup[][] = await Promise.all(
     Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1))

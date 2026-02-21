@@ -48,7 +48,7 @@ export async function computeWeeklyAwards(leagueId: string, week: number): Promi
     getRosters(leagueId),
     getMatchups(leagueId, week),
     getLeague(leagueId),
-    getPlayers(leagueId),
+    getPlayers(leagueId, week),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));

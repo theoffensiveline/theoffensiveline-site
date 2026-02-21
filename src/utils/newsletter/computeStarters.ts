@@ -12,7 +12,7 @@ export async function computeStarters(leagueId: string, week: number): Promise<S
     getMatchups(leagueId, week),
     getRosters(leagueId),
     getUsers(leagueId),
-    getPlayers(leagueId),
+    getPlayers(leagueId, week),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));

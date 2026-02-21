@@ -341,10 +341,10 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
     const matchupId = item.id;
 
     if (item.home) {
-      matchups.push(buildMatchupEntry(item.home, matchupId, rosterByTeamId));
+      matchups.push(buildMatchupEntry(item.home, matchupId, rosterByTeamId, week));
     }
     if (item.away) {
-      matchups.push(buildMatchupEntry(item.away, matchupId, rosterByTeamId));
+      matchups.push(buildMatchupEntry(item.away, matchupId, rosterByTeamId, week));
     }
   }
 
@@ -357,11 +357,16 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
  * Player entries come from data.teams[].roster.entries (via mRoster view) since
  * rosterForCurrentScoringPeriod on schedule items contains NFL team-level stats,
  * not individual fantasy player entries with player IDs.
+ *
+ * @param week - The scoring period to pull per-player stats for. Used to filter
+ *   player.stats[] by scoringPeriodId so we get the single-week score rather
+ *   than the season-to-date appliedStatTotal (which is cumulative).
  */
 function buildMatchupEntry(
   side: NonNullable<ESPNScheduleItem["home"]>,
   matchupId: number,
-  rosterByTeamId: Map<number, ESPNRosterEntry[]>
+  rosterByTeamId: Map<number, ESPNRosterEntry[]>,
+  week: number
 ): Matchup {
   const entries = rosterByTeamId.get(side.teamId) ?? [];
 
@@ -377,12 +382,14 @@ function buildMatchupEntry(
     const espnPid = entry.playerId.toString();
     const pid = espnToSleeperId[espnPid] ?? espnPid;
 
-    // appliedStatTotal is the player's fantasy points for the scoring period.
-    // Fall back to the actual-stat entry in player.stats if not present.
+    // Use the week-specific actual stat entry from player.stats[].
+    // appliedStatTotal is the season-to-date cumulative total and must NOT be
+    // used here — by week 10 it inflates every player's "points" ~10x, making
+    // calculateOptimalScore return an impossibly high max score.
     const pts =
-      entry.playerPoolEntry?.appliedStatTotal ??
-      entry.playerPoolEntry?.player?.stats?.find((s) => s.statSourceId === 0)?.appliedTotal ??
-      0;
+      entry.playerPoolEntry?.player?.stats?.find(
+        (s) => s.statSourceId === 0 && s.scoringPeriodId === week
+      )?.appliedTotal ?? 0;
 
     players.push(pid);
     playersPoints[pid] = pts;
@@ -567,10 +574,17 @@ const ESPN_PRO_TEAM_MAP: Record<number, string> = {
  * @returns Map of player ID → GenericPlayer
  */
 export async function getPlayers(
-  leagueId: string
+  leagueId: string,
+  week?: number
 ): Promise<Record<string, import("./FantasyAPI").GenericPlayer>> {
   const numericId = stripPrefix(leagueId);
-  const data = await fetchRosters(numericId);
+  // When a specific week is provided, fetch that week's roster so players who
+  // were on teams then (but since dropped/traded) are included in the map.
+  // Without this, getPlayerPosition() returns null for those players and
+  // calculateOptimalScore() underestimates the max score for historical weeks.
+  const data = week != null
+    ? await fetchMatchups(numericId, undefined, week)
+    : await fetchRosters(numericId);
 
   const players: Record<string, import("./FantasyAPI").GenericPlayer> = {};
 

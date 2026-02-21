@@ -112,7 +112,7 @@ export async function computeEfficiency(leagueId: string, week: number): Promise
     getMatchups(leagueId, week),
     getRosters(leagueId),
     getUsers(leagueId),
-    getPlayers(leagueId),
+    getPlayers(leagueId, week),
   ]);
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));
