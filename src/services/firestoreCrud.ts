@@ -23,7 +23,6 @@ import {
   query,
   where,
   Timestamp,
-  QueryConstraint,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import type { UserDoc, LeagueDoc, NewsletterDoc, WeekDataDoc } from "../types/firestore";
