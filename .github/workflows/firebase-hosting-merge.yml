@@ -27,3 +27,9 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_THEOFFENSIVELINE_D8493 }}"
           channelId: live
           projectId: theoffensiveline-d8493
+      - name: Deploy Firestore rules
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_THEOFFENSIVELINE_D8493 }}' > /tmp/sa-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa-key.json
+          npx firebase-tools deploy --only firestore:rules --project theoffensiveline-d8493
+          rm -f /tmp/sa-key.json
