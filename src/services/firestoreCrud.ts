@@ -26,12 +26,7 @@ import {
   QueryConstraint,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import type {
-  UserDoc,
-  LeagueDoc,
-  NewsletterDoc,
-  WeekDataDoc,
-} from "../types/firestore";
+import type { UserDoc, LeagueDoc, NewsletterDoc, WeekDataDoc } from "../types/firestore";
 
 // ---------------------------------------------------------------------------
 // Users — /users/{uid}
@@ -42,10 +37,7 @@ import type {
  * @param uid - Firebase Auth UID
  * @param data - User fields (excluding createdAt)
  */
-export async function createUser(
-  uid: string,
-  data: Omit<UserDoc, "createdAt">
-): Promise<void> {
+export async function createUser(uid: string, data: Omit<UserDoc, "createdAt">): Promise<void> {
   await setDoc(doc(db, "users", uid), {
     ...data,
     createdAt: Timestamp.now(),
@@ -67,10 +59,7 @@ export async function getUser(uid: string): Promise<UserDoc | null> {
  * @param uid - Firebase Auth UID
  * @param data - Partial user fields to merge
  */
-export async function updateUser(
-  uid: string,
-  data: Partial<UserDoc>
-): Promise<void> {
+export async function updateUser(uid: string, data: Partial<UserDoc>): Promise<void> {
   await updateDoc(doc(db, "users", uid), data);
 }
 
@@ -120,10 +109,7 @@ export async function getLeague(leagueId: string): Promise<LeagueDoc | null> {
 export async function getLeaguesByEditor(
   editorUid: string
 ): Promise<(LeagueDoc & { id: string })[]> {
-  const q = query(
-    collection(db, "leagues"),
-    where("editorUid", "==", editorUid)
-  );
+  const q = query(collection(db, "leagues"), where("editorUid", "==", editorUid));
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as LeagueDoc) }));
 }
@@ -133,10 +119,7 @@ export async function getLeaguesByEditor(
  * @param leagueId - League document ID
  * @param data - Partial league fields to merge
  */
-export async function updateLeague(
-  leagueId: string,
-  data: Partial<LeagueDoc>
-): Promise<void> {
+export async function updateLeague(leagueId: string, data: Partial<LeagueDoc>): Promise<void> {
   await updateDoc(doc(db, "leagues", leagueId), data);
 }
 
@@ -163,10 +146,7 @@ export async function setNewsletter(
   weekNumber: string,
   data: NewsletterDoc
 ): Promise<void> {
-  await setDoc(
-    doc(db, "leagues", leagueId, "newsletters", weekNumber),
-    data
-  );
+  await setDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber), data);
 }
 
 /**
@@ -179,9 +159,7 @@ export async function getNewsletter(
   leagueId: string,
   weekNumber: string
 ): Promise<NewsletterDoc | null> {
-  const snap = await getDoc(
-    doc(db, "leagues", leagueId, "newsletters", weekNumber)
-  );
+  const snap = await getDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber));
   return snap.exists() ? (snap.data() as NewsletterDoc) : null;
 }
 
@@ -193,9 +171,7 @@ export async function getNewsletter(
 export async function getAllNewsletters(
   leagueId: string
 ): Promise<(NewsletterDoc & { weekNumber: string })[]> {
-  const snap = await getDocs(
-    collection(db, "leagues", leagueId, "newsletters")
-  );
+  const snap = await getDocs(collection(db, "leagues", leagueId, "newsletters"));
   return snap.docs.map((d) => ({
     weekNumber: d.id,
     ...(d.data() as NewsletterDoc),
@@ -213,10 +189,7 @@ export async function updateNewsletter(
   weekNumber: string,
   data: Partial<NewsletterDoc>
 ): Promise<void> {
-  await updateDoc(
-    doc(db, "leagues", leagueId, "newsletters", weekNumber),
-    data
-  );
+  await updateDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber), data);
 }
 
 /**
@@ -224,13 +197,8 @@ export async function updateNewsletter(
  * @param leagueId - Parent league document ID
  * @param weekNumber - Week number as string
  */
-export async function deleteNewsletter(
-  leagueId: string,
-  weekNumber: string
-): Promise<void> {
-  await deleteDoc(
-    doc(db, "leagues", leagueId, "newsletters", weekNumber)
-  );
+export async function deleteNewsletter(leagueId: string, weekNumber: string): Promise<void> {
+  await deleteDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber));
 }
 
 // ---------------------------------------------------------------------------
@@ -248,10 +216,7 @@ export async function setWeekData(
   weekNumber: string,
   data: WeekDataDoc
 ): Promise<void> {
-  await setDoc(
-    doc(db, "leagues", leagueId, "weekData", weekNumber),
-    data
-  );
+  await setDoc(doc(db, "leagues", leagueId, "weekData", weekNumber), data);
 }
 
 /**
@@ -264,9 +229,7 @@ export async function getWeekData(
   leagueId: string,
   weekNumber: string
 ): Promise<WeekDataDoc | null> {
-  const snap = await getDoc(
-    doc(db, "leagues", leagueId, "weekData", weekNumber)
-  );
+  const snap = await getDoc(doc(db, "leagues", leagueId, "weekData", weekNumber));
   return snap.exists() ? (snap.data() as WeekDataDoc) : null;
 }
 
@@ -281,10 +244,7 @@ export async function updateWeekData(
   weekNumber: string,
   data: Partial<WeekDataDoc>
 ): Promise<void> {
-  await updateDoc(
-    doc(db, "leagues", leagueId, "weekData", weekNumber),
-    data
-  );
+  await updateDoc(doc(db, "leagues", leagueId, "weekData", weekNumber), data);
 }
 
 /**
@@ -292,11 +252,6 @@ export async function updateWeekData(
  * @param leagueId - Parent league document ID
  * @param weekNumber - Week number as string
  */
-export async function deleteWeekData(
-  leagueId: string,
-  weekNumber: string
-): Promise<void> {
-  await deleteDoc(
-    doc(db, "leagues", leagueId, "weekData", weekNumber)
-  );
+export async function deleteWeekData(leagueId: string, weekNumber: string): Promise<void> {
+  await deleteDoc(doc(db, "leagues", leagueId, "weekData", weekNumber));
 }
