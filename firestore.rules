@@ -97,7 +97,7 @@ service cloud.firestore {
     // /survivorPicks/{docId}
     // Publicly readable (leaderboard views). Authenticated users can create
     // and update picks. No deletes from client.
-    // TODO: Restrict writes to own picks (requires userId field validation).
+    // TODO: Restrict writes to own picks (e.g. request.resource.data.userId == request.auth.uid).
     // -----------------------------------------------------------------------
     match /survivorPicks/{docId} {
       allow read: if true;
