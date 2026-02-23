@@ -12,11 +12,6 @@ service cloud.firestore {
     }
 
     // -----------------------------------------------------------------------
-    // /leagues/{leagueId}
-    // Publicly readable (privacy defaults to public for Phase 1).
-    // Only the editor (editorUid) or co-editors can write.
-    // -----------------------------------------------------------------------
-    // -----------------------------------------------------------------------
     // /config/{docId}
     // Publicly readable (contains service URLs like the ESPN proxy endpoint).
     // Not writable from the client.
@@ -25,6 +20,11 @@ service cloud.firestore {
       allow read: if true;
     }
 
+    // -----------------------------------------------------------------------
+    // /leagues/{leagueId}
+    // Publicly readable (privacy defaults to public for Phase 1).
+    // Only the editor (editorUid) or co-editors can write.
+    // -----------------------------------------------------------------------
     match /leagues/{leagueId} {
       allow read: if true;
       allow create: if request.auth != null;
@@ -53,6 +53,55 @@ service cloud.firestore {
           && (get(/databases/$(database)/documents/leagues/$(leagueId)).data.editorUid == request.auth.uid
               || request.auth.uid in get(/databases/$(database)/documents/leagues/$(leagueId)).data.coEditorUids);
       }
+    }
+
+    // -----------------------------------------------------------------------
+    // /leaderboards/{docId}
+    // Publicly readable. Not writable from the client (managed via console).
+    // TODO: Add write rules when admin UI is built.
+    // -----------------------------------------------------------------------
+    match /leaderboards/{docId} {
+      allow read: if true;
+    }
+
+    // -----------------------------------------------------------------------
+    // /leaderboard-results/{docId}
+    // Publicly readable. Anyone can submit results (no auth required per
+    // current Submit modal behavior). Tighten to authenticated-only later.
+    // TODO: Require auth and validate submission shape.
+    // -----------------------------------------------------------------------
+    match /leaderboard-results/{docId} {
+      allow read: if true;
+      allow create: if true;
+    }
+
+    // -----------------------------------------------------------------------
+    // /leaderboard-times/{docId}
+    // Publicly readable (Eaterboard page). Not writable from the client.
+    // -----------------------------------------------------------------------
+    match /leaderboard-times/{docId} {
+      allow read: if true;
+    }
+
+    // -----------------------------------------------------------------------
+    // /submissions/{docId}
+    // Write-only from the client (anonymous newsletter submissions).
+    // Not readable from the client — reviewed via Firebase console.
+    // TODO: Require auth or rate-limit to prevent spam.
+    // -----------------------------------------------------------------------
+    match /submissions/{docId} {
+      allow create: if true;
+    }
+
+    // -----------------------------------------------------------------------
+    // /survivorPicks/{docId}
+    // Publicly readable (leaderboard views). Authenticated users can create
+    // and update picks. No deletes from client.
+    // TODO: Restrict writes to own picks (requires userId field validation).
+    // -----------------------------------------------------------------------
+    match /survivorPicks/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
     }
   }
 }
