@@ -46,7 +46,7 @@ export async function computeWeeklyAwards(leagueId: string, week: number): Promi
   const [users, rosters, matchups, league, playerMap] = await Promise.all([
     getUsers(leagueId),
     getRosters(leagueId),
-    getMatchups(leagueId, week),
+    getMatchups(leagueId, week, true),
     getLeague(leagueId),
     getPlayers(leagueId, week),
   ]);

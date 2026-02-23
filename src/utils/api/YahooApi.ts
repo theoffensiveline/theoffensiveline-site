@@ -202,6 +202,24 @@ export async function fetchNflGame(): Promise<YahooGameResponse> {
   return dedupedFetch<YahooGameResponse>(`/game/nfl`);
 }
 
+/**
+ * Fetch per-player fantasy points for a batch of players in a specific week.
+ * Requesting via the league endpoint returns points calculated with the
+ * league's own scoring settings (not raw stats).
+ * Keep batches ≤ 25 to stay within Yahoo URL length limits.
+ */
+export async function fetchPlayerStats(
+  numericId: string,
+  playerKeys: string[],
+  week: number
+): Promise<unknown> {
+  if (playerKeys.length === 0) return null;
+  const keys = playerKeys.join(",");
+  const path = `/league/${leagueKey(numericId)}/players;player_keys=${keys}/stats;type=week;week=${week}`;
+  console.log("[YahooApi:fetchPlayerStats] path:", path.slice(0, 150));
+  return dedupedFetch(path);
+}
+
 // ---------------------------------------------------------------------------
 // OAuth helpers (used by YahooLogin / YahooCallback)
 // ---------------------------------------------------------------------------

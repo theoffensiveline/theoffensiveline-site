@@ -27,7 +27,7 @@ import type {
   YahooStatModifier,
   YahooLeagueSettings,
 } from "../../types/yahooTypes";
-import { fetchLeague, fetchTeams, fetchRosters, fetchMatchups, fetchSettings } from "./YahooApi";
+import { fetchLeague, fetchTeams, fetchRosters, fetchMatchups, fetchSettings, fetchPlayerStats } from "./YahooApi";
 import { yahooToSleeperId } from "../playerUtils";
 import type { GenericPlayer } from "./FantasyAPI";
 
@@ -370,11 +370,18 @@ export async function getRosters(leagueId: string): Promise<Roster[]> {
   return rosters;
 }
 
-export async function getMatchups(leagueId: string, week: number): Promise<Matchup[]> {
+export async function getMatchups(
+  leagueId: string,
+  week: number,
+  includePlayerStats = false
+): Promise<Matchup[]> {
   const numericId = stripPrefix(leagueId);
+
+  // Only fetch rosters (for lineup + player IDs) when per-player stats are needed.
+  // Team totals come from the scoreboard alone.
   const [scoreboardRes, rostersRes] = await Promise.all([
     fetchMatchups(numericId, week),
-    fetchRosters(numericId, week),
+    includePlayerStats ? fetchRosters(numericId, week) : Promise.resolve(null),
   ]);
 
   const scoreboard = scoreboardRes.fantasy_content.league[1]?.scoreboard;
@@ -386,8 +393,69 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
   }
   const matchupEntries = yahooMapToArray<{ matchup: YahooMatchup }>(matchupsMap);
 
-  // Build a player-points map keyed by Yahoo team_id for this week
-  const teamRosterMap = buildTeamRosterMap(rostersRes.fantasy_content.league[1]?.teams);
+  // Build lineup map and fetch per-player stats only when requested
+  const teamRosterMap = buildTeamRosterMap(
+    rostersRes?.fantasy_content.league[1]?.teams
+  );
+  const yahooKeyPts: Record<string, number> = {};
+
+  if (includePlayerStats) {
+    const allYahooKeys = Object.values(teamRosterMap).flatMap((t) => t.yahooPlayerKeys);
+
+    // Batch-fetch player fantasy points (25 keys per request to stay within URL limits)
+    const BATCH_SIZE = 25;
+    const statsBatches = await Promise.all(
+      Array.from({ length: Math.ceil(allYahooKeys.length / BATCH_SIZE) }, (_, i) =>
+        fetchPlayerStats(numericId, allYahooKeys.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE), week)
+      )
+    );
+
+    // Parse stats responses into yahooPlayerKey → fantasy points map
+    let _loggedStatsSample = false;
+    for (const batch of statsBatches) {
+      if (!batch) continue;
+      const leagueArr = (batch as { fantasy_content: { league: unknown[] } }).fantasy_content
+        .league;
+      const playersMap = (leagueArr[1] as { players?: YahooMap<{ player: unknown[] }> })?.players;
+      if (!playersMap) continue;
+
+      const playerEntries = yahooMapToArray<{ player: unknown[] }>(playersMap);
+      for (const entry of playerEntries) {
+        const playerArr = entry.player;
+        if (!Array.isArray(playerArr)) continue;
+
+        if (!_loggedStatsSample) {
+          console.log(
+            "[YahooAdapter:getMatchups] stats sample player:",
+            JSON.stringify(entry, null, 2).slice(0, 600)
+          );
+          _loggedStatsSample = true;
+        }
+
+        const playerMeta = playerArr[0] as YahooTeamMetaArray;
+        const playerKey = String(extractYahooField<string>(playerMeta, "player_key") ?? "");
+        if (!playerKey) continue;
+
+        // player_points may be at any position after [0] (metadata)
+        const playerPointsEl = (playerArr as Array<unknown>)
+          .slice(1)
+          .find(
+            (el): el is { player_points: { total: string } } =>
+              el != null && typeof el === "object" && "player_points" in (el as object)
+          );
+        yahooKeyPts[playerKey] = parseFloat(playerPointsEl?.player_points?.total ?? "0");
+      }
+    }
+
+    console.log(
+      "[YahooAdapter:getMatchups] week",
+      week,
+      "— stats resolved for",
+      Object.keys(yahooKeyPts).length,
+      "players, sample:",
+      Object.entries(yahooKeyPts).slice(0, 3)
+    );
+  }
 
   const results: Matchup[] = [];
   let matchupId = 1;
@@ -404,17 +472,28 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
       const teamPoints = (teamEntry.team[1] as { team_points?: { total: string } })?.team_points;
       const totalPoints = parseFloat(teamPoints?.total ?? "0");
 
-      const rosterInfo = teamRosterMap[teamId];
+      const lineup = teamRosterMap[teamId];
+      const players = lineup?.players ?? [];
+      const starters = lineup?.starters ?? [];
+      const yahooPlayerKeys = lineup?.yahooPlayerKeys ?? [];
+      const starterYahooKeys = lineup?.starterYahooKeys ?? [];
+
+      // Apply per-player points using parallel yahoo key arrays (empty when not fetched)
+      const playersPoints: Record<string, number> = {};
+      for (let i = 0; i < players.length; i++) {
+        playersPoints[players[i]] = yahooKeyPts[yahooPlayerKeys[i]] ?? 0;
+      }
+      const startersPoints = starterYahooKeys.map((k) => yahooKeyPts[k] ?? 0);
 
       results.push({
         roster_id: teamId,
         matchup_id: matchupId,
         points: totalPoints,
         custom_points: null,
-        players: rosterInfo?.players ?? [],
-        starters: rosterInfo?.starters ?? [],
-        starters_points: rosterInfo?.startersPoints ?? [],
-        players_points: rosterInfo?.playersPoints ?? {},
+        players,
+        starters,
+        starters_points: startersPoints,
+        players_points: playersPoints,
         week,
       });
     }
@@ -425,17 +504,23 @@ export async function getMatchups(leagueId: string, week: number): Promise<Match
   return results;
 }
 
-/** Build a map of team_id → { players, starters, points } from the roster response */
-function buildTeamRosterMap(teamsMap: YahooMap<{ team: unknown[] }> | undefined): Record<
-  number,
-  {
-    players: string[];
-    starters: string[];
-    startersPoints: number[];
-    playersPoints: Record<string, number>;
-  }
-> {
-  const result: Record<number, ReturnType<typeof buildTeamRosterMap>[number]> = {};
+type TeamLineup = {
+  /** All rostered players as Sleeper IDs (parallel to yahooPlayerKeys) */
+  players: string[];
+  /** Starting players as Sleeper IDs (parallel to starterYahooKeys) */
+  starters: string[];
+  /** Yahoo player keys for every rostered player, parallel to `players` */
+  yahooPlayerKeys: string[];
+  /** Yahoo player keys for starters only, parallel to `starters` */
+  starterYahooKeys: string[];
+};
+
+/** Build a lineup map of team_id → { players, starters, yahoo keys } from the roster response.
+ *  Points are NOT populated here — they come from a separate fetchPlayerStats call. */
+function buildTeamRosterMap(
+  teamsMap: YahooMap<{ team: unknown[] }> | undefined
+): Record<number, TeamLineup> {
+  const result: Record<number, TeamLineup> = {};
 
   if (!teamsMap) return result;
   const teams = yahooMapToArray<{ team: unknown[] }>(teamsMap);
@@ -443,14 +528,14 @@ function buildTeamRosterMap(teamsMap: YahooMap<{ team: unknown[] }> | undefined)
     const meta = teamEntry.team[0] as YahooTeamMetaArray;
     const teamId = parseInt(String(extractYahooField<string>(meta, "team_id") ?? "0"), 10);
 
-    // Roster is at team[1].roster["0"].players (not team[3].roster.players)
+    // Roster is at team[1].roster["0"].players
     const rosterWrapper = teamEntry.team[1] as { roster?: YahooRoster } | undefined;
     const playersMap = rosterWrapper?.roster?.["0"]?.players;
 
     const players: string[] = [];
     const starters: string[] = [];
-    const startersPoints: number[] = [];
-    const playersPoints: Record<string, number> = {};
+    const yahooPlayerKeys: string[] = [];
+    const starterYahooKeys: string[] = [];
 
     if (playersMap) {
       const playerEntries = yahooMapToArray<YahooRosterPlayer>(playersMap);
@@ -465,22 +550,18 @@ function buildTeamRosterMap(teamsMap: YahooMap<{ team: unknown[] }> | undefined)
           playerEntry.player[1]?.selected_position ?? [],
           "position"
         );
-        const pts = parseFloat(
-          (playerEntry.player[2] as { player_points?: { total: string } } | undefined)
-            ?.player_points?.total ?? "0"
-        );
 
         players.push(sleeperId);
-        playersPoints[sleeperId] = pts;
+        yahooPlayerKeys.push(playerKey);
 
         if (selectedPos && selectedPos !== "BN" && selectedPos !== "IR") {
           starters.push(sleeperId);
-          startersPoints.push(pts);
+          starterYahooKeys.push(playerKey);
         }
       }
     }
 
-    result[teamId] = { players, starters, startersPoints, playersPoints };
+    result[teamId] = { players, starters, yahooPlayerKeys, starterYahooKeys };
   }
 
   return result;

@@ -81,9 +81,16 @@ export const getRosters = async (leagueId: string): Promise<Roster[]> => {
 
 /**
  * Fetch matchups for a specific week.
+ * Pass includePlayerStats=true to populate players_points and starters_points
+ * for Yahoo leagues (requires extra API calls). Sleeper and ESPN always include
+ * per-player points regardless of this flag.
  */
-export const getMatchups = async (leagueId: string, week: number): Promise<Matchup[]> => {
-  if (isYahoo(leagueId)) return YahooAdapter.getMatchups(leagueId, week);
+export const getMatchups = async (
+  leagueId: string,
+  week: number,
+  includePlayerStats = false
+): Promise<Matchup[]> => {
+  if (isYahoo(leagueId)) return YahooAdapter.getMatchups(leagueId, week, includePlayerStats);
   if (isEspn(leagueId)) return ESPNAdapter.getMatchups(leagueId, week);
   return SleeperAPI.getMatchups(leagueId, week);
 };

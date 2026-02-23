@@ -9,7 +9,7 @@ function getTeamName(user: User | undefined): string {
 
 export async function computeStarters(leagueId: string, week: number): Promise<StartersData[]> {
   const [matchups, rosters, users, players] = await Promise.all([
-    getMatchups(leagueId, week),
+    getMatchups(leagueId, week, true),
     getRosters(leagueId),
     getUsers(leagueId),
     getPlayers(leagueId, week),
