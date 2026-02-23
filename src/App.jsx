@@ -6,6 +6,8 @@ import { ColorConstants } from "./components/constants/ColorConstants";
 import NavBar from "./components/NavBar";
 import SleeperLogin from "./pages/SleeperLogin";
 import EspnLogin from "./pages/EspnLogin";
+import YahooLogin from "./pages/YahooLogin";
+import YahooCallback from "./pages/YahooCallback";
 import LeaguePicker from "./pages/LeaguePicker";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -99,6 +101,8 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/sleeper-login" element={<SleeperLogin />} />
       <Route path="/espn-login" element={<EspnLogin />} />
+      <Route path="/yahoo-login" element={<YahooLogin />} />
+      <Route path="/yahoo-callback" element={<YahooCallback />} />
       <Route path="/league-picker" element={<LeaguePicker />} />
       <Route path="/" element={<Navigate to="/league-picker" replace />} />
 

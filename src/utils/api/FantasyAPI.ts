@@ -1,10 +1,12 @@
 /**
- * FantasyAPI.ts — Unified API router that delegates to Sleeper or ESPN adapters.
+ * FantasyAPI.ts — Unified API router that delegates to Sleeper, ESPN, or Yahoo adapters.
  *
  * Exports the same function signatures as SleeperAPI.ts. Compute functions import
  * from this module instead of SleeperAPI directly. The routing decision is based on
- * the league ID prefix: IDs starting with "espn_" go to the ESPN adapter, all others
- * go to the Sleeper API.
+ * the league ID prefix:
+ *   - "espn_"   → ESPN adapter
+ *   - "yahoo_"  → Yahoo adapter
+ *   - (numeric) → Sleeper API
  *
  * This is the only file that knows about multiple platforms — compute functions
  * remain platform-agnostic.
@@ -20,9 +22,10 @@ import type {
 import { sleeperPlayers } from "../playerUtils";
 import * as SleeperAPI from "./SleeperAPI";
 import * as ESPNAdapter from "./ESPNAdapter";
+import * as YahooAdapter from "./YahooAdapter";
 
 /**
- * Minimal player record shared by both Sleeper and ESPN data sources.
+ * Minimal player record shared by Sleeper, ESPN, and Yahoo data sources.
  * Only the fields actually accessed in the codebase are included.
  */
 export interface GenericPlayer {
@@ -31,69 +34,65 @@ export interface GenericPlayer {
   fantasy_positions: string[] | null;
   /** ESPN NFL team abbreviation (e.g. "buf"). Only set for ESPN DEF entries. */
   espn_team_abbrev?: string;
+  /** Direct photo URL provided by the platform (e.g. Yahoo headshot). Takes precedence over CDN-constructed URLs. */
+  photo_url?: string;
 }
 
 /**
  * Check whether a league ID belongs to an ESPN league.
- *
- * @param leagueId - League identifier (may be prefixed with "espn_")
- * @returns True if this is an ESPN league
  */
 function isEspn(leagueId: string): boolean {
   return leagueId.startsWith("espn_");
 }
 
 /**
+ * Check whether a league ID belongs to a Yahoo league.
+ */
+function isYahoo(leagueId: string): boolean {
+  return leagueId.startsWith("yahoo_");
+}
+
+/**
  * Fetch league metadata.
- *
- * @param leagueId - League identifier
- * @returns Sleeper-compatible League object
  */
 export const getLeague = async (leagueId: string): Promise<League> => {
-  return isEspn(leagueId) ? ESPNAdapter.getLeague(leagueId) : SleeperAPI.getLeague(leagueId);
+  if (isYahoo(leagueId)) return YahooAdapter.getLeague(leagueId);
+  if (isEspn(leagueId)) return ESPNAdapter.getLeague(leagueId);
+  return SleeperAPI.getLeague(leagueId);
 };
 
 /**
  * Fetch all users/owners in a league.
- *
- * @param leagueId - League identifier
- * @returns Array of Sleeper-compatible User objects
  */
 export const getUsers = async (leagueId: string): Promise<User[]> => {
-  return isEspn(leagueId) ? ESPNAdapter.getUsers(leagueId) : SleeperAPI.getUsers(leagueId);
+  if (isYahoo(leagueId)) return YahooAdapter.getUsers(leagueId);
+  if (isEspn(leagueId)) return ESPNAdapter.getUsers(leagueId);
+  return SleeperAPI.getUsers(leagueId);
 };
 
 /**
  * Fetch all rosters in a league.
- *
- * @param leagueId - League identifier
- * @returns Array of Sleeper-compatible Roster objects
  */
 export const getRosters = async (leagueId: string): Promise<Roster[]> => {
-  return isEspn(leagueId) ? ESPNAdapter.getRosters(leagueId) : SleeperAPI.getRosters(leagueId);
+  if (isYahoo(leagueId)) return YahooAdapter.getRosters(leagueId);
+  if (isEspn(leagueId)) return ESPNAdapter.getRosters(leagueId);
+  return SleeperAPI.getRosters(leagueId);
 };
 
 /**
  * Fetch matchups for a specific week.
- *
- * @param leagueId - League identifier
- * @param week - Week number
- * @returns Array of Sleeper-compatible Matchup objects
  */
 export const getMatchups = async (leagueId: string, week: number): Promise<Matchup[]> => {
-  return isEspn(leagueId)
-    ? ESPNAdapter.getMatchups(leagueId, week)
-    : SleeperAPI.getMatchups(leagueId, week);
+  if (isYahoo(leagueId)) return YahooAdapter.getMatchups(leagueId, week);
+  if (isEspn(leagueId)) return ESPNAdapter.getMatchups(leagueId, week);
+  return SleeperAPI.getMatchups(leagueId, week);
 };
 
 /**
  * Fetch current NFL state (week, season).
  *
- * For ESPN leagues, this requires a leagueId since ESPN embeds week info in the
- * league response (there's no global NFL state endpoint like Sleeper has).
- *
- * @param leagueId - Optional league identifier. Required for ESPN leagues.
- * @returns NFL state object with week, season, and related fields
+ * For ESPN and Yahoo leagues, this requires a leagueId since the week info is
+ * embedded in the league response (no global NFL state endpoint).
  */
 export const getNflState = async (
   leagueId?: string
@@ -108,19 +107,13 @@ export const getNflState = async (
   league_create_season: string;
   display_week: number;
 }> => {
-  if (leagueId && isEspn(leagueId)) {
-    return ESPNAdapter.getNflState(leagueId);
-  }
+  if (leagueId && isYahoo(leagueId)) return YahooAdapter.getNflState(leagueId);
+  if (leagueId && isEspn(leagueId)) return ESPNAdapter.getNflState(leagueId);
   return SleeperAPI.getNflState();
 };
 
 /**
  * Fetch player projections for a given week.
- *
- * @param week - Week number
- * @param season - Season year
- * @param playerIds - Array of player IDs to get projections for
- * @returns Array of player projections with points and player ID
  */
 export const getPlayerProjections = async (
   week: number,
@@ -128,6 +121,9 @@ export const getPlayerProjections = async (
   playerIds: string[],
   leagueId?: string
 ): Promise<Array<{ pts: number; playerId: string }>> => {
+  if (leagueId && isYahoo(leagueId)) {
+    return YahooAdapter.getPlayerProjections(week, season, playerIds);
+  }
   if (leagueId && isEspn(leagueId)) {
     return ESPNAdapter.getPlayerProjections(week, season, playerIds);
   }
@@ -136,53 +132,37 @@ export const getPlayerProjections = async (
 
 /**
  * Fetch transactions for a league/week.
- *
- * @param leagueId - League identifier
- * @param leg - Week number
- * @returns Array of Sleeper-compatible Transaction objects
  */
 export const getTransactions = async (leagueId: string, leg: number): Promise<Transactions[]> => {
-  return isEspn(leagueId)
-    ? ESPNAdapter.getTransactions(leagueId, leg)
-    : SleeperAPI.getTransactions(leagueId, leg);
+  if (isYahoo(leagueId)) return YahooAdapter.getTransactions(leagueId, leg);
+  if (isEspn(leagueId)) return ESPNAdapter.getTransactions(leagueId, leg);
+  return SleeperAPI.getTransactions(leagueId, leg);
 };
 
 /**
  * Fetch playoff bracket matchups.
- *
- * @param leagueId - League identifier
- * @param winnersBracket - True for winners bracket, false for losers
- * @returns Array of Sleeper-compatible BracketMatchup objects
  */
 export const getBracketMatchups = async (
   leagueId: string,
   winnersBracket: boolean
 ): Promise<BracketMatchup[]> => {
-  return isEspn(leagueId)
-    ? ESPNAdapter.getBracketMatchups(leagueId, winnersBracket)
-    : SleeperAPI.getBracketMatchups(leagueId, winnersBracket);
+  if (isYahoo(leagueId)) return YahooAdapter.getBracketMatchups(leagueId, winnersBracket);
+  if (isEspn(leagueId)) return ESPNAdapter.getBracketMatchups(leagueId, winnersBracket);
+  return SleeperAPI.getBracketMatchups(leagueId, winnersBracket);
 };
 
 /**
  * Fetch a platform-agnostic player map for the given league.
  *
  * For Sleeper leagues: wraps the locally-bundled sleeper_players.json.
- * For ESPN leagues: extracts player info from the ESPN roster API response.
- *
- * The map is keyed by the same player ID used throughout the rest of the
- * data pipeline (Sleeper ID for Sleeper leagues, ESPN ID for unmapped
- * ESPN players, or Sleeper ID when a mapping exists).
- *
- * @param leagueId - League identifier
- * @returns Map of player ID → GenericPlayer
+ * For ESPN/Yahoo leagues: extracts player info from the roster API response.
  */
 export const getPlayers = async (
   leagueId: string,
   week?: number
 ): Promise<Record<string, GenericPlayer>> => {
-  if (isEspn(leagueId)) {
-    return ESPNAdapter.getPlayers(leagueId, week);
-  }
+  if (isYahoo(leagueId)) return YahooAdapter.getPlayers(leagueId, week);
+  if (isEspn(leagueId)) return ESPNAdapter.getPlayers(leagueId, week);
   // Sleeper: project the locally-loaded JSON into GenericPlayer shape.
   const result: Record<string, GenericPlayer> = {};
   for (const [id, player] of Object.entries(sleeperPlayers)) {

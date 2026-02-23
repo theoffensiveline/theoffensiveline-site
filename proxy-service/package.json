@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vercel dev",
-    "deploy": "vercel deploy --prod"
+    "deploy": "cd .. && vercel deploy --prod"
   },
   "dependencies": {
     "axios": "^1.9.0"

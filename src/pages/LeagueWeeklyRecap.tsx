@@ -149,7 +149,11 @@ export const LeagueWeeklyRecap: React.FC = () => {
   // Determine if inputs are valid
   const hasValidInputs = !!leagueId && Number.isFinite(parsedWeek) && parsedWeek > 0;
 
-  const platformLabel = leagueId?.startsWith("espn_") ? "ESPN" : "Sleeper";
+  const platformLabel = leagueId?.startsWith("espn_")
+    ? "ESPN"
+    : leagueId?.startsWith("yahoo_")
+      ? "Yahoo"
+      : "Sleeper";
 
   // Set document title for SEO
   useEffect(() => {

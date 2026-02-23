@@ -301,7 +301,9 @@ export async function computeWeeklyAwards(leagueId: string, week: number): Promi
 
     awards.push({
       award: "MVP",
-      photo: getPlayerPhoto(mvp.playerId, isEspn, playerMap[mvp.playerId]?.espn_team_abbrev),
+      photo:
+        playerMap[mvp.playerId]?.photo_url ??
+        getPlayerPhoto(mvp.playerId, isEspn, playerMap[mvp.playerId]?.espn_team_abbrev),
       name: mvpName,
       value: `Scored ${mvp.points.toFixed(2)} points for ${
         team?.name || mvp.teamName
@@ -320,11 +322,9 @@ export async function computeWeeklyAwards(leagueId: string, week: number): Promi
 
     awards.push({
       award: "Bench MVP",
-      photo: getPlayerPhoto(
-        benchMvp.playerId,
-        isEspn,
-        playerMap[benchMvp.playerId]?.espn_team_abbrev
-      ),
+      photo:
+        playerMap[benchMvp.playerId]?.photo_url ??
+        getPlayerPhoto(benchMvp.playerId, isEspn, playerMap[benchMvp.playerId]?.espn_team_abbrev),
       name: benchName,
       value: `Scored ${benchMvp.points.toFixed(2)} points on the bench for ${
         team?.name || benchMvp.teamName
@@ -387,7 +387,9 @@ export async function computeWeeklyAwards(leagueId: string, week: number): Promi
 
       awards.push({
         award: pa.award,
-        photo: getPlayerPhoto(best.playerId, isEspn, playerMap[best.playerId]?.espn_team_abbrev),
+        photo:
+          playerMap[best.playerId]?.photo_url ??
+          getPlayerPhoto(best.playerId, isEspn, playerMap[best.playerId]?.espn_team_abbrev),
         name: playerName,
         value: `Scored ${best.points.toFixed(2)} points for ${team?.name || best.teamName}`,
         description: pa.description,

@@ -16,10 +16,21 @@ export const espnToSleeperId: Record<string, string> = Object.entries(sleeperPla
   return acc;
 }, {});
 
+// Reverse map: Yahoo player ID (string) → Sleeper player ID (string)
+// Built once at module load from sleeperPlayers.yahoo_id field.
+export const yahooToSleeperId: Record<string, string> = Object.entries(sleeperPlayers).reduce<
+  Record<string, string>
+>((acc, [sleeperId, player]) => {
+  if (player.yahoo_id != null) {
+    acc[String(player.yahoo_id)] = sleeperId;
+  }
+  return acc;
+}, {});
+
 // Get player photo URL.
 // Pass isEspn=true for ESPN leagues so unmapped players (whose IDs are raw
 // ESPN numeric IDs not present in sleeperPlayers) get the ESPN CDN photo.
-// Mapped ESPN players already use Sleeper IDs and continue using Sleeper CDN.
+// Mapped ESPN/Yahoo players already use Sleeper IDs and continue using Sleeper CDN.
 // Pass espnTeamAbbrev (e.g. "buf") for ESPN DEF entries to use the NFL team
 // logo CDN instead of the player headshot CDN.
 export const getPlayerPhoto = (

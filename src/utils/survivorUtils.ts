@@ -36,7 +36,7 @@ export interface SavedLeague {
   /** Namespaced league ID (e.g. "espn_123456" or "1253779168802377728") */
   id: string;
   /** Platform source */
-  type: "sleeper" | "espn";
+  type: "sleeper" | "espn" | "yahoo";
   /** Display name of the league */
   name: string;
   /** Season year */
