@@ -16,6 +16,15 @@ service cloud.firestore {
     // Publicly readable (privacy defaults to public for Phase 1).
     // Only the editor (editorUid) or co-editors can write.
     // -----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // /config/{docId}
+    // Publicly readable (contains service URLs like the ESPN proxy endpoint).
+    // Not writable from the client.
+    // -----------------------------------------------------------------------
+    match /config/{docId} {
+      allow read: if true;
+    }
+
     match /leagues/{leagueId} {
       allow read: if true;
       allow create: if request.auth != null;

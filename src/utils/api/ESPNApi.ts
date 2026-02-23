@@ -21,14 +21,25 @@ function getEspnProxyUrl(): Promise<string> {
   if (_proxyUrlPromise) return _proxyUrlPromise;
   _proxyUrlPromise = getDoc(doc(db, "config", "discord"))
     .then((snap) => {
-      if (!snap.exists()) return "";
+      if (!snap.exists()) {
+        _proxyUrlPromise = null;
+        return "";
+      }
       const webhookServiceUrl: string = snap.data().webhookServiceUrl ?? "";
+      if (!webhookServiceUrl) {
+        _proxyUrlPromise = null;
+        return "";
+      }
       // Build the ESPN proxy URL from the same host, regardless of path
       const url = new URL(webhookServiceUrl);
       url.pathname = "/api/espn";
       return url.toString();
     })
-    .catch(() => "");
+    .catch((err) => {
+      console.error("[ESPNApi] Failed to fetch proxy URL from Firestore:", err);
+      _proxyUrlPromise = null;
+      return "";
+    });
   return _proxyUrlPromise;
 }
 
