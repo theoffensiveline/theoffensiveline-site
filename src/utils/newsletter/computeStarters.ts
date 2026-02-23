@@ -20,12 +20,20 @@ export async function computeStarters(leagueId: string, week: number): Promise<S
   // Map roster_id to roster and user info for quick lookup
   const rosterById = new Map<number, Roster>(rosters.map((r) => [r.roster_id, r]));
 
+  console.log(
+    "[computeStarters] rosterById keys:", [...rosterById.keys()].sort((a, b) => a - b),
+    "userById keys (first 3):", [...userById.keys()].slice(0, 3)
+  );
+
   const results: StartersData[] = [];
 
   for (const matchup of matchups) {
     const roster = rosterById.get(matchup.roster_id);
     const user = roster ? userById.get(roster.owner_id) : undefined;
     const teamName = getTeamName(user);
+    console.log(
+      `[computeStarters] roster_id=${matchup.roster_id} matchup_id=${matchup.matchup_id} → roster=${roster?.roster_id ?? "MISS"} owner_id=${roster?.owner_id?.slice(0, 8) ?? "—"} → teamName="${teamName}"`
+    );
 
     const entries = matchup.starters.map((playerId, index) => {
       const player = players[playerId];

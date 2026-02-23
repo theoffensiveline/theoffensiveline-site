@@ -113,6 +113,19 @@ function yahooMapToArray<T>(map: YahooMap<T>): T[] {
 }
 
 /**
+ * Extract the numeric team ID from a Yahoo team metadata array.
+ * Tries team_id directly, then falls back to parsing ".t.N" from team_key.
+ * This is needed because the scoreboard response sometimes omits team_id.
+ */
+function extractTeamId(meta: YahooTeamMetaArray): number {
+  const direct = extractYahooField<string>(meta, "team_id");
+  if (direct) return parseInt(direct, 10);
+  const teamKey = extractYahooField<string>(meta, "team_key") ?? "";
+  const match = teamKey.match(/\.t\.(\d+)$/);
+  return match ? parseInt(match[1], 10) : 0;
+}
+
+/**
  * Translate a Yahoo player_key (e.g. "449.p.30977") to a Sleeper player ID.
  * Falls back to the Yahoo numeric player ID if no mapping exists.
  */
@@ -259,9 +272,11 @@ export async function getUsers(leagueId: string): Promise<User[]> {
     const logos =
       extractYahooField<Array<{ team_logo: { url: string } }>>(meta, "team_logos") ?? [];
     const avatarUrl = logos[0]?.team_logo?.url ?? null;
+    const rawGuid = manager?.guid;
+    const effectiveUserId = rawGuid && rawGuid !== "--" ? rawGuid : teamId;
 
     return {
-      user_id: manager?.guid ?? teamId,
+      user_id: effectiveUserId,
       display_name: manager?.nickname ?? "Unknown",
       avatar: avatarUrl,
       is_owner: manager?.is_commissioner === "1",
@@ -291,10 +306,11 @@ export async function getRosters(leagueId: string): Promise<Roster[]> {
     if (!teamEntry || !rosterEntry) continue;
 
     const meta = teamEntry.team[0];
-    const teamId = parseInt(String(extractYahooField<string>(meta, "team_id") ?? i + 1), 10);
+    const teamId = extractTeamId(meta);
     const managers =
       extractYahooField<Array<{ manager: { guid: string } }>>(meta, "managers") ?? [];
-    const ownerGuid = managers[0]?.manager?.guid ?? String(teamId);
+    const rawGuid = managers[0]?.manager?.guid;
+    const ownerGuid = rawGuid && rawGuid !== "--" ? rawGuid : String(teamId);
 
     const standings = teamEntry.team[2]?.team_standings;
     const outcomes = standings?.outcome_totals;
@@ -366,6 +382,11 @@ export async function getRosters(leagueId: string): Promise<Roster[]> {
       },
     });
   }
+
+  console.log(
+    "[YahooAdapter:getRosters] built rosterById keys:",
+    rosters.map((r) => `${r.roster_id}`)
+  );
 
   return rosters;
 }
@@ -457,6 +478,11 @@ export async function getMatchups(
     );
   }
 
+  console.log(
+    "[YahooAdapter:getMatchups] rosterMap keys:",
+    Object.keys(teamRosterMap).map(Number).sort((a, b) => a - b)
+  );
+
   const results: Matchup[] = [];
   let matchupId = 1;
 
@@ -468,9 +494,14 @@ export async function getMatchups(
 
     for (const teamEntry of teamsInMatchup) {
       const teamMeta = teamEntry.team[0] as YahooTeamMetaArray;
-      const teamId = parseInt(String(extractYahooField<string>(teamMeta, "team_id") ?? "0"), 10);
+      const teamId = extractTeamId(teamMeta);
       const teamPoints = (teamEntry.team[1] as { team_points?: { total: string } })?.team_points;
       const totalPoints = parseFloat(teamPoints?.total ?? "0");
+
+      console.log(
+        `[YahooAdapter:getMatchups] matchup=${matchupId} teamId=${teamId} pts=${totalPoints} meta[0..2]:`,
+        JSON.stringify(teamMeta.slice(0, 3))
+      );
 
       const lineup = teamRosterMap[teamId];
       const players = lineup?.players ?? [];
@@ -526,7 +557,7 @@ function buildTeamRosterMap(
   const teams = yahooMapToArray<{ team: unknown[] }>(teamsMap);
   for (const teamEntry of teams) {
     const meta = teamEntry.team[0] as YahooTeamMetaArray;
-    const teamId = parseInt(String(extractYahooField<string>(meta, "team_id") ?? "0"), 10);
+    const teamId = extractTeamId(meta);
 
     // Roster is at team[1].roster["0"].players
     const rosterWrapper = teamEntry.team[1] as { roster?: YahooRoster } | undefined;
@@ -646,9 +677,8 @@ export async function getBracketMatchups(
         if (teams.length < 2) continue;
 
         const getTeamId = (t: { team: unknown[] }) =>
-          parseInt(
-            String(extractYahooField<string>(t.team[0] as YahooTeamMetaArray, "team_id") ?? "0"),
-            10
+          extractTeamId(
+            t.team[0] as YahooTeamMetaArray
           );
 
         const getTeamPoints = (t: { team: unknown[] }) =>
