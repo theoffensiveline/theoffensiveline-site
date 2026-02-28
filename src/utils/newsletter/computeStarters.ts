@@ -21,8 +21,10 @@ export async function computeStarters(leagueId: string, week: number): Promise<S
   const rosterById = new Map<number, Roster>(rosters.map((r) => [r.roster_id, r]));
 
   console.log(
-    "[computeStarters] rosterById keys:", [...rosterById.keys()].sort((a, b) => a - b),
-    "userById keys (first 3):", [...userById.keys()].slice(0, 3)
+    "[computeStarters] rosterById keys:",
+    [...rosterById.keys()].sort((a, b) => a - b),
+    "userById keys (first 3):",
+    [...userById.keys()].slice(0, 3)
   );
 
   const results: StartersData[] = [];

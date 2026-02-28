@@ -27,7 +27,14 @@ import type {
   YahooStatModifier,
   YahooLeagueSettings,
 } from "../../types/yahooTypes";
-import { fetchLeague, fetchTeams, fetchRosters, fetchMatchups, fetchSettings, fetchPlayerStats } from "./YahooApi";
+import {
+  fetchLeague,
+  fetchTeams,
+  fetchRosters,
+  fetchMatchups,
+  fetchSettings,
+  fetchPlayerStats,
+} from "./YahooApi";
 import { yahooToSleeperId } from "../playerUtils";
 import type { GenericPlayer } from "./FantasyAPI";
 
@@ -415,9 +422,7 @@ export async function getMatchups(
   const matchupEntries = yahooMapToArray<{ matchup: YahooMatchup }>(matchupsMap);
 
   // Build lineup map and fetch per-player stats only when requested
-  const teamRosterMap = buildTeamRosterMap(
-    rostersRes?.fantasy_content.league[1]?.teams
-  );
+  const teamRosterMap = buildTeamRosterMap(rostersRes?.fantasy_content.league[1]?.teams);
   const yahooKeyPts: Record<string, number> = {};
 
   if (includePlayerStats) {
@@ -480,7 +485,9 @@ export async function getMatchups(
 
   console.log(
     "[YahooAdapter:getMatchups] rosterMap keys:",
-    Object.keys(teamRosterMap).map(Number).sort((a, b) => a - b)
+    Object.keys(teamRosterMap)
+      .map(Number)
+      .sort((a, b) => a - b)
   );
 
   const results: Matchup[] = [];
@@ -677,9 +684,7 @@ export async function getBracketMatchups(
         if (teams.length < 2) continue;
 
         const getTeamId = (t: { team: unknown[] }) =>
-          extractTeamId(
-            t.team[0] as YahooTeamMetaArray
-          );
+          extractTeamId(t.team[0] as YahooTeamMetaArray);
 
         const getTeamPoints = (t: { team: unknown[] }) =>
           parseFloat((t.team[1] as { team_points?: { total: string } })?.team_points?.total ?? "0");
