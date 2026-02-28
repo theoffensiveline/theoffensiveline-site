@@ -95,10 +95,15 @@ const EditIcon = () => (
   </svg>
 );
 const Profile: React.FC = () => {
-  const { profile, loadingProfile, updateProfile } = useAuth();
+  const { profile, loadingProfile, updateProfile, linkSleeper } = useAuth();
   const [customDisplayName, setCustomDisplayName] = useState(profile?.customDisplayName || "");
   const [isEditing, setIsEditing] = useState(false);
   const [updating, setUpdating] = useState(false);
+
+  const [sleeperInput, setSleeperInput] = useState("");
+  const [sleeperLinking, setSleeperLinking] = useState(false);
+  const [sleeperError, setSleeperError] = useState<string | null>(null);
+  const [sleeperEditMode, setSleeperEditMode] = useState(false);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -121,6 +126,20 @@ const Profile: React.FC = () => {
   const handleCancel = () => {
     setCustomDisplayName(profile?.customDisplayName || "");
     setIsEditing(false);
+  };
+
+  const handleLinkSleeper = async () => {
+    if (!sleeperInput.trim()) return;
+    setSleeperLinking(true);
+    setSleeperError(null);
+    const result = await linkSleeper(sleeperInput.trim());
+    if (result.success) {
+      setSleeperInput("");
+      setSleeperEditMode(false);
+    } else {
+      setSleeperError(result.error ?? "Something went wrong");
+    }
+    setSleeperLinking(false);
   };
 
   if (loadingProfile) {
@@ -173,6 +192,76 @@ const Profile: React.FC = () => {
               </div>
             </div>
           )}
+        </div>
+
+        <div
+          style={{
+            borderTop: "1px solid rgba(128,128,128,0.2)",
+            paddingTop: "1rem",
+            marginTop: "0.5rem",
+            textAlign: "left",
+          }}
+        >
+          <label style={{ display: "block", marginBottom: "0.75rem", fontWeight: 600 }}>
+            Linked Accounts
+          </label>
+          <div>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+              Sleeper:
+            </label>
+            {profile?.sleeperUsername && !sleeperEditMode ? (
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <span>@{profile.sleeperUsername}</span>
+                <button
+                  onClick={() => {
+                    setSleeperEditMode(true);
+                    setSleeperError(null);
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "inherit",
+                  }}
+                >
+                  <EditIcon />
+                </button>
+              </div>
+            ) : (
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Sleeper username"
+                  value={sleeperInput}
+                  onChange={(e) => setSleeperInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleLinkSleeper()}
+                />
+                <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                  <Button onClick={handleLinkSleeper} disabled={sleeperLinking}>
+                    {sleeperLinking ? "Linking..." : "Link Account"}
+                  </Button>
+                  {sleeperEditMode && (
+                    <Button
+                      onClick={() => {
+                        setSleeperEditMode(false);
+                        setSleeperInput("");
+                        setSleeperError(null);
+                      }}
+                      disabled={sleeperLinking}
+                      style={{ background: "#ccc" }}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </div>
+                {sleeperError && (
+                  <p style={{ color: "#bc293d", fontSize: "0.875rem", marginTop: "0.5rem" }}>
+                    {sleeperError}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </Card>
     </Container>

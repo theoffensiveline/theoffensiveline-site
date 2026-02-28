@@ -37,6 +37,23 @@ function dedupedFetch<T>(url: string, errorMessage: string): Promise<T> {
   return promise;
 }
 
+/**
+ * Look up a Sleeper user by username.
+ * Returns the user object if found, or null if the username doesn't exist.
+ */
+export const getSleeperUserByUsername = async (
+  username: string
+): Promise<{ user_id: string; username: string; display_name?: string } | null> => {
+  try {
+    const response = await fetch(`${BASE_URL}/user/${username}`);
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data?.user_id ? data : null;
+  } catch {
+    return null;
+  }
+};
+
 // Function to get league
 export const getLeague = async (leagueId: string): Promise<League> => {
   try {
