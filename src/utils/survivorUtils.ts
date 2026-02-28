@@ -50,6 +50,10 @@ export interface UserProfile {
   email?: string;
   /** User's saved leagues across platforms */
   leagues?: SavedLeague[];
+  /** Linked Sleeper account user ID */
+  sleeperUserId?: string;
+  /** Linked Sleeper account username */
+  sleeperUsername?: string;
 }
 
 export const getUserProfile = async (userId: string): Promise<UserProfile | null> => {
