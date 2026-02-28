@@ -87,6 +87,14 @@ const LastUpdatedNote = styled.p`
   margin-bottom: 12px;
 `;
 
+const ErrorDetail = styled.p`
+  font-family: monospace;
+  font-size: 11px;
+  opacity: 0.55;
+  margin-bottom: 12px;
+  word-break: break-word;
+`;
+
 const RetryButton = styled.button`
   background: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.buttonText};
@@ -236,6 +244,7 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
         <ErrorContainer role="alert" aria-live="assertive" tabIndex={-1} ref={errorContainerRef}>
           <ErrorTitle>{errorCopy.title}</ErrorTitle>
           <ErrorDescription>{errorCopy.description}</ErrorDescription>
+          {error?.message && <ErrorDetail>{error.message}</ErrorDetail>}
           {lastUpdated && (
             <LastUpdatedNote>
               Last successful load: {formatLastUpdated(lastUpdated)}

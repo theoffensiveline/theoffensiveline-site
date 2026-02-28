@@ -109,7 +109,7 @@ export function calculateOptimalScore(
 export async function computeEfficiency(leagueId: string, week: number): Promise<EfficiencyData[]> {
   const [league, matchups, rosters, users, players] = await Promise.all([
     getLeague(leagueId),
-    getMatchups(leagueId, week),
+    getMatchups(leagueId, week, true),
     getRosters(leagueId),
     getUsers(leagueId),
     getPlayers(leagueId, week),

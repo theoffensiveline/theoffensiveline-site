@@ -60,7 +60,7 @@ export async function computeBestBall(
     getPlayers(leagueId, throughWeek),
   ]);
   const weeklyMatchups: Matchup[][] = await Promise.all(
-    Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1))
+    Array.from({ length: throughWeek }, (_, i) => getMatchups(leagueId, i + 1, true))
   );
 
   const userById = new Map<string, User>(users.map((u) => [u.user_id, u]));

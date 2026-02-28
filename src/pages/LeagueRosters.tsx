@@ -108,11 +108,14 @@ const LeagueRosters: React.FC = () => {
                 <PlayerRow key={playerId}>
                   <PlayerPosition position={position}>{position}</PlayerPosition>
                   <PlayerPhoto
-                    src={getPlayerPhoto(
-                      playerId,
-                      leagueId?.startsWith("espn_"),
-                      player?.espn_team_abbrev
-                    )}
+                    src={
+                      player?.photo_url ??
+                      getPlayerPhoto(
+                        playerId,
+                        leagueId?.startsWith("espn_"),
+                        player?.espn_team_abbrev
+                      )
+                    }
                     alt={player?.full_name || "Unknown Player"}
                   />
                   <PlayerName>{player?.full_name}</PlayerName>

@@ -151,6 +151,7 @@ function LeaguePicker(): React.ReactElement {
       <h3>Add a League</h3>
       <Button onClick={() => navigate("/sleeper-login")}>Add Sleeper League</Button>
       <Button onClick={() => navigate("/espn-login")}>Add ESPN League</Button>
+      <Button onClick={() => navigate("/yahoo-login")}>Add Yahoo League</Button>
     </Container>
   );
 }
