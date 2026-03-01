@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const auth = getAuth(app);
 
   const loadProfile = useCallback(
-    async (userId: string) => {
+    async (userId: string): Promise<UserProfile | null> => {
       setLoadingProfile(true);
       let userProfile = await getUserProfile(userId);
       const currentEmail = currentUser?.email || "";
@@ -63,6 +63,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await setUserProfile(userId, newProfile);
         setProfile(newProfile);
         setSavedLeagues([]);
+        setLoadingProfile(false);
+        return null;
       } else if (userProfile) {
         // Update existing profile if email is missing or different
         if (!userProfile.email || userProfile.email !== currentEmail) {
@@ -73,11 +75,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setProfile(userProfile);
         }
         setSavedLeagues(userProfile.leagues ?? []);
+        setLoadingProfile(false);
+        return userProfile;
       } else {
         setProfile(null);
         setSavedLeagues([]);
+        setLoadingProfile(false);
+        return null;
       }
-      setLoadingProfile(false);
     },
     [currentUser?.displayName, currentUser?.email]
   );
@@ -86,9 +91,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
-        await loadProfile(user.uid);
+        const loadedProfile = await loadProfile(user.uid);
         // Background refresh: sync Sleeper leagues without blocking UI
-        refreshSleeperLeagues(user.uid, setSavedLeagues);
+        refreshSleeperLeagues(
+          user.uid,
+          loadedProfile?.sleeperUserId,
+          loadedProfile?.leagues ?? [],
+          setSavedLeagues
+        );
         setLoading(false);
       } else {
         setProfile(null);
