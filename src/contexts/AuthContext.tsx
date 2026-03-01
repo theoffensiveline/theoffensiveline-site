@@ -19,6 +19,7 @@ import {
   SavedLeague,
 } from "../utils/survivorUtils";
 import { getSleeperUserByUsername, getNflState } from "../utils/api/SleeperAPI";
+import { refreshSleeperLeagues } from "../utils/refreshSleeperLeagues";
 
 interface AuthContextType {
   currentUser: FirebaseUser | null;
@@ -86,6 +87,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setCurrentUser(user);
       if (user) {
         await loadProfile(user.uid);
+        // Background refresh: sync Sleeper leagues without blocking UI
+        refreshSleeperLeagues(user.uid, setSavedLeagues);
         setLoading(false);
       } else {
         setProfile(null);
