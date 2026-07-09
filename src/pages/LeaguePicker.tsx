@@ -15,6 +15,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
+import { useLeagueDoc } from "../hooks/useLeagueDoc";
 import type { SavedLeague } from "../utils/survivorUtils";
 
 /* ------------------------------------------------------------------ */
@@ -181,6 +182,12 @@ const RemoveButton = styled.button`
   }
 `;
 
+const EditorStatus = styled.span<{ $isYou?: boolean }>`
+  font-size: 12px;
+  color: ${({ theme, $isYou }: any) => ($isYou ? theme.newsBlue : theme.text)};
+  opacity: ${({ $isYou }: { $isYou?: boolean }) => ($isYou ? 1 : 0.5)};
+`;
+
 const SignInHint = styled.p`
   font-size: 13px;
   color: ${({ theme }: any) => theme.text};
@@ -192,6 +199,25 @@ const SignInHint = styled.p`
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
+
+/**
+ * Editor status line for a saved league card: unclaimed / claimed / yours.
+ * A missing league doc means no one has visited the league signed-in yet,
+ * which is equivalent to the editor role being unclaimed.
+ */
+function EditorStatusLine({ leagueId }: { leagueId: string }): React.ReactElement | null {
+  const { currentUser } = useAuth();
+  const { data: leagueDoc, isLoading } = useLeagueDoc(leagueId);
+
+  if (isLoading) return null;
+  if (!leagueDoc || leagueDoc.editorUid === null) {
+    return <EditorStatus>Editor role unclaimed</EditorStatus>;
+  }
+  if (currentUser && leagueDoc.editorUid === currentUser.uid) {
+    return <EditorStatus $isYou>You're the editor</EditorStatus>;
+  }
+  return <EditorStatus>Editor claimed</EditorStatus>;
+}
 
 function LeaguePicker(): React.ReactElement {
   const navigate = useNavigate();
@@ -237,6 +263,7 @@ function LeaguePicker(): React.ReactElement {
                     {league.name} ({league.year})
                   </LeagueName>
                   <LeagueMeta>{league.type}</LeagueMeta>
+                  <EditorStatusLine leagueId={league.id} />
                 </LeagueInfo>
                 <RemoveButton
                   onClick={(e) => handleRemoveLeague(e, league.id)}
