@@ -35,7 +35,7 @@ describe("getErrorCopy", () => {
 
   it("returns server error copy for 500 errors", () => {
     const copy = getErrorCopy(new Error("500 Internal Server Error"));
-    expect(copy.title).toMatch(/sleeper api error/i);
+    expect(copy.title).toMatch(/api server error/i);
   });
 
   it("returns parse error copy for JSON errors", () => {
