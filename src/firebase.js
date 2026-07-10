@@ -22,7 +22,9 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // Opt-in local emulators (see .env.example). Ports match firebase.json.
-if (process.env.REACT_APP_USE_EMULATOR === "1") {
+// NODE_ENV guard: production builds ignore the flag even if it leaks in
+// via a local .env, so a manual `pnpm build` can never ship emulator URLs.
+if (process.env.NODE_ENV === "development" && process.env.REACT_APP_USE_EMULATOR === "1") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
   connectFirestoreEmulator(db, "127.0.0.1", 8080);
 }
