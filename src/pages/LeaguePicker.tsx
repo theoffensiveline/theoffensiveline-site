@@ -193,20 +193,6 @@ const SignInHint = styled.p`
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-/** Map platform type to its emoji icon. */
-function platformIcon(type: string): string {
-  switch (type) {
-    case "sleeper":
-      return "😴";
-    case "espn":
-      return "🏈";
-    case "yahoo":
-      return "🟣";
-    default:
-      return "🏟️";
-  }
-}
-
 function LeaguePicker(): React.ReactElement {
   const navigate = useNavigate();
   const { currentUser, savedLeagues, removeLeague } = useAuth();
@@ -250,9 +236,7 @@ function LeaguePicker(): React.ReactElement {
                   <LeagueName>
                     {league.name} ({league.year})
                   </LeagueName>
-                  <LeagueMeta>
-                    {platformIcon(league.type)} {league.type}
-                  </LeagueMeta>
+                  <LeagueMeta>{league.type}</LeagueMeta>
                 </LeagueInfo>
                 <RemoveButton
                   onClick={(e) => handleRemoveLeague(e, league.id)}

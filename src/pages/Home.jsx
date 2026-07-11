@@ -3,7 +3,6 @@ import styled, { useTheme } from "styled-components";
 import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
-import { useEnsureLeagueDoc } from "../hooks/useEnsureLeagueDoc";
 
 const GridContainer = styled.div`
   display: grid;
@@ -56,7 +55,6 @@ function Home() {
   const navigate = useNavigate();
   const { leagueId } = useParams();
   const theme = useTheme();
-  useEnsureLeagueDoc(leagueId);
 
   const mainLeagueId = leagueIds.mainLeague;
   const walterPicksLeagueId = leagueIds.walterPicks;
