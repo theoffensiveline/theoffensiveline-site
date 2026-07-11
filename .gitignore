@@ -37,3 +37,4 @@ src/newsletters/2023 Week 12
 .emulator-data
 firebase-debug.log
 firestore-debug.log
+/backups

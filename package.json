@@ -49,7 +49,11 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\" && eslint src --ext .js,.jsx,.ts,.tsx --fix",
     "typecheck": "tsc --noEmit",
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css}\"",
-    "emulators": "firebase emulators:start --only auth,firestore $([ -d .emulator-data ] && echo '--import=.emulator-data') --export-on-exit=.emulator-data"
+    "emulators": "firebase emulators:start --only auth,firestore $([ -d .emulator-data ] && echo '--import=.emulator-data') --export-on-exit=.emulator-data",
+    "db:backup": "node scripts/firestore-backup.js",
+    "db:restore": "node scripts/firestore-restore.js",
+    "db:validate": "node scripts/firestore-validate.js",
+    "db:roundtrip-test": "node scripts/firestore-roundtrip-test.js"
   },
   "eslintConfig": {
     "extends": [
@@ -73,6 +77,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/jest": "^30.0.0",
     "eslint": "^8.57.1",
+    "firebase-admin": "^14.1.0",
     "firebase-tools": "^15.7.0",
     "html-loader": "^4.2.0",
     "prettier": "^3.8.1"
