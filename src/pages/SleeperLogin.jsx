@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { getNflState, getSleeperUserByUsername, getUserLeagues } from "../utils/api/SleeperAPI";
 import { toSavedLeague } from "../utils/sleeperLeagueSync";
 import { useAuth } from "../contexts/AuthContext";
+import LeagueAvatar from "../components/shared/LeagueAvatar";
 
 const Container = styled.div`
   display: flex;
@@ -53,10 +54,7 @@ const LeagueItem = styled.div`
   justify-content: space-between;
 `;
 
-const LeaguePhoto = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+const LeaguePhoto = styled(LeagueAvatar)`
   margin-right: 15px;
 `;
 
@@ -64,6 +62,7 @@ const LeagueName = styled.span`
   font-size: 18px;
   color: ${({ theme }) => theme.text};
   flex-grow: 1;
+  text-align: left;
 `;
 
 const YearHeader = styled.h3`
@@ -272,12 +271,13 @@ function SleeperLogin() {
               <YearHeader>{year} Leagues</YearHeader>
               {leagues.map((league) => (
                 <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
-                  {league.avatar && (
-                    <LeaguePhoto
-                      src={`https://sleepercdn.com/avatars/${league.avatar}`}
-                      alt={league.name}
-                    />
-                  )}
+                  <LeaguePhoto
+                    src={
+                      league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : undefined
+                    }
+                    alt={league.name}
+                    size={50}
+                  />
                   <LeagueName>{league.name}</LeagueName>
                 </LeagueItem>
               ))}

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
+import LeagueAvatar from "../components/shared/LeagueAvatar";
 import type { SavedLeague } from "../utils/survivorUtils";
 
 /* ------------------------------------------------------------------ */
@@ -125,7 +126,7 @@ const LeagueItem = styled.div`
   background-color: ${({ theme }: any) => theme.background};
   border: 1px solid ${({ theme }: any) => theme.neutral3}44;
   border-radius: 10px;
-  padding: 12px 15px;
+  padding: 16px 18px;
   margin: 8px 0;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -135,12 +136,8 @@ const LeagueItem = styled.div`
   }
 `;
 
-const LeaguePhoto = styled.img`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+const LeaguePhoto = styled(LeagueAvatar)`
   margin-right: 12px;
-  flex-shrink: 0;
 `;
 
 const LeagueInfo = styled.div`
@@ -149,6 +146,7 @@ const LeagueInfo = styled.div`
   align-items: flex-start;
   flex-grow: 1;
   min-width: 0;
+  text-align: left;
 `;
 
 const LeagueName = styled.span`
@@ -271,7 +269,7 @@ function LeaguePicker(): React.ReactElement {
           <LeagueList>
             {savedLeagues.map((league) => (
               <LeagueItem key={league.id} onClick={() => handleSelectLeague(league)}>
-                {league.avatar && <LeaguePhoto src={league.avatar} alt={league.name} />}
+                <LeaguePhoto src={league.avatar} alt={league.name} />
                 <LeagueInfo>
                   <LeagueName>
                     {league.name} ({league.year})
