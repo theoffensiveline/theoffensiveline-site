@@ -16,13 +16,15 @@ const {
   initFirestore,
   targetDescription,
   serializeValue,
+  flagValue,
+  countDocuments,
 } = require("./lib/firestoreBackupShared");
 
 function parseArgs(argv) {
   const args = { project: DEFAULT_PROJECT_ID, out: "backups" };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === "--project") args.project = argv[++i];
-    else if (argv[i] === "--out") args.out = argv[++i];
+    if (argv[i] === "--project") args.project = flagValue(argv, ++i, "--project");
+    else if (argv[i] === "--out") args.out = flagValue(argv, ++i, "--out");
     else {
       console.error(`Unknown argument: ${argv[i]}`);
       process.exit(1);
@@ -57,14 +59,6 @@ async function dumpCollection(collectionRef) {
   return docs;
 }
 
-function countDocs(docs) {
-  let total = docs.length;
-  for (const doc of docs) {
-    for (const sub of Object.values(doc.collections ?? {})) total += countDocs(sub);
-  }
-  return total;
-}
-
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const { db, cleanup } = initFirestore(args.project);
@@ -72,6 +66,10 @@ async function main() {
 
   const stamp = new Date().toISOString().replace(/:/g, "-").replace(/\..*/, "");
   const outDir = path.join(args.out, stamp);
+  if (fs.existsSync(outDir)) {
+    console.error(`${outDir} already exists — refusing to overwrite a previous backup.`);
+    process.exit(1);
+  }
   fs.mkdirSync(outDir, { recursive: true });
 
   const collections = await db.listCollections();
@@ -89,7 +87,7 @@ async function main() {
       file,
       JSON.stringify({ collection: col.id, documents: docs }, null, 2)
     );
-    manifest.collections[col.id] = countDocs(docs);
+    manifest.collections[col.id] = countDocuments(docs);
     console.log(`  ${col.id}: ${manifest.collections[col.id]} docs → ${file}`);
   }
 

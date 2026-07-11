@@ -26,6 +26,27 @@ function isEmulator() {
   return Boolean(process.env.FIRESTORE_EMULATOR_HOST);
 }
 
+/** Read the value following a flag, erroring if it's missing or another flag. */
+function flagValue(argv, i, name) {
+  const v = argv[i];
+  if (v === undefined || v.startsWith("--")) {
+    console.error(`Missing value for ${name}`);
+    process.exit(1);
+  }
+  return v;
+}
+
+/** Total documents in a dumped collection, including nested subcollections. */
+function countDocuments(docs) {
+  let total = docs.length;
+  for (const doc of docs) {
+    for (const sub of Object.values(doc.collections ?? {})) {
+      total += countDocuments(sub);
+    }
+  }
+  return total;
+}
+
 function targetDescription(projectId) {
   return isEmulator()
     ? `EMULATOR at ${process.env.FIRESTORE_EMULATOR_HOST} (project ${projectId})`
@@ -113,4 +134,6 @@ module.exports = {
   targetDescription,
   serializeValue,
   deserializeValue,
+  flagValue,
+  countDocuments,
 };
