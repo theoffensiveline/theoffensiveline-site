@@ -14,8 +14,18 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useTheme } from "../ThemeContext";
-import { leagueIds } from "./constants/LeagueConstants";
 import { useAuth } from "../contexts/AuthContext";
+import { useLeagueDoc } from "../hooks/useLeagueDoc";
+import type { LeagueFeature } from "../types/firestore";
+
+/** Nav items gated by league feature flags, in display order. */
+const FEATURE_PAGES: [LeagueFeature, string][] = [
+  ["submit", "Submit"],
+  ["bylaws", "Bylaws"],
+  ["leaderboards", "Leaderboards"],
+  ["survivor", "Survivor"],
+  ["hotdogs", "Hot Dogs"],
+];
 
 export default function NavBar() {
   const { theme, toggleTheme } = useTheme();
@@ -90,14 +100,18 @@ export default function NavBar() {
     handleCloseUserMenu();
   };
 
+  const { data: leagueDoc } = useLeagueDoc(leagueId ?? undefined);
+
   const getPages = () => {
     if (!leagueId) {
       return ["Select League"];
     }
-    if (leagueId !== leagueIds.mainLeague) {
-      return ["Home", "Change League"];
-    }
-    return ["Home", "Submit", "Bylaws", "Leaderboards", "Survivor", "Hot Dogs", "Change League"];
+    const features = leagueDoc?.features ?? [];
+    return [
+      "Home",
+      ...FEATURE_PAGES.filter(([feature]) => features.includes(feature)).map(([, page]) => page),
+      "Change League",
+    ];
   };
 
   const pages = getPages();
