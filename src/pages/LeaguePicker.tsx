@@ -200,6 +200,20 @@ const SignInHint = styled.p`
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
+/** Map platform type to its emoji icon (matches the platform picker cards). */
+function platformIcon(type: string): string {
+  switch (type) {
+    case "sleeper":
+      return "😴";
+    case "espn":
+      return "🏈";
+    case "yahoo":
+      return "🟣";
+    default:
+      return "🏟️";
+  }
+}
+
 /**
  * Editor status line for a saved league card: unclaimed / claimed / yours.
  * A missing league doc means no one has visited the league signed-in yet,
@@ -262,7 +276,9 @@ function LeaguePicker(): React.ReactElement {
                   <LeagueName>
                     {league.name} ({league.year})
                   </LeagueName>
-                  <LeagueMeta>{league.type}</LeagueMeta>
+                  <LeagueMeta>
+                    {platformIcon(league.type)} {league.type}
+                  </LeagueMeta>
                   <EditorStatusLine leagueId={league.id} />
                 </LeagueInfo>
                 <RemoveButton

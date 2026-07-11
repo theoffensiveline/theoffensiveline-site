@@ -54,6 +54,37 @@ export const getSleeperUserByUsername = async (
   }
 };
 
+/**
+ * Subset of the Sleeper league shape returned by the user-leagues endpoint
+ * that league-saving features care about.
+ */
+export interface SleeperUserLeague {
+  league_id: string;
+  name: string;
+  season: string;
+  avatar: string | null;
+}
+
+/**
+ * Fetch all leagues a Sleeper user belongs to for a given season.
+ * Returns [] on any failure — callers treat league discovery as best-effort.
+ */
+export const getUserLeagues = async (
+  userId: string,
+  season: string | number
+): Promise<SleeperUserLeague[]> => {
+  try {
+    const data = await dedupedFetch<SleeperUserLeague[]>(
+      `${BASE_URL}/user/${userId}/leagues/nfl/${season}`,
+      "Failed to fetch user leagues"
+    );
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error("Error fetching user leagues:", error);
+    return [];
+  }
+};
+
 // Function to get league
 export const getLeague = async (leagueId: string): Promise<League> => {
   try {

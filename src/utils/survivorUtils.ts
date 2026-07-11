@@ -50,6 +50,8 @@ export interface UserProfile {
   email?: string;
   /** User's saved leagues across platforms */
   leagues?: SavedLeague[];
+  /** League IDs the user explicitly removed — auto-discovery won't re-add these */
+  removedLeagueIds?: string[];
   /** Linked Sleeper account user ID */
   sleeperUserId?: string;
   /** Linked Sleeper account username */
@@ -110,7 +112,10 @@ export const addLeagueToProfile = async (userId: string, league: SavedLeague): P
     // Remove any existing entry with same ID, then append
     const filtered = existing.filter((l) => l.id !== league.id);
     filtered.push(league);
-    return await updateUserProfile(userId, { leagues: filtered });
+    // Manually re-adding a league clears it from the removed list so
+    // auto-discovery can manage it again
+    const removed = (profile?.removedLeagueIds ?? []).filter((id) => id !== league.id);
+    return await updateUserProfile(userId, { leagues: filtered, removedLeagueIds: removed });
   } catch (error) {
     console.error("Error adding league to profile:", error);
     return false;
@@ -132,7 +137,9 @@ export const removeLeagueFromProfile = async (
     const profile = await getUserProfile(userId);
     const existing = profile?.leagues ?? [];
     const filtered = existing.filter((l) => l.id !== leagueId);
-    return await updateUserProfile(userId, { leagues: filtered });
+    // Track the removal so auto-discovery doesn't silently re-add the league
+    const removed = Array.from(new Set([...(profile?.removedLeagueIds ?? []), leagueId]));
+    return await updateUserProfile(userId, { leagues: filtered, removedLeagueIds: removed });
   } catch (error) {
     console.error("Error removing league from profile:", error);
     return false;

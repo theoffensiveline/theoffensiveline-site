@@ -18,7 +18,12 @@ import {
   UserProfile,
   SavedLeague,
 } from "../utils/survivorUtils";
-import { getSleeperUserByUsername, getNflState } from "../utils/api/SleeperAPI";
+import { getSleeperUserByUsername } from "../utils/api/SleeperAPI";
+import {
+  discoverSleeperLeagues,
+  mergeSleeperLeagues,
+  refreshSleeperLeagues,
+} from "../utils/sleeperLeagueSync";
 
 interface AuthContextType {
   currentUser: FirebaseUser | null;
@@ -49,10 +54,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const auth = getAuth(app);
 
   const loadProfile = useCallback(
-    async (userId: string) => {
+    async (userId: string): Promise<UserProfile | null> => {
       setLoadingProfile(true);
       let userProfile = await getUserProfile(userId);
       const currentEmail = currentUser?.email || "";
+      let loadedProfile: UserProfile | null = null;
       if (!userProfile && currentUser?.displayName) {
         // Create profile with Google display name and email if it doesn't exist
         const newProfile = {
@@ -62,14 +68,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await setUserProfile(userId, newProfile);
         setProfile(newProfile);
         setSavedLeagues([]);
+        loadedProfile = newProfile;
       } else if (userProfile) {
         // Update existing profile if email is missing or different
         if (!userProfile.email || userProfile.email !== currentEmail) {
           const updatedProfile = { ...userProfile, email: currentEmail };
           await updateUserProfile(userId, { email: currentEmail });
           setProfile(updatedProfile);
+          loadedProfile = updatedProfile;
         } else {
           setProfile(userProfile);
+          loadedProfile = userProfile;
         }
         setSavedLeagues(userProfile.leagues ?? []);
       } else {
@@ -77,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSavedLeagues([]);
       }
       setLoadingProfile(false);
+      return loadedProfile;
     },
     [currentUser?.displayName, currentUser?.email]
   );
@@ -85,7 +95,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
-        await loadProfile(user.uid);
+        const loadedProfile = await loadProfile(user.uid);
+        // Background sync of Sleeper leagues — fire-and-forget, additive only
+        refreshSleeperLeagues(user.uid, loadedProfile).then((merged) => {
+          if (merged) setSavedLeagues(merged);
+        });
         setLoading(false);
       } else {
         setProfile(null);
@@ -160,7 +174,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   /**
    * Link a Sleeper account by username. Validates the username against the
    * Sleeper API, persists sleeperUserId/sleeperUsername to Firestore, and
-   * auto-saves the user's current-season leagues to savedLeagues.
+   * auto-saves the user's leagues (current + previous season) to savedLeagues.
    */
   const linkSleeper = async (username: string): Promise<{ success: boolean; error?: string }> => {
     if (!currentUser) return { success: false, error: "Not signed in" };
@@ -179,21 +193,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setProfile((prev) => (prev ? { ...prev, ...updates } : null));
 
-    // Auto-discover leagues for the current season (non-fatal if it fails)
+    // Auto-discover leagues (non-fatal if it fails). Additive merge in a
+    // single Firestore write; respects leagues the user removed.
     try {
-      const nflState = await getNflState();
-      const res = await fetch(
-        `https://api.sleeper.app/v1/user/${sleeperUser.user_id}/leagues/nfl/${nflState.season}`
+      const fresh = await discoverSleeperLeagues(sleeperUser.user_id);
+      const { merged, changed } = mergeSleeperLeagues(
+        savedLeagues,
+        fresh,
+        profile?.removedLeagueIds ?? []
       );
-      const leagues: any[] = res.ok ? await res.json() : [];
-      for (const league of leagues) {
-        await addLeague({
-          id: league.league_id,
-          type: "sleeper",
-          name: league.name,
-          year: parseInt(nflState.season, 10),
-          avatar: league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : undefined,
-        });
+      if (changed) {
+        const savedOk = await updateUserProfile(currentUser.uid, { leagues: merged });
+        if (savedOk) setSavedLeagues(merged);
       }
     } catch {
       // Linking succeeded even if league discovery fails
