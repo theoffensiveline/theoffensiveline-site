@@ -21,6 +21,7 @@ import {
   getPlatformLeagueId,
 } from "../utils/api/FantasyAPI";
 import type { LeagueDoc } from "../types/firestore";
+import { getSeedFeatures } from "../components/constants/LeagueConstants";
 
 interface UseLeagueDocOptions {
   /** Create the Firestore doc on first access when signed in. Default false. */
@@ -50,6 +51,7 @@ export function useLeagueDoc(
         season: parseInt(platformLeague.season, 10),
         editorUid: null,
         coEditorUids: [],
+        features: getSeedFeatures(leagueId!),
       });
       return getLeagueDoc(leagueId!);
     },

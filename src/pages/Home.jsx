@@ -61,13 +61,19 @@ function Home() {
   const mainLeagueId = leagueIds.mainLeague;
   const walterPicksLeagueId = leagueIds.walterPicks;
 
-  const isMainLeague = leagueId === mainLeagueId;
-
-  const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, !isMainLeague);
-
   // Ensure the /leagues/{leagueId} Firestore doc exists (created on first
   // authenticated visit; anonymous visits are read-only).
-  useLeagueDoc(leagueId, { createIfMissing: true });
+  const { data: leagueDoc, isLoading: leagueDocLoading } = useLeagueDoc(leagueId, {
+    createIfMissing: true,
+  });
+  const features = leagueDoc?.features ?? [];
+  // Leagues with hand-written newsletters show their archive instead of
+  // auto-generated weekly recaps, unless "weekly-recaps" keeps both on.
+  const hasCustomNewsletters = features.includes("custom-newsletters");
+  const showRecaps =
+    !leagueDocLoading && (!hasCustomNewsletters || features.includes("weekly-recaps"));
+
+  const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, showRecaps);
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -166,13 +172,16 @@ function Home() {
     sections: ["League Overview", "League History", "League Rosters", "Recent Activity"],
   };
 
-  // Select content based on league ID from URL params
-  const content =
-    leagueId === mainLeagueId
+  // Hand-written newsletter archives are compiled into the app, so content is
+  // still keyed by league ID; the feature flag decides whether to show any.
+  const emptyContent = { mostRecentIssue: [], newsletterIssues: [] };
+  const content = !hasCustomNewsletters
+    ? emptyContent
+    : leagueId === mainLeagueId
       ? newsletterContent
       : leagueId === walterPicksLeagueId
         ? walterPicksContent
-        : { mostRecentIssue: [], newsletterIssues: [] }; // Empty newsletter content for other leagues
+        : emptyContent;
 
   const handleNavigate = (destination, isDefault = false) => {
     if (isDefault) {
@@ -208,8 +217,8 @@ function Home() {
             margin: "20px 0",
           }}
         />
-        {/* Weekly recap links for non-main leagues */}
-        {!isMainLeague && recapWeekButtons.length > 0 && (
+        {/* Weekly recap links for leagues without hand-written newsletters */}
+        {showRecaps && recapWeekButtons.length > 0 && (
           <>
             {recapWeekButtons.map((week) => (
               <GridItem key={`recap-${week}`} onClick={() => handleRecapNavigate(week)}>

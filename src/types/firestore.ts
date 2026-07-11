@@ -30,6 +30,22 @@ export type Privacy = "public" | "league_only";
 export type NewsletterStatus = "draft" | "published";
 
 /**
+ * Per-league feature flags (issue #94). Leagues get the base experience by
+ * default; flags enable extra nav items and pages. Graduating a feature to
+ * all leagues = adding it to the default set at creation time.
+ */
+export type LeagueFeature =
+  | "survivor"
+  | "leaderboards"
+  | "hotdogs"
+  | "bylaws"
+  | "submit"
+  | "custom-newsletters"
+  // Auto weekly recaps are on by default; "custom-newsletters" replaces them
+  // with the hand-written archive unless "weekly-recaps" is also set.
+  | "weekly-recaps";
+
+/**
  * /users/{uid}
  *
  * Represents an authenticated user. One document per Firebase Auth UID.
@@ -72,6 +88,8 @@ export interface LeagueDoc {
   coEditorUids: string[];
   /** Privacy setting. Defaults to 'public' for Phase 1. */
   privacy: Privacy;
+  /** Extra features enabled for this league. Empty = base experience only. */
+  features: LeagueFeature[];
   /** Timestamp when the league document was created. */
   createdAt: Timestamp;
 }

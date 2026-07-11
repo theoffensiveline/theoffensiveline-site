@@ -26,6 +26,15 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import type { UserDoc, LeagueDoc, NewsletterDoc, WeekDataDoc } from "../types/firestore";
+import { getSeedFeatures } from "../components/constants/LeagueConstants";
+
+/**
+ * Backfill `features` on league docs created before issue #94.
+ * Known special leagues fall back to their seed set; everyone else gets [].
+ */
+function withFeatures(leagueId: string, data: LeagueDoc): LeagueDoc {
+  return { ...data, features: data.features ?? getSeedFeatures(leagueId) };
+}
 
 // ---------------------------------------------------------------------------
 // Users — /users/{uid}
@@ -97,7 +106,7 @@ export async function createLeague(
  */
 export async function getLeague(leagueId: string): Promise<LeagueDoc | null> {
   const snap = await getDoc(doc(db, "leagues", leagueId));
-  return snap.exists() ? (snap.data() as LeagueDoc) : null;
+  return snap.exists() ? withFeatures(leagueId, snap.data() as LeagueDoc) : null;
 }
 
 /**
@@ -110,7 +119,7 @@ export async function getLeaguesByEditor(
 ): Promise<(LeagueDoc & { id: string })[]> {
   const q = query(collection(db, "leagues"), where("editorUid", "==", editorUid));
   const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as LeagueDoc) }));
+  return snap.docs.map((d) => ({ id: d.id, ...withFeatures(d.id, d.data() as LeagueDoc) }));
 }
 
 /**
