@@ -5,15 +5,20 @@
 //   node scripts/firestore-restore.js <backup-dir | --latest> [options]
 //
 // Options:
-//   --latest          use the most recent directory under backups/
-//   --wipe            delete ALL existing collections before restoring
-//   --project <id>    project id (default: theoffensiveline-d8493)
-//   --production      required to touch production (no FIRESTORE_EMULATOR_HOST)
-//   --force           skip the interactive production confirmation
+//   --latest                use the most recent directory under <repo>/backups/
+//                           (backups written with --out are not discovered)
+//   --wipe                  delete ALL existing collections before restoring
+//   --project <id>          project id (default: theoffensiveline-d8493)
+//   --production            required to touch production (no FIRESTORE_EMULATOR_HOST)
+//   --force                 skip the interactive production confirmation
+//   --allow-source-mismatch permit restoring a backup into a different
+//                           project/host than it was taken from
 //
-// Every backup file is parsed and validated against manifest.json before any
-// data is touched, so a corrupt or incomplete backup aborts with the target
-// database intact.
+// Every backup file is parsed, validated against manifest.json, and
+// dry-run deserialized before any data is touched, so a corrupt or
+// incomplete backup aborts with the target database intact. The restore
+// itself is not atomic — take a fresh backup of the target before any
+// --wipe restore so an interrupted run can be rolled back.
 //
 // Examples:
 //   FIRESTORE_EMULATOR_HOST=localhost:8080 pnpm db:restore --latest --wipe
@@ -28,6 +33,8 @@ const {
   flagValue,
   resolveBackupDir,
   loadAndValidateBackup,
+  backupSource,
+  sourceMatchesTarget,
 } = require("./lib/firestoreBackupShared");
 
 function parseArgs(argv) {
@@ -38,6 +45,7 @@ function parseArgs(argv) {
     wipe: false,
     production: false,
     force: false,
+    allowSourceMismatch: false,
   };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--project") args.project = flagValue(argv, ++i, "--project");
@@ -45,6 +53,7 @@ function parseArgs(argv) {
     else if (argv[i] === "--wipe") args.wipe = true;
     else if (argv[i] === "--production") args.production = true;
     else if (argv[i] === "--force") args.force = true;
+    else if (argv[i] === "--allow-source-mismatch") args.allowSourceMismatch = true;
     else if (!argv[i].startsWith("--") && !args.dir) args.dir = argv[i];
     else {
       console.error(`Unknown argument: ${argv[i]}`);
@@ -89,6 +98,26 @@ async function wipeDatabase(db) {
   }
 }
 
+// Deserializing malformed markers (e.g. a hand-edited timestamp missing its
+// seconds) throws synchronously; prove the whole backup deserializes before
+// wiping or writing anything.
+function assertDeserializable(db, docs, prefix) {
+  for (const doc of docs) {
+    const docPath = `${prefix}/${doc.id}`;
+    if (doc.data !== undefined) {
+      try {
+        deserializeValue(doc.data, db);
+      } catch (err) {
+        console.error(`Backup contains an unrestorable value at ${docPath}: ${err.message}`);
+        process.exit(1);
+      }
+    }
+    for (const [subName, subDocs] of Object.entries(doc.collections ?? {})) {
+      assertDeserializable(db, subDocs, `${docPath}/${subName}`);
+    }
+  }
+}
+
 function restoreDocs(db, writer, parentRef, docs, stats) {
   for (const doc of docs) {
     const ref = parentRef.doc(doc.id);
@@ -116,7 +145,21 @@ function restoreDocs(db, writer, parentRef, docs, stats) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const backupDir = resolveBackupDir(args);
-  const collections = loadAndValidateBackup(backupDir);
+  const { manifest, collections } = loadAndValidateBackup(backupDir);
+
+  // Provenance guard: the backup records where it was taken from. Writing an
+  // emulator or wrong-project backup into production is almost always a
+  // mistake; restoring production backups into the emulator is routine.
+  if (!sourceMatchesTarget(manifest, args.project)) {
+    const mismatch =
+      `Backup was taken from ${backupSource(manifest)} but the target is ` +
+      `${targetDescription(args.project)}.`;
+    if (!isEmulator() && !args.allowSourceMismatch) {
+      console.error(`${mismatch} Pass --allow-source-mismatch if this is intentional.`);
+      process.exit(1);
+    }
+    console.warn(`Warning: ${mismatch}`);
+  }
 
   if (isEmulator() && args.production) {
     console.error(
@@ -149,6 +192,10 @@ async function main() {
   const { db, cleanup } = initFirestore(args.project);
   console.log(`Restoring ${targetDescription(args.project)} from ${backupDir}`);
 
+  for (const { collection, documents } of collections) {
+    assertDeserializable(db, documents, collection);
+  }
+
   if (args.wipe) {
     console.log("Wiping existing data...");
     await wipeDatabase(db);
@@ -156,9 +203,15 @@ async function main() {
 
   const writer = db.bulkWriter();
   const stats = { queued: 0, written: 0, failures: [] };
-  for (const { collection, documents } of collections) {
-    restoreDocs(db, writer, db.collection(collection), documents, stats);
-    console.log(`  ${collection}: queued`);
+  try {
+    for (const { collection, documents } of collections) {
+      restoreDocs(db, writer, db.collection(collection), documents, stats);
+      console.log(`  ${collection}: queued`);
+    }
+  } catch (err) {
+    // writer.set() can throw synchronously (Firestore-side data validation);
+    // still flush what was queued so the failure report below is accurate.
+    stats.failures.push(`enqueue aborted: ${err.message}`);
   }
   await writer.close();
 

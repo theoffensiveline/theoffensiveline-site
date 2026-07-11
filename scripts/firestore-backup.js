@@ -5,6 +5,9 @@
 // Usage:
 //   node scripts/firestore-backup.js [--project <id>] [--out <dir>]
 //
+// Backups default to <repo>/backups/, which is the only place restore and
+// validate's --latest looks — treat --out as scratch, not primary storage.
+//
 // Targets the emulator when FIRESTORE_EMULATOR_HOST is set, otherwise
 // production via Application Default Credentials:
 //   pnpm db:backup                                        # production
@@ -18,10 +21,11 @@ const {
   flagValue,
   countDocuments,
   dumpCollection,
+  DEFAULT_BACKUP_ROOT,
 } = require("./lib/firestoreBackupShared");
 
 function parseArgs(argv) {
-  const args = { project: DEFAULT_PROJECT_ID, out: "backups" };
+  const args = { project: DEFAULT_PROJECT_ID, out: DEFAULT_BACKUP_ROOT };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--project") args.project = flagValue(argv, ++i, "--project");
     else if (argv[i] === "--out") args.out = flagValue(argv, ++i, "--out");

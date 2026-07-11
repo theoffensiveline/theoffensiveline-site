@@ -20,6 +20,8 @@ const {
   dumpCollection,
   resolveBackupDir,
   loadAndValidateBackup,
+  backupSource,
+  sourceMatchesTarget,
 } = require("./lib/firestoreBackupShared");
 
 function parseArgs(argv) {
@@ -68,10 +70,16 @@ function flatten(docs, prefix, map) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const backupDir = resolveBackupDir(args);
-  const backupCollections = loadAndValidateBackup(backupDir);
+  const { manifest, collections: backupCollections } = loadAndValidateBackup(backupDir);
 
   const { db, cleanup } = initFirestore(args.project);
   console.log(`Validating ${backupDir} against ${targetDescription(args.project)}`);
+  if (!sourceMatchesTarget(manifest, args.project)) {
+    console.warn(
+      `Warning: this backup was taken from ${backupSource(manifest)}, ` +
+        `not from the target being validated — differences are expected.`
+    );
+  }
 
   const backupMap = new Map();
   for (const { collection, documents } of backupCollections) {
@@ -102,6 +110,9 @@ async function main() {
   console.error(
     `${onlyInBackup.length} missing from database, ${onlyInLive.length} not in backup, ` +
       `${mismatched.length} with different contents.`
+  );
+  console.error(
+    "If the app was writing during validation, re-run to rule out transient differences."
   );
   process.exit(1);
 }

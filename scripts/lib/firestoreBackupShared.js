@@ -12,6 +12,10 @@ const {
 
 const DEFAULT_PROJECT_ID = "theoffensiveline-d8493";
 
+// Anchor the default backup location to the repo root so the scripts behave
+// the same from any working directory.
+const DEFAULT_BACKUP_ROOT = path.resolve(__dirname, "..", "..", "backups");
+
 /**
  * Initialize firebase-admin. If FIRESTORE_EMULATOR_HOST is set, the SDK
  * talks to the emulator and no credentials are needed. Otherwise it uses
@@ -64,14 +68,18 @@ async function dumpCollection(collectionRef) {
   return docs;
 }
 
-/** Resolve an explicit backup dir or the newest one under backups/. */
+/**
+ * Resolve an explicit backup dir or the newest one under the repo's backups/
+ * directory. --latest only scans the default location; backups written with
+ * a custom --out are not discovered.
+ */
 function resolveBackupDir(args) {
   if (args.dir) return args.dir;
   if (!args.latest) {
     console.error("Provide a backup directory or --latest. See header comment for usage.");
     process.exit(1);
   }
-  const root = "backups";
+  const root = DEFAULT_BACKUP_ROOT;
   const entries = fs.existsSync(root)
     ? fs.readdirSync(root).filter((e) => fs.existsSync(path.join(root, e, "manifest.json")))
     : [];
@@ -128,6 +136,15 @@ function loadAndValidateBackup(backupDir) {
       console.error(`Corrupt backup file ${file}: expected { collection, documents }.`);
       process.exit(1);
     }
+    // A file whose contents claim a different collection than its name means
+    // something was copied or renamed inside the backup dir.
+    if (parsed.collection !== file.replace(/\.json$/, "")) {
+      console.error(
+        `Corrupt backup file ${file}: contains collection "${parsed.collection}", ` +
+          `expected "${file.replace(/\.json$/, "")}".`
+      );
+      process.exit(1);
+    }
     const expected = manifest.collections[parsed.collection];
     const actual = countDocuments(parsed.documents);
     if (actual !== expected) {
@@ -138,7 +155,23 @@ function loadAndValidateBackup(backupDir) {
     }
     collections.push(parsed);
   }
-  return collections;
+  return { manifest, collections };
+}
+
+/**
+ * Describe where a backup came from, per its manifest. Used to warn or abort
+ * when a backup's origin doesn't match the current target.
+ */
+function backupSource(manifest) {
+  return manifest.emulatorHost
+    ? `EMULATOR at ${manifest.emulatorHost} (project ${manifest.projectId})`
+    : `PRODUCTION project ${manifest.projectId}`;
+}
+
+/** True when the backup's recorded origin matches the current target. */
+function sourceMatchesTarget(manifest, projectId) {
+  const currentHost = process.env.FIRESTORE_EMULATOR_HOST ?? null;
+  return manifest.emulatorHost === currentHost && manifest.projectId === projectId;
 }
 
 /** Total documents in a dumped collection, including nested subcollections. */
@@ -244,4 +277,7 @@ module.exports = {
   dumpCollection,
   resolveBackupDir,
   loadAndValidateBackup,
+  backupSource,
+  sourceMatchesTarget,
+  DEFAULT_BACKUP_ROOT,
 };
