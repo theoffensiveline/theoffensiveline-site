@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getNflState } from "../utils/api/SleeperAPI";
+import { getNflState, getSleeperUserByUsername, getUserLeagues } from "../utils/api/SleeperAPI";
+import { toSavedLeague } from "../utils/sleeperLeagueSync";
+import { useAuth } from "../contexts/AuthContext";
 
 const Container = styled.div`
   display: flex;
@@ -81,6 +83,7 @@ function SleeperLogin() {
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const { currentUser, addLeague } = useAuth();
 
   useEffect(() => {
     localStorage.removeItem("selectedLeagueId");
@@ -100,11 +103,7 @@ function SleeperLogin() {
     }
   }, [navigate]);
 
-  const fetchLeaguesForYear = async (uid, year) => {
-    const response = await fetch(`https://api.sleeper.app/v1/user/${uid}/leagues/nfl/${year}`);
-    const data = await response.json();
-    return Array.isArray(data) ? data : [];
-  };
+  const fetchLeaguesForYear = (uid, year) => getUserLeagues(uid, year);
 
   const handleUsernameSubmit = async () => {
     setIsButtonDisabled(true);
@@ -120,8 +119,7 @@ function SleeperLogin() {
     localStorage.setItem("sleeperUsername", username);
 
     try {
-      const userResponse = await fetch(`https://api.sleeper.app/v1/user/${username}`);
-      const userData = await userResponse.json();
+      const userData = await getSleeperUserByUsername(username);
       const uid = userData?.user_id;
 
       if (!uid) {
@@ -226,6 +224,10 @@ function SleeperLogin() {
   const handleLeagueSelect = (league) => {
     localStorage.setItem("selectedLeagueId", league.league_id);
     window.dispatchEvent(new Event("leagueChange"));
+    // Signed-in users get the league saved to their dashboard (fire-and-forget)
+    if (currentUser) {
+      addLeague(toSavedLeague(league));
+    }
     navigate(`/home/${league.league_id}`, { state: { league } });
   };
 

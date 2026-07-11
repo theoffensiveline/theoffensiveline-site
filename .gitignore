@@ -35,3 +35,5 @@ yarn-error.log*
 src/newsletters/2023 Week 12
 .claude/settings.local.json
 .emulator-data
+firebase-debug.log
+firestore-debug.log
