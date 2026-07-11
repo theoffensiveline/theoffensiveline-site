@@ -127,6 +127,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
+      // Clear the selected league so the NavBar resets to "Select League" —
+      // it survives in localStorage otherwise (bug-reports/logout-keeps-selected-league.md)
+      localStorage.removeItem("selectedLeagueId");
+      window.dispatchEvent(new Event("leagueChange"));
     } catch (error) {
       console.error("Error signing out:", error);
       throw error;
