@@ -18,8 +18,6 @@
 // Examples:
 //   FIRESTORE_EMULATOR_HOST=localhost:8080 pnpm db:restore --latest --wipe
 //   pnpm db:restore backups/2026-07-11T09-00-00 --production
-const fs = require("fs");
-const path = require("path");
 const readline = require("readline");
 const {
   DEFAULT_PROJECT_ID,
@@ -28,7 +26,8 @@ const {
   targetDescription,
   deserializeValue,
   flagValue,
-  countDocuments,
+  resolveBackupDir,
+  loadAndValidateBackup,
 } = require("./lib/firestoreBackupShared");
 
 function parseArgs(argv) {
@@ -57,82 +56,6 @@ function parseArgs(argv) {
     process.exit(1);
   }
   return args;
-}
-
-function resolveBackupDir(args) {
-  if (args.dir) return args.dir;
-  if (!args.latest) {
-    console.error("Provide a backup directory or --latest. See header comment for usage.");
-    process.exit(1);
-  }
-  const root = "backups";
-  const entries = fs.existsSync(root)
-    ? fs.readdirSync(root).filter((e) => fs.existsSync(path.join(root, e, "manifest.json")))
-    : [];
-  if (entries.length === 0) {
-    console.error(`No backups found under ${root}/`);
-    process.exit(1);
-  }
-  entries.sort();
-  return path.join(root, entries[entries.length - 1]);
-}
-
-/**
- * Parse every collection file and cross-check it against manifest.json.
- * Runs before any database mutation — exits on the first inconsistency so a
- * truncated file or stray JSON can never be discovered mid-restore.
- */
-function loadAndValidateBackup(backupDir) {
-  const manifestPath = path.join(backupDir, "manifest.json");
-  if (!fs.existsSync(manifestPath)) {
-    console.error(`${backupDir} is not a backup directory (no manifest.json)`);
-    process.exit(1);
-  }
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-
-  const files = fs
-    .readdirSync(backupDir)
-    .filter((f) => f.endsWith(".json") && f !== "manifest.json");
-  const fileCollections = new Set(files.map((f) => f.replace(/\.json$/, "")));
-  const manifestCollections = new Set(Object.keys(manifest.collections ?? {}));
-
-  for (const name of manifestCollections) {
-    if (!fileCollections.has(name)) {
-      console.error(`Backup is incomplete: manifest lists "${name}" but ${name}.json is missing.`);
-      process.exit(1);
-    }
-  }
-  for (const name of fileCollections) {
-    if (!manifestCollections.has(name)) {
-      console.error(`Stray file ${name}.json is not listed in manifest.json — refusing to restore it.`);
-      process.exit(1);
-    }
-  }
-
-  const collections = [];
-  for (const file of files) {
-    let parsed;
-    try {
-      parsed = JSON.parse(fs.readFileSync(path.join(backupDir, file), "utf8"));
-    } catch (err) {
-      console.error(`Corrupt backup file ${file}: ${err.message}`);
-      process.exit(1);
-    }
-    if (typeof parsed.collection !== "string" || !Array.isArray(parsed.documents)) {
-      console.error(`Corrupt backup file ${file}: expected { collection, documents }.`);
-      process.exit(1);
-    }
-    const expected = manifest.collections[parsed.collection];
-    const actual = countDocuments(parsed.documents);
-    if (actual !== expected) {
-      console.error(
-        `Corrupt backup file ${file}: contains ${actual} docs but manifest says ${expected}.`
-      );
-      process.exit(1);
-    }
-    collections.push(parsed);
-  }
-  return collections;
 }
 
 function confirm(question) {

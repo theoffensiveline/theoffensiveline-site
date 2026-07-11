@@ -1,5 +1,7 @@
-// Shared helpers for the Firestore backup/restore scripts (scripts/firestore-backup.js,
-// scripts/firestore-restore.js). Node-only — do not import from src/.
+// Shared helpers for the Firestore backup/restore/validate scripts in
+// scripts/. Node-only — do not import from src/.
+const fs = require("fs");
+const path = require("path");
 const { initializeApp, deleteApp } = require("firebase-admin/app");
 const {
   getFirestore,
@@ -34,6 +36,109 @@ function flagValue(argv, i, name) {
     process.exit(1);
   }
   return v;
+}
+
+async function dumpDocument(docSnap) {
+  const entry = { id: docSnap.id, data: serializeValue(docSnap.data()) };
+  const subcollections = await docSnap.ref.listCollections();
+  if (subcollections.length > 0) {
+    entry.collections = {};
+    for (const sub of subcollections) {
+      entry.collections[sub.id] = await dumpCollection(sub);
+    }
+  }
+  return entry;
+}
+
+async function dumpCollection(collectionRef) {
+  const snapshot = await collectionRef.get();
+  // Docs with subcollections but no fields don't appear in collection gets;
+  // listDocuments() includes them so nested data isn't silently skipped.
+  const allRefs = await collectionRef.listDocuments();
+  const seen = new Set(snapshot.docs.map((d) => d.id));
+  const docs = [];
+  for (const docSnap of snapshot.docs) docs.push(await dumpDocument(docSnap));
+  for (const ref of allRefs) {
+    if (!seen.has(ref.id)) docs.push(await dumpDocument(await ref.get()));
+  }
+  return docs;
+}
+
+/** Resolve an explicit backup dir or the newest one under backups/. */
+function resolveBackupDir(args) {
+  if (args.dir) return args.dir;
+  if (!args.latest) {
+    console.error("Provide a backup directory or --latest. See header comment for usage.");
+    process.exit(1);
+  }
+  const root = "backups";
+  const entries = fs.existsSync(root)
+    ? fs.readdirSync(root).filter((e) => fs.existsSync(path.join(root, e, "manifest.json")))
+    : [];
+  if (entries.length === 0) {
+    console.error(`No backups found under ${root}/`);
+    process.exit(1);
+  }
+  entries.sort();
+  return path.join(root, entries[entries.length - 1]);
+}
+
+/**
+ * Parse every collection file and cross-check it against manifest.json.
+ * Exits on the first inconsistency so a truncated file or stray JSON is
+ * caught before anything acts on the backup.
+ */
+function loadAndValidateBackup(backupDir) {
+  const manifestPath = path.join(backupDir, "manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    console.error(`${backupDir} is not a backup directory (no manifest.json)`);
+    process.exit(1);
+  }
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+
+  const files = fs
+    .readdirSync(backupDir)
+    .filter((f) => f.endsWith(".json") && f !== "manifest.json");
+  const fileCollections = new Set(files.map((f) => f.replace(/\.json$/, "")));
+  const manifestCollections = new Set(Object.keys(manifest.collections ?? {}));
+
+  for (const name of manifestCollections) {
+    if (!fileCollections.has(name)) {
+      console.error(`Backup is incomplete: manifest lists "${name}" but ${name}.json is missing.`);
+      process.exit(1);
+    }
+  }
+  for (const name of fileCollections) {
+    if (!manifestCollections.has(name)) {
+      console.error(`Stray file ${name}.json is not listed in manifest.json — refusing to use it.`);
+      process.exit(1);
+    }
+  }
+
+  const collections = [];
+  for (const file of files) {
+    let parsed;
+    try {
+      parsed = JSON.parse(fs.readFileSync(path.join(backupDir, file), "utf8"));
+    } catch (err) {
+      console.error(`Corrupt backup file ${file}: ${err.message}`);
+      process.exit(1);
+    }
+    if (typeof parsed.collection !== "string" || !Array.isArray(parsed.documents)) {
+      console.error(`Corrupt backup file ${file}: expected { collection, documents }.`);
+      process.exit(1);
+    }
+    const expected = manifest.collections[parsed.collection];
+    const actual = countDocuments(parsed.documents);
+    if (actual !== expected) {
+      console.error(
+        `Corrupt backup file ${file}: contains ${actual} docs but manifest says ${expected}.`
+      );
+      process.exit(1);
+    }
+    collections.push(parsed);
+  }
+  return collections;
 }
 
 /** Total documents in a dumped collection, including nested subcollections. */
@@ -136,4 +241,7 @@ module.exports = {
   deserializeValue,
   flagValue,
   countDocuments,
+  dumpCollection,
+  resolveBackupDir,
+  loadAndValidateBackup,
 };

@@ -15,9 +15,9 @@ const {
   DEFAULT_PROJECT_ID,
   initFirestore,
   targetDescription,
-  serializeValue,
   flagValue,
   countDocuments,
+  dumpCollection,
 } = require("./lib/firestoreBackupShared");
 
 function parseArgs(argv) {
@@ -31,32 +31,6 @@ function parseArgs(argv) {
     }
   }
   return args;
-}
-
-async function dumpDocument(docSnap) {
-  const entry = { id: docSnap.id, data: serializeValue(docSnap.data()) };
-  const subcollections = await docSnap.ref.listCollections();
-  if (subcollections.length > 0) {
-    entry.collections = {};
-    for (const sub of subcollections) {
-      entry.collections[sub.id] = await dumpCollection(sub);
-    }
-  }
-  return entry;
-}
-
-async function dumpCollection(collectionRef) {
-  const snapshot = await collectionRef.get();
-  // Docs with subcollections but no fields don't appear in collection gets;
-  // listDocuments() includes them so nested data isn't silently skipped.
-  const allRefs = await collectionRef.listDocuments();
-  const seen = new Set(snapshot.docs.map((d) => d.id));
-  const docs = [];
-  for (const docSnap of snapshot.docs) docs.push(await dumpDocument(docSnap));
-  for (const ref of allRefs) {
-    if (!seen.has(ref.id)) docs.push(await dumpDocument(await ref.get()));
-  }
-  return docs;
 }
 
 async function main() {
