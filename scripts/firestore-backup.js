@@ -12,6 +12,7 @@
 // production via Application Default Credentials:
 //   pnpm db:backup                                        # production
 //   FIRESTORE_EMULATOR_HOST=localhost:8080 pnpm db:backup # emulator
+const { execFileSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const {
@@ -72,6 +73,17 @@ async function main() {
   fs.writeFileSync(path.join(outDir, "manifest.json"), JSON.stringify(manifest, null, 2));
   const total = Object.values(manifest.collections).reduce((a, b) => a + b, 0);
   console.log(`Done. ${total} documents in ${outDir}`);
+
+  // Zip alongside the directory (kept unzipped too — restore/validate read
+  // the directory). Zip failure isn't a backup failure; the files are safe.
+  try {
+    execFileSync("zip", ["-r", "-q", `${path.basename(outDir)}.zip`, path.basename(outDir)], {
+      cwd: path.dirname(outDir),
+    });
+    console.log(`Zipped to ${outDir}.zip`);
+  } catch (err) {
+    console.warn(`Warning: could not zip backup (${err.message}); the directory is intact.`);
+  }
   await cleanup();
 }
 

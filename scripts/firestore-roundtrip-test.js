@@ -98,11 +98,18 @@ async function main() {
   const outA = path.join(tmp, "a");
   const outB = path.join(tmp, "b");
 
+  // Each backup writes a timestamped directory plus a .zip sibling.
+  const backupDirIn = (root) =>
+    path.join(
+      root,
+      fs.readdirSync(root).find((e) => fs.statSync(path.join(root, e)).isDirectory())
+    );
+
   runCli("firestore-backup.js", ["--project", PROJECT, "--out", outA]);
-  const dirA = path.join(outA, fs.readdirSync(outA)[0]);
+  const dirA = backupDirIn(outA);
   runCli("firestore-restore.js", [dirA, "--project", PROJECT, "--wipe"]);
   runCli("firestore-backup.js", ["--project", PROJECT, "--out", outB]);
-  const dirB = path.join(outB, fs.readdirSync(outB)[0]);
+  const dirB = backupDirIn(outB);
 
   for (const file of fs.readdirSync(dirA).filter((f) => f !== "manifest.json")) {
     const a = fs.readFileSync(path.join(dirA, file), "utf8");
