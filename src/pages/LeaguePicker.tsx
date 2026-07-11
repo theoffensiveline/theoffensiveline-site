@@ -126,7 +126,7 @@ const LeagueItem = styled.div`
   background-color: ${({ theme }: any) => theme.background};
   border: 1px solid ${({ theme }: any) => theme.neutral3}44;
   border-radius: 10px;
-  padding: 12px 15px;
+  padding: 16px 18px;
   margin: 8px 0;
   cursor: pointer;
   transition: all 0.15s ease;

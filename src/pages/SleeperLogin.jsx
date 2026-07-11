@@ -62,6 +62,7 @@ const LeagueName = styled.span`
   font-size: 18px;
   color: ${({ theme }) => theme.text};
   flex-grow: 1;
+  text-align: left;
 `;
 
 const YearHeader = styled.h3`
