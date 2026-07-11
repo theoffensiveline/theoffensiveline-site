@@ -146,6 +146,7 @@ const LeagueInfo = styled.div`
   align-items: flex-start;
   flex-grow: 1;
   min-width: 0;
+  text-align: left;
 `;
 
 const LeagueName = styled.span`
