@@ -37,6 +37,11 @@ function targetDescription(projectId) {
 // the round trip is lossless.
 function serializeValue(value) {
   if (value === null || value === undefined) return value;
+  // NaN/Infinity are valid Firestore numbers but JSON.stringify turns them
+  // into null — encode them explicitly so they survive the round trip.
+  if (typeof value === "number" && !Number.isFinite(value)) {
+    return { __fs: "number", value: String(value) };
+  }
   if (value instanceof Timestamp) {
     return {
       __fs: "timestamp",
@@ -57,6 +62,11 @@ function serializeValue(value) {
   if (typeof value === "object") {
     const out = {};
     for (const [k, v] of Object.entries(value)) out[k] = serializeValue(v);
+    // A user map that happens to contain a literal "__fs" key would be
+    // mistaken for a type marker on restore — wrap it to disambiguate.
+    if (Object.prototype.hasOwnProperty.call(value, "__fs")) {
+      return { __fs: "map", value: out };
+    }
     return out;
   }
   return value;
@@ -75,6 +85,17 @@ function deserializeValue(value, db) {
         return db.doc(value.path);
       case "bytes":
         return Buffer.from(value.base64, "base64");
+      case "number":
+        return Number(value.value);
+      case "map": {
+        // Escaped user map whose own keys include "__fs" — deserialize its
+        // entries directly so the wrapper isn't re-parsed as a marker.
+        const out = {};
+        for (const [k, v] of Object.entries(value.value)) {
+          out[k] = deserializeValue(v, db);
+        }
+        return out;
+      }
       default: {
         const out = {};
         for (const [k, v] of Object.entries(value)) out[k] = deserializeValue(v, db);
