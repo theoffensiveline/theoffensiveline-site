@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -21,6 +21,7 @@ export default function NavBar() {
   const { theme, toggleTheme } = useTheme();
   const { currentUser, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [isVisible, setIsVisible] = React.useState(true);
@@ -91,6 +92,11 @@ export default function NavBar() {
   };
 
   const getPages = () => {
+    // No page nav on the league picker itself — every button would either
+    // point back here or at the league the user is switching away from.
+    if (location.pathname === "/league-picker") {
+      return [];
+    }
     if (!leagueId) {
       return ["Select League"];
     }
@@ -130,16 +136,18 @@ export default function NavBar() {
         <Toolbar disableGutters>
           {/* Mobile menu button */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
+            {pages.length > 0 && (
+              <IconButton
+                size="large"
+                aria-label="menu"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
