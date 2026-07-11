@@ -53,6 +53,22 @@ function isYahoo(leagueId: string): boolean {
 }
 
 /**
+ * Derive the platform from a namespaced league ID.
+ */
+export function getPlatform(leagueId: string): "sleeper" | "espn" | "yahoo" {
+  if (isYahoo(leagueId)) return "yahoo";
+  if (isEspn(leagueId)) return "espn";
+  return "sleeper";
+}
+
+/**
+ * Strip the platform prefix, returning the raw ID used by the platform's own API.
+ */
+export function getPlatformLeagueId(leagueId: string): string {
+  return leagueId.replace(/^(espn_|yahoo_)/, "");
+}
+
+/**
  * Fetch league metadata.
  */
 export const getLeague = async (leagueId: string): Promise<League> => {

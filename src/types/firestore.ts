@@ -8,7 +8,8 @@
  *   /leagues/{leagueId}/newsletters/{weekNumber}
  *   /leagues/{leagueId}/weekData/{weekNumber}
  *
- * leagueId format: plain numeric for Sleeper, "espn_XXXXX" for ESPN.
+ * leagueId format: plain numeric for Sleeper, "espn_XXXXX" for ESPN,
+ * "yahoo_XXXXX" for Yahoo.
  * platformLeagueId = raw ID as used by the platform's own API.
  *
  * NOTE: ESPN credentials (espn_s2 / SWID) are NEVER stored in Firestore.
@@ -20,10 +21,10 @@
 import { Timestamp } from "firebase/firestore";
 
 /** Supported fantasy platforms. */
-export type Platform = "sleeper" | "espn";
+export type Platform = "sleeper" | "espn" | "yahoo";
 
 /** Privacy setting for a league. Defaults to 'public' for Phase 1. */
-export type Privacy = "public" | "private";
+export type Privacy = "public" | "league_only";
 
 /** Newsletter publication status. */
 export type NewsletterStatus = "draft" | "published";
@@ -65,8 +66,8 @@ export interface LeagueDoc {
   name: string;
   /** NFL season year (e.g. 2025). */
   season: number;
-  /** Firebase UID of the primary editor. */
-  editorUid: string;
+  /** Firebase UID of the primary editor. Null until a member claims the role. */
+  editorUid: string | null;
   /** Firebase UIDs of co-editors who can also edit newsletters. */
   coEditorUids: string[];
   /** Privacy setting. Defaults to 'public' for Phase 1. */

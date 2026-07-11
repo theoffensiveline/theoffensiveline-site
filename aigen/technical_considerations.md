@@ -38,7 +38,7 @@ This document captures lessons learned and important notes for The Offensive Lin
 - **Conditional Rendering:** Check both `status !== "success"` AND data presence to show sections while loading
 - **Bundle Size:** Chart components (Victory.js) are now lazy-loaded via `React.lazy` — chunks load on demand after data arrives. The static imports for tableStyles/newsStyles are kept synchronous since they're small.
 - **ErrorBoundary Retry Test Pattern:** When testing retry in an error boundary, update child props via `rerender` BEFORE clicking Retry — otherwise the reset triggers a re-render of the still-throwing child and the boundary immediately re-enters error state
-- **No `@testing-library/jest-dom`:** Project has no `setupTests` file — use `.toBeTruthy()` instead of `.toBeInTheDocument()`, and `.toBeNull()` instead of `.not.toBeInTheDocument()`
+- **`src/setupTests.js` exists (added Jul 2026):** loads `@testing-library/jest-dom` (so `.toBeInTheDocument()` works), polyfills web globals firebase needs under jsdom (TextEncoder, ReadableStream, Blob, etc.), and stubs `window.matchMedia` for ThemeContext
 
 ## Newsletter Stack Architecture
 

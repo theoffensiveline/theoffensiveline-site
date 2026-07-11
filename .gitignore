@@ -34,3 +34,4 @@ yarn-error.log*
 /oldNews
 src/newsletters/2023 Week 12
 .claude/settings.local.json
+.emulator-data

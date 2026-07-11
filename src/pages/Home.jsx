@@ -3,6 +3,7 @@ import styled, { useTheme } from "styled-components";
 import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
+import { useLeagueDoc } from "../hooks/useLeagueDoc";
 
 const GridContainer = styled.div`
   display: grid;
@@ -62,6 +63,10 @@ function Home() {
   const isMainLeague = leagueId === mainLeagueId;
 
   const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, !isMainLeague);
+
+  // Ensure the /leagues/{leagueId} Firestore doc exists (created on first
+  // authenticated visit; anonymous visits are read-only).
+  useLeagueDoc(leagueId, { createIfMissing: true });
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
