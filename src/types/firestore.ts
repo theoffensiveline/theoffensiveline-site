@@ -5,8 +5,9 @@
  * Collections:
  *   /users/{uid}
  *   /leagues/{leagueId}
- *   /leagues/{leagueId}/newsletters/{weekNumber}
- *   /leagues/{leagueId}/weekData/{weekNumber}
+ *   /newsletters/{newsletterId}                       (issue #103)
+ *   /newsletters/{newsletterId}/issues/{season}_w{week}
+ *   /leagues/{leagueId}/weekData/{weekNumber}          (fate decided in #84)
  *
  * leagueId format: plain numeric for Sleeper, "espn_XXXXX" for ESPN,
  * "yahoo_XXXXX" for Yahoo.
@@ -15,7 +16,7 @@
  * NOTE: ESPN credentials (espn_s2 / SWID) are NEVER stored in Firestore.
  *       They belong in localStorage only.
  *
- * NOTE: /leagues/{leagueId}/newsletters/{weekNumber}/submissions/ is Phase 3.
+ * NOTE: /newsletters/{id}/issues/{issueId}/submissions/ is Phase 3.
  */
 
 import { Timestamp } from "firebase/firestore";
@@ -23,10 +24,10 @@ import { Timestamp } from "firebase/firestore";
 /** Supported fantasy platforms. */
 export type Platform = "sleeper" | "espn" | "yahoo";
 
-/** Privacy setting for a league. Defaults to 'public' for Phase 1. */
+/** Privacy setting for a league or newsletter. Defaults to 'public'. */
 export type Privacy = "public" | "league_only";
 
-/** Newsletter publication status. */
+/** Issue publication status. */
 export type NewsletterStatus = "draft" | "published";
 
 /**
@@ -95,17 +96,68 @@ export interface LeagueDoc {
 }
 
 /**
- * /leagues/{leagueId}/newsletters/{weekNumber}
+ * One league-season entry inside a newsletter (see NewsletterDoc).
+ */
+export interface NewsletterSeason {
+  /** Prefixed league doc ID (plain numeric Sleeper, "espn_X", "yahoo_X"). */
+  leagueId: string;
+  /** NFL season year this league covers (e.g. 2025). */
+  season: number;
+  /**
+   * Whether the editor passed a membership check for this league when it was
+   * added. Unverified seasons are display-only: they never grant privacy
+   * membership (#103 decision 4).
+   */
+  verified: boolean;
+}
+
+/**
+ * /newsletters/{newsletterId}
  *
- * Represents a single week's newsletter for a league.
- * weekNumber is stored as a string document ID (e.g. "1", "2").
+ * The top-level publication entity (issue #103). An editor creates a
+ * newsletter for a league; it contains one or more league-seasons, possibly
+ * across platforms. Multiple newsletters per league are allowed by design
+ * (#103 decision 2 — exclusive claims would let squatters lock out real
+ * leagues, since platform identity is unverifiable).
  */
 export interface NewsletterDoc {
-  /** Whether this newsletter is a draft or has been published. */
+  /** Editor-chosen publication name. No uniqueness guarantee. */
+  name: string;
+  /** Firebase UID of the creator/editor. Creation is claiming — never null. */
+  editorUid: string;
+  /** Firebase UIDs of co-editors. Must be empty at creation (rules-enforced). */
+  coEditorUids: string[];
+  /** Privacy setting. Gating lands in #103 sub-issue D. */
+  privacy: Privacy;
+  /** Feature flags for this publication's extra pages. */
+  features: LeagueFeature[];
+  /** Ordered league-seasons this publication covers. */
+  seasons: NewsletterSeason[];
+  /** League ID of the current season — explicit, never derived from order. */
+  activeLeagueId: string;
+  /**
+   * Flattened seasons[].leagueId, kept in sync by the CRUD layer for
+   * array-contains discovery queries. Never write directly.
+   */
+  leagueIds: string[];
+  /** Timestamp when the newsletter was created. */
+  createdAt: Timestamp;
+}
+
+/**
+ * /newsletters/{newsletterId}/issues/{season}_w{week}
+ *
+ * A weekly edition of a newsletter. Doc IDs zero-pad the week ("2025_w02")
+ * so lexical order matches chronological order. Placeholder shape — the
+ * full builder schema lands with #84. Replaces the never-used
+ * /leagues/{id}/newsletters subcollection.
+ */
+export interface IssueDoc {
+  /** Whether this issue is a draft or has been published. */
   status: NewsletterStatus;
-  /** Timestamp when the newsletter was published. Null if still draft. */
+  /** Timestamp when the issue was published. Null if still draft. */
   publishedAt: Timestamp | null;
-  /** Ordered list of section identifiers included in this newsletter. */
+  /** Ordered list of section identifiers included in this issue. */
   sections: string[];
   /** Free-form notes from the editor. */
   editorNotes: string;

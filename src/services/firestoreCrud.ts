@@ -8,12 +8,14 @@
  * Collections handled:
  *   /users/{uid}
  *   /leagues/{leagueId}
- *   /leagues/{leagueId}/newsletters/{weekNumber}
- *   /leagues/{leagueId}/weekData/{weekNumber}
+ *   /newsletters/{newsletterId}                        (issue #103)
+ *   /newsletters/{newsletterId}/issues/{season}_w{week}
+ *   /leagues/{leagueId}/weekData/{weekNumber}           (fate decided in #84)
  */
 
 import {
   doc,
+  addDoc,
   getDoc,
   setDoc,
   updateDoc,
@@ -25,7 +27,14 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import type { UserDoc, LeagueDoc, NewsletterDoc, WeekDataDoc } from "../types/firestore";
+import type {
+  UserDoc,
+  LeagueDoc,
+  NewsletterDoc,
+  NewsletterSeason,
+  IssueDoc,
+  WeekDataDoc,
+} from "../types/firestore";
 import { getSeedFeatures } from "../components/constants/LeagueConstants";
 
 /**
@@ -140,73 +149,163 @@ export async function deleteLeague(leagueId: string): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Newsletters — /leagues/{leagueId}/newsletters/{weekNumber}
+// Newsletters — /newsletters/{newsletterId}   (issue #103)
 // ---------------------------------------------------------------------------
 
 /**
- * Create or overwrite a newsletter document for a given week.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string (e.g. "1")
- * @param data - Newsletter fields
+ * Flatten seasons[].leagueId for array-contains discovery queries.
+ * The CRUD layer is the only writer of leagueIds — never set it directly.
  */
-export async function setNewsletter(
-  leagueId: string,
-  weekNumber: string,
-  data: NewsletterDoc
-): Promise<void> {
-  await setDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber), data);
+function deriveLeagueIds(seasons: NewsletterSeason[]): string[] {
+  return seasons.map((s) => s.leagueId);
 }
 
 /**
- * Fetch a newsletter document for a given week.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
+ * Reject duplicate season years within one newsletter. Issue doc IDs are
+ * keyed {season}_w{week}, so two leagues covering the same year would
+ * silently overwrite each other's issues.
+ */
+function assertUniqueSeasonYears(seasons: NewsletterSeason[]): void {
+  const years = seasons.map((s) => s.season);
+  if (new Set(years).size !== years.length) {
+    throw new Error("A newsletter can only contain one league per season year.");
+  }
+}
+
+/** Newsletter fields the caller provides; leagueIds/createdAt are derived. */
+export type NewsletterCreate = Omit<NewsletterDoc, "createdAt" | "leagueIds">;
+
+/**
+ * Create a newsletter with an auto-generated ID.
+ * @param data - Newsletter fields (leagueIds is derived from seasons)
+ * @returns The new newsletter's document ID.
+ */
+export async function createNewsletter(data: NewsletterCreate): Promise<string> {
+  assertUniqueSeasonYears(data.seasons);
+  const ref = await addDoc(collection(db, "newsletters"), {
+    ...data,
+    leagueIds: deriveLeagueIds(data.seasons),
+    createdAt: Timestamp.now(),
+  });
+  return ref.id;
+}
+
+/**
+ * Fetch a newsletter by ID.
+ * @param newsletterId - Newsletter document ID
  * @returns The newsletter document or null if not found.
  */
-export async function getNewsletter(
-  leagueId: string,
-  weekNumber: string
-): Promise<NewsletterDoc | null> {
-  const snap = await getDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber));
+export async function getNewsletter(newsletterId: string): Promise<NewsletterDoc | null> {
+  const snap = await getDoc(doc(db, "newsletters", newsletterId));
   return snap.exists() ? (snap.data() as NewsletterDoc) : null;
 }
 
 /**
- * Fetch all newsletters for a league.
- * @param leagueId - Parent league document ID
- * @returns Array of newsletter documents with their week numbers.
+ * Discovery query: all newsletters that include a given league-season.
+ * @param leagueId - Prefixed league document ID
+ * @returns Array of newsletter documents with their IDs.
  */
-export async function getAllNewsletters(
+export async function getNewslettersForLeague(
   leagueId: string
-): Promise<(NewsletterDoc & { weekNumber: string })[]> {
-  const snap = await getDocs(collection(db, "leagues", leagueId, "newsletters"));
-  return snap.docs.map((d) => ({
-    weekNumber: d.id,
-    ...(d.data() as NewsletterDoc),
-  }));
+): Promise<(NewsletterDoc & { id: string })[]> {
+  const q = query(collection(db, "newsletters"), where("leagueIds", "array-contains", leagueId));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as NewsletterDoc) }));
 }
 
 /**
- * Update fields on an existing newsletter document.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
+ * Fetch all newsletters where a given UID is the editor.
+ * @param editorUid - Firebase Auth UID
+ * @returns Array of newsletter documents with their IDs.
+ */
+export async function getNewslettersByEditor(
+  editorUid: string
+): Promise<(NewsletterDoc & { id: string })[]> {
+  const q = query(collection(db, "newsletters"), where("editorUid", "==", editorUid));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as NewsletterDoc) }));
+}
+
+/**
+ * Update fields on a newsletter. If seasons change, leagueIds is re-derived
+ * and duplicate season years are rejected.
+ * @param newsletterId - Newsletter document ID
  * @param data - Partial newsletter fields to merge
  */
 export async function updateNewsletter(
-  leagueId: string,
-  weekNumber: string,
-  data: Partial<NewsletterDoc>
+  newsletterId: string,
+  data: Partial<NewsletterCreate>
 ): Promise<void> {
-  await updateDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber), data);
+  const payload: Partial<NewsletterDoc> = { ...data };
+  if (data.seasons) {
+    assertUniqueSeasonYears(data.seasons);
+    payload.leagueIds = deriveLeagueIds(data.seasons);
+  }
+  await updateDoc(doc(db, "newsletters", newsletterId), payload);
 }
 
 /**
  * Delete a newsletter document.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
+ * @param newsletterId - Newsletter document ID
  */
-export async function deleteNewsletter(leagueId: string, weekNumber: string): Promise<void> {
-  await deleteDoc(doc(db, "leagues", leagueId, "newsletters", weekNumber));
+export async function deleteNewsletter(newsletterId: string): Promise<void> {
+  await deleteDoc(doc(db, "newsletters", newsletterId));
+}
+
+// ---------------------------------------------------------------------------
+// Issues — /newsletters/{newsletterId}/issues/{season}_w{week}
+// ---------------------------------------------------------------------------
+
+/**
+ * Build an issue document ID. Weeks are zero-padded so lexical order
+ * matches chronological order ("2025_w02" < "2025_w10").
+ */
+export function issueDocId(season: number, week: number): string {
+  return `${season}_w${String(week).padStart(2, "0")}`;
+}
+
+/**
+ * Create or overwrite an issue for a given season + week.
+ * @param newsletterId - Parent newsletter document ID
+ * @param season - NFL season year
+ * @param week - Week number
+ * @param data - Issue fields
+ */
+export async function setIssue(
+  newsletterId: string,
+  season: number,
+  week: number,
+  data: IssueDoc
+): Promise<void> {
+  await setDoc(doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week)), data);
+}
+
+/**
+ * Fetch an issue for a given season + week.
+ * @param newsletterId - Parent newsletter document ID
+ * @param season - NFL season year
+ * @param week - Week number
+ * @returns The issue document or null if not found.
+ */
+export async function getIssue(
+  newsletterId: string,
+  season: number,
+  week: number
+): Promise<IssueDoc | null> {
+  const snap = await getDoc(
+    doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week))
+  );
+  return snap.exists() ? (snap.data() as IssueDoc) : null;
+}
+
+/**
+ * Fetch all issues for a newsletter.
+ * @param newsletterId - Parent newsletter document ID
+ * @returns Array of issue documents with their IDs (e.g. "2025_w02").
+ */
+export async function getAllIssues(newsletterId: string): Promise<(IssueDoc & { id: string })[]> {
+  const snap = await getDocs(collection(db, "newsletters", newsletterId, "issues"));
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as IssueDoc) }));
 }
 
 // ---------------------------------------------------------------------------

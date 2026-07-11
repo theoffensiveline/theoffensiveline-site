@@ -54,13 +54,13 @@ Every league on Sleeper or ESPN can have a newsletter. Here's how they get creat
 
 1. **Auto-generated base newsletter** — When someone links a league, the system generates the stats/graphs newsletter automatically (no human input needed). This is the "data layer" — the same graphs and tables you have now, powered by the platform's API data.
 
-2. **Claiming editor role** — Any league member can claim the **Editor** role for their league's newsletter. First come, first served.
+2. **Creating a newsletter = claiming** — A league member creates a newsletter for their league and becomes its **Editor** (see #103). There is no separate claim step and no unclaimed state.
    - Editor can appoint **Co-Editors** from league members
-   - If no one claims editor, the newsletter still exists with just the auto-generated content
+   - Leagues without a newsletter keep the auto-generated experience (recaps, rosters, history)
 
-3. **One newsletter per league** — A league gets exactly one newsletter. Multiple people don't create competing newsletters for the same league. The Editor owns the content; Co-Editors can contribute.
+3. **Multiple newsletters per league — allowed by design** (decision reversed 2026-07-11, #103). Platform identity is unverifiable (Sleeper has no OAuth; linking is just typing a username), so any exclusive first-come claim would let a squatter permanently lock out the real league. Instead, duplicates are harmless: they can't block anyone, they wrap only already-public stats, and the create flow steers members to the existing newsletter first ("view this one" primary, "create another" secondary).
 
-> **Why one per league?** Multiple newsletters per league sounds flexible but creates fragmentation. Nobody wants to check three different newsletters for the same league. One newsletter, one source of truth, multiple contributors.
+> **Why the reversal?** One-per-league assumed claims could be trusted. They can't be verified, so exclusivity becomes a denial-of-service tool. Fragmentation is handled socially (discovery lists show editor + season range; leagues converge on the real one) rather than by an unenforceable lock.
 
 ### Newsletter Privacy
 

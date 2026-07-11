@@ -72,6 +72,42 @@ service cloud.firestore {
     }
 
     // -----------------------------------------------------------------------
+    // /newsletters/{newsletterId}   (issue #103)
+    // The top-level publication entity. Publicly readable (privacy gating is
+    // client-side until sub-issue D). Creation is claiming: the creator must
+    // name themselves editor, with no co-editors (carries forward the
+    // pre-create hole fix from #102). leagueIds must stay in sync with
+    // seasons — full projection equality isn't expressible in rules, so we
+    // assert size equality and rely on the CRUD layer for content.
+    // -----------------------------------------------------------------------
+    match /newsletters/{newsletterId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.editorUid == request.auth.uid
+        && request.resource.data.coEditorUids.size() == 0
+        && request.resource.data.leagueIds.size() == request.resource.data.seasons.size();
+      allow update: if request.auth != null
+        && (resource.data.editorUid == request.auth.uid
+            || request.auth.uid in resource.data.coEditorUids)
+        // The editor role never transfers via client writes.
+        && request.resource.data.editorUid == resource.data.editorUid
+        && request.resource.data.leagueIds.size() == request.resource.data.seasons.size();
+      allow delete: if request.auth != null
+        && resource.data.editorUid == request.auth.uid;
+
+      // ---------------------------------------------------------------------
+      // /newsletters/{newsletterId}/issues/{issueId}
+      // Weekly editions. Publicly readable; writable by editor or co-editors.
+      // ---------------------------------------------------------------------
+      match /issues/{issueId} {
+        allow read: if true;
+        allow write: if request.auth != null
+          && (get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.editorUid == request.auth.uid
+              || request.auth.uid in get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.coEditorUids);
+      }
+    }
+
+    // -----------------------------------------------------------------------
     // /leaderboards/{docId}
     // Publicly readable. Not writable from the client (managed via console).
     // TODO: Add write rules when admin UI is built.

@@ -180,6 +180,21 @@ const RemoveButton = styled.button`
   }
 `;
 
+const NewslettersButton = styled.button`
+  background: none;
+  border: 1px solid ${({ theme }: any) => theme.newsBlue}66;
+  color: ${({ theme }: any) => theme.newsBlue};
+  border-radius: 14px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: ${({ theme }: any) => theme.newsBlue};
+  }
+`;
+
 const EditorStatus = styled.span<{ $isYou?: boolean }>`
   font-size: 12px;
   color: ${({ theme, $isYou }: any) => ($isYou ? theme.newsBlue : theme.text)};
@@ -279,6 +294,15 @@ function LeaguePicker(): React.ReactElement {
                   </LeagueMeta>
                   <EditorStatusLine leagueId={league.id} />
                 </LeagueInfo>
+                <NewslettersButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/league/${league.id}/newsletters`);
+                  }}
+                  title="Newsletters for this league"
+                >
+                  Newsletters
+                </NewslettersButton>
                 <RemoveButton
                   onClick={(e) => handleRemoveLeague(e, league.id)}
                   title="Remove league"
