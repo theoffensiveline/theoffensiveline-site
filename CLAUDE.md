@@ -152,6 +152,12 @@ See [docs/newsletter-data-flow.md](docs/newsletter-data-flow.md) for a full arch
 - Use Firestore v9 modular API: `collection`, `doc`, `getDoc`, `setDoc`, `updateDoc`, `query`, etc.
 - See [src/utils/survivorUtils.ts](src/utils/survivorUtils.ts) for examples
 
+### Database Backup & Restore
+
+- `pnpm db:backup` / `pnpm db:restore` / `pnpm db:validate` — Node-only scripts in `scripts/`, targeting the emulator when `FIRESTORE_EMULATOR_HOST` is set, otherwise production via ADC
+- Full setup, workflows, and safety rails: [docs/database-backup.md](docs/database-backup.md)
+- After changing anything in `scripts/`, run `pnpm db:roundtrip-test` against the dev emulator
+
 ## File Naming Conventions
 
 - Components: PascalCase (`NavBar.tsx`, `LeagueOverview.tsx`)
