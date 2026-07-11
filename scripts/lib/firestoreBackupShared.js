@@ -43,7 +43,13 @@ function flagValue(argv, i, name) {
 }
 
 async function dumpDocument(docSnap) {
-  const entry = { id: docSnap.id, data: serializeValue(docSnap.data()) };
+  let data;
+  try {
+    data = serializeValue(docSnap.data());
+  } catch (err) {
+    throw new Error(`${docSnap.ref.path}: ${err.message}`);
+  }
+  const entry = { id: docSnap.id, data };
   const subcollections = await docSnap.ref.listCollections();
   if (subcollections.length > 0) {
     entry.collections = {};
@@ -201,6 +207,11 @@ function serializeValue(value) {
   if (typeof value === "number" && !Number.isFinite(value)) {
     return { __fs: "number", value: String(value) };
   }
+  // The admin SDK decodes int64 to JS numbers, so values above 2^53 have
+  // already been rounded by the time we see them — flag, can't fix.
+  if (typeof value === "number" && Number.isInteger(value) && !Number.isSafeInteger(value)) {
+    console.warn(`Warning: integer ${value} exceeds 2^53 and may have lost precision.`);
+  }
   if (value instanceof Timestamp) {
     return {
       __fs: "timestamp",
@@ -219,6 +230,15 @@ function serializeValue(value) {
   }
   if (Array.isArray(value)) return value.map(serializeValue);
   if (typeof value === "object") {
+    // Anything that isn't a plain map here is an SDK class this serializer
+    // doesn't know (e.g. VectorValue) — enumerating its internals would
+    // produce a backup that validates but restores as the wrong type.
+    const proto = Object.getPrototypeOf(value);
+    if (proto !== Object.prototype && proto !== null) {
+      throw new Error(
+        `cannot serialize unsupported Firestore value type "${value.constructor?.name}"`
+      );
+    }
     const out = {};
     for (const [k, v] of Object.entries(value)) out[k] = serializeValue(v);
     // A user map that happens to contain a literal "__fs" key would be
