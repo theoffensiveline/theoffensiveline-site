@@ -27,10 +27,22 @@ service cloud.firestore {
     // -----------------------------------------------------------------------
     match /leagues/{leagueId} {
       allow read: if true;
-      allow create: if request.auth != null;
+      // Docs are created unclaimed (editorUid null); creating a doc that
+      // names an editor is only allowed if that editor is yourself.
+      allow create: if request.auth != null
+        && (request.resource.data.editorUid == null
+            || request.resource.data.editorUid == request.auth.uid);
       allow update, delete: if request.auth != null
         && (resource.data.editorUid == request.auth.uid
             || request.auth.uid in resource.data.coEditorUids);
+      // One-time claim of an unclaimed editor role: only the editorUid field
+      // may change, and only to the claimer's own UID. First write wins —
+      // a concurrent second claim fails this rule because editorUid is no
+      // longer null.
+      allow update: if request.auth != null
+        && resource.data.editorUid == null
+        && request.resource.data.editorUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['editorUid']);
 
       // ---------------------------------------------------------------------
       // /leagues/{leagueId}/newsletters/{weekNumber}

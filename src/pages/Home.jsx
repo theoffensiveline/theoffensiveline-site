@@ -4,6 +4,7 @@ import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
+import EditorClaimCard from "../components/EditorClaimCard";
 
 const GridContainer = styled.div`
   display: grid;
@@ -190,6 +191,7 @@ function Home() {
   return (
     <div>
       {leagueId === mainLeagueId && <BannerImage src="/banner_logo.png" alt="Banner Logo" />}
+      <EditorClaimCard leagueId={leagueId} />
       <GridContainer>
         {/* Default league sections shown for all leagues */}
         {defaultContent.sections.map((section) => (
