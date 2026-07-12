@@ -16,7 +16,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { getNewsletter, updateNewsletter } from "../services/firestoreCrud";
-import { getLeague } from "../utils/api/FantasyAPI";
+import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import type { NewsletterSeason } from "../types/firestore";
 
 const Container = styled.div`
@@ -55,7 +55,7 @@ const List = styled.div`
   max-width: 440px;
 `;
 
-const SeasonItem = styled.button`
+const SeasonItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -83,6 +83,16 @@ const SeasonMeta = styled.span`
   font-size: 12px;
   color: ${({ theme }: any) => theme.text};
   opacity: 0.6;
+`;
+
+const SeasonLink = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }: any) => theme.newsBlue};
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  text-decoration: underline;
 `;
 
 const ActionButton = styled.button`
@@ -159,13 +169,19 @@ function NewsletterHome(): React.ReactElement {
     (newsletter.editorUid === currentUser.uid || newsletter.coEditorUids.includes(currentUser.uid));
 
   // One-click prior-season suggestion: follow previous_league_id from the
-  // earliest season already in the newsletter.
+  // earliest Sleeper season (ESPN/Yahoo adapters have no season chain, so a
+  // cross-platform earliest season would otherwise dead-end the suggestion).
+  const seasonYears = newsletter?.seasons.map((s) => s.season).join(",");
   const { data: suggestion } = useQuery<ChainSuggestion | null>({
-    queryKey: ["prevSeasonSuggestion", newsletterId, newsletter?.seasons.length],
+    queryKey: ["prevSeasonSuggestion", newsletterId, seasonYears],
     enabled: isEditor && !!newsletter,
+    staleTime: 60 * 60 * 1000,
     queryFn: async () => {
-      const earliest = [...newsletter!.seasons].sort((a, b) => a.season - b.season)[0];
-      const league = await getLeague(earliest.leagueId);
+      const earliestSleeper = [...newsletter!.seasons]
+        .filter((s) => getPlatform(s.leagueId) === "sleeper")
+        .sort((a, b) => a.season - b.season)[0];
+      if (!earliestSleeper) return null;
+      const league = await getLeague(earliestSleeper.leagueId);
       const prevId = league.previous_league_id;
       if (!prevId || prevId === "0" || newsletter!.leagueIds.includes(prevId)) return null;
       const prev = await getLeague(prevId);
@@ -173,48 +189,80 @@ function NewsletterHome(): React.ReactElement {
     },
   });
 
-  const addSeason = async (season: NewsletterSeason) => {
-    if (!newsletter || !newsletterId) return;
+  /**
+   * Append a season. Re-fetches the doc first so a stale cache can't drop a
+   * concurrently added season. The active pointer only advances when the new
+   * season is strictly newer than the current one (season rollover) — adding
+   * history never moves it (#103: explicit pointer, never derived).
+   */
+  const addSeason = async (season: NewsletterSeason): Promise<boolean> => {
+    if (!newsletterId) return false;
+    try {
+      const fresh = await getNewsletter(newsletterId);
+      if (!fresh) throw new Error("Newsletter no longer exists.");
+      const seasons = [...fresh.seasons, season].sort((a, b) => a.season - b.season);
+      const activeYear = fresh.seasons.find((s) => s.leagueId === fresh.activeLeagueId)?.season;
+      const activeLeagueId =
+        activeYear !== undefined && season.season > activeYear
+          ? season.leagueId
+          : fresh.activeLeagueId;
+      await updateNewsletter(newsletterId, { seasons, activeLeagueId });
+      await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
+      return true;
+    } catch (e) {
+      setAddError(e instanceof Error ? e.message : "Couldn't add that season.");
+      return false;
+    }
+  };
+
+  const handleAddSuggestion = async () => {
+    if (!suggestion || adding) return;
     setAdding(true);
     setAddError(null);
     try {
-      const seasons = [...newsletter.seasons, season].sort((a, b) => a.season - b.season);
-      const newest = seasons[seasons.length - 1];
-      await updateNewsletter(newsletterId, {
-        seasons,
-        activeLeagueId: newest.leagueId,
+      // Chain seasons get a membership check; verified when it passes.
+      const membership = await verifyLeagueMembership(suggestion.leagueId, profile);
+      await addSeason({
+        leagueId: suggestion.leagueId,
+        season: suggestion.season,
+        verified: membership.isMember,
       });
-      await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
-    } catch (e) {
-      setAddError(e instanceof Error ? e.message : "Couldn't add that season.");
     } finally {
       setAdding(false);
     }
   };
 
-  const handleAddSuggestion = async () => {
-    if (!suggestion) return;
-    // Chain seasons get a membership check; verified when it passes.
-    const membership = await verifyLeagueMembership(suggestion.leagueId, profile);
-    await addSeason({
-      leagueId: suggestion.leagueId,
-      season: suggestion.season,
-      verified: membership.isMember,
-    });
-  };
-
   const handleAddManual = async () => {
     const id = manualId.trim();
-    if (!id) return;
-    setAdding(true);
+    if (!id || adding) return;
     setAddError(null);
+    // ESPN/Yahoo reuse one league ID for every season, so re-adding the same
+    // ID is usually someone trying to add the new season — explain that
+    // instead of a bare duplicate error. Per-season entries for reused IDs
+    // are a known follow-up to #103.
+    if (newsletter?.leagueIds.includes(id)) {
+      setAddError(
+        getPlatform(id) === "sleeper"
+          ? "That league is already part of this newsletter. On Sleeper, each season has its own league ID — use the new season's ID instead."
+          : `That league is already in this newsletter. ${
+              getPlatform(id) === "espn" ? "ESPN" : "Yahoo"
+            } keeps the same league ID every season, so it can't be added twice — separate entries per season aren't supported yet.`
+      );
+      return;
+    }
+    setAdding(true);
     try {
       // Fetchable check only — manual (cross-platform) seasons are unverified.
       const league = await getLeague(id);
-      await addSeason({ leagueId: id, season: parseInt(league.season, 10), verified: false });
-      setManualId("");
+      const ok = await addSeason({
+        leagueId: id,
+        season: parseInt(league.season, 10),
+        verified: false,
+      });
+      if (ok) setManualId("");
     } catch (e) {
       setAddError("Couldn't fetch that league — check the ID (use espn_/yahoo_ prefixes).");
+    } finally {
       setAdding(false);
     }
   };
@@ -232,12 +280,35 @@ function NewsletterHome(): React.ReactElement {
       <SectionLabel>Seasons</SectionLabel>
       <List>
         {seasonsDesc.map((s) => (
-          <SeasonItem key={s.leagueId} onClick={() => navigate(`/home/${s.leagueId}`)}>
+          <SeasonItem
+            key={s.season}
+            onClick={() => navigate(`/home/${s.leagueId}`)}
+            role="button"
+            style={{ cursor: "pointer" }}
+          >
             <SeasonYear>
               {s.season}
               {s.leagueId === newsletter.activeLeagueId ? " · current" : ""}
             </SeasonYear>
-            <SeasonMeta>{s.verified ? "verified" : "unverified"}</SeasonMeta>
+            <span>
+              <SeasonMeta
+                title={
+                  s.verified
+                    ? "The editor's league membership was confirmed for this season"
+                    : "Added without a membership check — display-only"
+                }
+              >
+                {s.verified ? "verified" : "unverified"}
+              </SeasonMeta>
+              <SeasonLink
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/league/${s.leagueId}/league-overview`);
+                }}
+              >
+                overview
+              </SeasonLink>
+            </span>
           </SeasonItem>
         ))}
       </List>
@@ -247,7 +318,13 @@ function NewsletterHome(): React.ReactElement {
           <SectionLabel>Add a Season</SectionLabel>
           {suggestion && (
             <ActionButton onClick={handleAddSuggestion} disabled={adding}>
-              {adding ? "Adding…" : `Add ${suggestion.season} — ${suggestion.name}`}
+              {adding
+                ? "Adding…"
+                : `Add ${suggestion.season} — ${
+                    suggestion.name.length > 28
+                      ? `${suggestion.name.slice(0, 28)}…`
+                      : suggestion.name
+                  }`}
             </ActionButton>
           )}
           <ManualRow>

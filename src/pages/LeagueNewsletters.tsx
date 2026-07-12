@@ -152,7 +152,7 @@ function LeagueNewsletters(): React.ReactElement {
   });
 
   // Platform league for name prefill + season year at create time
-  const { data: platformLeague } = useQuery({
+  const { data: platformLeague, isError: platformLeagueError } = useQuery({
     queryKey: ["league", leagueId],
     queryFn: () => getLeague(leagueId!),
     enabled: !!leagueId,
@@ -177,6 +177,7 @@ function LeagueNewsletters(): React.ReactElement {
       const id = await createNewsletter({
         name: newsletterName,
         editorUid: currentUser.uid,
+        editorName: currentUser.displayName || "Unknown editor",
         coEditorUids: [],
         privacy: "public",
         features: [],
@@ -217,7 +218,13 @@ function LeagueNewsletters(): React.ReactElement {
     if (membership?.reason === "fetch-failed") {
       return <Hint>Couldn't verify league membership right now — try again later.</Hint>;
     }
-    if (!membership?.isMember) return null; // membership check still loading
+    if (platformLeagueError) {
+      return <Hint>Couldn't load this league from its platform — try again later.</Hint>;
+    }
+    if (!membership) {
+      return <Hint>Checking league membership…</Hint>;
+    }
+    if (!membership.isMember) return null; // unreachable — all reasons handled above
 
     return (
       <>
@@ -258,7 +265,8 @@ function LeagueNewsletters(): React.ReactElement {
                 <NewsletterName>{nl.name}</NewsletterName>
                 <NewsletterMeta>
                   {seasonRange(nl)} · {nl.seasons.length}{" "}
-                  {nl.seasons.length === 1 ? "season" : "seasons"}
+                  {nl.seasons.length === 1 ? "season" : "seasons"} · ed.{" "}
+                  {nl.editorName || "unknown"}
                 </NewsletterMeta>
               </NewsletterInfo>
               <PrimaryButton onClick={() => navigate(`/n/${nl.id}`)}>View</PrimaryButton>

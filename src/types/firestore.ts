@@ -125,6 +125,13 @@ export interface NewsletterDoc {
   name: string;
   /** Firebase UID of the creator/editor. Creation is claiming — never null. */
   editorUid: string;
+  /**
+   * Editor's display name, denormalized at create time. Discovery lists show
+   * it so league members can tell the real newsletter from an impersonator
+   * (#103 decision 2) — user docs aren't publicly readable, so it can't be
+   * looked up.
+   */
+  editorName: string;
   /** Firebase UIDs of co-editors. Must be empty at creation (rules-enforced). */
   coEditorUids: string[];
   /** Privacy setting. Gating lands in #103 sub-issue D. */

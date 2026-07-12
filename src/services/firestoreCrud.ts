@@ -161,14 +161,29 @@ function deriveLeagueIds(seasons: NewsletterSeason[]): string[] {
 }
 
 /**
- * Reject duplicate season years within one newsletter. Issue doc IDs are
- * keyed {season}_w{week}, so two leagues covering the same year would
- * silently overwrite each other's issues.
+ * Validate a newsletter's seasons and active pointer.
+ * - Non-empty: a newsletter always covers at least one season.
+ * - Unique season years: issue doc IDs are keyed {season}_w{week}, so two
+ *   leagues covering the same year would silently overwrite each other's
+ *   issues.
+ * - Unique league IDs: ESPN reuses one league ID across seasons, so the same
+ *   ID twice would break discovery and render duplicate season rows.
+ * - activeLeagueId must be one of the seasons.
  */
-function assertUniqueSeasonYears(seasons: NewsletterSeason[]): void {
+function validateSeasons(seasons: NewsletterSeason[], activeLeagueId?: string): void {
+  if (seasons.length === 0) {
+    throw new Error("A newsletter must cover at least one season.");
+  }
   const years = seasons.map((s) => s.season);
   if (new Set(years).size !== years.length) {
     throw new Error("A newsletter can only contain one league per season year.");
+  }
+  const ids = seasons.map((s) => s.leagueId);
+  if (new Set(ids).size !== ids.length) {
+    throw new Error("That league is already part of this newsletter.");
+  }
+  if (activeLeagueId !== undefined && !ids.includes(activeLeagueId)) {
+    throw new Error("activeLeagueId must reference one of the newsletter's seasons.");
   }
 }
 
@@ -181,7 +196,7 @@ export type NewsletterCreate = Omit<NewsletterDoc, "createdAt" | "leagueIds">;
  * @returns The new newsletter's document ID.
  */
 export async function createNewsletter(data: NewsletterCreate): Promise<string> {
-  assertUniqueSeasonYears(data.seasons);
+  validateSeasons(data.seasons, data.activeLeagueId);
   const ref = await addDoc(collection(db, "newsletters"), {
     ...data,
     leagueIds: deriveLeagueIds(data.seasons),
@@ -238,7 +253,7 @@ export async function updateNewsletter(
 ): Promise<void> {
   const payload: Partial<NewsletterDoc> = { ...data };
   if (data.seasons) {
-    assertUniqueSeasonYears(data.seasons);
+    validateSeasons(data.seasons, data.activeLeagueId);
     payload.leagueIds = deriveLeagueIds(data.seasons);
   }
   await updateDoc(doc(db, "newsletters", newsletterId), payload);
