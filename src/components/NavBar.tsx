@@ -16,6 +16,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useTheme } from "../ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
+import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import type { LeagueFeature } from "../types/firestore";
 
 /** Nav items gated by league feature flags, in display order. */
@@ -37,12 +38,15 @@ export default function NavBar() {
   const [isVisible, setIsVisible] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
   const [leagueId, setLeagueId] = React.useState<string | null>(null);
+  const [newsletterId, setNewsletterId] = React.useState<string | null>(null);
 
-  // Update leagueId state when localStorage changes or URL changes
+  // Update selection state when localStorage changes or URL changes.
+  // selectedNewsletterId is the primary key (#108); selectedLeagueId remains
+  // for leagues without a newsletter context until sub-issue C.
   React.useEffect(() => {
     const handleStorageChange = () => {
-      const storedLeagueId = localStorage.getItem("selectedLeagueId");
-      setLeagueId(storedLeagueId);
+      setLeagueId(localStorage.getItem("selectedLeagueId"));
+      setNewsletterId(localStorage.getItem("selectedNewsletterId"));
     };
 
     // Initial check and URL-based updates
@@ -101,38 +105,56 @@ export default function NavBar() {
     handleCloseUserMenu();
   };
 
-  const { data: leagueDoc } = useLeagueDoc(leagueId ?? undefined);
+  // Newsletter mode whenever a newsletter is selected (features pop in once
+  // the doc loads, same as league mode always behaved). Feature links stay on
+  // league-keyed routes pointed at the newsletter's activeLeagueId — the
+  // /n/... route migration is deferred to #103 E.
+  const { data: newsletterDoc, isFetched: newsletterFetched } = useNewsletterDoc(
+    newsletterId ?? undefined
+  );
+  const { data: leagueDoc } = useLeagueDoc(!newsletterId ? (leagueId ?? undefined) : undefined);
+  const inNewsletterMode = !!newsletterId;
+  const featureLeagueId = inNewsletterMode ? newsletterDoc?.activeLeagueId : leagueId;
+
+  // Self-heal a stale selection: if the selected newsletter no longer exists
+  // (deleted), drop back to bare-league mode so feature nav can recover.
+  React.useEffect(() => {
+    if (newsletterId && newsletterFetched && newsletterDoc === null) {
+      localStorage.removeItem("selectedNewsletterId");
+      setNewsletterId(null);
+    }
+  }, [newsletterId, newsletterFetched, newsletterDoc]);
 
   const getPages = () => {
-    // No page nav on the league picker itself — every button would either
-    // point back here or at the league the user is switching away from.
+    // No page nav on the picker itself — every button would either point
+    // back here or at the selection the user is switching away from.
     if (location.pathname === "/league-picker") {
       return [];
     }
-    if (!leagueId) {
-      return ["Select League"];
+    if (!newsletterId && !leagueId) {
+      return ["Select Newsletter"];
     }
-    const features = leagueDoc?.features ?? [];
+    const features = (inNewsletterMode ? newsletterDoc?.features : leagueDoc?.features) ?? [];
     return [
       "Home",
       ...FEATURE_PAGES.filter(([feature]) => features.includes(feature)).map(([, page]) => page),
-      "Change League",
+      inNewsletterMode ? "Change Newsletter" : "Change League",
     ];
   };
 
   const pages = getPages();
 
   const redirect = (page: string) => {
-    if (page === "Select League" || page === "Change League") {
+    if (page === "Select Newsletter" || page === "Change Newsletter" || page === "Change League") {
       navigate("/league-picker");
     } else if (page === "Home") {
-      navigate(`/home/${leagueId}`);
+      navigate(inNewsletterMode ? `/n/${newsletterId}` : `/home/${leagueId}`);
     } else if (page === "Survivor") {
-      navigate(`/survivorHome/${leagueId}`);
+      navigate(`/survivorHome/${featureLeagueId}`);
     } else if (page === "Hot Dogs") {
-      navigate(`/league/${leagueId}/hot-dogs`);
+      navigate(`/league/${featureLeagueId}/hot-dogs`);
     } else {
-      navigate(`/${page.toLowerCase()}/${leagueId}`);
+      navigate(`/${page.toLowerCase()}/${featureLeagueId}`);
     }
     handleCloseNavMenu();
   };

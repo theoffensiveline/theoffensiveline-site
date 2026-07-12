@@ -1,10 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
-import EditorClaimCard from "../components/EditorClaimCard";
+import { getNewslettersForLeague } from "../services/firestoreCrud";
+import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 
 const GridContainer = styled.div`
   display: grid;
@@ -53,6 +55,30 @@ const BannerImage = styled.img`
   margin-bottom: 10px;
 `;
 
+const NewsletterStrip = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 20px 0;
+  padding: 10px 16px;
+  border: 1px solid ${({ theme }) => theme.newsBlue}55;
+  border-radius: 10px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.text};
+`;
+
+const StripLink = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.newsBlue};
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  padding: 0;
+`;
+
 function Home() {
   const navigate = useNavigate();
   const { leagueId } = useParams();
@@ -73,7 +99,18 @@ function Home() {
   const showRecaps =
     !leagueDocLoading && (!hasCustomNewsletters || features.includes("weekly-recaps"));
 
-  const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, showRecaps);
+  const { completedWeeksDesc: recapWeekButtons, loading: recapsLoading } = useCompletedWeeks(
+    leagueId,
+    showRecaps
+  );
+
+  // League home is the no-newsletter fallback (#103 decision 5): surface
+  // this league's newsletters when they exist, or a create prompt when not.
+  const { data: leagueNewsletters } = useQuery({
+    queryKey: ["newslettersForLeague", leagueId],
+    queryFn: () => getNewslettersForLeague(leagueId),
+    enabled: !!leagueId,
+  });
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -200,7 +237,36 @@ function Home() {
   return (
     <div>
       {leagueId === mainLeagueId && <BannerImage src="/banner_logo.png" alt="Banner Logo" />}
-      <EditorClaimCard leagueId={leagueId} />
+      {/* EditorClaimCard removed (#108): creation = claiming in the
+          newsletter model, so the league-doc claim flow is obsolete. */}
+      {leagueNewsletters && leagueNewsletters.length > 0 ? (
+        <NewsletterStrip>
+          <span>Newsletters for this league:</span>
+          {leagueNewsletters.map((nl) => (
+            <StripLink
+              key={nl.id}
+              onClick={() => {
+                setSelectedNewsletter(nl.id, nl.activeLeagueId);
+                navigate(`/n/${nl.id}`);
+              }}
+            >
+              {nl.name}
+            </StripLink>
+          ))}
+          <StripLink onClick={() => navigate(`/league/${leagueId}/newsletters`)}>
+            all / create
+          </StripLink>
+        </NewsletterStrip>
+      ) : (
+        leagueNewsletters && (
+          <NewsletterStrip>
+            <span>No newsletter for this league yet.</span>
+            <StripLink onClick={() => navigate(`/league/${leagueId}/newsletters`)}>
+              Create one
+            </StripLink>
+          </NewsletterStrip>
+        )
+      )}
       <GridContainer>
         {/* Default league sections shown for all leagues */}
         {defaultContent.sections.map((section) => (
@@ -217,6 +283,12 @@ function Home() {
             margin: "20px 0",
           }}
         />
+        {/* Pre-season: no completed weeks yet, so no recaps to show */}
+        {showRecaps && !recapsLoading && recapWeekButtons.length === 0 && (
+          <div style={{ gridColumn: "span 2", color: theme.text, opacity: 0.7, fontSize: 14 }}>
+            Season hasn't started — weekly recaps will populate once Week 1 completes.
+          </div>
+        )}
         {/* Weekly recap links for leagues without hand-written newsletters */}
         {showRecaps && recapWeekButtons.length > 0 && (
           <>

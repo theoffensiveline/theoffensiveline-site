@@ -56,6 +56,8 @@ export interface UserProfile {
   sleeperUserId?: string;
   /** Linked Sleeper account username */
   sleeperUsername?: string;
+  /** Newsletters the user follows — drives the "Your Newsletters" landing (#108) */
+  subscribedNewsletterIds?: string[];
 }
 
 export const getUserProfile = async (userId: string): Promise<UserProfile | null> => {

@@ -14,6 +14,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { createNewsletter, getNewslettersForLeague } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
+import { setSelectedNewsletter, setSelectedLeague } from "../utils/selectedNewsletter";
 import type { NewsletterDoc } from "../types/firestore";
 
 const Container = styled.div`
@@ -92,6 +93,26 @@ const PrimaryButton = styled.button`
   }
 `;
 
+const SubscribeButton = styled.button`
+  background: none;
+  border: 1px solid ${({ theme }: any) => theme.newsBlue}66;
+  color: ${({ theme }: any) => theme.newsBlue};
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: ${({ theme }: any) => theme.newsBlue};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+`;
+
 const SecondarySection = styled.div`
   margin-top: 28px;
   padding-top: 20px;
@@ -140,10 +161,25 @@ function LeagueNewsletters(): React.ReactElement {
   const { leagueId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { currentUser, profile } = useAuth();
+  const { currentUser, profile, updateProfile } = useAuth();
   const [name, setName] = useState("");
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const toggleSubscription = async (nlId: string) => {
+    if (!currentUser || togglingId) return;
+    setTogglingId(nlId);
+    try {
+      const current = profile?.subscribedNewsletterIds ?? [];
+      const next = current.includes(nlId)
+        ? current.filter((id) => id !== nlId)
+        : [...current, nlId];
+      await updateProfile({ subscribedNewsletterIds: next });
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const { data: newsletters, isLoading } = useQuery({
     queryKey: ["newslettersForLeague", leagueId],
@@ -257,6 +293,32 @@ function LeagueNewsletters(): React.ReactElement {
       {!isLoading && (!newsletters || newsletters.length === 0) && (
         <Hint>No newsletters exist for this league yet.</Hint>
       )}
+      <List>
+        {/* Every league gets the auto-generated experience, newsletter or not */}
+        <NewsletterItem>
+          <NewsletterInfo>
+            <NewsletterName>Example newsletter</NewsletterName>
+            <NewsletterMeta>auto-generated stats & recaps · no editor content</NewsletterMeta>
+            {platformLeague &&
+              !(
+                (platformLeague.settings?.last_scored_leg ?? 0) > 0 ||
+                (platformLeague.settings?.last_report ?? 0) > 0
+              ) && (
+                <NewsletterMeta>
+                  Season hasn't started — content will populate once Week 1 completes
+                </NewsletterMeta>
+              )}
+          </NewsletterInfo>
+          <PrimaryButton
+            onClick={() => {
+              setSelectedLeague(leagueId);
+              navigate(`/home/${leagueId}`);
+            }}
+          >
+            View
+          </PrimaryButton>
+        </NewsletterItem>
+      </List>
       {newsletters && newsletters.length > 0 && (
         <List>
           {newsletters.map((nl) => (
@@ -269,7 +331,22 @@ function LeagueNewsletters(): React.ReactElement {
                   {nl.editorName || "unknown"}
                 </NewsletterMeta>
               </NewsletterInfo>
-              <PrimaryButton onClick={() => navigate(`/n/${nl.id}`)}>View</PrimaryButton>
+              {currentUser && nl.editorUid !== currentUser.uid && (
+                <SubscribeButton
+                  onClick={() => toggleSubscription(nl.id)}
+                  disabled={togglingId === nl.id}
+                >
+                  {profile?.subscribedNewsletterIds?.includes(nl.id) ? "Unsubscribe" : "Subscribe"}
+                </SubscribeButton>
+              )}
+              <PrimaryButton
+                onClick={() => {
+                  setSelectedNewsletter(nl.id, nl.activeLeagueId);
+                  navigate(`/n/${nl.id}`);
+                }}
+              >
+                View
+              </PrimaryButton>
             </NewsletterItem>
           ))}
         </List>

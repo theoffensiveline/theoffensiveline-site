@@ -66,6 +66,8 @@ export interface UserDoc {
   sleeperUsername?: string;
   /** List of ESPN league IDs the user has manually saved. */
   espnLeagueIds?: string[];
+  /** Newsletters the user follows — drives the "Your Newsletters" landing (#108). */
+  subscribedNewsletterIds?: string[];
 }
 
 /**

@@ -5,6 +5,7 @@ import { getNflState, getSleeperUserByUsername, getUserLeagues } from "../utils/
 import { toSavedLeague } from "../utils/sleeperLeagueSync";
 import { useAuth } from "../contexts/AuthContext";
 import LeagueAvatar from "../components/shared/LeagueAvatar";
+import { setSelectedLeague } from "../utils/selectedNewsletter";
 
 const Container = styled.div`
   display: flex;
@@ -86,6 +87,7 @@ function SleeperLogin() {
 
   useEffect(() => {
     localStorage.removeItem("selectedLeagueId");
+    localStorage.removeItem("selectedNewsletterId");
 
     const storedUsername = localStorage.getItem("sleeperUsername");
     if (storedUsername) {
@@ -221,13 +223,12 @@ function SleeperLogin() {
   };
 
   const handleLeagueSelect = (league) => {
-    localStorage.setItem("selectedLeagueId", league.league_id);
-    window.dispatchEvent(new Event("leagueChange"));
+    setSelectedLeague(league.league_id);
     // Signed-in users get the league saved to their dashboard (fire-and-forget)
     if (currentUser) {
       addLeague(toSavedLeague(league));
     }
-    navigate(`/home/${league.league_id}`, { state: { league } });
+    navigate(`/league/${league.league_id}/newsletters`);
   };
 
   const totalLeagues = leaguesByYear.reduce((sum, g) => sum + g.leagues.length, 0);
