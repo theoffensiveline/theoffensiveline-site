@@ -31,6 +31,8 @@ import LeaderboardsHome from "./components/leaderboard/LeaderboardsHome";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import OverallLeaderboard from "./components/leaderboard/OverallLeaderboard";
 import HotDogs from "./pages/hotDogTracker/HotDogTracker";
+import LeagueNewsletters from "./pages/LeagueNewsletters";
+import NewsletterHome from "./pages/NewsletterHome";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import Snowfall from "react-snowfall";
@@ -122,6 +124,8 @@ const AppRoutes = () => {
       <Route path="/league/:leagueId/league-rosters" element={<LeagueRosters />} />
       <Route path="/league/:leagueId/weekly-recap/:week" element={<LeagueWeeklyRecap />} />
       <Route path="/league/:leagueId/hot-dogs" element={<HotDogs />} />
+      <Route path="/league/:leagueId/newsletters" element={<LeagueNewsletters />} />
+      <Route path="/n/:newsletterId" element={<NewsletterHome />} />
 
       {/* Protected routes - auth required */}
       <Route

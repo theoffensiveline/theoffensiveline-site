@@ -54,13 +54,13 @@ Every league on Sleeper or ESPN can have a newsletter. Here's how they get creat
 
 1. **Auto-generated base newsletter** — When someone links a league, the system generates the stats/graphs newsletter automatically (no human input needed). This is the "data layer" — the same graphs and tables you have now, powered by the platform's API data.
 
-2. **Claiming editor role** — Any league member can claim the **Editor** role for their league's newsletter. First come, first served.
+2. **Creating a newsletter = claiming** — A league member creates a newsletter for their league and becomes its **Editor** (see #103). There is no separate claim step and no unclaimed state.
    - Editor can appoint **Co-Editors** from league members
-   - If no one claims editor, the newsletter still exists with just the auto-generated content
+   - Leagues without a newsletter keep the auto-generated experience (recaps, rosters, history)
 
-3. **One newsletter per league** — A league gets exactly one newsletter. Multiple people don't create competing newsletters for the same league. The Editor owns the content; Co-Editors can contribute.
+3. **Multiple newsletters per league — allowed by design** (decision reversed 2026-07-11, #103). Platform identity is unverifiable (Sleeper has no OAuth; linking is just typing a username), so any exclusive first-come claim would let a squatter permanently lock out the real league. Instead, duplicates are harmless: they can't block anyone, they wrap only already-public stats, and the create flow steers members to the existing newsletter first ("view this one" primary, "create another" secondary).
 
-> **Why one per league?** Multiple newsletters per league sounds flexible but creates fragmentation. Nobody wants to check three different newsletters for the same league. One newsletter, one source of truth, multiple contributors.
+> **Why the reversal?** One-per-league assumed claims could be trusted. They can't be verified, so exclusivity becomes a denial-of-service tool. Fragmentation is handled socially (discovery lists show editor + season range; leagues converge on the real one) rather than by an unenforceable lock.
 
 ### Newsletter Privacy
 
@@ -164,19 +164,26 @@ For multi-league, the auto-generated newsletter is straightforward:
   - espnLeagueIds[] (manually added ESPN league IDs, since ESPN has no account-level discovery API)
 
 /leagues/{leagueId}  ← leagueId is the platform-prefixed ID: plain numeric for Sleeper, "espn_XXXXX" for ESPN
-  - platform: 'sleeper' | 'espn'
+  - platform: 'sleeper' | 'espn' | 'yahoo'
   - platformLeagueId  ← the raw ID as used by the platform's own API
-  - name, season, editorUid, coEditorUids[], privacy, createdAt
+  - name, season, createdAt
+  - (editorUid/coEditorUids/privacy/features live here temporarily; they move
+     to the newsletter doc and are removed in #103 sub-issue C)
 
-/leagues/{leagueId}/newsletters/{weekNumber}
+/newsletters/{newsletterId}  ← the top-level publication entity (#103)
+  - name, editorUid, editorName, coEditorUids[], privacy, features[]
+  - seasons[]: { leagueId, season, verified }, activeLeagueId
+  - leagueIds[] (flattened for discovery queries), createdAt
+
+/newsletters/{newsletterId}/issues/{season}_w{week}  ← weekly editions (zero-padded week)
   - status: draft | published
   - publishedAt, sections[], editorNotes
 
-/leagues/{leagueId}/newsletters/{weekNumber}/submissions/{submissionId}
+/newsletters/{newsletterId}/issues/{issueId}/submissions/{submissionId}
   - authorUid, type (meme | text | quote), content, imageUrl, status (pending | approved | rejected), createdAt
 
 /leagues/{leagueId}/weekData/{weekNumber}
-  - matchups, standings, awards, leaderboard (auto-generated JSON)
+  - matchups, standings, awards, leaderboard (auto-generated JSON; fate decided in #84)
 ```
 
 ---
@@ -187,14 +194,14 @@ For multi-league, the auto-generated newsletter is straightforward:
 
 - User accounts with Sleeper linking (connect your Sleeper username, see your leagues)
 - ESPN league entry flow already live — users enter league ID + optional private league credentials
-- Editor role claiming per league
+- Editor role claiming per league (shipped in #53; superseded by newsletter creation = claiming, #103)
 - Auto-generated newsletters (data only, no editor features)
 - Public viewing of any Sleeper or ESPN league's stats (already works today)
 
 ### Phase 2: Editor Experience
 
 - Newsletter Builder UI
-- Editor role claiming
+- Newsletter creation = claiming (replaces editor role claiming, #103)
 - Commentary and custom sections
 - Publish workflow
 - Privacy settings (public vs league-only)
@@ -234,4 +241,4 @@ For multi-league, the auto-generated newsletter is straightforward:
 
 The core bet: **every fantasy football league wants a newsletter, but nobody wants to build one from scratch.** Auto-generate the data, let an Editor add personality, let members contribute — and you've got a product that's sticky because the content is personal to each league.
 
-The Sleeper-no-OAuth problem is solvable with lightweight verification. ESPN private leagues are handled via a Vercel proxy that adds cookie auth server-side. Start with one newsletter per league, public/private toggle, and a simple editor. Ship Phase 1, get leagues onboarded, and let real usage guide what comes next.
+The Sleeper-no-OAuth problem is solvable with lightweight verification. ESPN private leagues are handled via a Vercel proxy that adds cookie auth server-side. Newsletters are the top-level entity (multiple per league allowed — see the claiming section and #103), with a public/private toggle and a simple editor. Ship Phase 1, get leagues onboarded, and let real usage guide what comes next.

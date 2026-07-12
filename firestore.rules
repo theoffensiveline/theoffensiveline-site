@@ -36,9 +36,15 @@ service cloud.firestore {
         && (request.resource.data.editorUid == null
             || request.resource.data.editorUid == request.auth.uid)
         && request.resource.data.coEditorUids.size() == 0;
-      allow update, delete: if request.auth != null
+      allow delete: if request.auth != null
         && (resource.data.editorUid == request.auth.uid
             || request.auth.uid in resource.data.coEditorUids);
+      // Co-editors can update fields but never the co-editor list itself —
+      // otherwise one co-editor could strip the others or add strangers.
+      allow update: if request.auth != null
+        && (resource.data.editorUid == request.auth.uid
+            || (request.auth.uid in resource.data.coEditorUids
+                && request.resource.data.coEditorUids == resource.data.coEditorUids));
       // One-time claim of an unclaimed editor role: only the editorUid field
       // may change, and only to the claimer's own UID. First write wins —
       // a concurrent second claim fails this rule because editorUid is no
@@ -50,7 +56,9 @@ service cloud.firestore {
 
       // ---------------------------------------------------------------------
       // /leagues/{leagueId}/newsletters/{weekNumber}
-      // Publicly readable. Writable by league editor or co-editors.
+      // DEPRECATED by #103: weekly editions now live at
+      // /newsletters/{id}/issues. No code writes here anymore; this block
+      // stays (harmless, fails safe) until sub-issue C removes the old model.
       // ---------------------------------------------------------------------
       match /newsletters/{weekNumber} {
         allow read: if true;
@@ -68,6 +76,57 @@ service cloud.firestore {
         allow write: if request.auth != null
           && (get(/databases/$(database)/documents/leagues/$(leagueId)).data.editorUid == request.auth.uid
               || request.auth.uid in get(/databases/$(database)/documents/leagues/$(leagueId)).data.coEditorUids);
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // /newsletters/{newsletterId}   (issue #103)
+    // The top-level publication entity. Publicly readable (privacy gating is
+    // client-side until sub-issue D). Creation is claiming: the creator must
+    // name themselves editor, with no co-editors (carries forward the
+    // pre-create hole fix from #102). leagueIds must stay in sync with
+    // seasons — full projection equality isn't expressible in rules, so we
+    // assert size equality and rely on the CRUD layer for content.
+    // -----------------------------------------------------------------------
+    match /newsletters/{newsletterId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.editorUid == request.auth.uid
+        && request.resource.data.coEditorUids.size() == 0
+        && request.resource.data.leagueIds.size() == request.resource.data.seasons.size()
+        && request.resource.data.name is string
+        && request.resource.data.privacy in ['public', 'league_only']
+        && request.resource.data.activeLeagueId is string
+        && request.resource.data.features is list;
+      // Editors can update anything except the frozen fields below.
+      // Co-editors can update content but never the co-editor list itself —
+      // otherwise one co-editor could strip the others or mass-add strangers.
+      allow update: if request.auth != null
+        && (resource.data.editorUid == request.auth.uid
+            || (request.auth.uid in resource.data.coEditorUids
+                && request.resource.data.coEditorUids == resource.data.coEditorUids))
+        // The editor role never transfers via client writes.
+        && request.resource.data.editorUid == resource.data.editorUid
+        // createdAt is an audit field — backdating could game any future
+        // "oldest newsletter" anti-squatting heuristics.
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.privacy in ['public', 'league_only']
+        && request.resource.data.leagueIds.size() == request.resource.data.seasons.size();
+      allow delete: if request.auth != null
+        && resource.data.editorUid == request.auth.uid;
+
+      // ---------------------------------------------------------------------
+      // /newsletters/{newsletterId}/issues/{issueId}
+      // Weekly editions. Publicly readable; writable by editor or co-editors.
+      // Doc IDs must match the zero-padded {season}_w{week} convention the
+      // client relies on for chronological sorting.
+      // ---------------------------------------------------------------------
+      match /issues/{issueId} {
+        allow read: if true;
+        allow write: if request.auth != null
+          && issueId.matches('^[0-9]{4}_w[0-9]{2}$')
+          && (get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.editorUid == request.auth.uid
+              || request.auth.uid in get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.coEditorUids);
       }
     }
 
