@@ -105,13 +105,25 @@ export default function NavBar() {
     handleCloseUserMenu();
   };
 
-  // Newsletter mode when a newsletter is selected; league mode otherwise.
-  // Feature links stay on league-keyed routes pointed at the newsletter's
-  // activeLeagueId — the /n/... route migration is deferred to #103 E.
-  const { data: newsletterDoc } = useNewsletterDoc(newsletterId ?? undefined);
+  // Newsletter mode whenever a newsletter is selected (features pop in once
+  // the doc loads, same as league mode always behaved). Feature links stay on
+  // league-keyed routes pointed at the newsletter's activeLeagueId — the
+  // /n/... route migration is deferred to #103 E.
+  const { data: newsletterDoc, isFetched: newsletterFetched } = useNewsletterDoc(
+    newsletterId ?? undefined
+  );
   const { data: leagueDoc } = useLeagueDoc(!newsletterId ? (leagueId ?? undefined) : undefined);
-  const inNewsletterMode = !!newsletterId && !!newsletterDoc;
-  const featureLeagueId = inNewsletterMode ? newsletterDoc.activeLeagueId : leagueId;
+  const inNewsletterMode = !!newsletterId;
+  const featureLeagueId = inNewsletterMode ? newsletterDoc?.activeLeagueId : leagueId;
+
+  // Self-heal a stale selection: if the selected newsletter no longer exists
+  // (deleted), drop back to bare-league mode so feature nav can recover.
+  React.useEffect(() => {
+    if (newsletterId && newsletterFetched && newsletterDoc === null) {
+      localStorage.removeItem("selectedNewsletterId");
+      setNewsletterId(null);
+    }
+  }, [newsletterId, newsletterFetched, newsletterDoc]);
 
   const getPages = () => {
     // No page nav on the picker itself — every button would either point
@@ -122,7 +134,7 @@ export default function NavBar() {
     if (!newsletterId && !leagueId) {
       return ["Select Newsletter"];
     }
-    const features = (inNewsletterMode ? newsletterDoc.features : leagueDoc?.features) ?? [];
+    const features = (inNewsletterMode ? newsletterDoc?.features : leagueDoc?.features) ?? [];
     return [
       "Home",
       ...FEATURE_PAGES.filter(([feature]) => features.includes(feature)).map(([, page]) => page),

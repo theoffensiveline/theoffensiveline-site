@@ -3,7 +3,8 @@ import { getLeague } from "../utils/api/FantasyAPI";
 
 export const useCompletedWeeks = (leagueId?: string, enabled: boolean = true) => {
   const [completedWeeks, setCompletedWeeks] = useState<number[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  // Starts true so "no weeks" empty states don't flash before the fetch runs
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
