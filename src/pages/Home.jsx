@@ -99,7 +99,10 @@ function Home() {
   const showRecaps =
     !leagueDocLoading && (!hasCustomNewsletters || features.includes("weekly-recaps"));
 
-  const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, showRecaps);
+  const { completedWeeksDesc: recapWeekButtons, loading: recapsLoading } = useCompletedWeeks(
+    leagueId,
+    showRecaps
+  );
 
   // League home is the no-newsletter fallback (#103 decision 5): surface
   // this league's newsletters when they exist, or a create prompt when not.
@@ -280,6 +283,12 @@ function Home() {
             margin: "20px 0",
           }}
         />
+        {/* Pre-season: no completed weeks yet, so no recaps to show */}
+        {showRecaps && !recapsLoading && recapWeekButtons.length === 0 && (
+          <div style={{ gridColumn: "span 2", color: theme.text, opacity: 0.7, fontSize: 14 }}>
+            Season hasn't started — weekly recaps will populate once Week 1 completes.
+          </div>
+        )}
         {/* Weekly recap links for leagues without hand-written newsletters */}
         {showRecaps && recapWeekButtons.length > 0 && (
           <>

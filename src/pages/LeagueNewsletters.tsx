@@ -299,6 +299,15 @@ function LeagueNewsletters(): React.ReactElement {
           <NewsletterInfo>
             <NewsletterName>Example newsletter</NewsletterName>
             <NewsletterMeta>auto-generated stats & recaps · no editor content</NewsletterMeta>
+            {platformLeague &&
+              !(
+                (platformLeague.settings?.last_scored_leg ?? 0) > 0 ||
+                (platformLeague.settings?.last_report ?? 0) > 0
+              ) && (
+                <NewsletterMeta>
+                  Season hasn't started — content will populate once Week 1 completes
+                </NewsletterMeta>
+              )}
           </NewsletterInfo>
           <PrimaryButton
             onClick={() => {
