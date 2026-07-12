@@ -301,7 +301,7 @@ function EspnLogin() {
       });
     }
 
-    navigate(`/home/${espnId}`);
+    navigate(`/league/${espnId}/newsletters`);
   };
 
   /** Clear saved credentials from localStorage and reset the fields */

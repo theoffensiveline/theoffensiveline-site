@@ -228,7 +228,7 @@ function SleeperLogin() {
     if (currentUser) {
       addLeague(toSavedLeague(league));
     }
-    navigate(`/home/${league.league_id}`, { state: { league } });
+    navigate(`/league/${league.league_id}/newsletters`);
   };
 
   const totalLeagues = leaguesByYear.reduce((sum, g) => sum + g.leagues.length, 0);

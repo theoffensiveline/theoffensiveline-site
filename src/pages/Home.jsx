@@ -5,7 +5,6 @@ import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
-import EditorClaimCard from "../components/EditorClaimCard";
 import { getNewslettersForLeague } from "../services/firestoreCrud";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 
@@ -235,7 +234,8 @@ function Home() {
   return (
     <div>
       {leagueId === mainLeagueId && <BannerImage src="/banner_logo.png" alt="Banner Logo" />}
-      <EditorClaimCard leagueId={leagueId} />
+      {/* EditorClaimCard removed (#108): creation = claiming in the
+          newsletter model, so the league-doc claim flow is obsolete. */}
       {leagueNewsletters && leagueNewsletters.length > 0 ? (
         <NewsletterStrip>
           <span>Newsletters for this league:</span>

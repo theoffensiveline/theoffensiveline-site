@@ -159,7 +159,7 @@ function YahooCallback() {
       });
     }
 
-    navigate(`/home/${yahooId}`);
+    navigate(`/league/${yahooId}/newsletters`);
   };
 
   if (status === "loading") {

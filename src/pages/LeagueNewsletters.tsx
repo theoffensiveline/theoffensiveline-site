@@ -14,7 +14,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { createNewsletter, getNewslettersForLeague } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
-import { setSelectedNewsletter } from "../utils/selectedNewsletter";
+import { setSelectedNewsletter, setSelectedLeague } from "../utils/selectedNewsletter";
 import type { NewsletterDoc } from "../types/firestore";
 
 const Container = styled.div`
@@ -293,6 +293,23 @@ function LeagueNewsletters(): React.ReactElement {
       {!isLoading && (!newsletters || newsletters.length === 0) && (
         <Hint>No newsletters exist for this league yet.</Hint>
       )}
+      <List>
+        {/* Every league gets the auto-generated experience, newsletter or not */}
+        <NewsletterItem>
+          <NewsletterInfo>
+            <NewsletterName>Example newsletter</NewsletterName>
+            <NewsletterMeta>auto-generated stats & recaps · no editor content</NewsletterMeta>
+          </NewsletterInfo>
+          <PrimaryButton
+            onClick={() => {
+              setSelectedLeague(leagueId);
+              navigate(`/home/${leagueId}`);
+            }}
+          >
+            View
+          </PrimaryButton>
+        </NewsletterItem>
+      </List>
       {newsletters && newsletters.length > 0 && (
         <List>
           {newsletters.map((nl) => (
