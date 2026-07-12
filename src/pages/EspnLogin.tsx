@@ -9,6 +9,7 @@ import {
   clearEspnCredentials,
   type EspnCredentials,
 } from "../utils/espnCredentials";
+import { setSelectedLeague } from "../utils/selectedNewsletter";
 
 /* ------------------------------------------------------------------ */
 /*  Styled Components                                                  */
@@ -289,8 +290,7 @@ function EspnLogin() {
    */
   const handleConfirm = async () => {
     const espnId = `espn_${leagueId.trim()}`;
-    localStorage.setItem("selectedLeagueId", espnId);
-    window.dispatchEvent(new Event("leagueChange"));
+    setSelectedLeague(espnId);
 
     if (currentUser && leagueInfo) {
       await addLeague({

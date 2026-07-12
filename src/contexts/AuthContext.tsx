@@ -24,6 +24,7 @@ import {
   mergeSleeperLeagues,
   refreshSleeperLeagues,
 } from "../utils/sleeperLeagueSync";
+import { clearSelection } from "../utils/selectedNewsletter";
 
 interface AuthContextType {
   currentUser: FirebaseUser | null;
@@ -127,10 +128,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
-      // Clear the selected league so the NavBar resets to "Select League" —
-      // it survives in localStorage otherwise (bug-reports/logout-keeps-selected-league.md)
-      localStorage.removeItem("selectedLeagueId");
-      window.dispatchEvent(new Event("leagueChange"));
+      // Clear the selection so the NavBar resets — it survives in
+      // localStorage otherwise (bug-reports/logout-keeps-selected-league.md)
+      clearSelection();
     } catch (error) {
       console.error("Error signing out:", error);
       throw error;

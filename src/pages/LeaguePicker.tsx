@@ -1,23 +1,31 @@
 /**
- * LeaguePicker.tsx — Landing page and league selection hub.
+ * LeaguePicker.tsx — Landing page: your newsletters + platform entry (#108).
  *
  * Two main sections:
- * 1. **Browse any league** (no auth) — platform picker cards for Sleeper + ESPN
- *    that route to the respective login/entry flows.
- * 2. **Your leagues** (auth) — saved leagues from Firestore if the user is
- *    signed in, with quick-select and remove options.
+ * 1. **Your Newsletters** (auth) — newsletters you edit, co-edit, or
+ *    subscribe to, deduped, with role chips. The newsletter replaced the
+ *    league as the top-level entity in #103.
+ * 2. **Add a newsletter / browse** — platform picker cards routing to the
+ *    login/entry flows, which lead to a league's home and its newsletter
+ *    discovery page.
  *
  * This is the first page users see (mounted at `/league-picker`, with `/`
- * redirecting here). The goal is a clear, welcoming entry point that works
- * for both authenticated and anonymous users.
+ * redirecting here). Anonymous visitors get the platform cards only —
+ * public newsletters stay reachable via shared /n/{id} links.
  */
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
-import { useLeagueDoc } from "../hooks/useLeagueDoc";
-import LeagueAvatar from "../components/shared/LeagueAvatar";
-import type { SavedLeague } from "../utils/survivorUtils";
+import {
+  getNewsletter,
+  getNewslettersByEditor,
+  getNewslettersByCoEditor,
+} from "../services/firestoreCrud";
+import { setSelectedNewsletter } from "../utils/selectedNewsletter";
+import { seasonRange } from "./LeagueNewsletters";
+import type { NewsletterDoc } from "../types/firestore";
 
 /* ------------------------------------------------------------------ */
 /*  Styled Components                                                  */
@@ -120,7 +128,7 @@ const LeagueList = styled.div`
   max-width: 400px;
 `;
 
-const LeagueItem = styled.div`
+const NewsletterCard = styled.div`
   display: flex;
   align-items: center;
   background-color: ${({ theme }: any) => theme.background};
@@ -136,11 +144,7 @@ const LeagueItem = styled.div`
   }
 `;
 
-const LeaguePhoto = styled(LeagueAvatar)`
-  margin-right: 12px;
-`;
-
-const LeagueInfo = styled.div`
+const NewsletterInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -149,8 +153,9 @@ const LeagueInfo = styled.div`
   text-align: left;
 `;
 
-const LeagueName = styled.span`
+const NewsletterName = styled.span`
   font-size: 15px;
+  font-weight: bold;
   color: ${({ theme }: any) => theme.text};
   white-space: nowrap;
   overflow: hidden;
@@ -158,47 +163,22 @@ const LeagueName = styled.span`
   max-width: 100%;
 `;
 
-const LeagueMeta = styled.span`
+const NewsletterMeta = styled.span`
   font-size: 12px;
   color: ${({ theme }: any) => theme.text};
   opacity: 0.5;
-  text-transform: uppercase;
 `;
 
-const RemoveButton = styled.button`
-  background: none;
-  border: none;
-  color: #bc293d;
-  cursor: pointer;
-  font-size: 18px;
-  padding: 4px 8px;
+const RoleChip = styled.span`
+  font-size: 11px;
+  color: ${({ theme }: any) => theme.newsBlue};
+  border: 1px solid ${({ theme }: any) => theme.newsBlue}66;
+  border-radius: 10px;
+  padding: 2px 8px;
   margin-left: 8px;
   flex-shrink: 0;
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const NewslettersButton = styled.button`
-  background: none;
-  border: 1px solid ${({ theme }: any) => theme.newsBlue}66;
-  color: ${({ theme }: any) => theme.newsBlue};
-  border-radius: 14px;
-  padding: 4px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  flex-shrink: 0;
-
-  &:hover {
-    border-color: ${({ theme }: any) => theme.newsBlue};
-  }
-`;
-
-const EditorStatus = styled.span<{ $isYou?: boolean }>`
-  font-size: 12px;
-  color: ${({ theme, $isYou }: any) => ($isYou ? theme.newsBlue : theme.text)};
-  opacity: ${({ $isYou }: { $isYou?: boolean }) => ($isYou ? 1 : 0.5)};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
 const SignInHint = styled.p`
@@ -213,60 +193,56 @@ const SignInHint = styled.p`
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-/** Map platform type to its emoji icon (matches the platform picker cards). */
-function platformIcon(type: string): string {
-  switch (type) {
-    case "sleeper":
-      return "😴";
-    case "espn":
-      return "🏈";
-    case "yahoo":
-      return "🟣";
-    default:
-      return "🏟️";
-  }
-}
-
-/**
- * Editor status line for a saved league card: unclaimed / claimed / yours.
- * A missing league doc means no one has visited the league signed-in yet,
- * which is equivalent to the editor role being unclaimed.
- */
-function EditorStatusLine({ leagueId }: { leagueId: string }): React.ReactElement | null {
-  const { currentUser } = useAuth();
-  const { data: leagueDoc, isLoading } = useLeagueDoc(leagueId);
-
-  if (isLoading) return null;
-  if (!leagueDoc || leagueDoc.editorUid === null) {
-    return <EditorStatus>Editor role unclaimed</EditorStatus>;
-  }
-  if (currentUser && leagueDoc.editorUid === currentUser.uid) {
-    return <EditorStatus $isYou>You're the editor</EditorStatus>;
-  }
-  return <EditorStatus>Editor claimed</EditorStatus>;
-}
+/** A newsletter card on the landing page, with the viewer's role attached. */
+type MyNewsletter = NewsletterDoc & { id: string; role: "editor" | "co-editor" | "subscriber" };
 
 function LeaguePicker(): React.ReactElement {
   const navigate = useNavigate();
-  const { currentUser, savedLeagues, removeLeague } = useAuth();
+  const { currentUser, profile, updateProfile } = useAuth();
 
-  /**
-   * Select a saved league: store in localStorage, dispatch the leagueChange
-   * event so other components react, then navigate to the league home page.
-   */
-  const handleSelectLeague = (league: SavedLeague): void => {
-    localStorage.setItem("selectedLeagueId", league.id);
-    window.dispatchEvent(new Event("leagueChange"));
-    navigate(`/home/${league.id}`);
-  };
+  const subscribedIds = React.useMemo(
+    () => profile?.subscribedNewsletterIds ?? [],
+    [profile?.subscribedNewsletterIds]
+  );
 
-  /**
-   * Remove a saved league from the user's Firestore profile.
-   * Stops event propagation so the click doesn't also trigger selection.
-   */
-  const handleRemoveLeague = async (e: React.MouseEvent, leagueId: string): Promise<void> => {
-    e.stopPropagation();
-    await removeLeague(leagueId);
+  // "Your Newsletters" = edit ∪ co-edit ∪ subscribed, deduped (role
+  // precedence: editor > co-editor > subscriber). Dangling subscription IDs
+  // (deleted newsletters) are dropped and lazily pruned from the profile.
+  const { data: myNewsletters, isLoading: newslettersLoading } = useQuery({
+    queryKey: ["myNewsletters", currentUser?.uid, subscribedIds.join(",")],
+    enabled: !!currentUser,
+    queryFn: async (): Promise<MyNewsletter[]> => {
+      const [edited, coEdited] = await Promise.all([
+        getNewslettersByEditor(currentUser!.uid),
+        getNewslettersByCoEditor(currentUser!.uid),
+      ]);
+      const byId = new Map<string, MyNewsletter>();
+      edited.forEach((nl) => byId.set(nl.id, { ...nl, role: "editor" }));
+      coEdited.forEach((nl) => {
+        if (!byId.has(nl.id)) byId.set(nl.id, { ...nl, role: "co-editor" });
+      });
+      const dangling: string[] = [];
+      await Promise.all(
+        subscribedIds
+          .filter((id) => !byId.has(id))
+          .map(async (id) => {
+            const nl = await getNewsletter(id);
+            if (nl) byId.set(id, { ...nl, id, role: "subscriber" });
+            else dangling.push(id);
+          })
+      );
+      if (dangling.length > 0) {
+        updateProfile({
+          subscribedNewsletterIds: subscribedIds.filter((id) => !dangling.includes(id)),
+        });
+      }
+      return [...byId.values()];
+    },
+  });
+
+  const openNewsletter = (nl: MyNewsletter): void => {
+    setSelectedNewsletter(nl.id, nl.activeLeagueId);
+    navigate(`/n/${nl.id}`);
   };
 
   return (
@@ -277,48 +253,31 @@ function LeaguePicker(): React.ReactElement {
         account required.
       </Subtitle>
 
-      {/* --- Saved leagues (signed-in users only) --- */}
-      {currentUser && savedLeagues.length > 0 && (
+      {/* --- Your Newsletters (signed-in users only) --- */}
+      {currentUser && (myNewsletters?.length ?? 0) > 0 && (
         <>
-          <SectionLabel>Your Leagues</SectionLabel>
+          <SectionLabel>Your Newsletters</SectionLabel>
           <LeagueList>
-            {savedLeagues.map((league) => (
-              <LeagueItem key={league.id} onClick={() => handleSelectLeague(league)}>
-                <LeaguePhoto src={league.avatar} alt={league.name} />
-                <LeagueInfo>
-                  <LeagueName>
-                    {league.name} ({league.year})
-                  </LeagueName>
-                  <LeagueMeta>
-                    {platformIcon(league.type)} {league.type}
-                  </LeagueMeta>
-                  <EditorStatusLine leagueId={league.id} />
-                </LeagueInfo>
-                <NewslettersButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/league/${league.id}/newsletters`);
-                  }}
-                  title="Newsletters for this league"
-                >
-                  Newsletters
-                </NewslettersButton>
-                <RemoveButton
-                  onClick={(e) => handleRemoveLeague(e, league.id)}
-                  title="Remove league"
-                >
-                  ×
-                </RemoveButton>
-              </LeagueItem>
+            {myNewsletters!.map((nl) => (
+              <NewsletterCard key={nl.id} onClick={() => openNewsletter(nl)}>
+                <NewsletterInfo>
+                  <NewsletterName>{nl.name}</NewsletterName>
+                  <NewsletterMeta>
+                    {seasonRange(nl)} · ed. {nl.editorName || "unknown"}
+                  </NewsletterMeta>
+                </NewsletterInfo>
+                <RoleChip>{nl.role}</RoleChip>
+              </NewsletterCard>
             ))}
           </LeagueList>
           <Divider />
         </>
       )}
+      {currentUser && newslettersLoading && <SignInHint>Loading your newsletters…</SignInHint>}
 
-      {/* --- Platform picker --- */}
+      {/* --- Platform picker: the path to a league's newsletters --- */}
       <SectionLabel>
-        {currentUser && savedLeagues.length > 0 ? "Add a League" : "Browse a League"}
+        {currentUser && (myNewsletters?.length ?? 0) > 0 ? "Add a Newsletter" : "Get Started"}
       </SectionLabel>
       <PlatformGrid>
         <PlatformCard onClick={() => navigate("/sleeper-login")}>

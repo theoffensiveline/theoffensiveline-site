@@ -17,6 +17,7 @@ import styled from "styled-components";
 import { exchangeCodeForTokens, fetchLeague } from "../utils/api/YahooApi";
 import { saveYahooCredentials } from "../utils/yahooCredentials";
 import { useAuth } from "../contexts/AuthContext";
+import { setSelectedLeague } from "../utils/selectedNewsletter";
 
 /* ------------------------------------------------------------------ */
 /*  Styled Components                                                  */
@@ -147,8 +148,7 @@ function YahooCallback() {
   const handleConfirm = async () => {
     if (!leagueInfo) return;
     const yahooId = `yahoo_${leagueInfo.numericId}`;
-    localStorage.setItem("selectedLeagueId", yahooId);
-    window.dispatchEvent(new Event("leagueChange"));
+    setSelectedLeague(yahooId);
 
     if (currentUser) {
       await addLeague({

@@ -242,6 +242,19 @@ export async function getNewslettersByEditor(
 }
 
 /**
+ * Fetch all newsletters where a given UID is a co-editor.
+ * @param uid - Firebase Auth UID
+ * @returns Array of newsletter documents with their IDs.
+ */
+export async function getNewslettersByCoEditor(
+  uid: string
+): Promise<(NewsletterDoc & { id: string })[]> {
+  const q = query(collection(db, "newsletters"), where("coEditorUids", "array-contains", uid));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as NewsletterDoc) }));
+}
+
+/**
  * Update fields on a newsletter. If seasons change, leagueIds is re-derived
  * and duplicate season years are rejected.
  * @param newsletterId - Newsletter document ID

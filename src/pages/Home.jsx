@@ -1,10 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
 import EditorClaimCard from "../components/EditorClaimCard";
+import { getNewslettersForLeague } from "../services/firestoreCrud";
+import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 
 const GridContainer = styled.div`
   display: grid;
@@ -53,6 +56,30 @@ const BannerImage = styled.img`
   margin-bottom: 10px;
 `;
 
+const NewsletterStrip = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 20px 0;
+  padding: 10px 16px;
+  border: 1px solid ${({ theme }) => theme.newsBlue}55;
+  border-radius: 10px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.text};
+`;
+
+const StripLink = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.newsBlue};
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  padding: 0;
+`;
+
 function Home() {
   const navigate = useNavigate();
   const { leagueId } = useParams();
@@ -74,6 +101,14 @@ function Home() {
     !leagueDocLoading && (!hasCustomNewsletters || features.includes("weekly-recaps"));
 
   const { completedWeeksDesc: recapWeekButtons } = useCompletedWeeks(leagueId, showRecaps);
+
+  // League home is the no-newsletter fallback (#103 decision 5): surface
+  // this league's newsletters when they exist, or a create prompt when not.
+  const { data: leagueNewsletters } = useQuery({
+    queryKey: ["newslettersForLeague", leagueId],
+    queryFn: () => getNewslettersForLeague(leagueId),
+    enabled: !!leagueId,
+  });
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -201,6 +236,34 @@ function Home() {
     <div>
       {leagueId === mainLeagueId && <BannerImage src="/banner_logo.png" alt="Banner Logo" />}
       <EditorClaimCard leagueId={leagueId} />
+      {leagueNewsletters && leagueNewsletters.length > 0 ? (
+        <NewsletterStrip>
+          <span>Newsletters for this league:</span>
+          {leagueNewsletters.map((nl) => (
+            <StripLink
+              key={nl.id}
+              onClick={() => {
+                setSelectedNewsletter(nl.id, nl.activeLeagueId);
+                navigate(`/n/${nl.id}`);
+              }}
+            >
+              {nl.name}
+            </StripLink>
+          ))}
+          <StripLink onClick={() => navigate(`/league/${leagueId}/newsletters`)}>
+            all / create
+          </StripLink>
+        </NewsletterStrip>
+      ) : (
+        leagueNewsletters && (
+          <NewsletterStrip>
+            <span>No newsletter for this league yet.</span>
+            <StripLink onClick={() => navigate(`/league/${leagueId}/newsletters`)}>
+              Create one
+            </StripLink>
+          </NewsletterStrip>
+        )
+      )}
       <GridContainer>
         {/* Default league sections shown for all leagues */}
         {defaultContent.sections.map((section) => (

@@ -9,7 +9,7 @@
  * Just enough to make the entity testable end-to-end — the full newsletter
  * home (features, archive, season switcher) is #103 sub-issue B.
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,6 +17,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { getNewsletter, updateNewsletter } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
+import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
+import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 import type { NewsletterSeason } from "../types/firestore";
 
 const Container = styled.div`
@@ -152,16 +154,37 @@ function NewsletterHome(): React.ReactElement {
   const { newsletterId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { currentUser, profile } = useAuth();
+  const { currentUser, profile, updateProfile } = useAuth();
   const [manualId, setManualId] = useState("");
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
+  const [subscribing, setSubscribing] = useState(false);
 
-  const { data: newsletter, isLoading } = useQuery({
-    queryKey: ["newsletter", newsletterId],
-    queryFn: () => getNewsletter(newsletterId!),
-    enabled: !!newsletterId,
-  });
+  const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
+
+  const toggleSubscription = async () => {
+    if (!newsletterId || !currentUser || subscribing) return;
+    setSubscribing(true);
+    try {
+      const current = profile?.subscribedNewsletterIds ?? [];
+      const next = isSubscribed
+        ? current.filter((id) => id !== newsletterId)
+        : [...current, newsletterId];
+      await updateProfile({ subscribedNewsletterIds: next });
+    } finally {
+      setSubscribing(false);
+    }
+  };
+
+  const { data: newsletter, isLoading } = useNewsletterDoc(newsletterId);
+
+  // Visiting a newsletter selects it (regardless of auth), so shared public
+  // links render this newsletter's nav for anonymous readers too (#108).
+  useEffect(() => {
+    if (newsletterId && newsletter) {
+      setSelectedNewsletter(newsletterId, newsletter.activeLeagueId);
+    }
+  }, [newsletterId, newsletter]);
 
   const isEditor =
     !!currentUser &&
@@ -276,6 +299,11 @@ function NewsletterHome(): React.ReactElement {
     <Container>
       <Title>{newsletter.name}</Title>
       {isEditor && <EditorBadge>🖋️ You're the editor</EditorBadge>}
+      {currentUser && !isEditor && (
+        <ActionButton onClick={toggleSubscription} disabled={subscribing}>
+          {subscribing ? "…" : isSubscribed ? "Unsubscribe" : "Subscribe"}
+        </ActionButton>
+      )}
 
       <SectionLabel>Seasons</SectionLabel>
       <List>
