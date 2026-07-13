@@ -93,17 +93,16 @@ export async function deleteUser(uid: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 /**
- * Create a new league document. Sets createdAt and privacy defaults.
+ * Create a new league document (platform metadata cache). Sets createdAt.
  * @param leagueId - Document ID (plain numeric for Sleeper, "espn_XXXXX" for ESPN)
- * @param data - League fields (excluding createdAt; privacy defaults to 'public')
+ * @param data - League fields (excluding createdAt)
  */
 export async function createLeague(
   leagueId: string,
-  data: Omit<LeagueDoc, "createdAt" | "privacy"> & { privacy?: LeagueDoc["privacy"] }
+  data: Omit<LeagueDoc, "createdAt">
 ): Promise<void> {
   await setDoc(doc(db, "leagues", leagueId), {
     ...data,
-    privacy: data.privacy ?? "public",
     createdAt: Timestamp.now(),
   });
 }
@@ -116,19 +115,6 @@ export async function createLeague(
 export async function getLeague(leagueId: string): Promise<LeagueDoc | null> {
   const snap = await getDoc(doc(db, "leagues", leagueId));
   return snap.exists() ? withFeatures(leagueId, snap.data() as LeagueDoc) : null;
-}
-
-/**
- * Fetch all leagues where a given UID is the editor.
- * @param editorUid - Firebase Auth UID of the editor
- * @returns Array of league documents with their IDs.
- */
-export async function getLeaguesByEditor(
-  editorUid: string
-): Promise<(LeagueDoc & { id: string })[]> {
-  const q = query(collection(db, "leagues"), where("editorUid", "==", editorUid));
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...withFeatures(d.id, d.data() as LeagueDoc) }));
 }
 
 /**

@@ -19,7 +19,8 @@ import { getNewsletter, updateNewsletter } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
-import type { NewsletterSeason } from "../types/firestore";
+import { TOGGLEABLE_FEATURES } from "../components/constants/NewsletterConstants";
+import type { LeagueFeature, NewsletterSeason } from "../types/firestore";
 
 const Container = styled.div`
   display: flex;
@@ -131,6 +132,16 @@ const IdInput = styled.input`
   width: 220px;
 `;
 
+const FeatureRow = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: ${({ theme }: any) => theme.text};
+  cursor: pointer;
+  padding: 4px 0;
+`;
+
 const Hint = styled.p`
   font-size: 13px;
   color: ${({ theme }: any) => theme.text};
@@ -161,6 +172,25 @@ function NewsletterHome(): React.ReactElement {
   const [subscribing, setSubscribing] = useState(false);
 
   const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
+  const [togglingFeature, setTogglingFeature] = useState<LeagueFeature | null>(null);
+
+  // Toggle a palette feature on the newsletter doc. Non-palette (dogfood)
+  // flags are preserved untouched — the UI never offers them (#110).
+  const toggleFeature = async (feature: LeagueFeature) => {
+    if (!newsletter || !newsletterId || togglingFeature) return;
+    setTogglingFeature(feature);
+    try {
+      const current = newsletter.features ?? [];
+      const next = current.includes(feature)
+        ? current.filter((f) => f !== feature)
+        : [...current, feature];
+      await updateNewsletter(newsletterId, { features: next });
+      // NavBar shares the ["newsletter", id] query key, so this refreshes its nav too
+      await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
+    } finally {
+      setTogglingFeature(null);
+    }
+  };
 
   const toggleSubscription = async () => {
     if (!newsletterId || !currentUser || subscribing) return;
@@ -371,6 +401,20 @@ function NewsletterHome(): React.ReactElement {
             count toward league membership.
           </Hint>
           {addError && <ErrorText>{addError}</ErrorText>}
+
+          <SectionLabel>Features</SectionLabel>
+          {TOGGLEABLE_FEATURES.map(({ feature, label }) => (
+            <FeatureRow key={feature}>
+              <input
+                type="checkbox"
+                checked={(newsletter.features ?? []).includes(feature)}
+                onChange={() => toggleFeature(feature)}
+                disabled={togglingFeature !== null}
+              />
+              {label}
+            </FeatureRow>
+          ))}
+          <Hint>Enabled features appear in this newsletter's navigation.</Hint>
         </>
       )}
     </Container>

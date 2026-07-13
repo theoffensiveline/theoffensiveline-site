@@ -73,8 +73,11 @@ export interface UserDoc {
 /**
  * /leagues/{leagueId}
  *
- * Represents a fantasy league. The document ID encodes the platform:
- * plain numeric for Sleeper, "espn_XXXXX" for ESPN.
+ * Platform metadata for a league-season. The document ID encodes the
+ * platform: plain numeric for Sleeper, "espn_XXXXX" for ESPN.
+ *
+ * Demoted by #103: editor/privacy now live on NewsletterDoc. `features`
+ * stays until ladder step 5 — the legacy league-home nav reads it.
  */
 export interface LeagueDoc {
   /** Which fantasy platform this league belongs to. */
@@ -85,12 +88,6 @@ export interface LeagueDoc {
   name: string;
   /** NFL season year (e.g. 2025). */
   season: number;
-  /** Firebase UID of the primary editor. Null until a member claims the role. */
-  editorUid: string | null;
-  /** Firebase UIDs of co-editors who can also edit newsletters. */
-  coEditorUids: string[];
-  /** Privacy setting. Defaults to 'public' for Phase 1. */
-  privacy: Privacy;
   /** Extra features enabled for this league. Empty = base experience only. */
   features: LeagueFeature[];
   /** Timestamp when the league document was created. */

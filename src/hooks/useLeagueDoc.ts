@@ -2,7 +2,8 @@
  * useLeagueDoc — read (and lazily create) the Firestore document for a league.
  *
  * Every league viewed on the site gets a /leagues/{leagueId} document that
- * holds platform-neutral metadata plus editor/privacy state (see issue #52).
+ * holds platform-neutral metadata (demoted by #103/#110 — editor/privacy
+ * live on newsletter docs now; `features` stays for the legacy experience).
  *
  * With `createIfMissing: true` (used on league entry pages like Home), the
  * hook creates the document on first authenticated access, seeding it from
@@ -49,8 +50,6 @@ export function useLeagueDoc(
         platformLeagueId: getPlatformLeagueId(leagueId!),
         name: platformLeague.name,
         season: parseInt(platformLeague.season, 10),
-        editorUid: null,
-        coEditorUids: [],
         features: getSeedFeatures(leagueId!),
       });
       return getLeagueDoc(leagueId!);

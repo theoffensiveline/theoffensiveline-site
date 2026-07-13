@@ -1,5 +1,5 @@
 /**
- * leagueClaim — membership verification and editor-role claiming (#53).
+ * leagueClaim — league membership verification.
  *
  * Membership is verified client-side per the launch plan's MVP approach
  * (Sleeper has no OAuth; newsletters are low-stakes content):
@@ -8,12 +8,10 @@
  *   - ESPN / Yahoo: successfully fetching the league's users counts —
  *     private leagues require the user's own credentials to fetch at all.
  *
- * Real enforcement of the claim itself lives in firestore.rules: an
- * unclaimed league (editorUid null) can only transition to the claimer's
- * own UID, touching no other fields. First write wins.
+ * The editor-role claim flow (#53) retired in #110: creating a newsletter
+ * IS claiming in the #103 model.
  */
 import { getUsers, getPlatform } from "./api/FantasyAPI";
-import { updateLeague } from "../services/firestoreCrud";
 import type { UserProfile } from "./survivorUtils";
 
 export interface MembershipResult {
@@ -49,26 +47,5 @@ export async function verifyLeagueMembership(
     return { isMember: true };
   } catch {
     return { isMember: false, reason: "fetch-failed" };
-  }
-}
-
-/**
- * Claim the editor role for a league. Firestore rules guarantee this only
- * succeeds while the role is unclaimed — a permission error almost always
- * means someone else claimed it first.
- */
-export async function claimEditorRole(
-  leagueId: string,
-  uid: string
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    await updateLeague(leagueId, { editorUid: uid });
-    return { success: true };
-  } catch (error) {
-    console.error("Error claiming editor role:", error);
-    return {
-      success: false,
-      error: "Couldn't claim the editor role — it may have just been claimed by someone else.",
-    };
   }
 }
