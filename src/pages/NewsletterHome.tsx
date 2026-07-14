@@ -15,7 +15,7 @@ import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
-import { getNewsletter, updateNewsletter } from "../services/firestoreCrud";
+import { getNewsletter, setNewsletterFeature, updateNewsletter } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
@@ -140,6 +140,10 @@ const FeatureRow = styled.label`
   color: ${({ theme }: any) => theme.text};
   cursor: pointer;
   padding: 4px 0;
+
+  input[type="checkbox"] {
+    accent-color: ${({ theme }: any) => theme.newsBlue};
+  }
 `;
 
 const Hint = styled.p`
@@ -173,20 +177,23 @@ function NewsletterHome(): React.ReactElement {
 
   const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
   const [togglingFeature, setTogglingFeature] = useState<LeagueFeature | null>(null);
+  const [featureError, setFeatureError] = useState<string | null>(null);
 
-  // Toggle a palette feature on the newsletter doc. Non-palette (dogfood)
-  // flags are preserved untouched — the UI never offers them (#110).
+  // Toggle a palette feature via atomic arrayUnion/arrayRemove — only the
+  // named flag is touched, so concurrent toggles and console-set dogfood
+  // flags can never be clobbered by a stale cache (#110 review).
   const toggleFeature = async (feature: LeagueFeature) => {
     if (!newsletter || !newsletterId || togglingFeature) return;
     setTogglingFeature(feature);
+    setFeatureError(null);
     try {
-      const current = newsletter.features ?? [];
-      const next = current.includes(feature)
-        ? current.filter((f) => f !== feature)
-        : [...current, feature];
-      await updateNewsletter(newsletterId, { features: next });
+      const enabled = !(newsletter.features ?? []).includes(feature);
+      await setNewsletterFeature(newsletterId, feature, enabled);
       // NavBar shares the ["newsletter", id] query key, so this refreshes its nav too
       await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
+    } catch (e) {
+      console.error("Error toggling feature:", e);
+      setFeatureError("Couldn't update that feature — try again.");
     } finally {
       setTogglingFeature(null);
     }
@@ -415,6 +422,7 @@ function NewsletterHome(): React.ReactElement {
             </FeatureRow>
           ))}
           <Hint>Enabled features appear in this newsletter's navigation.</Hint>
+          {featureError && <ErrorText>{featureError}</ErrorText>}
         </>
       )}
     </Container>

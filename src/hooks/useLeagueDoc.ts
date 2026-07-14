@@ -7,7 +7,7 @@
  *
  * With `createIfMissing: true` (used on league entry pages like Home), the
  * hook creates the document on first authenticated access, seeding it from
- * the platform API (league name + season) with an unclaimed editor role.
+ * the platform API (league name + season + seed features).
  * Anonymous visitors never trigger creation — Firestore rules require auth.
  *
  * Without it (used on dashboards), the hook is a plain read: a missing

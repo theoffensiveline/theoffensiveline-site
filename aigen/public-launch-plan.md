@@ -170,9 +170,9 @@ For multi-league, the auto-generated newsletter is straightforward:
 /leagues/{leagueId}  ← leagueId is the platform-prefixed ID: plain numeric for Sleeper, "espn_XXXXX" for ESPN
   - platform: 'sleeper' | 'espn' | 'yahoo'
   - platformLeagueId  ← the raw ID as used by the platform's own API
-  - name, season, createdAt
-  - (editorUid/coEditorUids/privacy/features live here temporarily; they move
-     to the newsletter doc and are removed in #103 sub-issue C)
+  - name, season, features, createdAt
+  - (demoted by #110: editor/privacy moved to the newsletter doc; `features`
+     stays for the legacy experience until ladder step 5)
 
 /newsletters/{newsletterId}  ← the top-level publication entity (#103)
   - name, editorUid, editorName, coEditorUids[], privacy, features[]

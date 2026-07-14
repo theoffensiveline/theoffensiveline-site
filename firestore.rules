@@ -29,7 +29,16 @@ service cloud.firestore {
     // -----------------------------------------------------------------------
     match /leagues/{leagueId} {
       allow read: if true;
-      allow create: if request.auth != null;
+      // Shape-validated: doc IDs are predictable platform IDs and updates are
+      // denied, so an unvalidated create would let anyone permanently poison
+      // a league's metadata/features before the legitimate auto-seed runs.
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(
+             ['platform', 'platformLeagueId', 'name', 'season', 'features', 'createdAt'])
+        && request.resource.data.platform in ['sleeper', 'espn', 'yahoo']
+        && request.resource.data.name is string
+        && request.resource.data.season is int
+        && request.resource.data.features is list;
       allow update, delete: if false;
     }
 
