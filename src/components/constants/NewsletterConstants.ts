@@ -18,7 +18,7 @@ export const TOGGLEABLE_FEATURES: {
     feature: "survivor",
     label: "Survivor pool",
     description:
-      "A season-long side game: members pick one NFL team to win each week — no repeats, one loss and you're out.",
+      "A season-long side game: each week, pick one fantasy team in your league to win their matchup — no repeats, one loss and you're out.",
   },
   {
     feature: "bylaws",
