@@ -15,11 +15,12 @@ import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
-import { getNewsletter, updateNewsletter } from "../services/firestoreCrud";
+import { getNewsletter, setNewsletterFeature, updateNewsletter } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
-import type { NewsletterSeason } from "../types/firestore";
+import { TOGGLEABLE_FEATURES } from "../components/constants/NewsletterConstants";
+import type { LeagueFeature, NewsletterSeason } from "../types/firestore";
 
 const Container = styled.div`
   display: flex;
@@ -131,6 +132,56 @@ const IdInput = styled.input`
   width: 220px;
 `;
 
+const FeatureList = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+`;
+
+const FeatureCard = styled.label`
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  background-color: ${({ theme }: any) => theme.background};
+  border: 1px solid ${({ theme }: any) => theme.neutral3}44;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 4px 0;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: ${({ theme }: any) => theme.neutral3};
+  }
+
+  input[type="checkbox"] {
+    accent-color: ${({ theme }: any) => theme.newsBlue};
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+`;
+
+const FeatureText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const FeatureName = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+  color: ${({ theme }: any) => theme.text};
+`;
+
+const FeatureDescription = styled.span`
+  font-size: 12px;
+  color: ${({ theme }: any) => theme.text};
+  opacity: 0.65;
+  line-height: 1.4;
+`;
+
 const Hint = styled.p`
   font-size: 13px;
   color: ${({ theme }: any) => theme.text};
@@ -161,6 +212,28 @@ function NewsletterHome(): React.ReactElement {
   const [subscribing, setSubscribing] = useState(false);
 
   const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
+  const [togglingFeature, setTogglingFeature] = useState<LeagueFeature | null>(null);
+  const [featureError, setFeatureError] = useState<string | null>(null);
+
+  // Toggle a palette feature via atomic arrayUnion/arrayRemove — only the
+  // named flag is touched, so concurrent toggles and console-set dogfood
+  // flags can never be clobbered by a stale cache (#110 review).
+  const toggleFeature = async (feature: LeagueFeature) => {
+    if (!newsletter || !newsletterId || togglingFeature) return;
+    setTogglingFeature(feature);
+    setFeatureError(null);
+    try {
+      const enabled = !(newsletter.features ?? []).includes(feature);
+      await setNewsletterFeature(newsletterId, feature, enabled);
+      // NavBar shares the ["newsletter", id] query key, so this refreshes its nav too
+      await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
+    } catch (e) {
+      console.error("Error toggling feature:", e);
+      setFeatureError("Couldn't update that feature — try again.");
+    } finally {
+      setTogglingFeature(null);
+    }
+  };
 
   const toggleSubscription = async () => {
     if (!newsletterId || !currentUser || subscribing) return;
@@ -371,6 +444,26 @@ function NewsletterHome(): React.ReactElement {
             count toward league membership.
           </Hint>
           {addError && <ErrorText>{addError}</ErrorText>}
+
+          <SectionLabel>Features</SectionLabel>
+          <FeatureList>
+            {TOGGLEABLE_FEATURES.map(({ feature, label, description }) => (
+              <FeatureCard key={feature}>
+                <input
+                  type="checkbox"
+                  checked={(newsletter.features ?? []).includes(feature)}
+                  onChange={() => toggleFeature(feature)}
+                  disabled={togglingFeature !== null}
+                />
+                <FeatureText>
+                  <FeatureName>{label}</FeatureName>
+                  <FeatureDescription>{description}</FeatureDescription>
+                </FeatureText>
+              </FeatureCard>
+            ))}
+          </FeatureList>
+          <Hint>Enabled features appear in this newsletter's navigation.</Hint>
+          {featureError && <ErrorText>{featureError}</ErrorText>}
         </>
       )}
     </Container>

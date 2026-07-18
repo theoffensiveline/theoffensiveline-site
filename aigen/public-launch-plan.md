@@ -62,6 +62,10 @@ Every league on Sleeper or ESPN can have a newsletter. Here's how they get creat
 
 > **Why the reversal?** One-per-league assumed claims could be trusted. They can't be verified, so exclusivity becomes a denial-of-service tool. Fragmentation is handled socially (discovery lists show editor + season range; leagues converge on the real one) rather than by an unenforceable lock.
 
+### Migration strategy: freeze-and-parallel (#110)
+
+The Offensive Line runs in both systems during the transition: the hardcoded legacy experience is frozen as a labeled archive, and a new dynamic newsletter (full feature flags) carries forward. Ladder: (1) seed + freeze + retire claim machinery → (2) #84 builder authors new issues; legacy stops growing → (3) legacyRoute pointer docs surface the hand-written archive in the newsletter's issue list → (4) feature pages re-key to newsletters → (5) delete the legacy scaffolding (compiled newsletter components stay forever — they're content). Feature flags have a curated public palette (survivor/bylaws/submit toggleable by editors); the rest are dogfood-only until graduated.
+
 ### Newsletter Privacy
 
 The Editor sets the newsletter visibility:
@@ -166,9 +170,9 @@ For multi-league, the auto-generated newsletter is straightforward:
 /leagues/{leagueId}  ← leagueId is the platform-prefixed ID: plain numeric for Sleeper, "espn_XXXXX" for ESPN
   - platform: 'sleeper' | 'espn' | 'yahoo'
   - platformLeagueId  ← the raw ID as used by the platform's own API
-  - name, season, createdAt
-  - (editorUid/coEditorUids/privacy/features live here temporarily; they move
-     to the newsletter doc and are removed in #103 sub-issue C)
+  - name, season, features, createdAt
+  - (demoted by #110: editor/privacy moved to the newsletter doc; `features`
+     stays for the legacy experience until ladder step 5)
 
 /newsletters/{newsletterId}  ← the top-level publication entity (#103)
   - name, editorUid, editorName, coEditorUids[], privacy, features[]

@@ -10,7 +10,6 @@
  *   /leagues/{leagueId}
  *   /newsletters/{newsletterId}                        (issue #103)
  *   /newsletters/{newsletterId}/issues/{season}_w{week}
- *   /leagues/{leagueId}/weekData/{weekNumber}           (fate decided in #84)
  */
 
 import {
@@ -24,16 +23,18 @@ import {
   getDocs,
   query,
   where,
+  arrayUnion,
+  arrayRemove,
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import type {
   UserDoc,
   LeagueDoc,
+  LeagueFeature,
   NewsletterDoc,
   NewsletterSeason,
   IssueDoc,
-  WeekDataDoc,
 } from "../types/firestore";
 import { getSeedFeatures } from "../components/constants/LeagueConstants";
 
@@ -93,17 +94,16 @@ export async function deleteUser(uid: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 /**
- * Create a new league document. Sets createdAt and privacy defaults.
+ * Create a new league document (platform metadata cache). Sets createdAt.
  * @param leagueId - Document ID (plain numeric for Sleeper, "espn_XXXXX" for ESPN)
- * @param data - League fields (excluding createdAt; privacy defaults to 'public')
+ * @param data - League fields (excluding createdAt)
  */
 export async function createLeague(
   leagueId: string,
-  data: Omit<LeagueDoc, "createdAt" | "privacy"> & { privacy?: LeagueDoc["privacy"] }
+  data: Omit<LeagueDoc, "createdAt">
 ): Promise<void> {
   await setDoc(doc(db, "leagues", leagueId), {
     ...data,
-    privacy: data.privacy ?? "public",
     createdAt: Timestamp.now(),
   });
 }
@@ -116,36 +116,6 @@ export async function createLeague(
 export async function getLeague(leagueId: string): Promise<LeagueDoc | null> {
   const snap = await getDoc(doc(db, "leagues", leagueId));
   return snap.exists() ? withFeatures(leagueId, snap.data() as LeagueDoc) : null;
-}
-
-/**
- * Fetch all leagues where a given UID is the editor.
- * @param editorUid - Firebase Auth UID of the editor
- * @returns Array of league documents with their IDs.
- */
-export async function getLeaguesByEditor(
-  editorUid: string
-): Promise<(LeagueDoc & { id: string })[]> {
-  const q = query(collection(db, "leagues"), where("editorUid", "==", editorUid));
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...withFeatures(d.id, d.data() as LeagueDoc) }));
-}
-
-/**
- * Update fields on an existing league document.
- * @param leagueId - League document ID
- * @param data - Partial league fields to merge
- */
-export async function updateLeague(leagueId: string, data: Partial<LeagueDoc>): Promise<void> {
-  await updateDoc(doc(db, "leagues", leagueId), data);
-}
-
-/**
- * Delete a league document.
- * @param leagueId - League document ID
- */
-export async function deleteLeague(leagueId: string): Promise<void> {
-  await deleteDoc(doc(db, "leagues", leagueId));
 }
 
 // ---------------------------------------------------------------------------
@@ -273,6 +243,25 @@ export async function updateNewsletter(
 }
 
 /**
+ * Atomically enable/disable a single feature flag on a newsletter.
+ * arrayUnion/arrayRemove touch only the named flag, so concurrent toggles
+ * and console-set dogfood flags can never be clobbered by a stale
+ * read-modify-write (#110 review).
+ * @param newsletterId - Newsletter document ID
+ * @param feature - The flag to toggle
+ * @param enabled - true to add, false to remove
+ */
+export async function setNewsletterFeature(
+  newsletterId: string,
+  feature: LeagueFeature,
+  enabled: boolean
+): Promise<void> {
+  await updateDoc(doc(db, "newsletters", newsletterId), {
+    features: enabled ? arrayUnion(feature) : arrayRemove(feature),
+  });
+}
+
+/**
  * Delete a newsletter document.
  * @param newsletterId - Newsletter document ID
  */
@@ -334,59 +323,4 @@ export async function getIssue(
 export async function getAllIssues(newsletterId: string): Promise<(IssueDoc & { id: string })[]> {
   const snap = await getDocs(collection(db, "newsletters", newsletterId, "issues"));
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as IssueDoc) }));
-}
-
-// ---------------------------------------------------------------------------
-// WeekData — /leagues/{leagueId}/weekData/{weekNumber}
-// ---------------------------------------------------------------------------
-
-/**
- * Create or overwrite a weekData document (auto-generated stats cache).
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
- * @param data - Week data fields
- */
-export async function setWeekData(
-  leagueId: string,
-  weekNumber: string,
-  data: WeekDataDoc
-): Promise<void> {
-  await setDoc(doc(db, "leagues", leagueId, "weekData", weekNumber), data);
-}
-
-/**
- * Fetch a weekData document for a given week.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
- * @returns The weekData document or null if not found.
- */
-export async function getWeekData(
-  leagueId: string,
-  weekNumber: string
-): Promise<WeekDataDoc | null> {
-  const snap = await getDoc(doc(db, "leagues", leagueId, "weekData", weekNumber));
-  return snap.exists() ? (snap.data() as WeekDataDoc) : null;
-}
-
-/**
- * Update fields on an existing weekData document.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
- * @param data - Partial weekData fields to merge
- */
-export async function updateWeekData(
-  leagueId: string,
-  weekNumber: string,
-  data: Partial<WeekDataDoc>
-): Promise<void> {
-  await updateDoc(doc(db, "leagues", leagueId, "weekData", weekNumber), data);
-}
-
-/**
- * Delete a weekData document.
- * @param leagueId - Parent league document ID
- * @param weekNumber - Week number as string
- */
-export async function deleteWeekData(leagueId: string, weekNumber: string): Promise<void> {
-  await deleteDoc(doc(db, "leagues", leagueId, "weekData", weekNumber));
 }

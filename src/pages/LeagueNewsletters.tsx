@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
+import { useLeagueDoc } from "../hooks/useLeagueDoc";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { createNewsletter, getNewslettersForLeague } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
@@ -202,6 +203,11 @@ function LeagueNewsletters(): React.ReactElement {
     staleTime: 60 * 60 * 1000,
   });
 
+  // Firestore league doc (features): leagues with a hand-written archive get
+  // their auto row labeled as the frozen legacy newsletter.
+  const { data: fsLeagueDoc } = useLeagueDoc(leagueId);
+  const isLegacyLeague = !!fsLeagueDoc?.features?.includes("custom-newsletters");
+
   if (!leagueId) return <Container>Missing league ID</Container>;
 
   const handleCreate = async () => {
@@ -294,11 +300,19 @@ function LeagueNewsletters(): React.ReactElement {
         <Hint>No newsletters exist for this league yet.</Hint>
       )}
       <List>
-        {/* Every league gets the auto-generated experience, newsletter or not */}
+        {/* Every league gets the auto-generated experience, newsletter or not.
+            Leagues with a hand-written archive (custom-newsletters) get it
+            labeled as the frozen legacy newsletter instead (#110). */}
         <NewsletterItem>
           <NewsletterInfo>
-            <NewsletterName>Example newsletter</NewsletterName>
-            <NewsletterMeta>auto-generated stats & recaps · no editor content</NewsletterMeta>
+            <NewsletterName>
+              {isLegacyLeague ? "Legacy newsletter" : "Example newsletter"}
+            </NewsletterName>
+            <NewsletterMeta>
+              {isLegacyLeague
+                ? "hand-written archive · frozen"
+                : "auto-generated stats & recaps · no editor content"}
+            </NewsletterMeta>
             {platformLeague &&
               !(
                 (platformLeague.settings?.last_scored_leg ?? 0) > 0 ||

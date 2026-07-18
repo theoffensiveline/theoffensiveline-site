@@ -22,61 +22,24 @@ service cloud.firestore {
 
     // -----------------------------------------------------------------------
     // /leagues/{leagueId}
-    // Publicly readable (privacy defaults to public for Phase 1).
-    // Only the editor (editorUid) or co-editors can write.
+    // Platform metadata cache (demoted by #103/#110 — editor/privacy live on
+    // /newsletters now). Publicly readable; any signed-in visit may seed the
+    // doc; no client updates or deletes (league-doc `features` for the legacy
+    // experience are console-edited until #103 ladder step 5).
     // -----------------------------------------------------------------------
     match /leagues/{leagueId} {
       allow read: if true;
-      // Docs are created unclaimed (editorUid null); creating a doc that
-      // names an editor is only allowed if that editor is yourself.
-      // coEditorUids must start empty — otherwise a stranger could pre-create
-      // the doc with themselves as co-editor and retain write access after a
-      // real member claims the (seemingly unclaimed) editor role.
+      // Shape-validated: doc IDs are predictable platform IDs and updates are
+      // denied, so an unvalidated create would let anyone permanently poison
+      // a league's metadata/features before the legitimate auto-seed runs.
       allow create: if request.auth != null
-        && (request.resource.data.editorUid == null
-            || request.resource.data.editorUid == request.auth.uid)
-        && request.resource.data.coEditorUids.size() == 0;
-      allow delete: if request.auth != null
-        && (resource.data.editorUid == request.auth.uid
-            || request.auth.uid in resource.data.coEditorUids);
-      // Co-editors can update fields but never the co-editor list itself —
-      // otherwise one co-editor could strip the others or add strangers.
-      allow update: if request.auth != null
-        && (resource.data.editorUid == request.auth.uid
-            || (request.auth.uid in resource.data.coEditorUids
-                && request.resource.data.coEditorUids == resource.data.coEditorUids));
-      // One-time claim of an unclaimed editor role: only the editorUid field
-      // may change, and only to the claimer's own UID. First write wins —
-      // a concurrent second claim fails this rule because editorUid is no
-      // longer null.
-      allow update: if request.auth != null
-        && resource.data.editorUid == null
-        && request.resource.data.editorUid == request.auth.uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['editorUid']);
-
-      // ---------------------------------------------------------------------
-      // /leagues/{leagueId}/newsletters/{weekNumber}
-      // DEPRECATED by #103: weekly editions now live at
-      // /newsletters/{id}/issues. No code writes here anymore; this block
-      // stays (harmless, fails safe) until sub-issue C removes the old model.
-      // ---------------------------------------------------------------------
-      match /newsletters/{weekNumber} {
-        allow read: if true;
-        allow write: if request.auth != null
-          && (get(/databases/$(database)/documents/leagues/$(leagueId)).data.editorUid == request.auth.uid
-              || request.auth.uid in get(/databases/$(database)/documents/leagues/$(leagueId)).data.coEditorUids);
-      }
-
-      // ---------------------------------------------------------------------
-      // /leagues/{leagueId}/weekData/{weekNumber}
-      // Publicly readable. Writable by league editor or co-editors.
-      // ---------------------------------------------------------------------
-      match /weekData/{weekNumber} {
-        allow read: if true;
-        allow write: if request.auth != null
-          && (get(/databases/$(database)/documents/leagues/$(leagueId)).data.editorUid == request.auth.uid
-              || request.auth.uid in get(/databases/$(database)/documents/leagues/$(leagueId)).data.coEditorUids);
-      }
+        && request.resource.data.keys().hasOnly(
+             ['platform', 'platformLeagueId', 'name', 'season', 'features', 'createdAt'])
+        && request.resource.data.platform in ['sleeper', 'espn', 'yahoo']
+        && request.resource.data.name is string
+        && request.resource.data.season is int
+        && request.resource.data.features is list;
+      allow update, delete: if false;
     }
 
     // -----------------------------------------------------------------------
