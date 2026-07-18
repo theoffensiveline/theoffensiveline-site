@@ -132,6 +132,12 @@ const IdInput = styled.input`
   width: 220px;
 `;
 
+const FeatureList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 const FeatureRow = styled.label`
   display: flex;
   align-items: center;
@@ -410,17 +416,19 @@ function NewsletterHome(): React.ReactElement {
           {addError && <ErrorText>{addError}</ErrorText>}
 
           <SectionLabel>Features</SectionLabel>
-          {TOGGLEABLE_FEATURES.map(({ feature, label }) => (
-            <FeatureRow key={feature}>
-              <input
-                type="checkbox"
-                checked={(newsletter.features ?? []).includes(feature)}
-                onChange={() => toggleFeature(feature)}
-                disabled={togglingFeature !== null}
-              />
-              {label}
-            </FeatureRow>
-          ))}
+          <FeatureList>
+            {TOGGLEABLE_FEATURES.map(({ feature, label }) => (
+              <FeatureRow key={feature}>
+                <input
+                  type="checkbox"
+                  checked={(newsletter.features ?? []).includes(feature)}
+                  onChange={() => toggleFeature(feature)}
+                  disabled={togglingFeature !== null}
+                />
+                {label}
+              </FeatureRow>
+            ))}
+          </FeatureList>
           <Hint>Enabled features appear in this newsletter's navigation.</Hint>
           {featureError && <ErrorText>{featureError}</ErrorText>}
         </>
