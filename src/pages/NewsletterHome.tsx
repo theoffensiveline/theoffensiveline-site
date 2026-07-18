@@ -135,21 +135,51 @@ const IdInput = styled.input`
 const FeatureList = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  width: 100%;
+  max-width: 440px;
 `;
 
-const FeatureRow = styled.label`
+const FeatureCard = styled.label`
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: ${({ theme }: any) => theme.text};
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  background-color: ${({ theme }: any) => theme.background};
+  border: 1px solid ${({ theme }: any) => theme.neutral3}44;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 4px 0;
   cursor: pointer;
-  padding: 4px 0;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: ${({ theme }: any) => theme.neutral3};
+  }
 
   input[type="checkbox"] {
     accent-color: ${({ theme }: any) => theme.newsBlue};
+    margin-top: 3px;
+    flex-shrink: 0;
   }
+`;
+
+const FeatureText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const FeatureName = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+  color: ${({ theme }: any) => theme.text};
+`;
+
+const FeatureDescription = styled.span`
+  font-size: 12px;
+  color: ${({ theme }: any) => theme.text};
+  opacity: 0.65;
+  line-height: 1.4;
 `;
 
 const Hint = styled.p`
@@ -417,16 +447,19 @@ function NewsletterHome(): React.ReactElement {
 
           <SectionLabel>Features</SectionLabel>
           <FeatureList>
-            {TOGGLEABLE_FEATURES.map(({ feature, label }) => (
-              <FeatureRow key={feature}>
+            {TOGGLEABLE_FEATURES.map(({ feature, label, description }) => (
+              <FeatureCard key={feature}>
                 <input
                   type="checkbox"
                   checked={(newsletter.features ?? []).includes(feature)}
                   onChange={() => toggleFeature(feature)}
                   disabled={togglingFeature !== null}
                 />
-                {label}
-              </FeatureRow>
+                <FeatureText>
+                  <FeatureName>{label}</FeatureName>
+                  <FeatureDescription>{description}</FeatureDescription>
+                </FeatureText>
+              </FeatureCard>
             ))}
           </FeatureList>
           <Hint>Enabled features appear in this newsletter's navigation.</Hint>
