@@ -37,6 +37,11 @@ import NewsletterHome from "./pages/NewsletterHome";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import Snowfall from "react-snowfall";
+import { lazy, Suspense } from "react";
+
+// Lazy-loaded: the builder pulls in Tiptap (~150KB) — only editors pay for it
+const IssueBuilder = lazy(() => import("./pages/IssueBuilder"));
+const IssueReader = lazy(() => import("./pages/IssueReader"));
 
 const BackgroundWrapper = styled.div`
   background: ${({ $background }) => $background};
@@ -128,6 +133,22 @@ const AppRoutes = () => {
       <Route path="/league/:leagueId/llws" element={<LLWSTracker />} />
       <Route path="/league/:leagueId/newsletters" element={<LeagueNewsletters />} />
       <Route path="/n/:newsletterId" element={<NewsletterHome />} />
+      <Route
+        path="/n/:newsletterId/builder"
+        element={
+          <Suspense fallback={null}>
+            <IssueBuilder />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/n/:newsletterId/issue/:issueId"
+        element={
+          <Suspense fallback={null}>
+            <IssueReader />
+          </Suspense>
+        }
+      />
 
       {/* Protected routes - auth required */}
       <Route

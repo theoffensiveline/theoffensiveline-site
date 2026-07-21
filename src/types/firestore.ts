@@ -151,22 +151,47 @@ export interface NewsletterDoc {
 }
 
 /**
+ * One entry in an issue's ordered sections array (#84).
+ *
+ * Two kinds, distinguished by whether data lives in the doc:
+ *  - Computed sections store only a registry type key ("awards",
+ *    "power-rankings", …) and render live from the platform API.
+ *  - Authored sections ("editor-text") store their content inline.
+ *
+ * Unknown types must render as nothing — the registry is append-only, so
+ * old clients meeting new types (and new clients meeting retired types)
+ * degrade gracefully.
+ */
+export interface IssueSection {
+  /** Stable unique ID within the issue (crypto.randomUUID at creation). */
+  id: string;
+  /** Registry type key, or "editor-text" for authored content. */
+  type: string;
+  /** Optional heading for authored sections. */
+  title?: string;
+  /** Tiptap JSON document for authored sections. Absent on computed ones. */
+  body?: Record<string, unknown>;
+}
+
+/**
  * /newsletters/{newsletterId}/issues/{season}_w{week}
  *
- * A weekly edition of a newsletter. Doc IDs zero-pad the week ("2025_w02")
- * so lexical order matches chronological order. Placeholder shape — the
- * full builder schema lands with #84. Replaces the never-used
- * /leagues/{id}/newsletters subcollection.
+ * A weekly edition of a newsletter (#84). Doc IDs zero-pad the week
+ * ("2025_w02") so lexical order matches chronological order.
  */
 export interface IssueDoc {
   /** Whether this issue is a draft or has been published. */
   status: NewsletterStatus;
   /** Timestamp when the issue was published. Null if still draft. */
   publishedAt: Timestamp | null;
-  /** Ordered list of section identifiers included in this issue. */
-  sections: string[];
-  /** Free-form notes from the editor. */
-  editorNotes: string;
+  /** NFL season year this issue covers. */
+  season: number;
+  /** Week number within the season. */
+  week: number;
+  /** League doc ID the computed sections render from. */
+  leagueId: string;
+  /** Ordered sections; array order is render order. */
+  sections: IssueSection[];
 }
 
 /**

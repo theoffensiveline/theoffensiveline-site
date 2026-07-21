@@ -15,7 +15,12 @@ import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
-import { getNewsletter, setNewsletterFeature, updateNewsletter } from "../services/firestoreCrud";
+import {
+  getAllIssues,
+  getNewsletter,
+  setNewsletterFeature,
+  updateNewsletter,
+} from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
@@ -251,6 +256,12 @@ function NewsletterHome(): React.ReactElement {
 
   const { data: newsletter, isLoading } = useNewsletterDoc(newsletterId);
 
+  const { data: issues } = useQuery({
+    queryKey: ["issues", newsletterId],
+    queryFn: () => getAllIssues(newsletterId!),
+    enabled: !!newsletterId,
+  });
+
   // Visiting a newsletter selects it (regardless of auth), so shared public
   // links render this newsletter's nav for anonymous readers too (#108).
   useEffect(() => {
@@ -367,15 +378,44 @@ function NewsletterHome(): React.ReactElement {
   if (!newsletter) return <Container>Newsletter not found.</Container>;
 
   const seasonsDesc = [...newsletter.seasons].sort((a, b) => b.season - a.season);
+  const visibleIssues = (issues ?? [])
+    .filter((i) => i.status === "published" || isEditor)
+    .sort((a, b) => (a.id < b.id ? 1 : -1));
 
   return (
     <Container>
       <Title>{newsletter.name}</Title>
       {isEditor && <EditorBadge>🖋️ You're the editor</EditorBadge>}
+      {isEditor && (
+        <ActionButton onClick={() => navigate(`/n/${newsletterId}/builder`)}>
+          Open builder
+        </ActionButton>
+      )}
       {currentUser && !isEditor && (
         <ActionButton onClick={toggleSubscription} disabled={subscribing}>
           {subscribing ? "…" : isSubscribed ? "Unsubscribe" : "Subscribe"}
         </ActionButton>
+      )}
+
+      {visibleIssues.length > 0 && (
+        <>
+          <SectionLabel>Issues</SectionLabel>
+          <List>
+            {visibleIssues.map((issue) => (
+              <SeasonItem
+                key={issue.id}
+                onClick={() => navigate(`/n/${newsletterId}/issue/${issue.id}`)}
+                role="button"
+                style={{ cursor: "pointer" }}
+              >
+                <SeasonYear>
+                  {issue.season} · Week {issue.week}
+                </SeasonYear>
+                {issue.status !== "published" && <SeasonMeta>draft</SeasonMeta>}
+              </SeasonItem>
+            ))}
+          </List>
+        </>
       )}
 
       <SectionLabel>Seasons</SectionLabel>
