@@ -181,7 +181,7 @@ For multi-league, the auto-generated newsletter is straightforward:
 
 /newsletters/{newsletterId}/issues/{season}_w{week}  ← weekly editions (zero-padded week)
   - status: draft | published
-  - publishedAt, sections[], editorNotes
+  - publishedAt, season, week, leagueId, sections[] (computed type keys + inline editor-text)
 
 /newsletters/{newsletterId}/issues/{issueId}/submissions/{submissionId}
   - authorUid, type (meme | text | quote), content, imageUrl, status (pending | approved | rejected), createdAt

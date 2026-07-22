@@ -34,14 +34,17 @@ Document ID format: plain numeric for Sleeper (e.g. `"123456"`), `"espn_XXXXX"` 
 | `privacy` | `'public'` \| `'private'` | Defaults to `'public'` |
 | `createdAt` | Timestamp | Document creation time |
 
-### `/leagues/{leagueId}/newsletters/{weekNumber}`
+### `/newsletters/{newsletterId}/issues/{season}_w{week}`
+
+Replaces the retired `/leagues/{id}/newsletters` subcollection (#103/#84).
 
 | Field | Type | Description |
 |---|---|---|
 | `status` | `'draft'` \| `'published'` | Publication status |
 | `publishedAt` | Timestamp \| null | When published |
-| `sections` | string[] | Ordered section identifiers |
-| `editorNotes` | string | Free-form editor notes |
+| `season` / `week` | number | Which league-season week this issue covers |
+| `leagueId` | string | League the computed sections render from |
+| `sections` | IssueSection[] | Ordered; computed type keys or inline editor-text (Tiptap JSON) |
 
 ### `/leagues/{leagueId}/weekData/{weekNumber}`
 

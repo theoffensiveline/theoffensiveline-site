@@ -35,6 +35,7 @@ import type {
   NewsletterDoc,
   NewsletterSeason,
   IssueDoc,
+  IssueSection,
 } from "../types/firestore";
 import { getSeedFeatures } from "../components/constants/LeagueConstants";
 
@@ -295,6 +296,40 @@ export async function setIssue(
   data: IssueDoc
 ): Promise<void> {
   await setDoc(doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week)), data);
+}
+
+/**
+ * Autosave an issue draft's sections WITHOUT touching status/publishedAt —
+ * a merge write, so a stale tab's autosave can never revert another tab's
+ * publish (#84 review). status/publishedAt are written only when the doc is
+ * being created (createIfMissing) or via the explicit publish/unpublish
+ * paths (setIssue).
+ * @param newsletterId - Parent newsletter document ID
+ * @param season - NFL season year
+ * @param week - Week number
+ * @param leagueId - League the issue's computed sections render from
+ * @param sections - Current ordered sections
+ * @param createIfMissing - Include draft status fields (first save of a new doc)
+ */
+export async function saveIssueSections(
+  newsletterId: string,
+  season: number,
+  week: number,
+  leagueId: string,
+  sections: IssueSection[],
+  createIfMissing: boolean
+): Promise<void> {
+  await setDoc(
+    doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week)),
+    {
+      season,
+      week,
+      leagueId,
+      sections,
+      ...(createIfMissing ? { status: "draft", publishedAt: null } : {}),
+    },
+    { merge: true }
+  );
 }
 
 /**

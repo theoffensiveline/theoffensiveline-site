@@ -136,7 +136,7 @@ const AppRoutes = () => {
       <Route
         path="/n/:newsletterId/builder"
         element={
-          <Suspense fallback={null}>
+          <Suspense fallback={<div style={{ textAlign: "center", padding: 40 }}>Loading…</div>}>
             <IssueBuilder />
           </Suspense>
         }
@@ -144,7 +144,7 @@ const AppRoutes = () => {
       <Route
         path="/n/:newsletterId/issue/:issueId"
         element={
-          <Suspense fallback={null}>
+          <Suspense fallback={<div style={{ textAlign: "center", padding: 40 }}>Loading…</div>}>
             <IssueReader />
           </Suspense>
         }
