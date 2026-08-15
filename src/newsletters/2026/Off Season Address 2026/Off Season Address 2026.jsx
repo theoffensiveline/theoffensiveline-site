@@ -53,19 +53,21 @@ const OffSeasonAddressArticle = () => {
         We will also see a change to MOTW for this season. Instead of the hotdog/shot bet, the
         standard MOTW bet will be $15 between the two managers in MOTW. If the two managers in MOTW
         want to make another bet to replace the $15 bet, they are able to do that. MOTW timeline for
-        completion remains the same, and there will be less forgiveness now that this is self imposed.
+        completion remains the same, and there will be less forgiveness now that this is self
+        imposed.
       </p>
       <ArticleSubheader>League Member Updates</ArticleSubheader>
       <p>
-        Attached you will find life updates from each league member. I hope that you appreciate these
-        and learn something new about where our league members are in their lives - time is flying
-        and we are scattered around. These are <em>a little</em> outdated now so anyone who would
-        like to provide futher updates in the groupchat can do so.
+        Attached you will find life updates from each league member. I hope that you appreciate
+        these and learn something new about where our league members are in their lives - time is
+        flying and we are scattered around. These are <em>a little</em> outdated now so anyone who
+        would like to provide futher updates in the groupchat can do so.
       </p>
-      <a href="./League%20Member%20Updates%202026" style={{ textDecoration: "none", display: "block", margin: "16px 0" }}>
-        <StyledButton style={{ width: "100%" }}>
-          Read League Member Updates 2026
-        </StyledButton>
+      <a
+        href="./League%20Member%20Updates%202026"
+        style={{ textDecoration: "none", display: "block", margin: "16px 0" }}
+      >
+        <StyledButton style={{ width: "100%" }}>Read League Member Updates 2026</StyledButton>
       </a>
       <p>
         I cannot wait for this next season to be upon us! Miss you all, and hope everything is going

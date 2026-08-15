@@ -17,7 +17,7 @@ function formatDate(inputDate) {
 
 export const TeamContext = React.createContext({
   selectedTeam: null,
-  setSelectedTeam: () => { },
+  setSelectedTeam: () => {},
 });
 
 function Newsletter() {
