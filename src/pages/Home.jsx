@@ -145,10 +145,11 @@ function Home() {
     return issueName;
   };
 
-  // Newsletter content for league ID '1253779168802377728'
+  // Newsletter content for league ID '1382521746292219904'
   const newsletterContent = {
-    mostRecentIssue: ["Hot Dog Tracker", "2025 Season Recap"],
+    mostRecentIssue: ["Hot Dog Tracker", "Off Season Address 2026", "League Member Updates 2026"],
     newsletterIssues: [
+      "2025 Season Recap",
       "2025 Week 17",
       "2025 Week 16",
       "2025 Week 15",

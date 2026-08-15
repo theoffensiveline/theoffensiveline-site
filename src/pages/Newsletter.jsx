@@ -36,6 +36,9 @@ function Newsletter() {
       if (issue.includes("WP Week")) {
         // Walter Picks newsletters
         folderPath = `WalterPicks/${issue}`;
+      } else if (issue.includes("2026")) {
+        // 2026 newsletters
+        folderPath = `2026/${issue}`;
       } else if (issue.includes("2025")) {
         // 2025 newsletters
         folderPath = `2025/${issue}`;

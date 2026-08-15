@@ -457,7 +457,7 @@ const LeagueBuzzArticle = () => {
         evidence supporting the case that the toilet bowl punishment was supposed to always be a
         song. If anyone has any evidence in favor of that argument, please send it to The Offensive
         Line immediately. The{" "}
-        <a href="../1253779168802377728/2024%20Week%2016">2024 Week 16 newsletter</a> has coverage
+        <a href="../1382521746292219904/2024%20Week%2016">2024 Week 16 newsletter</a> has coverage
         of the discussion that was had, but no mention of this punishment persisting year to year.
       </p>
       <ArticleSubheader>League Submissions</ArticleSubheader>

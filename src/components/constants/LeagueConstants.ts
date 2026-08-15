@@ -1,7 +1,7 @@
 import type { LeagueFeature } from "../../types/firestore";
 
 export const leagueIds = {
-  mainLeague: "1253779168802377728",
+  mainLeague: "1382521746292219904",
   walterPicks: "1223730601350135814",
 } as const;
 
