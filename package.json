@@ -82,5 +82,10 @@
     "html-loader": "^4.2.0",
     "prettier": "^3.8.1"
   },
-  "packageManager": "pnpm@10.30.0"
+  "packageManager": "pnpm@10.30.0",
+  "pnpm": {
+    "overrides": {
+      "semver": "7.7.4"
+    }
+  }
 }
