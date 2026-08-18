@@ -147,8 +147,10 @@ function Home() {
 
   // Newsletter content for league ID '1382521746292219904'
   const newsletterContent = {
-    mostRecentIssue: ["Hot Dog Tracker", "Off Season Address 2026", "League Member Updates 2026"],
+    mostRecentIssue: ["Hot Dog Tracker", "2026 Breaking News"],
     newsletterIssues: [
+      "2026 Off Season Address",
+      "2026 League Member Updates",
       "2025 Season Recap",
       "2025 Week 17",
       "2025 Week 16",
