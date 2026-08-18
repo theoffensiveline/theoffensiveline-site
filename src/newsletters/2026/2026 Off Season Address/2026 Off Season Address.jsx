@@ -64,10 +64,10 @@ const OffSeasonAddressArticle = () => {
         would like to provide futher updates in the groupchat can do so.
       </p>
       <a
-        href="./League%20Member%20Updates%202026"
+        href="./2026%20League%20Member%20Updates"
         style={{ textDecoration: "none", display: "block", margin: "16px 0" }}
       >
-        <StyledButton style={{ width: "100%" }}>Read League Member Updates 2026</StyledButton>
+        <StyledButton style={{ width: "100%" }}>Read 2026 League Member Updates</StyledButton>
       </a>
       <p>
         I cannot wait for this next season to be upon us! Miss you all, and hope everything is going

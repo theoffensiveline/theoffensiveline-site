@@ -317,7 +317,7 @@ const newsletterData = {
     { id: 13, content: GregArticle },
   ],
   meta: {
-    title: "League Member Updates 2026",
+    title: "2026 League Member Updates",
     description: "Life updates from each league member ahead of the 2026 season.",
   },
 };
