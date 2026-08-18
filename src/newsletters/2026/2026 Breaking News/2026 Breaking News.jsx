@@ -1,6 +1,4 @@
-import {
-  ArticleHeader,
-} from "../../../components/newsletters/newsStyles";
+import { ArticleHeader } from "../../../components/newsletters/newsStyles";
 
 const BreakingNewsArticle = () => {
   return (
@@ -29,8 +27,8 @@ const BreakingNewsArticle = () => {
       <p>As one chapter closes, another begins.</p>
       <p>
         We now turn the ship around, put the wind at our backs, and begin the search for the next
-        great Title IX franchise owner. At this time, the two leading candidates to replace Bye
-        Week Curious are:
+        great Title IX franchise owner. At this time, the two leading candidates to replace Bye Week
+        Curious are:
       </p>
       <ul>
         <li>Matthew Huffman</li>
