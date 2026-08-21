@@ -147,8 +147,9 @@ function Home() {
 
   // Newsletter content for league ID '1382521746292219904'
   const newsletterContent = {
-    mostRecentIssue: ["Hot Dog Tracker", "2026 Breaking News"],
+    mostRecentIssue: ["Hot Dog Tracker", "LLWS Draft Tracker"],
     newsletterIssues: [
+      "2026 Breaking News",
       "2026 Off Season Address",
       "2026 League Member Updates",
       "2025 Season Recap",
@@ -228,6 +229,8 @@ function Home() {
       navigate(`/league/${leagueId}/${destination.toLowerCase().replace(" ", "-")}`);
     } else if (destination === "Hot Dog Tracker") {
       navigate(`/league/${leagueId}/hot-dogs`);
+    } else if (destination === "LLWS Draft Tracker") {
+      navigate(`/league/${leagueId}/llws`);
     } else {
       navigate(`/newsletter/${leagueId}/${encodeURIComponent(destination)}`);
     }
