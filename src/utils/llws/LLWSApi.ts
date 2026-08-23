@@ -11,6 +11,10 @@ export interface LLWSGame {
   id: string;
   date: string;
   status: string;
+  /** ESPN status detail, e.g. "Bottom 4th" for in-progress games or "Final" for completed. */
+  detail: string;
+  /** ESPN state: "pre" (scheduled), "in" (in progress), or "post" (completed). */
+  state: "pre" | "in" | "post";
   completed: boolean;
   round: string;
   homeTeam: LLWSTeam;
@@ -34,6 +38,7 @@ interface ESPNScoreboardEvent {
       state: string;
       completed: boolean;
       description: string;
+      detail: string;
     };
   };
   notes: { headline: string }[];
@@ -83,6 +88,8 @@ export async function fetchLLWSScoreboard(year: number = 2026): Promise<LLWSGame
       id: event.id,
       date: event.date,
       status: event.status.type.description,
+      detail: event.status.type.detail ?? event.status.type.description,
+      state: (event.status.type.state as "pre" | "in" | "post") ?? "pre",
       completed: event.status.type.completed,
       round: event.notes?.[0]?.headline ?? "Little League World Series",
       homeTeam: {
