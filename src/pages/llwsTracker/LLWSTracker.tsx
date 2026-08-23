@@ -121,7 +121,12 @@ interface TeamRecord {
 function computeTeamRecords(games: LLWSGame[]): Map<string, TeamRecord> {
   const records = new Map<string, TeamRecord>();
 
-  for (const game of games) {
+  // Process games in chronological order so elimination timing is correct.
+  const sortedGames = [...games].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
+  for (const game of sortedGames) {
     if (game.homeTeam.name === "TBD" || game.awayTeam.name === "TBD") continue;
     if (!game.completed) continue;
 
@@ -156,6 +161,15 @@ function computeTeamRecords(games: LLWSGame[]): Map<string, TeamRecord> {
         score: `${teamScore}-${oppScore}`,
         date: game.date,
       });
+
+      // LLWS is a double-elimination tournament: a team is eliminated the
+      // moment it records its 2nd loss. Capture the date of that loss so we
+      // can sort eliminated teams by elimination order.
+      if (rec.losses >= 2 && !rec.eliminated) {
+        rec.eliminated = true;
+        rec.stillAlive = false;
+        rec.eliminationDate = game.date;
+      }
     }
   }
 
@@ -289,9 +303,18 @@ const LLWSTracker: React.FC = () => {
       const bLosses = b.record?.losses ?? 0;
       const aWins = a.record?.wins ?? 0;
       const bWins = b.record?.wins ?? 0;
+      const aElimDate = a.record?.eliminationDate
+        ? new Date(a.record.eliminationDate).getTime()
+        : Infinity;
+      const bElimDate = b.record?.eliminationDate
+        ? new Date(b.record.eliminationDate).getTime()
+        : Infinity;
 
       // Eliminated teams sort to the bottom (they get later picks)
       if (aElim !== bElim) return aElim ? 1 : -1;
+      // Among eliminated teams, the FIRST eliminated gets the LAST pick
+      // (sorts to the bottom). Earlier eliminationDate = later pick = lower.
+      if (aElim && bElim) return bElimDate - aElimDate;
       // Fewer losses = better = higher pick
       if (aLosses !== bLosses) return aLosses - bLosses;
       // More wins = better = higher pick
