@@ -75,6 +75,41 @@ const TeamLogo = styled.img`
   margin-right: 4px;
 `;
 
+// ESPN-style baseball scoreboard: team name on the left, score right-aligned.
+const Scoreboard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 160px;
+`;
+
+const ScoreboardRow = styled.div<{ $dim?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  opacity: ${({ $dim }) => ($dim ? 0.5 : 1)};
+`;
+
+const ScoreboardTeam = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+`;
+
+const ScoreboardLogo = styled.img`
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+`;
+
+const ScoreboardScore = styled.span<{ $winning?: boolean }>`
+  font-weight: ${({ $winning }) => ($winning ? 700 : 400)};
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+`;
+
 const LastUpdated = styled.div`
   text-align: center;
   font-size: 11px;
@@ -223,16 +258,67 @@ function findTeamRecord(
 }
 
 function findNextGameForTeam(teamName: string, games: LLWSGame[]): LLWSGame | null {
+  // In-progress games take priority — we want to surface the live score.
+  const inProgress = games
+    .filter(
+      (g) =>
+        g.state === "in" &&
+        g.homeTeam.name !== "TBD" &&
+        g.awayTeam.name !== "TBD" &&
+        (g.homeTeam.name === teamName || g.awayTeam.name === teamName)
+    )
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  if (inProgress.length > 0) return inProgress[0];
+
   const upcoming = games
     .filter(
       (g) =>
         !g.completed &&
+        g.state !== "in" &&
         g.homeTeam.name !== "TBD" &&
         g.awayTeam.name !== "TBD" &&
         (g.homeTeam.name === teamName || g.awayTeam.name === teamName)
     )
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   return upcoming.length > 0 ? upcoming[0] : null;
+}
+
+// ESPN-style baseball scoreboard: away team on top, home team below,
+// each with logo + name on the left and score right-aligned. Winning
+// score is bolded for completed/in-progress games. When teamToMember is
+// provided, the picker's name is shown in parentheses after the team name.
+function renderScoreboard(
+  game: LLWSGame,
+  pickedTeamNames?: Set<string>,
+  teamToMember?: Map<string, string>
+): React.ReactNode {
+  const awayPicked = pickedTeamNames?.has(game.awayTeam.name);
+  const homePicked = pickedTeamNames?.has(game.homeTeam.name);
+  const showWinner = game.completed || game.state === "in";
+  const awayWinning = showWinner && game.awayScore > game.homeScore;
+  const homeWinning = showWinner && game.homeScore > game.awayScore;
+  const awayMember = teamToMember?.get(game.awayTeam.name);
+  const homeMember = teamToMember?.get(game.homeTeam.name);
+  return (
+    <Scoreboard>
+      <ScoreboardRow $dim={pickedTeamNames && !awayPicked}>
+        <ScoreboardTeam>
+          {game.awayTeam.logo && <ScoreboardLogo src={game.awayTeam.logo} alt="" />}
+          {game.awayTeam.name}
+          {awayMember && <span style={{ opacity: 0.6 }}> ({awayMember})</span>}
+        </ScoreboardTeam>
+        <ScoreboardScore $winning={awayWinning}>{game.awayScore}</ScoreboardScore>
+      </ScoreboardRow>
+      <ScoreboardRow $dim={pickedTeamNames && !homePicked}>
+        <ScoreboardTeam>
+          {game.homeTeam.logo && <ScoreboardLogo src={game.homeTeam.logo} alt="" />}
+          {game.homeTeam.name}
+          {homeMember && <span style={{ opacity: 0.6 }}> ({homeMember})</span>}
+        </ScoreboardTeam>
+        <ScoreboardScore $winning={homeWinning}>{game.homeScore}</ScoreboardScore>
+      </ScoreboardRow>
+    </Scoreboard>
+  );
 }
 
 const LLWSTracker: React.FC = () => {
@@ -333,8 +419,49 @@ const LLWSTracker: React.FC = () => {
     [games]
   );
 
+  const pickedTeamNames = useMemo(() => {
+    const names = new Set<string>();
+    for (const pick of pickData) {
+      if (pick.espnTeamName) names.add(pick.espnTeamName);
+    }
+    return names;
+  }, [pickData]);
+
+  // Map of ESPN team name → member who picked them (for the Live section).
+  const teamToMember = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const pick of pickData) {
+      if (pick.espnTeamName) map.set(pick.espnTeamName, pick.member);
+    }
+    return map;
+  }, [pickData]);
+
+  const inProgressGames = useMemo(
+    () => games.filter((g) => g.state === "in" && g.homeTeam.name !== "TBD"),
+    [games]
+  );
+
+  // In-progress games involving one of our picked teams — surfaced at the
+  // top of the page so members can follow their team's live score.
+  const pickedInProgressGames = useMemo(
+    () =>
+      inProgressGames.filter(
+        (g) => pickedTeamNames.has(g.homeTeam.name) || pickedTeamNames.has(g.awayTeam.name)
+      ),
+    [inProgressGames, pickedTeamNames]
+  );
+
+  // In-progress games not involving any of our picked teams.
+  const otherInProgressGames = useMemo(
+    () =>
+      inProgressGames.filter(
+        (g) => !pickedTeamNames.has(g.homeTeam.name) && !pickedTeamNames.has(g.awayTeam.name)
+      ),
+    [inProgressGames, pickedTeamNames]
+  );
+
   const upcomingGames = useMemo(
-    () => games.filter((g) => !g.completed && g.homeTeam.name !== "TBD"),
+    () => games.filter((g) => !g.completed && g.state !== "in" && g.homeTeam.name !== "TBD"),
     [games]
   );
 
@@ -371,6 +498,43 @@ const LLWSTracker: React.FC = () => {
         <strong>last</strong> draft pick draft pick. The winning LLWS team owner gets the{" "}
         <strong>first</strong> draft pick draft pick. Order is determined by elimination order.
       </RulesBox>
+
+      {pickedInProgressGames.length > 0 && (
+        <>
+          <SectionHeader>In Progress Games</SectionHeader>
+          <StyledTable>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Matchup</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pickedInProgressGames
+                .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                .map((game) => (
+                  <tr key={game.id}>
+                    <td className="center-column">
+                      <AliveTag>LIVE</AliveTag>
+                      <br />
+                      <span style={{ fontSize: 11, opacity: 0.7 }}>{game.detail}</span>
+                    </td>
+                    <td>
+                      <a
+                        href={`https://www.espn.com/little-league-world-series/scoreboard/_/date/${game.date.slice(0, 10).replace(/-/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {renderScoreboard(game, undefined, teamToMember)}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </StyledTable>
+        </>
+      )}
 
       <SectionHeader>Draft Order (Projected)</SectionHeader>
       <StyledTable>
@@ -451,19 +615,29 @@ const LLWSTracker: React.FC = () => {
                   <td className="center-column">{rec ? `${rec.wins}-${rec.losses}` : "—"}</td>
                   <td className="center-column" style={{ fontSize: 11 }}>
                     {ng ? (
-                      <>
-                        {new Date(ng.date).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                        })}
-                        <br />
-                        {new Date(ng.date).toLocaleTimeString("en-US", {
-                          hour: "numeric",
-                          minute: "2-digit",
-                        })}
-                        <br />
-                        vs {nextOpp}
-                      </>
+                      ng.state === "in" ? (
+                        <>
+                          <AliveTag style={{ fontSize: 11 }}>LIVE · {ng.detail}</AliveTag>
+                          <br />
+                          {ng.awayTeam.name} {ng.awayScore}
+                          <br />
+                          {ng.homeTeam.name} {ng.homeScore}
+                        </>
+                      ) : (
+                        <>
+                          {new Date(ng.date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                          <br />
+                          {new Date(ng.date).toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "2-digit",
+                          })}
+                          <br />
+                          vs {nextOpp}
+                        </>
+                      )
                     ) : rec?.eliminated ? (
                       <TBDTag>—</TBDTag>
                     ) : (
@@ -487,44 +661,35 @@ const LLWSTracker: React.FC = () => {
         </tbody>
       </StyledTable>
 
-      {completedGames.length > 0 && (
+      {otherInProgressGames.length > 0 && (
         <>
-          <SectionHeader>Completed Games</SectionHeader>
+          <SectionHeader>In Progress Games</SectionHeader>
           <StyledTable>
             <thead>
               <tr>
-                <th>Date</th>
+                <th>Status</th>
                 <th>Matchup</th>
-                <th>Score</th>
               </tr>
             </thead>
             <tbody>
-              {completedGames
-                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              {otherInProgressGames
+                .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
                 .map((game) => (
                   <tr key={game.id}>
                     <td className="center-column">
-                      {new Date(game.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
+                      <AliveTag>LIVE</AliveTag>
                       <br />
-                      {new Date(game.date).toLocaleTimeString("en-US", {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
+                      <span style={{ fontSize: 11, opacity: 0.7 }}>{game.detail}</span>
                     </td>
                     <td>
                       <a
                         href={`https://www.espn.com/little-league-world-series/scoreboard/_/date/${game.date.slice(0, 10).replace(/-/g, "")}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
                       >
-                        {game.awayTeam.name} @ {game.homeTeam.name}
+                        {renderScoreboard(game)}
                       </a>
-                    </td>
-                    <td className="center-column">
-                      {game.awayScore}-{game.homeScore}
                     </td>
                   </tr>
                 ))}
@@ -561,6 +726,49 @@ const LLWSTracker: React.FC = () => {
                     </td>
                     <td>
                       {game.awayTeam.name} @ {game.homeTeam.name}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </StyledTable>
+        </>
+      )}
+
+      {completedGames.length > 0 && (
+        <>
+          <SectionHeader>Completed Games</SectionHeader>
+          <StyledTable>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Matchup</th>
+              </tr>
+            </thead>
+            <tbody>
+              {completedGames
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .map((game) => (
+                  <tr key={game.id}>
+                    <td className="center-column">
+                      {new Date(game.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                      <br />
+                      {new Date(game.date).toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                    <td>
+                      <a
+                        href={`https://www.espn.com/little-league-world-series/scoreboard/_/date/${game.date.slice(0, 10).replace(/-/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {renderScoreboard(game)}
+                      </a>
                     </td>
                   </tr>
                 ))}
