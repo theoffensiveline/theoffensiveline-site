@@ -17,7 +17,7 @@ export const llwsPicks: LLWSPick[] = [
   { member: "Anthony", team: "Northwest" },
   { member: "Josh K", team: "Metro" },
   { member: "Jake", team: "New England" },
-  { member: "TBD", team: null, note: "Open spot — Devan retired" },
+  { member: "Will", team: null, note: "Re-admitted to league" },
 ];
 
 export const llwsYear = 2026;
