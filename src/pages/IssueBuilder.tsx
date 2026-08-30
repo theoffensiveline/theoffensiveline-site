@@ -9,7 +9,7 @@
  * Co-editing is last-write-wins (Firestore default) — acceptable per #84.
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Timestamp } from "firebase/firestore";
@@ -192,6 +192,7 @@ function newTextSection(): IssueSection {
 
 function IssueBuilder(): React.ReactElement {
   const { newsletterId } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
@@ -216,13 +217,19 @@ function IssueBuilder(): React.ReactElement {
     enabled: !!newsletterId,
   });
 
-  // Default week: latest completed week without a published issue. If the
+  // Default week: an explicit ?week= (reader's "Editor mode" hand-off) wins;
+  // otherwise the latest completed week without a published issue. If the
   // issues list fails to load, fall back to the latest week rather than
   // stranding the builder on skeletons forever.
+  const requestedWeek = searchParams.has("week") ? Number(searchParams.get("week")) : null;
   const [week, setWeek] = useState<number | null>(null);
   useEffect(() => {
     if (week !== null || weeksLoading || season === undefined) return;
     if (completedWeeksDesc.length === 0) return;
+    if (requestedWeek !== null && completedWeeksDesc.includes(requestedWeek)) {
+      setWeek(requestedWeek);
+      return;
+    }
     if (!allIssues && !issuesError) return;
     const published = new Set(
       (allIssues ?? []).filter((i) => i.status === "published").map((i) => i.id)
@@ -231,7 +238,7 @@ function IssueBuilder(): React.ReactElement {
       completedWeeksDesc.find((w) => !published.has(issueDocId(season, w))) ??
       completedWeeksDesc[0];
     setWeek(candidate);
-  }, [week, weeksLoading, completedWeeksDesc, allIssues, issuesError, season]);
+  }, [week, weeksLoading, completedWeeksDesc, allIssues, issuesError, season, requestedWeek]);
 
   // Load (or prefill) the selected week's issue
   const docId = season !== undefined && week !== null ? issueDocId(season, week) : null;

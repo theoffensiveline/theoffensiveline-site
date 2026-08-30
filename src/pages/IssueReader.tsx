@@ -82,6 +82,13 @@ function IssueReader(): React.ReactElement {
     return <Centered>This issue hasn't been published yet — check back soon.</Centered>;
   }
 
+  // The builder edits only the active season, so older seasons' issues
+  // can't offer an editor-mode hand-off.
+  const activeSeason = newsletter.seasons.find(
+    (s) => s.leagueId === newsletter.activeLeagueId
+  )?.season;
+  const canOpenInBuilder = isEditor && issue.season === activeSeason;
+
   return (
     <Page>
       <NewsletterContainer>
@@ -90,9 +97,9 @@ function IssueReader(): React.ReactElement {
           {issue.season} · Week {issue.week}
           {issue.status !== "published" ? " · DRAFT" : ""}
         </ArticleSubheader>
-        {isEditor && (
-          <EditLink onClick={() => navigate(`/n/${newsletterId}/builder`)}>
-            Open in builder
+        {canOpenInBuilder && (
+          <EditLink onClick={() => navigate(`/n/${newsletterId}/builder?week=${issue.week}`)}>
+            Editor mode
           </EditLink>
         )}
 
