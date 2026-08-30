@@ -34,6 +34,7 @@ import HotDogs from "./pages/hotDogTracker/HotDogTracker";
 import LLWSTracker from "./pages/llwsTracker/LLWSTracker";
 import LeagueNewsletters from "./pages/LeagueNewsletters";
 import NewsletterHome from "./pages/NewsletterHome";
+import NewsletterSettings from "./pages/NewsletterSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import Snowfall from "react-snowfall";
@@ -133,6 +134,7 @@ const AppRoutes = () => {
       <Route path="/league/:leagueId/llws" element={<LLWSTracker />} />
       <Route path="/league/:leagueId/newsletters" element={<LeagueNewsletters />} />
       <Route path="/n/:newsletterId" element={<NewsletterHome />} />
+      <Route path="/n/:newsletterId/settings" element={<NewsletterSettings />} />
       <Route
         path="/n/:newsletterId/builder"
         element={
