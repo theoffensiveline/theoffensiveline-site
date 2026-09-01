@@ -128,6 +128,11 @@ const ButtonRow = styled.div`
   flex-wrap: wrap;
 `;
 
+/** Issues nested under their season row, indented to read as children. */
+const IssueList = styled.div`
+  margin-left: 28px;
+`;
+
 function NewsletterHome(): React.ReactElement {
   const { newsletterId } = useParams();
   const navigate = useNavigate();
@@ -178,6 +183,10 @@ function NewsletterHome(): React.ReactElement {
   const visibleIssues = (issues ?? [])
     .filter((i) => i.status === "published" || isEditor)
     .sort((a, b) => (a.id < b.id ? 1 : -1));
+  const issuesBySeason = new Map<number, typeof visibleIssues>();
+  for (const issue of visibleIssues) {
+    issuesBySeason.set(issue.season, [...(issuesBySeason.get(issue.season) ?? []), issue]);
+  }
 
   return (
     <Container>
@@ -199,60 +208,53 @@ function NewsletterHome(): React.ReactElement {
         </ActionButton>
       )}
 
-      {visibleIssues.length > 0 && (
-        <>
-          <SectionLabel>Issues</SectionLabel>
-          <List>
-            {visibleIssues.map((issue) => (
-              <SeasonItem
-                key={issue.id}
-                onClick={() => navigate(`/n/${newsletterId}/issue/${issue.id}`)}
-                role="button"
-                style={{ cursor: "pointer" }}
-              >
-                <SeasonYear>
-                  {issue.season} · Week {issue.week}
-                </SeasonYear>
-                {issue.status !== "published" && <SeasonMeta>draft</SeasonMeta>}
-              </SeasonItem>
-            ))}
-          </List>
-        </>
-      )}
-
       <SectionLabel>Seasons</SectionLabel>
       <List>
         {seasonsDesc.map((s) => (
-          <SeasonItem
-            key={s.season}
-            onClick={() => navigate(`/home/${s.leagueId}`)}
-            role="button"
-            style={{ cursor: "pointer" }}
-          >
-            <SeasonYear>
-              {s.season}
-              {s.leagueId === newsletter.activeLeagueId ? " · current" : ""}
-            </SeasonYear>
-            <span>
-              <SeasonMeta
-                title={
-                  s.verified
-                    ? "The editor's league membership was confirmed for this season"
-                    : "Added without a membership check — display-only"
-                }
-              >
-                {s.verified ? "verified" : "unverified"}
-              </SeasonMeta>
-              <SeasonLink
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/league/${s.leagueId}/league-overview`);
-                }}
-              >
-                overview
-              </SeasonLink>
-            </span>
-          </SeasonItem>
+          <React.Fragment key={s.season}>
+            <SeasonItem
+              onClick={() => navigate(`/home/${s.leagueId}`)}
+              role="button"
+              style={{ cursor: "pointer" }}
+            >
+              <SeasonYear>
+                {s.season}
+                {s.leagueId === newsletter.activeLeagueId ? " · current" : ""}
+              </SeasonYear>
+              <span>
+                <SeasonMeta
+                  title={
+                    s.verified
+                      ? "The editor's league membership was confirmed for this season"
+                      : "Added without a membership check — display-only"
+                  }
+                >
+                  {s.verified ? "verified" : "unverified"}
+                </SeasonMeta>
+                <SeasonLink
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/league/${s.leagueId}/league-overview`);
+                  }}
+                >
+                  overview
+                </SeasonLink>
+              </span>
+            </SeasonItem>
+            <IssueList>
+              {(issuesBySeason.get(s.season) ?? []).map((issue) => (
+                <SeasonItem
+                  key={issue.id}
+                  onClick={() => navigate(`/n/${newsletterId}/issue/${issue.id}`)}
+                  role="button"
+                  style={{ cursor: "pointer" }}
+                >
+                  <SeasonYear>Week {issue.week}</SeasonYear>
+                  {issue.status !== "published" && <SeasonMeta>draft</SeasonMeta>}
+                </SeasonItem>
+              ))}
+            </IssueList>
+          </React.Fragment>
         ))}
       </List>
     </Container>
