@@ -321,7 +321,10 @@ function Home() {
         {(leagueIssues.length > 0 || canOpenBuilder) && (
           <>
             {canOpenBuilder && (
-              <GridItem onClick={() => navigate(`/n/${selectedNewsletterId}/builder`)}>
+              <GridItem
+                onClick={() => navigate(`/n/${selectedNewsletterId}/builder`)}
+                style={{ gridColumn: "span 2", justifySelf: "center", minWidth: "40%" }}
+              >
                 {`✍️ Open builder\n${selectedNewsletter.name}`}
               </GridItem>
             )}
