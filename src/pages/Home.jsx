@@ -132,16 +132,19 @@ function Home() {
     };
   }, []);
   const { data: selectedNewsletterDoc } = useNewsletterDoc(selectedNewsletterId ?? undefined);
-  // Fall back to the league's first newsletter when nothing relevant is
+  // Fall back to one of the league's newsletters when nothing relevant is
   // selected, so a cold visitor to a shared league-home link still sees
-  // issues instead of an empty page (#84 swarm review).
+  // issues instead of an empty page (#84 swarm review). Prefer a newsletter
+  // whose ACTIVE season is this league — it's the one being written here.
   const selectedCovers = !!selectedNewsletterDoc?.leagueIds?.includes(leagueId);
+  const fallbackNewsletter =
+    (leagueNewsletters ?? []).find((nl) => nl.activeLeagueId === leagueId) ??
+    leagueNewsletters?.[0] ??
+    null;
   const displayNewsletterId = selectedCovers
     ? selectedNewsletterId
-    : (leagueNewsletters?.[0]?.id ?? null);
-  const displayNewsletter = selectedCovers
-    ? selectedNewsletterDoc
-    : (leagueNewsletters?.[0] ?? null);
+    : (fallbackNewsletter?.id ?? null);
+  const displayNewsletter = selectedCovers ? selectedNewsletterDoc : fallbackNewsletter;
   const { data: newsletterIssues } = useQuery({
     queryKey: ["issues", displayNewsletterId, leagueId],
     queryFn: () => getIssuesForLeague(displayNewsletterId, leagueId),
