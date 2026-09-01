@@ -4,6 +4,7 @@ import { ThemeProvider as CustomThemeProvider, useTheme } from "./ThemeContext";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { ColorConstants } from "./components/constants/ColorConstants";
 import NavBar from "./components/NavBar";
+import LeagueBackBar from "./components/LeagueBackBar";
 import SleeperLogin from "./pages/SleeperLogin";
 import EspnLogin from "./pages/EspnLogin";
 import YahooLogin from "./pages/YahooLogin";
@@ -90,6 +91,7 @@ const ThemeWithStyledThemeProvider = () => {
           )}
           <NavBar />
           <Box sx={{ paddingTop: "64px" }}>
+            <LeagueBackBar />
             <AppRoutes />
           </Box>
         </BrowserRouter>

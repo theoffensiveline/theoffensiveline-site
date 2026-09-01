@@ -66,10 +66,11 @@ const LeagueName = styled.span`
   text-align: left;
 `;
 
-const YearHeader = styled.h3`
-  margin-top: 20px;
-  margin-bottom: 5px;
+const YearTag = styled.span`
+  font-size: 12px;
   color: ${({ theme }) => theme.text};
+  opacity: 0.6;
+  margin-left: 10px;
 `;
 
 function SleeperLogin() {
@@ -233,6 +234,18 @@ function SleeperLogin() {
 
   const totalLeagues = leaguesByYear.reduce((sum, g) => sum + g.leagues.length, 0);
 
+  // One row per league: Sleeper mints a new league ID every season, chained
+  // via previous_league_id. Hide any season that a newer fetched season
+  // points back to — the newsletter flow handles year selection now
+  // (league → newsletter → season → issue).
+  const allLeagues = leaguesByYear.flatMap(({ year, leagues }) =>
+    leagues.map((l) => ({ ...l, latestYear: year }))
+  );
+  const ancestorIds = new Set(
+    allLeagues.map((l) => l.previous_league_id).filter((id) => id && id !== "0")
+  );
+  const dedupedLeagues = allLeagues.filter((l) => !ancestorIds.has(l.league_id));
+
   return (
     <Container>
       <h1>Enter Sleeper Username</h1>
@@ -267,26 +280,20 @@ function SleeperLogin() {
       {totalLeagues > 0 && (
         <div>
           <h2>Select a League</h2>
-          {leaguesByYear.map(({ year, leagues }) => (
-            <div key={year}>
-              <YearHeader>{year} Leagues</YearHeader>
-              {leagues.map((league) => (
-                <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
-                  <LeaguePhoto
-                    src={
-                      league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : undefined
-                    }
-                    alt={league.name}
-                    size={50}
-                  />
-                  <LeagueName>{league.name}</LeagueName>
-                </LeagueItem>
-              ))}
-            </div>
+          {dedupedLeagues.map((league) => (
+            <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
+              <LeaguePhoto
+                src={league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : undefined}
+                alt={league.name}
+                size={50}
+              />
+              <LeagueName>{league.name}</LeagueName>
+              <YearTag>{league.latestYear}</YearTag>
+            </LeagueItem>
           ))}
           {hasMore && (
             <LoadMoreButton onClick={handleLoadMore} disabled={loadingMore}>
-              {loadingMore ? "Loading..." : "Load more"}
+              {loadingMore ? "Loading..." : "Load earlier seasons"}
             </LoadMoreButton>
           )}
         </div>

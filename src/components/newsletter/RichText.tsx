@@ -96,6 +96,13 @@ export function RichTextEditor({
     onUpdate: ({ editor: e }) => onChange(e.getJSON() as TiptapDoc),
   });
 
+  // useEditor only reads `editable` at mount, so publish → revert-to-draft
+  // left the content permanently read-only (the toolbar and title input
+  // recovered, the ProseMirror body didn't). Keep it in sync.
+  React.useEffect(() => {
+    if (editor) editor.setEditable(!disabled);
+  }, [editor, disabled]);
+
   const setLink = () => {
     if (!editor) return;
     const previous = editor.getAttributes("link").href as string | undefined;
