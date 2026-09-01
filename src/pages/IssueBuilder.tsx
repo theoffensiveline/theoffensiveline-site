@@ -23,6 +23,7 @@ import {
   saveIssueSections,
   getAllIssues,
   issueDocId,
+  adhocIssueId,
 } from "../services/firestoreCrud";
 import { SECTION_REGISTRY, DEFAULT_SECTION_ORDER } from "../components/newsletter/sectionRegistry";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
@@ -217,6 +218,14 @@ function IssueBuilder(): React.ReactElement {
     enabled: !!newsletterId,
   });
 
+  // Ad-hoc (week-less) issue selection: takes precedence over the weekly
+  // selection for docId. Seeded from ?issue= (reader's "Editor mode" hand-off
+  // for special issues).
+  const requestedIssue = searchParams.get("issue");
+  const [adhocId, setAdhocId] = useState<string | null>(() =>
+    requestedIssue && /^\d{4}_x\d+$/.test(requestedIssue) ? requestedIssue : null
+  );
+
   // Default week: an explicit ?week= (reader's "Editor mode" hand-off) wins;
   // otherwise the latest completed week without a published issue. If the
   // issues list fails to load, fall back to the latest week rather than
@@ -240,15 +249,17 @@ function IssueBuilder(): React.ReactElement {
     setWeek(candidate);
   }, [week, weeksLoading, completedWeeksDesc, allIssues, issuesError, season, requestedWeek]);
 
-  // Load (or prefill) the selected week's issue
-  const docId = season !== undefined && week !== null ? issueDocId(season, week) : null;
+  // Load (or prefill) the selected issue
+  const docId =
+    adhocId ?? (season !== undefined && week !== null ? issueDocId(season, week) : null);
   const { data: loadedIssue, isFetched: issueFetched } = useQuery({
     queryKey: ["issue", newsletterId, docId],
-    queryFn: () => getIssue(newsletterId!, season!, week!),
+    queryFn: () => getIssue(newsletterId!, docId!),
     enabled: !!newsletterId && !!docId,
   });
 
   const [sections, setSections] = useState<IssueSection[] | null>(null);
+  const [issueTitle, setIssueTitle] = useState("");
   const [status, setStatus] = useState<"draft" | "published">("draft");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const dirtyRef = useRef(false);
@@ -261,6 +272,7 @@ function IssueBuilder(): React.ReactElement {
     week: number | null;
     leagueId: string | undefined;
     sections: IssueSection[] | null;
+    title: string;
     status: "draft" | "published";
     docExists: boolean;
   }>({
@@ -269,6 +281,7 @@ function IssueBuilder(): React.ReactElement {
     week: null,
     leagueId: undefined,
     sections: null,
+    title: "",
     status: "draft",
     docExists: false,
   });
@@ -276,9 +289,10 @@ function IssueBuilder(): React.ReactElement {
     ...liveRef.current,
     docId,
     season,
-    week,
+    week: adhocId ? null : week,
     leagueId: activeLeagueId,
     sections,
+    title: issueTitle,
     status,
   };
 
@@ -289,8 +303,9 @@ function IssueBuilder(): React.ReactElement {
    */
   const saveSections = useCallback(
     async (
-      target: { docId: string; season: number; week: number; leagueId: string },
+      target: { docId: string; season: number; week: number | null; leagueId: string },
       toSave: IssueSection[],
+      title: string,
       createIfMissing: boolean
     ): Promise<boolean> => {
       const isCurrent = () => liveRef.current.docId === target.docId;
@@ -298,10 +313,14 @@ function IssueBuilder(): React.ReactElement {
       try {
         await saveIssueSections(
           newsletterId!,
-          target.season,
-          target.week,
-          target.leagueId,
-          toSave,
+          target.docId,
+          {
+            season: target.season,
+            week: target.week,
+            leagueId: target.leagueId,
+            title,
+            sections: toSave,
+          },
           createIfMissing
         );
         if (isCurrent()) {
@@ -318,6 +337,7 @@ function IssueBuilder(): React.ReactElement {
             season: target.season,
             week: target.week,
             leagueId: target.leagueId,
+            title,
             sections: toSave,
           })
         );
@@ -347,33 +367,38 @@ function IssueBuilder(): React.ReactElement {
     prevDocIdRef.current = docId;
 
     const target =
-      docId && season !== undefined && week !== null && activeLeagueId
-        ? { docId, season, week, leagueId: activeLeagueId }
+      docId && season !== undefined && activeLeagueId
+        ? { docId, season, week: adhocId ? null : week, leagueId: activeLeagueId }
         : null;
     return () => {
       // Runs when docId changes away from `target`, and on unmount.
-      // liveRef.sections still holds this week's sections (state resets
+      // liveRef.sections/title still hold this issue's values (state resets
       // after), but status/docExists must come from the pre-switch values.
       const live = liveRef.current;
       if (!target || !dirtyRef.current || live.status !== "draft" || !live.sections) return;
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-      saveSections(target, live.sections, !live.docExists);
+      saveSections(target, live.sections, live.title, !live.docExists);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docId]);
 
   useEffect(() => {
-    if (!issueFetched || week === null) return;
+    if (!issueFetched || docId === null) return;
     // Same-doc refetch (e.g. window refocus) while the editor has unsaved
     // edits: don't clobber their work — our save layer owns the truth.
     if (dirtyRef.current) return;
     setSaveState("idle");
     if (loadedIssue) {
       setSections(loadedIssue.sections);
+      setIssueTitle(loadedIssue.title ?? "");
       setStatus(loadedIssue.status);
       liveRef.current.docExists = true;
     } else {
-      setSections(prefillSections());
+      // New doc: weekly issues prefill the standard computed set; ad-hoc
+      // issues start with a single commentary section (no week, so computed
+      // sections have nothing to render from).
+      setSections(adhocId ? [newTextSection()] : prefillSections());
+      setIssueTitle("");
       setStatus("draft");
       liveRef.current.docExists = false;
     }
@@ -395,7 +420,6 @@ function IssueBuilder(): React.ReactElement {
         !live.docId ||
         live.docId !== scheduledDocId ||
         live.season === undefined ||
-        live.week === null ||
         !live.leagueId ||
         !live.sections
       ) {
@@ -404,6 +428,7 @@ function IssueBuilder(): React.ReactElement {
       saveSections(
         { docId: live.docId, season: live.season, week: live.week, leagueId: live.leagueId },
         live.sections,
+        live.title,
         !live.docExists
       );
     }, 1200);
@@ -411,7 +436,7 @@ function IssueBuilder(): React.ReactElement {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sections]);
+  }, [sections, issueTitle]);
 
   const mutate = (updater: (prev: IssueSection[]) => IssueSection[]) => {
     setSections((prev) => {
@@ -449,20 +474,21 @@ function IssueBuilder(): React.ReactElement {
    * state + the shared cache only when the write actually succeeded.
    */
   const setPublishState = async (nextStatus: "draft" | "published") => {
-    if (!sections || !docId || season === undefined || week === null || !activeLeagueId) return;
+    if (!sections || !docId || season === undefined || !activeLeagueId) return;
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     dirtyRef.current = false;
     const doc: IssueDoc = {
       status: nextStatus,
       publishedAt: nextStatus === "published" ? Timestamp.now() : null,
       season,
-      week,
+      week: adhocId ? null : week,
       leagueId: activeLeagueId,
+      title: issueTitle,
       sections,
     };
     setSaveState("saving");
     try {
-      await setIssue(newsletterId!, season, week, doc);
+      await setIssue(newsletterId!, docId, doc);
       liveRef.current.docExists = true;
       setStatus(nextStatus);
       setSaveState("saved");
@@ -482,17 +508,19 @@ function IssueBuilder(): React.ReactElement {
   /** Manual retry after a failed save — re-sends the current content. */
   const retrySave = () => {
     const live = liveRef.current;
-    if (!live.docId || live.season === undefined || live.week === null) return;
+    if (!live.docId || live.season === undefined) return;
     if (!live.leagueId || !live.sections) return;
     saveSections(
       { docId: live.docId, season: live.season, week: live.week, leagueId: live.leagueId },
       live.sections,
+      live.title,
       !live.docExists
     );
   };
 
-  // Live data for the computed-section preview
-  const newsletterData = useNewsletterData(activeLeagueId, week ?? NaN);
+  // Live data for the computed-section preview (ad-hoc issues have no week,
+  // so the queries stay disabled)
+  const newsletterData = useNewsletterData(activeLeagueId, adhocId ? NaN : (week ?? NaN));
 
   /* ----------------------------- render ----------------------------- */
 
@@ -510,16 +538,19 @@ function IssueBuilder(): React.ReactElement {
       </Centered>
     );
   }
-  if (!weeksLoading && completedWeeksDesc.length === 0) {
-    return <Centered>No completed weeks yet — the builder opens once Week 1 is scored.</Centered>;
-  }
-
   const editable = status === "draft";
   const issuesById = new Map((allIssues ?? []).map((i) => [i.id, i]));
-  // Computed sections removed from this draft, offered for one-click restore
-  const removedComputedTypes = sections
-    ? DEFAULT_SECTION_ORDER.filter((t) => !sections.some((s) => s.type === t))
-    : [];
+  // Existing ad-hoc issues for the active season, newest first
+  const adhocIssues = (allIssues ?? [])
+    .filter((i) => season !== undefined && i.id.startsWith(`${season}_x`))
+    .sort((a, b) => (a.id < b.id ? 1 : -1));
+  // Computed sections removed from this draft, offered for one-click restore.
+  // Ad-hoc issues have no week for computed sections to render from, so the
+  // restore affordance is weekly-only.
+  const removedComputedTypes =
+    sections && !adhocId
+      ? DEFAULT_SECTION_ORDER.filter((t) => !sections.some((s) => s.type === t))
+      : [];
 
   return (
     <Page>
@@ -534,10 +565,30 @@ function IssueBuilder(): React.ReactElement {
 
         <ControlsBar>
           <WeekSelect
-            value={week ?? ""}
-            onChange={(e) => setWeek(Number(e.target.value))}
-            disabled={week === null}
+            value={adhocId ? `a:${adhocId}` : week !== null ? `w:${week}` : ""}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (v === "new-adhoc") {
+                if (season !== undefined) setAdhocId(adhocIssueId(season));
+              } else if (v.startsWith("a:")) {
+                setAdhocId(v.slice(2));
+              } else if (v.startsWith("w:")) {
+                setAdhocId(null);
+                setWeek(Number(v.slice(2)));
+              }
+            }}
           >
+            {adhocId === null && week === null && <option value="">Select an issue…</option>}
+            {/* A just-created special issue isn't in allIssues until first save */}
+            {adhocId !== null && !adhocIssues.some((i) => i.id === adhocId) && (
+              <option value={`a:${adhocId}`}>New special issue</option>
+            )}
+            {adhocIssues.map((i) => (
+              <option key={i.id} value={`a:${i.id}`}>
+                {i.title || "Special issue"}
+                {i.status === "published" ? " · published" : " · draft"}
+              </option>
+            ))}
             {completedWeeksDesc.map((w) => {
               const existing =
                 season !== undefined ? issuesById.get(issueDocId(season, w)) : undefined;
@@ -547,12 +598,13 @@ function IssueBuilder(): React.ReactElement {
                   : " · draft"
                 : "";
               return (
-                <option key={w} value={w}>
+                <option key={w} value={`w:${w}`}>
                   Week {w}
                   {marker}
                 </option>
               );
             })}
+            <option value="new-adhoc">+ New special issue</option>
           </WeekSelect>
 
           {editable ? (
@@ -580,7 +632,28 @@ function IssueBuilder(): React.ReactElement {
           <SaveState>Heads up: co-editors editing at the same time is last-write-wins.</SaveState>
         )}
 
-        {sections === null ? (
+        {docId !== null && sections !== null && (
+          <TitleInput
+            type="text"
+            placeholder={
+              adhocId ? "Issue title (e.g. Offseason Address)" : `Issue title (optional)`
+            }
+            value={issueTitle}
+            disabled={!editable}
+            onChange={(e) => {
+              dirtyRef.current = true;
+              setIssueTitle(e.target.value);
+            }}
+          />
+        )}
+
+        {docId === null ? (
+          <Centered>
+            {weeksLoading
+              ? "Loading…"
+              : "No completed weeks yet — pick “+ New special issue” to write a preseason edition."}
+          </Centered>
+        ) : sections === null ? (
           <Centered>Loading issue…</Centered>
         ) : (
           <>

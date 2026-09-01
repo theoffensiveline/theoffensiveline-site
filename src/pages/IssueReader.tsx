@@ -44,11 +44,9 @@ const EditLink = styled.button`
   margin-bottom: 8px;
 `;
 
-/** Parse "2025_w03" → { season: 2025, week: 3 }. */
-function parseIssueId(issueId: string): { season: number; week: number } | null {
-  const m = issueId.match(/^(\d{4})_w(\d{2})$/);
-  if (!m) return null;
-  return { season: parseInt(m[1], 10), week: parseInt(m[2], 10) };
+/** Both client ID forms: weekly "2025_w03" and ad-hoc "2025_x{millis}". */
+function isValidIssueId(issueId: string): boolean {
+  return /^\d{4}_(w\d{2}|x\d+)$/.test(issueId);
 }
 
 function IssueReader(): React.ReactElement {
@@ -56,14 +54,14 @@ function IssueReader(): React.ReactElement {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
-  const parsed = issueId ? parseIssueId(issueId) : null;
+  const validId = !!issueId && isValidIssueId(issueId);
 
   const { data: newsletter, isLoading: newsletterLoading } = useNewsletterDoc(newsletterId);
 
   const { data: issue, isFetched } = useQuery({
     queryKey: ["issue", newsletterId, issueId],
-    queryFn: () => getIssue(newsletterId!, parsed!.season, parsed!.week),
-    enabled: !!newsletterId && !!parsed,
+    queryFn: () => getIssue(newsletterId!, issueId!),
+    enabled: !!newsletterId && validId,
   });
 
   const isEditor =
@@ -74,7 +72,7 @@ function IssueReader(): React.ReactElement {
   // Hooks must run unconditionally; week NaN disables the queries
   const newsletterData = useNewsletterData(issue?.leagueId, issue?.week ?? NaN);
 
-  if (!parsed) return <Centered>Invalid issue ID.</Centered>;
+  if (!validId) return <Centered>Invalid issue ID.</Centered>;
   if (newsletterLoading || !isFetched) return <Centered>Loading…</Centered>;
   if (!newsletter) return <Centered>Newsletter not found.</Centered>;
   if (!issue) return <Centered>This issue doesn't exist yet.</Centered>;
@@ -94,11 +92,22 @@ function IssueReader(): React.ReactElement {
       <NewsletterContainer>
         <NewsletterTitle>{newsletter.name}</NewsletterTitle>
         <ArticleSubheader>
-          {issue.season} · Week {issue.week}
+          {issue.title || (issue.week !== null ? `Week ${issue.week}` : "Special issue")}
+          {" · "}
+          {issue.season}
+          {issue.title && issue.week !== null ? ` · Week ${issue.week}` : ""}
           {issue.status !== "published" ? " · DRAFT" : ""}
         </ArticleSubheader>
         {canOpenInBuilder && (
-          <EditLink onClick={() => navigate(`/n/${newsletterId}/builder?week=${issue.week}`)}>
+          <EditLink
+            onClick={() =>
+              navigate(
+                issue.week !== null
+                  ? `/n/${newsletterId}/builder?week=${issue.week}`
+                  : `/n/${newsletterId}/builder?issue=${issueId}`
+              )
+            }
+          >
             Editor mode
           </EditLink>
         )}

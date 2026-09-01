@@ -174,10 +174,13 @@ export interface IssueSection {
 }
 
 /**
- * /newsletters/{newsletterId}/issues/{season}_w{week}
+ * /newsletters/{newsletterId}/issues/{issueId}
  *
- * A weekly edition of a newsletter (#84). Doc IDs zero-pad the week
- * ("2025_w02") so lexical order matches chronological order.
+ * An edition of a newsletter (#84). Two doc ID forms:
+ *  - Weekly: "{season}_w{week}" with the week zero-padded ("2025_w02") so
+ *    lexical order matches chronological order.
+ *  - Ad-hoc (offseason address, draft recap, …): "{season}_x{epochMillis}"
+ *    — no week, still season-scoped; the timestamp keeps creation order.
  */
 export interface IssueDoc {
   /** Whether this issue is a draft or has been published. */
@@ -186,10 +189,12 @@ export interface IssueDoc {
   publishedAt: Timestamp | null;
   /** NFL season year this issue covers. */
   season: number;
-  /** Week number within the season. */
-  week: number;
+  /** Week number within the season. Null for ad-hoc issues. */
+  week: number | null;
   /** League doc ID the computed sections render from. */
   leagueId: string;
+  /** Editor-chosen title. Lists fall back to "Week N" when absent. */
+  title?: string;
   /** Ordered sections; array order is render order. */
   sections: IssueSection[];
 }

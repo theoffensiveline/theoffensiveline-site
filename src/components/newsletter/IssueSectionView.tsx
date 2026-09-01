@@ -22,7 +22,8 @@ interface IssueSectionViewProps {
   section: IssueSection;
   data: NewsletterData;
   leagueId: string;
-  week: number;
+  /** Null for ad-hoc issues — computed sections degrade to nothing. */
+  week: number | null;
 }
 
 export function IssueSectionView({
@@ -42,6 +43,7 @@ export function IssueSectionView({
 
   const entry = SECTION_REGISTRY[section.type];
   if (!entry) return null; // unknown type — degrade silently
+  if (week === null) return null; // computed section in a week-less issue
   if (entry.shouldRender && !entry.shouldRender(data)) return null;
 
   const result = entry.result(data);

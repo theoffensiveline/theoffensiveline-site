@@ -275,7 +275,7 @@ export async function deleteNewsletter(newsletterId: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 /**
- * Build an issue document ID. Weeks are zero-padded so lexical order
+ * Build a weekly issue document ID. Weeks are zero-padded so lexical order
  * matches chronological order ("2025_w02" < "2025_w10").
  */
 export function issueDocId(season: number, week: number): string {
@@ -283,49 +283,57 @@ export function issueDocId(season: number, week: number): string {
 }
 
 /**
- * Create or overwrite an issue for a given season + week.
+ * Build an ad-hoc (week-less) issue document ID. The epoch-millis suffix is
+ * unique per creation and keeps lexical order = creation order; "x" sorts
+ * after "w", so a season's ad-hoc issues list above its weeklies when
+ * sorting IDs descending.
+ */
+export function adhocIssueId(season: number): string {
+  return `${season}_x${Date.now()}`;
+}
+
+/**
+ * Create or overwrite an issue.
  * @param newsletterId - Parent newsletter document ID
- * @param season - NFL season year
- * @param week - Week number
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
  * @param data - Issue fields
  */
 export async function setIssue(
   newsletterId: string,
-  season: number,
-  week: number,
+  issueId: string,
   data: IssueDoc
 ): Promise<void> {
-  await setDoc(doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week)), data);
+  await setDoc(doc(db, "newsletters", newsletterId, "issues", issueId), data);
 }
 
 /**
- * Autosave an issue draft's sections WITHOUT touching status/publishedAt —
+ * Autosave an issue draft's content WITHOUT touching status/publishedAt —
  * a merge write, so a stale tab's autosave can never revert another tab's
  * publish (#84 review). status/publishedAt are written only when the doc is
  * being created (createIfMissing) or via the explicit publish/unpublish
  * paths (setIssue).
  * @param newsletterId - Parent newsletter document ID
- * @param season - NFL season year
- * @param week - Week number
- * @param leagueId - League the issue's computed sections render from
- * @param sections - Current ordered sections
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
+ * @param data - Draft content: season, week (null for ad-hoc), leagueId,
+ *   title, and the current ordered sections
  * @param createIfMissing - Include draft status fields (first save of a new doc)
  */
 export async function saveIssueSections(
   newsletterId: string,
-  season: number,
-  week: number,
-  leagueId: string,
-  sections: IssueSection[],
+  issueId: string,
+  data: {
+    season: number;
+    week: number | null;
+    leagueId: string;
+    title: string;
+    sections: IssueSection[];
+  },
   createIfMissing: boolean
 ): Promise<void> {
   await setDoc(
-    doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week)),
+    doc(db, "newsletters", newsletterId, "issues", issueId),
     {
-      season,
-      week,
-      leagueId,
-      sections,
+      ...data,
       ...(createIfMissing ? { status: "draft", publishedAt: null } : {}),
     },
     { merge: true }
@@ -333,20 +341,13 @@ export async function saveIssueSections(
 }
 
 /**
- * Fetch an issue for a given season + week.
+ * Fetch an issue by document ID.
  * @param newsletterId - Parent newsletter document ID
- * @param season - NFL season year
- * @param week - Week number
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
  * @returns The issue document or null if not found.
  */
-export async function getIssue(
-  newsletterId: string,
-  season: number,
-  week: number
-): Promise<IssueDoc | null> {
-  const snap = await getDoc(
-    doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week))
-  );
+export async function getIssue(newsletterId: string, issueId: string): Promise<IssueDoc | null> {
+  const snap = await getDoc(doc(db, "newsletters", newsletterId, "issues", issueId));
   return snap.exists() ? (snap.data() as IssueDoc) : null;
 }
 
