@@ -527,6 +527,12 @@ function IssueBuilder(): React.ReactElement {
         <NewsletterTitle>{newsletter.name}</NewsletterTitle>
 
         <ControlsBar>
+          <SubtleButton onClick={() => navigate(`/n/${newsletterId}`)}>
+            ← Back to newsletter
+          </SubtleButton>
+        </ControlsBar>
+
+        <ControlsBar>
           <WeekSelect
             value={week ?? ""}
             onChange={(e) => setWeek(Number(e.target.value))}
