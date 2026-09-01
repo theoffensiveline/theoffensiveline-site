@@ -177,7 +177,7 @@ function NewsletterHome(): React.ReactElement {
       {isEditor && (
         <ButtonRow>
           <SubtleButton onClick={() => navigate(`/n/${newsletterId}/settings`)}>
-            Settings
+            League Settings
           </SubtleButton>
         </ButtonRow>
       )}
