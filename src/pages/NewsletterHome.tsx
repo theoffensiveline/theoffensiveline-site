@@ -138,6 +138,9 @@ function NewsletterHome(): React.ReactElement {
   const navigate = useNavigate();
   const { currentUser, profile, updateProfile } = useAuth();
   const [subscribing, setSubscribing] = useState(false);
+  // Issues stay hidden until a season is clicked open — the league pages
+  // already list week content, so showing issues by default doubled it up.
+  const [expandedSeason, setExpandedSeason] = useState<number | null>(null);
 
   const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
 
@@ -213,11 +216,13 @@ function NewsletterHome(): React.ReactElement {
         {seasonsDesc.map((s) => (
           <React.Fragment key={s.season}>
             <SeasonItem
-              onClick={() => navigate(`/home/${s.leagueId}`)}
+              onClick={() => setExpandedSeason(expandedSeason === s.season ? null : s.season)}
               role="button"
+              aria-expanded={expandedSeason === s.season}
               style={{ cursor: "pointer" }}
             >
               <SeasonYear>
+                {expandedSeason === s.season ? "▾ " : "▸ "}
                 {s.season}
                 {s.leagueId === newsletter.activeLeagueId ? " · current" : ""}
               </SeasonYear>
@@ -230,6 +235,11 @@ function NewsletterHome(): React.ReactElement {
                   }
                 >
                   {s.verified ? "verified" : "unverified"}
+                  {(issuesBySeason.get(s.season) ?? []).length > 0
+                    ? ` · ${(issuesBySeason.get(s.season) ?? []).length} issue${
+                        (issuesBySeason.get(s.season) ?? []).length === 1 ? "" : "s"
+                      }`
+                    : ""}
                 </SeasonMeta>
                 <SeasonLink
                   onClick={(e) => {
@@ -241,19 +251,24 @@ function NewsletterHome(): React.ReactElement {
                 </SeasonLink>
               </span>
             </SeasonItem>
-            <IssueList>
-              {(issuesBySeason.get(s.season) ?? []).map((issue) => (
-                <SeasonItem
-                  key={issue.id}
-                  onClick={() => navigate(`/n/${newsletterId}/issue/${issue.id}`)}
-                  role="button"
-                  style={{ cursor: "pointer" }}
-                >
-                  <SeasonYear>Week {issue.week}</SeasonYear>
-                  {issue.status !== "published" && <SeasonMeta>draft</SeasonMeta>}
-                </SeasonItem>
-              ))}
-            </IssueList>
+            {expandedSeason === s.season && (
+              <IssueList>
+                {(issuesBySeason.get(s.season) ?? []).map((issue) => (
+                  <SeasonItem
+                    key={issue.id}
+                    onClick={() => navigate(`/n/${newsletterId}/issue/${issue.id}`)}
+                    role="button"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <SeasonYear>Week {issue.week}</SeasonYear>
+                    {issue.status !== "published" && <SeasonMeta>draft</SeasonMeta>}
+                  </SeasonItem>
+                ))}
+                {(issuesBySeason.get(s.season) ?? []).length === 0 && (
+                  <SeasonMeta>No issues yet</SeasonMeta>
+                )}
+              </IssueList>
+            )}
           </React.Fragment>
         ))}
       </List>
