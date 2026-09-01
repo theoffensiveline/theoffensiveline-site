@@ -225,6 +225,14 @@ function IssueBuilder(): React.ReactElement {
   const [adhocId, setAdhocId] = useState<string | null>(() =>
     requestedIssue && /^\d{4}_x\d+$/.test(requestedIssue) ? requestedIssue : null
   );
+  // The builder edits the ACTIVE season only — saves stamp `season` on the
+  // doc, so a crafted ?issue= from an older season would get its season
+  // overwritten. Drop the selection once the newsletter doc reveals it.
+  useEffect(() => {
+    if (adhocId && season !== undefined && !adhocId.startsWith(`${season}_`)) {
+      setAdhocId(null);
+    }
+  }, [adhocId, season]);
 
   // Default week: an explicit ?week= (reader's "Editor mode" hand-off) wins;
   // otherwise the latest completed week without a published issue. If the
