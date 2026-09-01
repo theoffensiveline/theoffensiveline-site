@@ -136,6 +136,9 @@ function Home() {
     : (newsletterIssues ?? [])
         .filter((i) => i.leagueId === leagueId && (i.status === "published" || isNewsletterEditor))
         .sort((a, b) => (a.id < b.id ? 1 : -1));
+  // The builder only edits the newsletter's active season, so its entry point
+  // renders on that season's league home only.
+  const canOpenBuilder = isNewsletterEditor && leagueId === selectedNewsletter?.activeLeagueId;
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -315,8 +318,13 @@ function Home() {
           }}
         />
         {/* Selected newsletter's issues for this league-season (#84) */}
-        {leagueIssues.length > 0 && (
+        {(leagueIssues.length > 0 || canOpenBuilder) && (
           <>
+            {canOpenBuilder && (
+              <GridItem onClick={() => navigate(`/n/${selectedNewsletterId}/builder`)}>
+                {`✍️ Open builder\n${selectedNewsletter.name}`}
+              </GridItem>
+            )}
             {leagueIssues.map((issue, index) =>
               index === 0 ? (
                 <RecentGridItem

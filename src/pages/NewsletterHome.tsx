@@ -172,11 +172,10 @@ function NewsletterHome(): React.ReactElement {
     <Container>
       <Title>{newsletter.name}</Title>
       {isEditor && <EditorBadge>🖋️ You're the editor</EditorBadge>}
+      {/* The builder entry lives on the current season's league home with the
+          issues — this page is a pure seasons index. */}
       {isEditor && (
         <ButtonRow>
-          <ActionButton onClick={() => navigate(`/n/${newsletterId}/builder`)}>
-            Open builder
-          </ActionButton>
           <SubtleButton onClick={() => navigate(`/n/${newsletterId}/settings`)}>
             Settings
           </SubtleButton>
