@@ -244,6 +244,14 @@ function NewsletterHome(): React.ReactElement {
                 <SeasonLink
                   onClick={(e) => {
                     e.stopPropagation();
+                    navigate(`/home/${s.leagueId}`);
+                  }}
+                >
+                  league home
+                </SeasonLink>
+                <SeasonLink
+                  onClick={(e) => {
+                    e.stopPropagation();
                     navigate(`/league/${s.leagueId}/league-overview`);
                   }}
                 >
