@@ -6,7 +6,7 @@
  * Drafts are hidden from non-editors client-side ("not published yet") —
  * true read-gating arrives with #103 sub-issue D.
  */
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
@@ -14,24 +14,14 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { useNewsletterData } from "../hooks/useNewsletterData";
 import { getIssue } from "../services/firestoreCrud";
+import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
+import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 import {
   ArticleSubheader,
   NewsletterContainer,
   NewsletterTitle,
 } from "../components/newsletters/newsStyles";
-
-const Page = styled.div`
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 8px;
-`;
-
-const Centered = styled.div`
-  text-align: center;
-  padding: 40px 20px;
-  color: ${({ theme }: any) => theme.text};
-`;
 
 const EditLink = styled.button`
   background: none;
@@ -64,6 +54,15 @@ function IssueReader(): React.ReactElement {
     enabled: !!newsletterId && validId,
   });
 
+  // Reading an issue selects its newsletter (same as visiting the newsletter
+  // home) — otherwise a shared issue link leaves the NavBar pointed at
+  // whatever was selected before, a dead end for first-time visitors (#108).
+  useEffect(() => {
+    if (newsletterId && newsletter) {
+      setSelectedNewsletter(newsletterId, newsletter.activeLeagueId);
+    }
+  }, [newsletterId, newsletter]);
+
   const isEditor =
     !!currentUser &&
     !!newsletter &&
@@ -88,7 +87,7 @@ function IssueReader(): React.ReactElement {
   const canOpenInBuilder = isEditor && issue.season === activeSeason;
 
   return (
-    <Page>
+    <IssuePage>
       <NewsletterContainer>
         <NewsletterTitle>{newsletter.name}</NewsletterTitle>
         <ArticleSubheader>
@@ -122,7 +121,7 @@ function IssueReader(): React.ReactElement {
           />
         ))}
       </NewsletterContainer>
-    </Page>
+    </IssuePage>
   );
 }
 

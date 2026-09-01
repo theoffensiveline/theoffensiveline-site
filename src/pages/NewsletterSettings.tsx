@@ -16,46 +16,12 @@ import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { TOGGLEABLE_FEATURES } from "../components/constants/NewsletterConstants";
 import type { LeagueFeature, NewsletterSeason } from "../types/firestore";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-const Title = styled.h1`
-  font-size: 26px;
-  margin-bottom: 4px;
-  color: ${({ theme }: any) => theme.text};
-`;
-
-const SectionLabel = styled.h3`
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: ${({ theme }: any) => theme.text};
-  opacity: 0.5;
-  margin: 20px 0 12px;
-`;
-
-const ActionButton = styled.button`
-  background-color: ${({ theme }: any) => theme.newsBlue};
-  color: ${({ theme }: any) => theme.background};
-  border: none;
-  border-radius: 20px;
-  padding: 8px 18px;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-`;
+import {
+  PageColumn,
+  PageTitle,
+  SectionLabel,
+  ActionButton,
+} from "../components/newsletter/pageStyles";
 
 const SubtleButton = styled.button`
   background: none;
@@ -297,24 +263,24 @@ function NewsletterSettings(): React.ReactElement {
     }
   };
 
-  if (isLoading) return <Container>Loading…</Container>;
-  if (!newsletter) return <Container>Newsletter not found.</Container>;
+  if (isLoading) return <PageColumn>Loading…</PageColumn>;
+  if (!newsletter) return <PageColumn>Newsletter not found.</PageColumn>;
   if (!isEditor) {
     return (
-      <Container>
+      <PageColumn>
         Only this newsletter's editors can access settings.
         <div style={{ marginTop: 12 }}>
           <SubtleButton onClick={() => navigate(`/n/${newsletterId}`)}>
             Back to newsletter
           </SubtleButton>
         </div>
-      </Container>
+      </PageColumn>
     );
   }
 
   return (
-    <Container>
-      <Title>{newsletter.name}</Title>
+    <PageColumn>
+      <PageTitle>{newsletter.name}</PageTitle>
       <SubtleButton onClick={() => navigate(`/n/${newsletterId}`)}>
         ← Back to newsletter
       </SubtleButton>
@@ -365,7 +331,7 @@ function NewsletterSettings(): React.ReactElement {
       </FeatureList>
       <Hint>Enabled features appear in this newsletter's navigation.</Hint>
       {featureError && <ErrorText>{featureError}</ErrorText>}
-    </Container>
+    </PageColumn>
   );
 }
 

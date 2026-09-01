@@ -143,6 +143,12 @@ export function RichTextView({ content }: { content: TiptapDoc | undefined }): R
     content: content ?? EMPTY_DOC,
     editable: false,
   });
+  // useEditor only reads `content` at mount — re-sync when a refetch (e.g.
+  // window refocus past staleTime) delivers updated commentary, or the view
+  // keeps showing the old text until a full reload (#84 swarm review).
+  React.useEffect(() => {
+    if (editor) editor.commands.setContent(content ?? EMPTY_DOC);
+  }, [editor, content]);
   return (
     <ViewBody>
       <EditorContent editor={editor} />

@@ -9,7 +9,8 @@
  *   /users/{uid}
  *   /leagues/{leagueId}
  *   /newsletters/{newsletterId}                        (issue #103)
- *   /newsletters/{newsletterId}/issues/{season}_w{week}
+ *   /newsletters/{newsletterId}/issues/{issueId}       (issue #84)
+ *     issueId forms: weekly "{season}_w{NN}" | ad-hoc "{season}_x{epochMillis}"
  */
 
 import {
@@ -25,6 +26,7 @@ import {
   where,
   arrayUnion,
   arrayRemove,
+  runTransaction,
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -271,7 +273,8 @@ export async function deleteNewsletter(newsletterId: string): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Issues — /newsletters/{newsletterId}/issues/{season}_w{week}
+// Issues — /newsletters/{newsletterId}/issues/{issueId}
+// issueId forms: weekly "{season}_w{NN}" | ad-hoc "{season}_x{epochMillis}"
 // ---------------------------------------------------------------------------
 
 /**
@@ -308,17 +311,19 @@ export async function setIssue(
 
 /**
  * Autosave an issue draft's content WITHOUT touching status/publishedAt —
- * a merge write, so a stale tab's autosave can never revert another tab's
- * publish (#84 review). status/publishedAt are written only when the doc is
- * being created (createIfMissing) or via the explicit publish/unpublish
- * paths (setIssue).
+ * status fields are written only by the explicit publish/unpublish paths
+ * (setIssue), or here when the doc doesn't exist yet. A transaction decides
+ * create-vs-merge against the doc's REAL existence, so a tab with a stale
+ * local view can never revert another tab's publish, and a save racing a
+ * delete recreates a well-formed (deletable) draft instead of a doc with no
+ * status at all (#84 swarm review).
  * @param newsletterId - Parent newsletter document ID
  * @param issueId - Issue document ID (weekly or ad-hoc form)
  * @param data - Draft content: season, week (null for ad-hoc), leagueId,
- *   title, and the current ordered sections
- * @param createIfMissing - Include draft status fields (first save of a new doc)
+ *   title, sortWeek, and the current ordered sections
+ * @returns "created" if the doc didn't exist, "merged" otherwise.
  */
-export async function saveIssueSections(
+export async function saveIssueDraft(
   newsletterId: string,
   issueId: string,
   data: {
@@ -328,17 +333,18 @@ export async function saveIssueSections(
     title: string;
     sortWeek: number | null;
     sections: IssueSection[];
-  },
-  createIfMissing: boolean
-): Promise<void> {
-  await setDoc(
-    doc(db, "newsletters", newsletterId, "issues", issueId),
-    {
-      ...data,
-      ...(createIfMissing ? { status: "draft", publishedAt: null } : {}),
-    },
-    { merge: true }
-  );
+  }
+): Promise<"created" | "merged"> {
+  const ref = doc(db, "newsletters", newsletterId, "issues", issueId);
+  return runTransaction(db, async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists()) {
+      tx.set(ref, { ...data, status: "draft", publishedAt: null });
+      return "created";
+    }
+    tx.set(ref, data, { merge: true });
+    return "merged";
+  });
 }
 
 /**
@@ -359,6 +365,26 @@ export async function getIssue(newsletterId: string, issueId: string): Promise<I
  */
 export async function deleteIssue(newsletterId: string, issueId: string): Promise<void> {
   await deleteDoc(doc(db, "newsletters", newsletterId, "issues", issueId));
+}
+
+/**
+ * Fetch a newsletter's issues for ONE league-season. The league home only
+ * renders that season's issues, so this avoids downloading every other
+ * season's full section bodies (#84 swarm review).
+ * @param newsletterId - Parent newsletter document ID
+ * @param leagueId - League doc ID the issues render from
+ * @returns Array of issue documents with their IDs.
+ */
+export async function getIssuesForLeague(
+  newsletterId: string,
+  leagueId: string
+): Promise<(IssueDoc & { id: string })[]> {
+  const q = query(
+    collection(db, "newsletters", newsletterId, "issues"),
+    where("leagueId", "==", leagueId)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as IssueDoc) }));
 }
 
 /**

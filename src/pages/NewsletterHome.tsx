@@ -1,10 +1,11 @@
 /**
- * NewsletterHome — reader-first publication page at /n/:newsletterId (#103).
+ * NewsletterHome — pure seasons index at /n/:newsletterId (#103/#84).
  *
- * Shows the newsletter's name, its issues, and its league-seasons linking
- * into the existing league pages. Editor management (adding seasons, feature
- * toggles) lives on NewsletterSettings at /n/:newsletterId/settings — the
- * home page only offers editors the builder and settings entry points.
+ * Shows the newsletter's name and its league-seasons; clicking a season
+ * opens that year's league home, where the issues (and the builder entry,
+ * for editors on the active season) live. Editor management (adding
+ * seasons, feature toggles) is on NewsletterSettings at
+ * /n/:newsletterId/settings — this page offers editors only that link.
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,36 +13,17 @@ import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-const Title = styled.h1`
-  font-size: 26px;
-  margin-bottom: 4px;
-  color: ${({ theme }: any) => theme.text};
-`;
+import {
+  PageColumn,
+  PageTitle,
+  SectionLabel,
+  ActionButton,
+} from "../components/newsletter/pageStyles";
 
 const EditorBadge = styled.span`
   font-size: 13px;
   color: ${({ theme }: any) => theme.newsBlue};
   margin-bottom: 24px;
-`;
-
-const SectionLabel = styled.h3`
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: ${({ theme }: any) => theme.text};
-  opacity: 0.5;
-  margin: 20px 0 12px;
 `;
 
 const List = styled.div`
@@ -87,21 +69,6 @@ const SeasonLink = styled.button`
   cursor: pointer;
   padding: 2px 6px;
   text-decoration: underline;
-`;
-
-const ActionButton = styled.button`
-  background-color: ${({ theme }: any) => theme.newsBlue};
-  color: ${({ theme }: any) => theme.background};
-  border: none;
-  border-radius: 20px;
-  padding: 8px 18px;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
 `;
 
 const SubtleButton = styled.button`
@@ -163,14 +130,14 @@ function NewsletterHome(): React.ReactElement {
     !!newsletter &&
     (newsletter.editorUid === currentUser.uid || newsletter.coEditorUids.includes(currentUser.uid));
 
-  if (isLoading) return <Container>Loading…</Container>;
-  if (!newsletter) return <Container>Newsletter not found.</Container>;
+  if (isLoading) return <PageColumn>Loading…</PageColumn>;
+  if (!newsletter) return <PageColumn>Newsletter not found.</PageColumn>;
 
   const seasonsDesc = [...newsletter.seasons].sort((a, b) => b.season - a.season);
 
   return (
-    <Container>
-      <Title>{newsletter.name}</Title>
+    <PageColumn>
+      <PageTitle>{newsletter.name}</PageTitle>
       {isEditor && <EditorBadge>🖋️ You're the editor</EditorBadge>}
       {/* The builder entry lives on the current season's league home with the
           issues — this page is a pure seasons index. */}
@@ -222,7 +189,7 @@ function NewsletterHome(): React.ReactElement {
           </SeasonItem>
         ))}
       </List>
-    </Container>
+    </PageColumn>
   );
 }
 

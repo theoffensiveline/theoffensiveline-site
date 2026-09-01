@@ -99,6 +99,14 @@ User enters espn_s2 + SWID → saved to localStorage
 
 ### Newsletter System
 
+**Dynamic newsletters (#103/#84)** — the multi-league system replacing the legacy archive below:
+
+- Newsletter entity at `/newsletters/{id}` in Firestore (seasons, features, editor); pages: `/n/:newsletterId` (seasons index, [NewsletterHome.tsx](src/pages/NewsletterHome.tsx)), `/n/:id/settings` (editor management), `/n/:id/builder` ([IssueBuilder.tsx](src/pages/IssueBuilder.tsx)), `/n/:id/issue/:issueId` (reader)
+- Issues live at `/newsletters/{id}/issues/{issueId}` — weekly (`{season}_w{NN}`) and ad-hoc (`{season}_x{millis}`) forms; computed sections render live via [sectionRegistry.tsx](src/components/newsletter/sectionRegistry.tsx) (append-only); the selected newsletter's issues render on the per-season league home ([Home.jsx](src/pages/Home.jsx))
+- CRUD in [firestoreCrud.ts](src/services/firestoreCrud.ts); rules in [firestore.rules](firestore.rules) are the only backend validation
+
+**Legacy hand-written archive** (frozen; The Offensive Line + Walter Picks only):
+
 - Located in `/src/newsletters/` organized by year (2023, 2024, 2025)
 - Each newsletter is a folder with a main component + JSON data files
 - Each newsletter exports `newsDate` and `articles` array (or default object with `newsDate`, `articles`, optional `meta`)

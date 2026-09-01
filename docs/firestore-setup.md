@@ -34,16 +34,21 @@ Document ID format: plain numeric for Sleeper (e.g. `"123456"`), `"espn_XXXXX"` 
 | `privacy` | `'public'` \| `'private'` | Defaults to `'public'` |
 | `createdAt` | Timestamp | Document creation time |
 
-### `/newsletters/{newsletterId}/issues/{season}_w{week}`
+### `/newsletters/{newsletterId}/issues/{issueId}`
 
 Replaces the retired `/leagues/{id}/newsletters` subcollection (#103/#84).
+Two doc ID forms: weekly `{season}_w{week}` (zero-padded week) and ad-hoc
+`{season}_x{epochMillis}` (week-less special issues).
 
 | Field | Type | Description |
 |---|---|---|
 | `status` | `'draft'` \| `'published'` | Publication status |
 | `publishedAt` | Timestamp \| null | When published |
-| `season` / `week` | number | Which league-season week this issue covers |
+| `season` | number | League-season year this issue covers |
+| `week` | number \| null | Week number; null for ad-hoc issues |
 | `leagueId` | string | League the computed sections render from |
+| `title` | string | Editor-chosen title; empty = lists show "Week N" |
+| `sortWeek` | number \| null | Ad-hoc only: position among the weeklies ("after Week N"; 0 = before Week 1; null = top) |
 | `sections` | IssueSection[] | Ordered; computed type keys or inline editor-text (Tiptap JSON) |
 
 ### `/leagues/{leagueId}/weekData/{weekNumber}`

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
@@ -7,7 +8,7 @@ import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { useAuth } from "../contexts/AuthContext";
-import { getAllIssues, getNewslettersForLeague } from "../services/firestoreCrud";
+import { getIssuesForLeague, getNewslettersForLeague } from "../services/firestoreCrud";
 import { setSelectedNewsletter, getSelectedNewsletterId } from "../utils/selectedNewsletter";
 
 const GridContainer = styled.div`
@@ -118,31 +119,49 @@ function Home() {
   // only seasons, and clicking a season lands here — so this page shows the
   // selected newsletter's issues for this league-season.
   const { currentUser } = useAuth();
-  const selectedNewsletterId = getSelectedNewsletterId();
-  const { data: selectedNewsletter } = useNewsletterDoc(selectedNewsletterId ?? undefined);
-  const newsletterCoversLeague = !!selectedNewsletter?.leagueIds?.includes(leagueId);
+  // Selection is client state (localStorage) — subscribe so another tab's
+  // change (or NavBar's self-heal) updates this page too (#84 swarm review).
+  const [selectedNewsletterId, setSelectedNewsletterIdState] = useState(getSelectedNewsletterId);
+  useEffect(() => {
+    const sync = () => setSelectedNewsletterIdState(getSelectedNewsletterId());
+    window.addEventListener("leagueChange", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("leagueChange", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+  const { data: selectedNewsletterDoc } = useNewsletterDoc(selectedNewsletterId ?? undefined);
+  // Fall back to the league's first newsletter when nothing relevant is
+  // selected, so a cold visitor to a shared league-home link still sees
+  // issues instead of an empty page (#84 swarm review).
+  const selectedCovers = !!selectedNewsletterDoc?.leagueIds?.includes(leagueId);
+  const displayNewsletterId = selectedCovers
+    ? selectedNewsletterId
+    : (leagueNewsletters?.[0]?.id ?? null);
+  const displayNewsletter = selectedCovers
+    ? selectedNewsletterDoc
+    : (leagueNewsletters?.[0] ?? null);
   const { data: newsletterIssues } = useQuery({
-    queryKey: ["issues", selectedNewsletterId],
-    queryFn: () => getAllIssues(selectedNewsletterId),
-    enabled: newsletterCoversLeague,
+    queryKey: ["issues", displayNewsletterId, leagueId],
+    queryFn: () => getIssuesForLeague(displayNewsletterId, leagueId),
+    enabled: !!displayNewsletterId,
   });
   const isNewsletterEditor =
     !!currentUser &&
-    !!selectedNewsletter &&
-    (selectedNewsletter.editorUid === currentUser.uid ||
-      selectedNewsletter.coEditorUids.includes(currentUser.uid));
+    !!displayNewsletter &&
+    (displayNewsletter.editorUid === currentUser.uid ||
+      displayNewsletter.coEditorUids.includes(currentUser.uid));
   // Interleave weeklies and ad-hoc issues: weeklies sort by week; ad-hoc
   // issues slot in via sortWeek ("after Week N" → just above Week N in this
   // newest-first list; unset → top of the season).
   const issueSortKey = (i) => (i.week != null ? i.week : (i.sortWeek ?? 998) + 0.5);
-  const leagueIssues = !newsletterCoversLeague
-    ? []
-    : (newsletterIssues ?? [])
-        .filter((i) => i.leagueId === leagueId && (i.status === "published" || isNewsletterEditor))
-        .sort((a, b) => issueSortKey(b) - issueSortKey(a) || (a.id < b.id ? 1 : -1));
+  const leagueIssues = (newsletterIssues ?? [])
+    .filter((i) => i.status === "published" || isNewsletterEditor)
+    .sort((a, b) => issueSortKey(b) - issueSortKey(a) || (a.id < b.id ? 1 : -1));
   // The builder only edits the newsletter's active season, so its entry point
   // renders on that season's league home only.
-  const canOpenBuilder = isNewsletterEditor && leagueId === selectedNewsletter?.activeLeagueId;
+  const canOpenBuilder = isNewsletterEditor && leagueId === displayNewsletter?.activeLeagueId;
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -326,28 +345,28 @@ function Home() {
           <>
             {canOpenBuilder && (
               <GridItem
-                onClick={() => navigate(`/n/${selectedNewsletterId}/builder`)}
+                onClick={() => navigate(`/n/${displayNewsletterId}/builder`)}
                 style={{ gridColumn: "span 2", justifySelf: "center", minWidth: "40%" }}
               >
-                {`✍️ Open builder\n${selectedNewsletter.name}`}
+                {`✍️ Open builder\n${displayNewsletter.name}`}
               </GridItem>
             )}
             {leagueIssues.map((issue, index) =>
               index === 0 ? (
                 <RecentGridItem
                   key={issue.id}
-                  onClick={() => navigate(`/n/${selectedNewsletterId}/issue/${issue.id}`)}
+                  onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
                 >
-                  {`${selectedNewsletter.name}\n${
+                  {`${displayNewsletter.name}\n${
                     issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
                   }${issue.status !== "published" ? " · draft" : ""}`}
                 </RecentGridItem>
               ) : (
                 <GridItem
                   key={issue.id}
-                  onClick={() => navigate(`/n/${selectedNewsletterId}/issue/${issue.id}`)}
+                  onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
                 >
-                  {`${selectedNewsletter.name}\n${
+                  {`${displayNewsletter.name}\n${
                     issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
                   }${issue.status !== "published" ? " · draft" : ""}`}
                 </GridItem>

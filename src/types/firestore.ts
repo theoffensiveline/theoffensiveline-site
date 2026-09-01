@@ -193,7 +193,11 @@ export interface IssueDoc {
   week: number | null;
   /** League doc ID the computed sections render from. */
   leagueId: string;
-  /** Editor-chosen title. Lists fall back to "Week N" when absent. */
+  /**
+   * Editor-chosen title. The builder always writes the key (empty string
+   * when unset — check falsiness with `||`, not `??`); older docs may lack
+   * it entirely. Lists fall back to "Week N" when falsy.
+   */
   title?: string;
   /**
    * Ad-hoc issues only: where the issue interleaves among the weeklies in

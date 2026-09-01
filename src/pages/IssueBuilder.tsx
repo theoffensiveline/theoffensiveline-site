@@ -1,10 +1,13 @@
 /**
  * IssueBuilder (#84) — editor-facing composer at /n/:newsletterId/builder.
  *
- * Picks a week of the newsletter's active season, prefills the standard
- * computed section set on first open, and lets the editor add rich-text
- * commentary, remove, and reorder sections. Drafts autosave (debounced);
- * Publish flips status and locks editing until reverted.
+ * Edits the newsletter's ACTIVE season. Two issue kinds: weekly issues
+ * (picked by completed week; prefill the standard computed section set) and
+ * ad-hoc "special" issues (week-less, "{season}_x{millis}" doc IDs,
+ * commentary-only, positioned among the weeklies via sortWeek). Every issue
+ * has an optional title. Drafts autosave (debounced, transactional
+ * create-or-merge that never touches status); Publish/Revert are the only
+ * status writers; drafts are deletable (two-click).
  *
  * Co-editing is last-write-wins (Firestore default) — acceptable per #84.
  */
@@ -20,7 +23,7 @@ import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import {
   getIssue,
   setIssue,
-  saveIssueSections,
+  saveIssueDraft,
   getAllIssues,
   issueDocId,
   adhocIssueId,
@@ -31,16 +34,11 @@ import { IssueSectionView } from "../components/newsletter/IssueSectionView";
 import { RichTextEditor } from "../components/newsletter/RichText";
 import { NewsletterContainer, NewsletterTitle } from "../components/newsletters/newsStyles";
 import type { IssueDoc, IssueSection } from "../types/firestore";
+import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 
 /* ------------------------------------------------------------------ */
 /*  Styled                                                             */
 /* ------------------------------------------------------------------ */
-
-const Page = styled.div`
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 8px;
-`;
 
 const ControlsBar = styled.div`
   display: flex;
@@ -51,7 +49,7 @@ const ControlsBar = styled.div`
   margin: 12px 0 4px;
 `;
 
-const WeekSelect = styled.select`
+const SelectControl = styled.select`
   padding: 8px 12px;
   border: 1px solid ${({ theme }: any) => theme.neutral3}66;
   border-radius: 8px;
@@ -93,6 +91,13 @@ const SaveState = styled.span`
   font-size: 12px;
   color: ${({ theme }: any) => theme.text};
   opacity: 0.6;
+`;
+
+/** Failure notices must not blend in with the muted "Saved" text. */
+const ErrorNote = styled.span`
+  font-size: 12px;
+  font-weight: bold;
+  color: #bc293d;
 `;
 
 const PublishedBanner = styled.div`
@@ -168,12 +173,6 @@ const RestoreRow = styled.div`
   gap: 6px;
   flex-wrap: wrap;
   margin-top: 12px;
-`;
-
-const Centered = styled.div`
-  text-align: center;
-  padding: 40px 20px;
-  color: ${({ theme }: any) => theme.text};
 `;
 
 /* ------------------------------------------------------------------ */
@@ -261,7 +260,11 @@ function IssueBuilder(): React.ReactElement {
   // Load (or prefill) the selected issue
   const docId =
     adhocId ?? (season !== undefined && week !== null ? issueDocId(season, week) : null);
-  const { data: loadedIssue, isFetched: issueFetched } = useQuery({
+  const {
+    data: loadedIssue,
+    isFetched: issueFetched,
+    isError: issueLoadError,
+  } = useQuery({
     queryKey: ["issue", newsletterId, docId],
     queryFn: () => getIssue(newsletterId!, docId!),
     enabled: !!newsletterId && !!docId,
@@ -274,6 +277,18 @@ function IssueBuilder(): React.ReactElement {
   const [status, setStatus] = useState<"draft" | "published">("draft");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const dirtyRef = useRef(false);
+  // Bumped on every edit; a save only clears dirty if nothing changed since
+  // its snapshot, so keystrokes made while a save is in flight are never
+  // dropped (#84 swarm review).
+  const editSeqRef = useRef(0);
+  const markDirty = () => {
+    dirtyRef.current = true;
+    editSeqRef.current += 1;
+  };
+  // Title as of the last completed save — the issues-list query only needs
+  // invalidating when a title (selector label) actually changed.
+  const lastSavedTitleRef = useRef("");
+  const [deleteError, setDeleteError] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Live mirrors read inside timers/cleanups so callbacks never act on
   // stale closures (#84 review: publish-resurrection class).
@@ -320,29 +335,32 @@ function IssueBuilder(): React.ReactElement {
       target: { docId: string; season: number; week: number | null; leagueId: string },
       toSave: IssueSection[],
       title: string,
-      sortWeek: number | null,
-      createIfMissing: boolean
+      sortWeek: number | null
     ): Promise<boolean> => {
       const isCurrent = () => liveRef.current.docId === target.docId;
+      // Edits made after this point must survive the save completing.
+      const seqAtSnapshot = editSeqRef.current;
       if (isCurrent()) setSaveState("saving");
       try {
-        await saveIssueSections(
-          newsletterId!,
-          target.docId,
-          {
-            season: target.season,
-            week: target.week,
-            leagueId: target.leagueId,
-            title,
-            sortWeek,
-            sections: toSave,
-          },
-          createIfMissing
-        );
+        const outcome = await saveIssueDraft(newsletterId!, target.docId, {
+          season: target.season,
+          week: target.week,
+          leagueId: target.leagueId,
+          title,
+          sortWeek,
+          sections: toSave,
+        });
+        const titleChanged = title !== lastSavedTitleRef.current;
+        lastSavedTitleRef.current = title;
         if (isCurrent()) {
-          dirtyRef.current = false;
           liveRef.current.docExists = true;
-          setSaveState("saved");
+          // Only clear dirty if nothing changed since the snapshot — a
+          // keystroke during the in-flight write stays dirty for the next
+          // timer/flush instead of being silently dropped.
+          if (editSeqRef.current === seqAtSnapshot) {
+            dirtyRef.current = false;
+            setSaveState("saved");
+          }
         }
         // Keep the shared single-issue cache truthful for the reader/home
         queryClient.setQueryData(
@@ -358,7 +376,12 @@ function IssueBuilder(): React.ReactElement {
             sections: toSave,
           })
         );
-        queryClient.invalidateQueries({ queryKey: ["issues", newsletterId] });
+        // The issues list only feeds selector markers/labels — re-read it
+        // only when a doc appeared or a title (label) changed, not on every
+        // debounced content save (#84 swarm review).
+        if (outcome === "created" || titleChanged) {
+          queryClient.invalidateQueries({ queryKey: ["issues", newsletterId] });
+        }
         return true;
       } catch (e) {
         console.error("Error saving issue:", e);
@@ -381,6 +404,7 @@ function IssueBuilder(): React.ReactElement {
       setSections(null);
       setSaveState("idle");
       setConfirmingDelete(false);
+      setDeleteError(false);
     }
     prevDocIdRef.current = docId;
 
@@ -395,22 +419,32 @@ function IssueBuilder(): React.ReactElement {
       const live = liveRef.current;
       if (!target || !dirtyRef.current || live.status !== "draft" || !live.sections) return;
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-      saveSections(target, live.sections, live.title, live.sortWeek, !live.docExists);
+      saveSections(target, live.sections, live.title, live.sortWeek);
     };
+    // season/activeLeagueId are deps so a docId that exists BEFORE the
+    // newsletter doc loads (the ?issue= cold-load path) still gets a real
+    // flush target once they resolve (#84 swarm review).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docId]);
+  }, [docId, season, activeLeagueId]);
 
   useEffect(() => {
     if (!issueFetched || docId === null) return;
+    // A FAILED fetch is not "no doc": prefilling here would let the autosave
+    // overwrite a real issue's sections. The render shows a retry-able error
+    // state instead (#84 swarm review).
+    if (issueLoadError) return;
     // Same-doc refetch (e.g. window refocus) while the editor has unsaved
     // edits: don't clobber their work — our save layer owns the truth.
     if (dirtyRef.current) return;
-    setSaveState("idle");
+    // Don't reset the save indicator here: this effect also fires on the
+    // cache echo of our own save (setQueryData), which would blank "Saved"
+    // the instant it appeared. The docId-switch reset handles new docs.
     if (loadedIssue) {
       setSections(loadedIssue.sections);
       setIssueTitle(loadedIssue.title ?? "");
       setSortWeek(loadedIssue.sortWeek ?? null);
       setStatus(loadedIssue.status);
+      lastSavedTitleRef.current = loadedIssue.title ?? "";
       liveRef.current.docExists = true;
     } else {
       // New doc: weekly issues prefill the standard computed set; ad-hoc
@@ -420,10 +454,11 @@ function IssueBuilder(): React.ReactElement {
       setIssueTitle("");
       setSortWeek(null);
       setStatus("draft");
+      lastSavedTitleRef.current = "";
       liveRef.current.docExists = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [issueFetched, loadedIssue, docId]);
+  }, [issueFetched, loadedIssue, docId, issueLoadError]);
 
   // Debounced autosave of dirty drafts. The timer re-checks live state at
   // fire time, so a publish (or week switch) between keystroke and fire can
@@ -449,8 +484,7 @@ function IssueBuilder(): React.ReactElement {
         { docId: live.docId, season: live.season, week: live.week, leagueId: live.leagueId },
         live.sections,
         live.title,
-        live.sortWeek,
-        !live.docExists
+        live.sortWeek
       );
     }, 1200);
     return () => {
@@ -463,7 +497,7 @@ function IssueBuilder(): React.ReactElement {
     setSections((prev) => {
       if (!prev) return prev;
       const next = updater(prev);
-      if (next !== prev) dirtyRef.current = true;
+      if (next !== prev) markDirty();
       return next;
     });
   };
@@ -519,7 +553,7 @@ function IssueBuilder(): React.ReactElement {
     } catch (e) {
       console.error("Error changing publish state:", e);
       // Sections may be unsaved again — let autosave/Retry pick them up
-      dirtyRef.current = true;
+      markDirty();
       setSaveState("error");
     }
   };
@@ -538,6 +572,7 @@ function IssueBuilder(): React.ReactElement {
     try {
       await deleteIssue(newsletterId!, docId);
       setConfirmingDelete(false);
+      setDeleteError(false);
       liveRef.current.docExists = false;
       queryClient.removeQueries({ queryKey: ["issue", newsletterId, docId] });
       queryClient.invalidateQueries({ queryKey: ["issues", newsletterId] });
@@ -553,7 +588,11 @@ function IssueBuilder(): React.ReactElement {
       }
     } catch (e) {
       console.error("Error deleting issue:", e);
-      setSaveState("error");
+      // Distinct from a save failure: the generic Retry re-SAVES, which
+      // would mislead here. Reset the confirm so the editor can retry the
+      // delete itself (#84 swarm review).
+      setConfirmingDelete(false);
+      setDeleteError(true);
     }
   };
 
@@ -566,8 +605,7 @@ function IssueBuilder(): React.ReactElement {
       { docId: live.docId, season: live.season, week: live.week, leagueId: live.leagueId },
       live.sections,
       live.title,
-      live.sortWeek,
-      !live.docExists
+      live.sortWeek
     );
   };
 
@@ -606,7 +644,7 @@ function IssueBuilder(): React.ReactElement {
       : [];
 
   return (
-    <Page>
+    <IssuePage>
       <NewsletterContainer>
         <NewsletterTitle>{newsletter.name}</NewsletterTitle>
 
@@ -617,7 +655,7 @@ function IssueBuilder(): React.ReactElement {
         </ControlsBar>
 
         <ControlsBar>
-          <WeekSelect
+          <SelectControl
             value={adhocId ? `a:${adhocId}` : week !== null ? `w:${week}` : ""}
             onChange={(e) => {
               const v = e.target.value;
@@ -658,7 +696,7 @@ function IssueBuilder(): React.ReactElement {
               );
             })}
             <option value="new-adhoc">+ New special issue</option>
-          </WeekSelect>
+          </SelectControl>
 
           {editable ? (
             <PublishButton onClick={publish} disabled={!sections || saveState === "saving"}>
@@ -688,9 +726,10 @@ function IssueBuilder(): React.ReactElement {
           <SaveState>
             {saveState === "saving" && "Saving…"}
             {saveState === "saved" && "Saved"}
-            {saveState === "error" && "Save failed"}
           </SaveState>
+          {saveState === "error" && <ErrorNote>Save failed</ErrorNote>}
           {saveState === "error" && <SubtleButton onClick={retrySave}>Retry</SubtleButton>}
+          {deleteError && <ErrorNote>Delete failed — try again.</ErrorNote>}
         </ControlsBar>
 
         {!editable && (
@@ -706,12 +745,12 @@ function IssueBuilder(): React.ReactElement {
           <TitleInput
             type="text"
             placeholder={
-              adhocId ? "Issue title (e.g. Offseason Address)" : `Issue title (optional)`
+              adhocId ? "Issue title (optional — e.g. Offseason Address)" : "Issue title (optional)"
             }
             value={issueTitle}
             disabled={!editable}
             onChange={(e) => {
-              dirtyRef.current = true;
+              markDirty();
               setIssueTitle(e.target.value);
             }}
           />
@@ -720,11 +759,11 @@ function IssueBuilder(): React.ReactElement {
         {docId !== null && sections !== null && adhocId && (
           <ControlsBar>
             <SaveState>Position in issue list:</SaveState>
-            <WeekSelect
+            <SelectControl
               value={sortWeek === null ? "" : String(sortWeek)}
               disabled={!editable}
               onChange={(e) => {
-                dirtyRef.current = true;
+                markDirty();
                 setSortWeek(e.target.value === "" ? null : Number(e.target.value));
               }}
             >
@@ -735,15 +774,28 @@ function IssueBuilder(): React.ReactElement {
                 </option>
               ))}
               <option value={0}>Before Week 1</option>
-            </WeekSelect>
+            </SelectControl>
           </ControlsBar>
         )}
 
         {docId === null ? (
           <Centered>
-            {weeksLoading
+            {weeksLoading || completedWeeksDesc.length > 0
               ? "Loading…"
               : "No completed weeks yet — pick “+ New special issue” to write a preseason edition."}
+          </Centered>
+        ) : issueLoadError && sections === null ? (
+          <Centered>
+            Couldn't load this issue — check your connection.
+            <div style={{ marginTop: 12 }}>
+              <SubtleButton
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["issue", newsletterId, docId] })
+                }
+              >
+                Retry
+              </SubtleButton>
+            </div>
           </Centered>
         ) : sections === null ? (
           <Centered>Loading issue…</Centered>
@@ -848,7 +900,7 @@ function IssueBuilder(): React.ReactElement {
           </>
         )}
       </NewsletterContainer>
-    </Page>
+    </IssuePage>
   );
 }
 
