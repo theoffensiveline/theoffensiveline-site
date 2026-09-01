@@ -326,6 +326,7 @@ export async function saveIssueSections(
     week: number | null;
     leagueId: string;
     title: string;
+    sortWeek: number | null;
     sections: IssueSection[];
   },
   createIfMissing: boolean
@@ -349,6 +350,15 @@ export async function saveIssueSections(
 export async function getIssue(newsletterId: string, issueId: string): Promise<IssueDoc | null> {
   const snap = await getDoc(doc(db, "newsletters", newsletterId, "issues", issueId));
   return snap.exists() ? (snap.data() as IssueDoc) : null;
+}
+
+/**
+ * Delete an issue document.
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
+ */
+export async function deleteIssue(newsletterId: string, issueId: string): Promise<void> {
+  await deleteDoc(doc(db, "newsletters", newsletterId, "issues", issueId));
 }
 
 /**

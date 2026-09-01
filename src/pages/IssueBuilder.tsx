@@ -24,6 +24,7 @@ import {
   getAllIssues,
   issueDocId,
   adhocIssueId,
+  deleteIssue,
 } from "../services/firestoreCrud";
 import { SECTION_REGISTRY, DEFAULT_SECTION_ORDER } from "../components/newsletter/sectionRegistry";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
@@ -268,6 +269,8 @@ function IssueBuilder(): React.ReactElement {
 
   const [sections, setSections] = useState<IssueSection[] | null>(null);
   const [issueTitle, setIssueTitle] = useState("");
+  const [sortWeek, setSortWeek] = useState<number | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [status, setStatus] = useState<"draft" | "published">("draft");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const dirtyRef = useRef(false);
@@ -281,6 +284,7 @@ function IssueBuilder(): React.ReactElement {
     leagueId: string | undefined;
     sections: IssueSection[] | null;
     title: string;
+    sortWeek: number | null;
     status: "draft" | "published";
     docExists: boolean;
   }>({
@@ -290,6 +294,7 @@ function IssueBuilder(): React.ReactElement {
     leagueId: undefined,
     sections: null,
     title: "",
+    sortWeek: null,
     status: "draft",
     docExists: false,
   });
@@ -301,6 +306,7 @@ function IssueBuilder(): React.ReactElement {
     leagueId: activeLeagueId,
     sections,
     title: issueTitle,
+    sortWeek,
     status,
   };
 
@@ -314,6 +320,7 @@ function IssueBuilder(): React.ReactElement {
       target: { docId: string; season: number; week: number | null; leagueId: string },
       toSave: IssueSection[],
       title: string,
+      sortWeek: number | null,
       createIfMissing: boolean
     ): Promise<boolean> => {
       const isCurrent = () => liveRef.current.docId === target.docId;
@@ -327,6 +334,7 @@ function IssueBuilder(): React.ReactElement {
             week: target.week,
             leagueId: target.leagueId,
             title,
+            sortWeek,
             sections: toSave,
           },
           createIfMissing
@@ -346,6 +354,7 @@ function IssueBuilder(): React.ReactElement {
             week: target.week,
             leagueId: target.leagueId,
             title,
+            sortWeek,
             sections: toSave,
           })
         );
@@ -371,6 +380,7 @@ function IssueBuilder(): React.ReactElement {
       dirtyRef.current = false;
       setSections(null);
       setSaveState("idle");
+      setConfirmingDelete(false);
     }
     prevDocIdRef.current = docId;
 
@@ -385,7 +395,7 @@ function IssueBuilder(): React.ReactElement {
       const live = liveRef.current;
       if (!target || !dirtyRef.current || live.status !== "draft" || !live.sections) return;
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-      saveSections(target, live.sections, live.title, !live.docExists);
+      saveSections(target, live.sections, live.title, live.sortWeek, !live.docExists);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docId]);
@@ -399,6 +409,7 @@ function IssueBuilder(): React.ReactElement {
     if (loadedIssue) {
       setSections(loadedIssue.sections);
       setIssueTitle(loadedIssue.title ?? "");
+      setSortWeek(loadedIssue.sortWeek ?? null);
       setStatus(loadedIssue.status);
       liveRef.current.docExists = true;
     } else {
@@ -407,6 +418,7 @@ function IssueBuilder(): React.ReactElement {
       // sections have nothing to render from).
       setSections(adhocId ? [newTextSection()] : prefillSections());
       setIssueTitle("");
+      setSortWeek(null);
       setStatus("draft");
       liveRef.current.docExists = false;
     }
@@ -437,6 +449,7 @@ function IssueBuilder(): React.ReactElement {
         { docId: live.docId, season: live.season, week: live.week, leagueId: live.leagueId },
         live.sections,
         live.title,
+        live.sortWeek,
         !live.docExists
       );
     }, 1200);
@@ -444,7 +457,7 @@ function IssueBuilder(): React.ReactElement {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sections, issueTitle]);
+  }, [sections, issueTitle, sortWeek]);
 
   const mutate = (updater: (prev: IssueSection[]) => IssueSection[]) => {
     setSections((prev) => {
@@ -492,6 +505,7 @@ function IssueBuilder(): React.ReactElement {
       week: adhocId ? null : week,
       leagueId: activeLeagueId,
       title: issueTitle,
+      sortWeek,
       sections,
     };
     setSaveState("saving");
@@ -513,6 +527,36 @@ function IssueBuilder(): React.ReactElement {
   const publish = () => setPublishState("published");
   const unpublish = () => setPublishState("draft");
 
+  /**
+   * Delete the current draft (two-click confirm in the UI). Published issues
+   * must be reverted to draft first — the button only renders for drafts.
+   */
+  const deleteDraft = async () => {
+    if (!docId || !liveRef.current.docExists || status !== "draft") return;
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    dirtyRef.current = false;
+    try {
+      await deleteIssue(newsletterId!, docId);
+      setConfirmingDelete(false);
+      liveRef.current.docExists = false;
+      queryClient.removeQueries({ queryKey: ["issue", newsletterId, docId] });
+      queryClient.invalidateQueries({ queryKey: ["issues", newsletterId] });
+      if (adhocId) {
+        // Fall back to the weekly selection; the load effect repopulates.
+        setAdhocId(null);
+      } else {
+        // Stay on the week with a fresh prefill.
+        setSections(prefillSections());
+        setIssueTitle("");
+        setSortWeek(null);
+        setSaveState("idle");
+      }
+    } catch (e) {
+      console.error("Error deleting issue:", e);
+      setSaveState("error");
+    }
+  };
+
   /** Manual retry after a failed save — re-sends the current content. */
   const retrySave = () => {
     const live = liveRef.current;
@@ -522,6 +566,7 @@ function IssueBuilder(): React.ReactElement {
       { docId: live.docId, season: live.season, week: live.week, leagueId: live.leagueId },
       live.sections,
       live.title,
+      live.sortWeek,
       !live.docExists
     );
   };
@@ -623,6 +668,23 @@ function IssueBuilder(): React.ReactElement {
             <SubtleButton onClick={unpublish}>Revert to draft</SubtleButton>
           )}
 
+          {editable &&
+            sections !== null &&
+            liveRef.current.docExists &&
+            (confirmingDelete ? (
+              <>
+                <SubtleButton
+                  onClick={deleteDraft}
+                  style={{ borderColor: "#bc293d", color: "#bc293d" }}
+                >
+                  Really delete?
+                </SubtleButton>
+                <SubtleButton onClick={() => setConfirmingDelete(false)}>Cancel</SubtleButton>
+              </>
+            ) : (
+              <SubtleButton onClick={() => setConfirmingDelete(true)}>Delete draft</SubtleButton>
+            ))}
+
           <SaveState>
             {saveState === "saving" && "Saving…"}
             {saveState === "saved" && "Saved"}
@@ -653,6 +715,28 @@ function IssueBuilder(): React.ReactElement {
               setIssueTitle(e.target.value);
             }}
           />
+        )}
+
+        {docId !== null && sections !== null && adhocId && (
+          <ControlsBar>
+            <SaveState>Position in issue list:</SaveState>
+            <WeekSelect
+              value={sortWeek === null ? "" : String(sortWeek)}
+              disabled={!editable}
+              onChange={(e) => {
+                dirtyRef.current = true;
+                setSortWeek(e.target.value === "" ? null : Number(e.target.value));
+              }}
+            >
+              <option value="">Top of season</option>
+              {completedWeeksDesc.map((w) => (
+                <option key={w} value={w}>
+                  After Week {w}
+                </option>
+              ))}
+              <option value={0}>Before Week 1</option>
+            </WeekSelect>
+          </ControlsBar>
         )}
 
         {docId === null ? (

@@ -195,6 +195,12 @@ export interface IssueDoc {
   leagueId: string;
   /** Editor-chosen title. Lists fall back to "Week N" when absent. */
   title?: string;
+  /**
+   * Ad-hoc issues only: where the issue interleaves among the weeklies in
+   * issue lists. N = "after Week N" (renders just above Week N in the
+   * newest-first list), 0 = "before Week 1". Null/absent = top of season.
+   */
+  sortWeek?: number | null;
   /** Ordered sections; array order is render order. */
   sections: IssueSection[];
 }

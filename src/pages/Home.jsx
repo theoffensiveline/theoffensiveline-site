@@ -131,11 +131,15 @@ function Home() {
     !!selectedNewsletter &&
     (selectedNewsletter.editorUid === currentUser.uid ||
       selectedNewsletter.coEditorUids.includes(currentUser.uid));
+  // Interleave weeklies and ad-hoc issues: weeklies sort by week; ad-hoc
+  // issues slot in via sortWeek ("after Week N" → just above Week N in this
+  // newest-first list; unset → top of the season).
+  const issueSortKey = (i) => (i.week != null ? i.week : (i.sortWeek ?? 998) + 0.5);
   const leagueIssues = !newsletterCoversLeague
     ? []
     : (newsletterIssues ?? [])
         .filter((i) => i.leagueId === leagueId && (i.status === "published" || isNewsletterEditor))
-        .sort((a, b) => (a.id < b.id ? 1 : -1));
+        .sort((a, b) => issueSortKey(b) - issueSortKey(a) || (a.id < b.id ? 1 : -1));
   // The builder only edits the newsletter's active season, so its entry point
   // renders on that season's league home only.
   const canOpenBuilder = isNewsletterEditor && leagueId === selectedNewsletter?.activeLeagueId;

@@ -86,18 +86,26 @@ The Editor sets the newsletter visibility:
 
 When an Editor opens their league's newsletter for the current week:
 
-**Newsletter Builder View (MVP):**
+**Newsletter Builder (shipped in #84 + follow-ups):**
 
-- Each section of the newsletter is displayed in order
-- Auto-generated content (graphs, stats, matchup recaps) is pre-populated and locked
-- Editor can **add commentary below each section** — rich text editor (bold, italic, links, images)
+- Weekly issues prefill the standard computed section set (awards, charts,
+  standings, …) rendering live from the platform API; sections can be
+  reordered (↑/↓), removed, and restored
+- Rich-text commentary sections (bold, italic, links) insertable anywhere
+- Every issue has an optional **title** (lists fall back to "Week N")
+- **Ad-hoc special issues** — week-less editions (offseason address, draft
+  recap, season recap) with a commentary-only canvas; work pre-season; an
+  editor-set "position in issue list" interleaves them among the weeklies
+- Drafts autosave (merge writes that can never clobber a publish); Publish
+  locks the issue, Revert to draft unlocks, Delete draft (two-click) removes
+- Page structure: the newsletter home (/n/:id) is a pure seasons index;
+  clicking a season opens that year's league home, which lists the selected
+  newsletter's issues plus the builder entry (active season, editors only)
 
 **Future enhancements:**
 
-- Reorder sections (drag and drop)
-- Hide sections they don't want
-- Add custom sections — freeform content blocks between the data sections
-- Add a headline/intro at the top
+- Drag-and-drop reordering
+- Inline images in commentary
 - Add awards — custom superlatives (Boom of the Week, Bust of the Week, etc.)
 - **AI-generated content** — auto-generate commentary, recaps, or trash talk based on the week's data
 
@@ -179,9 +187,12 @@ For multi-league, the auto-generated newsletter is straightforward:
   - seasons[]: { leagueId, season, verified }, activeLeagueId
   - leagueIds[] (flattened for discovery queries), createdAt
 
-/newsletters/{newsletterId}/issues/{season}_w{week}  ← weekly editions (zero-padded week)
+/newsletters/{newsletterId}/issues/{issueId}  ← editions; two doc ID forms:
+  - weekly "{season}_w{week}" (zero-padded) | ad-hoc "{season}_x{epochMillis}"
   - status: draft | published
-  - publishedAt, season, week, leagueId, sections[] (computed type keys + inline editor-text)
+  - publishedAt, season, week (null for ad-hoc), leagueId, title?,
+    sortWeek? (ad-hoc position among the weeklies),
+    sections[] (computed type keys + inline editor-text)
 
 /newsletters/{newsletterId}/issues/{issueId}/submissions/{submissionId}
   - authorUid, type (meme | text | quote), content, imageUrl, status (pending | approved | rejected), createdAt
