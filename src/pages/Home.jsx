@@ -5,8 +5,10 @@ import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
-import { getNewslettersForLeague } from "../services/firestoreCrud";
-import { setSelectedNewsletter } from "../utils/selectedNewsletter";
+import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
+import { useAuth } from "../contexts/AuthContext";
+import { getAllIssues, getNewslettersForLeague } from "../services/firestoreCrud";
+import { setSelectedNewsletter, getSelectedNewsletterId } from "../utils/selectedNewsletter";
 
 const GridContainer = styled.div`
   display: grid;
@@ -111,6 +113,29 @@ function Home() {
     queryFn: () => getNewslettersForLeague(leagueId),
     enabled: !!leagueId,
   });
+
+  // Issues live on the league home (#84 follow-up): the newsletter home lists
+  // only seasons, and clicking a season lands here — so this page shows the
+  // selected newsletter's issues for this league-season.
+  const { currentUser } = useAuth();
+  const selectedNewsletterId = getSelectedNewsletterId();
+  const { data: selectedNewsletter } = useNewsletterDoc(selectedNewsletterId ?? undefined);
+  const newsletterCoversLeague = !!selectedNewsletter?.leagueIds?.includes(leagueId);
+  const { data: newsletterIssues } = useQuery({
+    queryKey: ["issues", selectedNewsletterId],
+    queryFn: () => getAllIssues(selectedNewsletterId),
+    enabled: newsletterCoversLeague,
+  });
+  const isNewsletterEditor =
+    !!currentUser &&
+    !!selectedNewsletter &&
+    (selectedNewsletter.editorUid === currentUser.uid ||
+      selectedNewsletter.coEditorUids.includes(currentUser.uid));
+  const leagueIssues = !newsletterCoversLeague
+    ? []
+    : (newsletterIssues ?? [])
+        .filter((i) => i.leagueId === leagueId && (i.status === "published" || isNewsletterEditor))
+        .sort((a, b) => (a.id < b.id ? 1 : -1));
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -289,6 +314,40 @@ function Home() {
             margin: "20px 0",
           }}
         />
+        {/* Selected newsletter's issues for this league-season (#84) */}
+        {leagueIssues.length > 0 && (
+          <>
+            {leagueIssues.map((issue, index) =>
+              index === 0 ? (
+                <RecentGridItem
+                  key={issue.id}
+                  onClick={() => navigate(`/n/${selectedNewsletterId}/issue/${issue.id}`)}
+                >
+                  {`${selectedNewsletter.name}\nWeek ${issue.week}${
+                    issue.status !== "published" ? " · draft" : ""
+                  }`}
+                </RecentGridItem>
+              ) : (
+                <GridItem
+                  key={issue.id}
+                  onClick={() => navigate(`/n/${selectedNewsletterId}/issue/${issue.id}`)}
+                >
+                  {`${selectedNewsletter.name}\nWeek ${issue.week}${
+                    issue.status !== "published" ? " · draft" : ""
+                  }`}
+                </GridItem>
+              )
+            )}
+            <div
+              style={{
+                gridColumn: "span 2",
+                height: "1px",
+                backgroundColor: theme.newsBlue,
+                margin: "20px 0",
+              }}
+            />
+          </>
+        )}
         {/* Pre-season: no completed weeks yet, so no recaps to show */}
         {showRecaps && !recapsLoading && recapWeekButtons.length === 0 && (
           <div style={{ gridColumn: "span 2", color: theme.text, opacity: 0.7, fontSize: 14 }}>

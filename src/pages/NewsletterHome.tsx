@@ -9,9 +9,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
-import { getAllIssues } from "../services/firestoreCrud";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 
@@ -128,19 +126,11 @@ const ButtonRow = styled.div`
   flex-wrap: wrap;
 `;
 
-/** Issues nested under their season row, indented to read as children. */
-const IssueList = styled.div`
-  margin-left: 28px;
-`;
-
 function NewsletterHome(): React.ReactElement {
   const { newsletterId } = useParams();
   const navigate = useNavigate();
   const { currentUser, profile, updateProfile } = useAuth();
   const [subscribing, setSubscribing] = useState(false);
-  // Issues stay hidden until a season is clicked open — the league pages
-  // already list week content, so showing issues by default doubled it up.
-  const [expandedSeason, setExpandedSeason] = useState<number | null>(null);
 
   const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
 
@@ -160,12 +150,6 @@ function NewsletterHome(): React.ReactElement {
 
   const { data: newsletter, isLoading } = useNewsletterDoc(newsletterId);
 
-  const { data: issues } = useQuery({
-    queryKey: ["issues", newsletterId],
-    queryFn: () => getAllIssues(newsletterId!),
-    enabled: !!newsletterId,
-  });
-
   // Visiting a newsletter selects it (regardless of auth), so shared public
   // links render this newsletter's nav for anonymous readers too (#108).
   useEffect(() => {
@@ -183,13 +167,6 @@ function NewsletterHome(): React.ReactElement {
   if (!newsletter) return <Container>Newsletter not found.</Container>;
 
   const seasonsDesc = [...newsletter.seasons].sort((a, b) => b.season - a.season);
-  const visibleIssues = (issues ?? [])
-    .filter((i) => i.status === "published" || isEditor)
-    .sort((a, b) => (a.id < b.id ? 1 : -1));
-  const issuesBySeason = new Map<number, typeof visibleIssues>();
-  for (const issue of visibleIssues) {
-    issuesBySeason.set(issue.season, [...(issuesBySeason.get(issue.season) ?? []), issue]);
-  }
 
   return (
     <Container>
@@ -214,70 +191,36 @@ function NewsletterHome(): React.ReactElement {
       <SectionLabel>Seasons</SectionLabel>
       <List>
         {seasonsDesc.map((s) => (
-          <React.Fragment key={s.season}>
-            <SeasonItem
-              onClick={() => setExpandedSeason(expandedSeason === s.season ? null : s.season)}
-              role="button"
-              aria-expanded={expandedSeason === s.season}
-              style={{ cursor: "pointer" }}
-            >
-              <SeasonYear>
-                {expandedSeason === s.season ? "▾ " : "▸ "}
-                {s.season}
-                {s.leagueId === newsletter.activeLeagueId ? " · current" : ""}
-              </SeasonYear>
-              <span>
-                <SeasonMeta
-                  title={
-                    s.verified
-                      ? "The editor's league membership was confirmed for this season"
-                      : "Added without a membership check — display-only"
-                  }
-                >
-                  {s.verified ? "verified" : "unverified"}
-                  {(issuesBySeason.get(s.season) ?? []).length > 0
-                    ? ` · ${(issuesBySeason.get(s.season) ?? []).length} issue${
-                        (issuesBySeason.get(s.season) ?? []).length === 1 ? "" : "s"
-                      }`
-                    : ""}
-                </SeasonMeta>
-                <SeasonLink
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/home/${s.leagueId}`);
-                  }}
-                >
-                  league home
-                </SeasonLink>
-                <SeasonLink
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/league/${s.leagueId}/league-overview`);
-                  }}
-                >
-                  overview
-                </SeasonLink>
-              </span>
-            </SeasonItem>
-            {expandedSeason === s.season && (
-              <IssueList>
-                {(issuesBySeason.get(s.season) ?? []).map((issue) => (
-                  <SeasonItem
-                    key={issue.id}
-                    onClick={() => navigate(`/n/${newsletterId}/issue/${issue.id}`)}
-                    role="button"
-                    style={{ cursor: "pointer" }}
-                  >
-                    <SeasonYear>Week {issue.week}</SeasonYear>
-                    {issue.status !== "published" && <SeasonMeta>draft</SeasonMeta>}
-                  </SeasonItem>
-                ))}
-                {(issuesBySeason.get(s.season) ?? []).length === 0 && (
-                  <SeasonMeta>No issues yet</SeasonMeta>
-                )}
-              </IssueList>
-            )}
-          </React.Fragment>
+          <SeasonItem
+            key={s.season}
+            onClick={() => navigate(`/home/${s.leagueId}`)}
+            role="button"
+            style={{ cursor: "pointer" }}
+          >
+            <SeasonYear>
+              {s.season}
+              {s.leagueId === newsletter.activeLeagueId ? " · current" : ""}
+            </SeasonYear>
+            <span>
+              <SeasonMeta
+                title={
+                  s.verified
+                    ? "The editor's league membership was confirmed for this season"
+                    : "Added without a membership check — display-only"
+                }
+              >
+                {s.verified ? "verified" : "unverified"}
+              </SeasonMeta>
+              <SeasonLink
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/league/${s.leagueId}/league-overview`);
+                }}
+              >
+                overview
+              </SeasonLink>
+            </span>
+          </SeasonItem>
         ))}
       </List>
     </Container>
