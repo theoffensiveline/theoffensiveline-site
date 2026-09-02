@@ -9,7 +9,8 @@
  *   /users/{uid}
  *   /leagues/{leagueId}
  *   /newsletters/{newsletterId}                        (issue #103)
- *   /newsletters/{newsletterId}/issues/{season}_w{week}
+ *   /newsletters/{newsletterId}/issues/{issueId}       (issue #84)
+ *     issueId forms: weekly "{season}_w{NN}" | ad-hoc "{season}_x{epochMillis}"
  */
 
 import {
@@ -25,6 +26,7 @@ import {
   where,
   arrayUnion,
   arrayRemove,
+  runTransaction,
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -35,6 +37,7 @@ import type {
   NewsletterDoc,
   NewsletterSeason,
   IssueDoc,
+  IssueSection,
 } from "../types/firestore";
 import { getSeedFeatures } from "../components/constants/LeagueConstants";
 
@@ -270,11 +273,12 @@ export async function deleteNewsletter(newsletterId: string): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Issues — /newsletters/{newsletterId}/issues/{season}_w{week}
+// Issues — /newsletters/{newsletterId}/issues/{issueId}
+// issueId forms: weekly "{season}_w{NN}" | ad-hoc "{season}_x{epochMillis}"
 // ---------------------------------------------------------------------------
 
 /**
- * Build an issue document ID. Weeks are zero-padded so lexical order
+ * Build a weekly issue document ID. Weeks are zero-padded so lexical order
  * matches chronological order ("2025_w02" < "2025_w10").
  */
 export function issueDocId(season: number, week: number): string {
@@ -282,37 +286,105 @@ export function issueDocId(season: number, week: number): string {
 }
 
 /**
- * Create or overwrite an issue for a given season + week.
+ * Build an ad-hoc (week-less) issue document ID. The epoch-millis suffix is
+ * unique per creation and keeps lexical order = creation order; "x" sorts
+ * after "w", so a season's ad-hoc issues list above its weeklies when
+ * sorting IDs descending.
+ */
+export function adhocIssueId(season: number): string {
+  return `${season}_x${Date.now()}`;
+}
+
+/**
+ * Create or overwrite an issue.
  * @param newsletterId - Parent newsletter document ID
- * @param season - NFL season year
- * @param week - Week number
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
  * @param data - Issue fields
  */
 export async function setIssue(
   newsletterId: string,
-  season: number,
-  week: number,
+  issueId: string,
   data: IssueDoc
 ): Promise<void> {
-  await setDoc(doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week)), data);
+  await setDoc(doc(db, "newsletters", newsletterId, "issues", issueId), data);
 }
 
 /**
- * Fetch an issue for a given season + week.
+ * Autosave an issue draft's content WITHOUT touching status/publishedAt —
+ * status fields are written only by the explicit publish/unpublish paths
+ * (setIssue), or here when the doc doesn't exist yet. A transaction decides
+ * create-vs-merge against the doc's REAL existence, so a tab with a stale
+ * local view can never revert another tab's publish, and a save racing a
+ * delete recreates a well-formed (deletable) draft instead of a doc with no
+ * status at all (#84 swarm review).
  * @param newsletterId - Parent newsletter document ID
- * @param season - NFL season year
- * @param week - Week number
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
+ * @param data - Draft content: season, week (null for ad-hoc), leagueId,
+ *   title, sortWeek, and the current ordered sections
+ * @returns "created" if the doc didn't exist, "merged" otherwise.
+ */
+export async function saveIssueDraft(
+  newsletterId: string,
+  issueId: string,
+  data: {
+    season: number;
+    week: number | null;
+    leagueId: string;
+    title: string;
+    sortWeek: number | null;
+    sections: IssueSection[];
+  }
+): Promise<"created" | "merged"> {
+  const ref = doc(db, "newsletters", newsletterId, "issues", issueId);
+  return runTransaction(db, async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists()) {
+      tx.set(ref, { ...data, status: "draft", publishedAt: null });
+      return "created";
+    }
+    tx.set(ref, data, { merge: true });
+    return "merged";
+  });
+}
+
+/**
+ * Fetch an issue by document ID.
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
  * @returns The issue document or null if not found.
  */
-export async function getIssue(
-  newsletterId: string,
-  season: number,
-  week: number
-): Promise<IssueDoc | null> {
-  const snap = await getDoc(
-    doc(db, "newsletters", newsletterId, "issues", issueDocId(season, week))
-  );
+export async function getIssue(newsletterId: string, issueId: string): Promise<IssueDoc | null> {
+  const snap = await getDoc(doc(db, "newsletters", newsletterId, "issues", issueId));
   return snap.exists() ? (snap.data() as IssueDoc) : null;
+}
+
+/**
+ * Delete an issue document.
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
+ */
+export async function deleteIssue(newsletterId: string, issueId: string): Promise<void> {
+  await deleteDoc(doc(db, "newsletters", newsletterId, "issues", issueId));
+}
+
+/**
+ * Fetch a newsletter's issues for ONE league-season. The league home only
+ * renders that season's issues, so this avoids downloading every other
+ * season's full section bodies (#84 swarm review).
+ * @param newsletterId - Parent newsletter document ID
+ * @param leagueId - League doc ID the issues render from
+ * @returns Array of issue documents with their IDs.
+ */
+export async function getIssuesForLeague(
+  newsletterId: string,
+  leagueId: string
+): Promise<(IssueDoc & { id: string })[]> {
+  const q = query(
+    collection(db, "newsletters", newsletterId, "issues"),
+    where("leagueId", "==", leagueId)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as IssueDoc) }));
 }
 
 /**

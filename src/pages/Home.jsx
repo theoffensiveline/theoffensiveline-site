@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
@@ -5,8 +6,10 @@ import { leagueIds } from "../components/constants/LeagueConstants";
 import hotDogsData from "../data/hotDogs.json";
 import { useCompletedWeeks } from "../hooks/useCompletedWeeks";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
-import { getNewslettersForLeague } from "../services/firestoreCrud";
-import { setSelectedNewsletter } from "../utils/selectedNewsletter";
+import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
+import { useAuth } from "../contexts/AuthContext";
+import { getIssuesForLeague, getNewslettersForLeague } from "../services/firestoreCrud";
+import { setSelectedNewsletter, getSelectedNewsletterId } from "../utils/selectedNewsletter";
 
 const GridContainer = styled.div`
   display: grid;
@@ -111,6 +114,57 @@ function Home() {
     queryFn: () => getNewslettersForLeague(leagueId),
     enabled: !!leagueId,
   });
+
+  // Issues live on the league home (#84 follow-up): the newsletter home lists
+  // only seasons, and clicking a season lands here — so this page shows the
+  // selected newsletter's issues for this league-season.
+  const { currentUser } = useAuth();
+  // Selection is client state (localStorage) — subscribe so another tab's
+  // change (or NavBar's self-heal) updates this page too (#84 swarm review).
+  const [selectedNewsletterId, setSelectedNewsletterIdState] = useState(getSelectedNewsletterId);
+  useEffect(() => {
+    const sync = () => setSelectedNewsletterIdState(getSelectedNewsletterId());
+    window.addEventListener("leagueChange", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("leagueChange", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+  const { data: selectedNewsletterDoc } = useNewsletterDoc(selectedNewsletterId ?? undefined);
+  // Fall back to one of the league's newsletters when nothing relevant is
+  // selected, so a cold visitor to a shared league-home link still sees
+  // issues instead of an empty page (#84 swarm review). Prefer a newsletter
+  // whose ACTIVE season is this league — it's the one being written here.
+  const selectedCovers = !!selectedNewsletterDoc?.leagueIds?.includes(leagueId);
+  const fallbackNewsletter =
+    (leagueNewsletters ?? []).find((nl) => nl.activeLeagueId === leagueId) ??
+    leagueNewsletters?.[0] ??
+    null;
+  const displayNewsletterId = selectedCovers
+    ? selectedNewsletterId
+    : (fallbackNewsletter?.id ?? null);
+  const displayNewsletter = selectedCovers ? selectedNewsletterDoc : fallbackNewsletter;
+  const { data: newsletterIssues } = useQuery({
+    queryKey: ["issues", displayNewsletterId, leagueId],
+    queryFn: () => getIssuesForLeague(displayNewsletterId, leagueId),
+    enabled: !!displayNewsletterId,
+  });
+  const isNewsletterEditor =
+    !!currentUser &&
+    !!displayNewsletter &&
+    (displayNewsletter.editorUid === currentUser.uid ||
+      displayNewsletter.coEditorUids.includes(currentUser.uid));
+  // Interleave weeklies and ad-hoc issues: weeklies sort by week; ad-hoc
+  // issues slot in via sortWeek ("after Week N" → just above Week N in this
+  // newest-first list; unset → top of the season).
+  const issueSortKey = (i) => (i.week != null ? i.week : (i.sortWeek ?? 998) + 0.5);
+  const leagueIssues = (newsletterIssues ?? [])
+    .filter((i) => i.status === "published" || isNewsletterEditor)
+    .sort((a, b) => issueSortKey(b) - issueSortKey(a) || (a.id < b.id ? 1 : -1));
+  // The builder only edits the newsletter's active season, so its entry point
+  // renders on that season's league home only.
+  const canOpenBuilder = isNewsletterEditor && leagueId === displayNewsletter?.activeLeagueId;
 
   // Function to get MotW loser info for a newsletter issue
   const getMotWLoserInfo = (issueName) => {
@@ -289,6 +343,48 @@ function Home() {
             margin: "20px 0",
           }}
         />
+        {/* Selected newsletter's issues for this league-season (#84) */}
+        {(leagueIssues.length > 0 || canOpenBuilder) && (
+          <>
+            {canOpenBuilder && (
+              <GridItem
+                onClick={() => navigate(`/n/${displayNewsletterId}/builder`)}
+                style={{ gridColumn: "span 2", justifySelf: "center", minWidth: "40%" }}
+              >
+                {`✍️ Open builder\n${displayNewsletter.name}`}
+              </GridItem>
+            )}
+            {leagueIssues.map((issue, index) =>
+              index === 0 ? (
+                <RecentGridItem
+                  key={issue.id}
+                  onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
+                >
+                  {`${displayNewsletter.name}\n${
+                    issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
+                  }${issue.status !== "published" ? " · draft" : ""}`}
+                </RecentGridItem>
+              ) : (
+                <GridItem
+                  key={issue.id}
+                  onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
+                >
+                  {`${displayNewsletter.name}\n${
+                    issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
+                  }${issue.status !== "published" ? " · draft" : ""}`}
+                </GridItem>
+              )
+            )}
+            <div
+              style={{
+                gridColumn: "span 2",
+                height: "1px",
+                backgroundColor: theme.newsBlue,
+                margin: "20px 0",
+              }}
+            />
+          </>
+        )}
         {/* Pre-season: no completed weeks yet, so no recaps to show */}
         {showRecaps && !recapsLoading && recapWeekButtons.length === 0 && (
           <div style={{ gridColumn: "span 2", color: theme.text, opacity: 0.7, fontSize: 14 }}>

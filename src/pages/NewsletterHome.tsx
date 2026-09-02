@@ -1,56 +1,29 @@
 /**
- * NewsletterHome — minimal publication page at /n/:newsletterId (#103 sub-issue A).
+ * NewsletterHome — pure seasons index at /n/:newsletterId (#103/#84).
  *
- * Shows the newsletter's name, editor status, and its league-seasons linking
- * into the existing league pages. Editors get an add-season affordance:
- * a one-click suggestion from the previous_league_id chain, plus manual
- * league-ID entry for cross-platform history (added unverified).
- *
- * Just enough to make the entity testable end-to-end — the full newsletter
- * home (features, archive, season switcher) is #103 sub-issue B.
+ * Shows the newsletter's name and its league-seasons; clicking a season
+ * opens that year's league home, where the issues (and the builder entry,
+ * for editors on the active season) live. Editor management (adding
+ * seasons, feature toggles) is on NewsletterSettings at
+ * /n/:newsletterId/settings — this page offers editors only that link.
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/AuthContext";
-import { verifyLeagueMembership } from "../utils/leagueClaim";
-import { getNewsletter, setNewsletterFeature, updateNewsletter } from "../services/firestoreCrud";
-import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
-import { TOGGLEABLE_FEATURES } from "../components/constants/NewsletterConstants";
-import type { LeagueFeature, NewsletterSeason } from "../types/firestore";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-const Title = styled.h1`
-  font-size: 26px;
-  margin-bottom: 4px;
-  color: ${({ theme }: any) => theme.text};
-`;
+import {
+  PageColumn,
+  PageTitle,
+  SectionLabel,
+  ActionButton,
+} from "../components/newsletter/pageStyles";
 
 const EditorBadge = styled.span`
   font-size: 13px;
   color: ${({ theme }: any) => theme.newsBlue};
   margin-bottom: 24px;
-`;
-
-const SectionLabel = styled.h3`
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: ${({ theme }: any) => theme.text};
-  opacity: 0.5;
-  margin: 20px 0 12px;
 `;
 
 const List = styled.div`
@@ -98,142 +71,35 @@ const SeasonLink = styled.button`
   text-decoration: underline;
 `;
 
-const ActionButton = styled.button`
-  background-color: ${({ theme }: any) => theme.newsBlue};
-  color: ${({ theme }: any) => theme.background};
-  border: none;
+const SubtleButton = styled.button`
+  background: none;
+  border: 1px solid ${({ theme }: any) => theme.newsBlue}66;
+  color: ${({ theme }: any) => theme.newsBlue};
   border-radius: 20px;
-  padding: 8px 18px;
-  font-size: 14px;
+  padding: 7px 14px;
+  font-size: 13px;
   cursor: pointer;
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
+  &:hover {
+    border-color: ${({ theme }: any) => theme.newsBlue};
   }
 `;
 
-const ManualRow = styled.div`
+const ButtonRow = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 8px;
 `;
-
-const IdInput = styled.input`
-  padding: 8px 12px;
-  border: 1px solid ${({ theme }: any) => theme.neutral3}66;
-  border-radius: 8px;
-  background-color: ${({ theme }: any) => theme.background};
-  color: ${({ theme }: any) => theme.text};
-  font-size: 13px;
-  width: 220px;
-`;
-
-const FeatureList = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 440px;
-`;
-
-const FeatureCard = styled.label`
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  text-align: left;
-  background-color: ${({ theme }: any) => theme.background};
-  border: 1px solid ${({ theme }: any) => theme.neutral3}44;
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin: 4px 0;
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-
-  &:hover {
-    border-color: ${({ theme }: any) => theme.neutral3};
-  }
-
-  input[type="checkbox"] {
-    accent-color: ${({ theme }: any) => theme.newsBlue};
-    margin-top: 3px;
-    flex-shrink: 0;
-  }
-`;
-
-const FeatureText = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const FeatureName = styled.span`
-  font-size: 14px;
-  font-weight: bold;
-  color: ${({ theme }: any) => theme.text};
-`;
-
-const FeatureDescription = styled.span`
-  font-size: 12px;
-  color: ${({ theme }: any) => theme.text};
-  opacity: 0.65;
-  line-height: 1.4;
-`;
-
-const Hint = styled.p`
-  font-size: 13px;
-  color: ${({ theme }: any) => theme.text};
-  opacity: 0.6;
-  line-height: 1.5;
-  margin: 4px 0;
-`;
-
-const ErrorText = styled.span`
-  color: #bc293d;
-  font-size: 13px;
-`;
-
-interface ChainSuggestion {
-  leagueId: string;
-  season: number;
-  name: string;
-}
 
 function NewsletterHome(): React.ReactElement {
   const { newsletterId } = useParams();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { currentUser, profile, updateProfile } = useAuth();
-  const [manualId, setManualId] = useState("");
-  const [adding, setAdding] = useState(false);
-  const [addError, setAddError] = useState<string | null>(null);
   const [subscribing, setSubscribing] = useState(false);
 
   const isSubscribed = !!newsletterId && !!profile?.subscribedNewsletterIds?.includes(newsletterId);
-  const [togglingFeature, setTogglingFeature] = useState<LeagueFeature | null>(null);
-  const [featureError, setFeatureError] = useState<string | null>(null);
-
-  // Toggle a palette feature via atomic arrayUnion/arrayRemove — only the
-  // named flag is touched, so concurrent toggles and console-set dogfood
-  // flags can never be clobbered by a stale cache (#110 review).
-  const toggleFeature = async (feature: LeagueFeature) => {
-    if (!newsletter || !newsletterId || togglingFeature) return;
-    setTogglingFeature(feature);
-    setFeatureError(null);
-    try {
-      const enabled = !(newsletter.features ?? []).includes(feature);
-      await setNewsletterFeature(newsletterId, feature, enabled);
-      // NavBar shares the ["newsletter", id] query key, so this refreshes its nav too
-      await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
-    } catch (e) {
-      console.error("Error toggling feature:", e);
-      setFeatureError("Couldn't update that feature — try again.");
-    } finally {
-      setTogglingFeature(null);
-    }
-  };
 
   const toggleSubscription = async () => {
     if (!newsletterId || !currentUser || subscribing) return;
@@ -264,114 +130,30 @@ function NewsletterHome(): React.ReactElement {
     !!newsletter &&
     (newsletter.editorUid === currentUser.uid || newsletter.coEditorUids.includes(currentUser.uid));
 
-  // One-click prior-season suggestion: follow previous_league_id from the
-  // earliest Sleeper season (ESPN/Yahoo adapters have no season chain, so a
-  // cross-platform earliest season would otherwise dead-end the suggestion).
-  const seasonYears = newsletter?.seasons.map((s) => s.season).join(",");
-  const { data: suggestion } = useQuery<ChainSuggestion | null>({
-    queryKey: ["prevSeasonSuggestion", newsletterId, seasonYears],
-    enabled: isEditor && !!newsletter,
-    staleTime: 60 * 60 * 1000,
-    queryFn: async () => {
-      const earliestSleeper = [...newsletter!.seasons]
-        .filter((s) => getPlatform(s.leagueId) === "sleeper")
-        .sort((a, b) => a.season - b.season)[0];
-      if (!earliestSleeper) return null;
-      const league = await getLeague(earliestSleeper.leagueId);
-      const prevId = league.previous_league_id;
-      if (!prevId || prevId === "0" || newsletter!.leagueIds.includes(prevId)) return null;
-      const prev = await getLeague(prevId);
-      return { leagueId: prevId, season: parseInt(prev.season, 10), name: prev.name };
-    },
-  });
-
-  /**
-   * Append a season. Re-fetches the doc first so a stale cache can't drop a
-   * concurrently added season. The active pointer only advances when the new
-   * season is strictly newer than the current one (season rollover) — adding
-   * history never moves it (#103: explicit pointer, never derived).
-   */
-  const addSeason = async (season: NewsletterSeason): Promise<boolean> => {
-    if (!newsletterId) return false;
-    try {
-      const fresh = await getNewsletter(newsletterId);
-      if (!fresh) throw new Error("Newsletter no longer exists.");
-      const seasons = [...fresh.seasons, season].sort((a, b) => a.season - b.season);
-      const activeYear = fresh.seasons.find((s) => s.leagueId === fresh.activeLeagueId)?.season;
-      const activeLeagueId =
-        activeYear !== undefined && season.season > activeYear
-          ? season.leagueId
-          : fresh.activeLeagueId;
-      await updateNewsletter(newsletterId, { seasons, activeLeagueId });
-      await queryClient.invalidateQueries({ queryKey: ["newsletter", newsletterId] });
-      return true;
-    } catch (e) {
-      setAddError(e instanceof Error ? e.message : "Couldn't add that season.");
-      return false;
-    }
-  };
-
-  const handleAddSuggestion = async () => {
-    if (!suggestion || adding) return;
-    setAdding(true);
-    setAddError(null);
-    try {
-      // Chain seasons get a membership check; verified when it passes.
-      const membership = await verifyLeagueMembership(suggestion.leagueId, profile);
-      await addSeason({
-        leagueId: suggestion.leagueId,
-        season: suggestion.season,
-        verified: membership.isMember,
-      });
-    } finally {
-      setAdding(false);
-    }
-  };
-
-  const handleAddManual = async () => {
-    const id = manualId.trim();
-    if (!id || adding) return;
-    setAddError(null);
-    // ESPN/Yahoo reuse one league ID for every season, so re-adding the same
-    // ID is usually someone trying to add the new season — explain that
-    // instead of a bare duplicate error. Per-season entries for reused IDs
-    // are a known follow-up to #103.
-    if (newsletter?.leagueIds.includes(id)) {
-      setAddError(
-        getPlatform(id) === "sleeper"
-          ? "That league is already part of this newsletter. On Sleeper, each season has its own league ID — use the new season's ID instead."
-          : `That league is already in this newsletter. ${
-              getPlatform(id) === "espn" ? "ESPN" : "Yahoo"
-            } keeps the same league ID every season, so it can't be added twice — separate entries per season aren't supported yet.`
-      );
-      return;
-    }
-    setAdding(true);
-    try {
-      // Fetchable check only — manual (cross-platform) seasons are unverified.
-      const league = await getLeague(id);
-      const ok = await addSeason({
-        leagueId: id,
-        season: parseInt(league.season, 10),
-        verified: false,
-      });
-      if (ok) setManualId("");
-    } catch (e) {
-      setAddError("Couldn't fetch that league — check the ID (use espn_/yahoo_ prefixes).");
-    } finally {
-      setAdding(false);
-    }
-  };
-
-  if (isLoading) return <Container>Loading…</Container>;
-  if (!newsletter) return <Container>Newsletter not found.</Container>;
+  if (isLoading) return <PageColumn>Loading…</PageColumn>;
+  if (!newsletter) return <PageColumn>Newsletter not found.</PageColumn>;
 
   const seasonsDesc = [...newsletter.seasons].sort((a, b) => b.season - a.season);
 
   return (
-    <Container>
-      <Title>{newsletter.name}</Title>
+    <PageColumn>
+      <PageTitle>{newsletter.name}</PageTitle>
       {isEditor && <EditorBadge>🖋️ You're the editor</EditorBadge>}
+      <SubtleButton
+        style={{ marginBottom: 12 }}
+        onClick={() => navigate(`/league/${newsletter.activeLeagueId}/newsletters`)}
+      >
+        ← Back to all newsletters
+      </SubtleButton>
+      {/* The builder entry lives on the current season's league home with the
+          issues — this page is a pure seasons index. */}
+      {isEditor && (
+        <ButtonRow>
+          <SubtleButton onClick={() => navigate(`/n/${newsletterId}/settings`)}>
+            League Settings
+          </SubtleButton>
+        </ButtonRow>
+      )}
       {currentUser && !isEditor && (
         <ActionButton onClick={toggleSubscription} disabled={subscribing}>
           {subscribing ? "…" : isSubscribed ? "Unsubscribe" : "Subscribe"}
@@ -413,60 +195,7 @@ function NewsletterHome(): React.ReactElement {
           </SeasonItem>
         ))}
       </List>
-
-      {isEditor && (
-        <>
-          <SectionLabel>Add a Season</SectionLabel>
-          {suggestion && (
-            <ActionButton onClick={handleAddSuggestion} disabled={adding}>
-              {adding
-                ? "Adding…"
-                : `Add ${suggestion.season} — ${
-                    suggestion.name.length > 28
-                      ? `${suggestion.name.slice(0, 28)}…`
-                      : suggestion.name
-                  }`}
-            </ActionButton>
-          )}
-          <ManualRow>
-            <IdInput
-              type="text"
-              placeholder="League ID (espn_… / yahoo_… / Sleeper)"
-              value={manualId}
-              onChange={(e) => setManualId(e.target.value)}
-            />
-            <ActionButton onClick={handleAddManual} disabled={adding || !manualId.trim()}>
-              Add
-            </ActionButton>
-          </ManualRow>
-          <Hint>
-            Manually added leagues are marked unverified — they show up in the newsletter but don't
-            count toward league membership.
-          </Hint>
-          {addError && <ErrorText>{addError}</ErrorText>}
-
-          <SectionLabel>Features</SectionLabel>
-          <FeatureList>
-            {TOGGLEABLE_FEATURES.map(({ feature, label, description }) => (
-              <FeatureCard key={feature}>
-                <input
-                  type="checkbox"
-                  checked={(newsletter.features ?? []).includes(feature)}
-                  onChange={() => toggleFeature(feature)}
-                  disabled={togglingFeature !== null}
-                />
-                <FeatureText>
-                  <FeatureName>{label}</FeatureName>
-                  <FeatureDescription>{description}</FeatureDescription>
-                </FeatureText>
-              </FeatureCard>
-            ))}
-          </FeatureList>
-          <Hint>Enabled features appear in this newsletter's navigation.</Hint>
-          {featureError && <ErrorText>{featureError}</ErrorText>}
-        </>
-      )}
-    </Container>
+    </PageColumn>
   );
 }
 

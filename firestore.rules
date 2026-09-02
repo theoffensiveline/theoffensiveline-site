@@ -80,14 +80,30 @@ service cloud.firestore {
 
       // ---------------------------------------------------------------------
       // /newsletters/{newsletterId}/issues/{issueId}
-      // Weekly editions. Publicly readable; writable by editor or co-editors.
-      // Doc IDs must match the zero-padded {season}_w{week} convention the
-      // client relies on for chronological sorting.
+      // Editions. Publicly readable; writable by editor or co-editors.
+      // Doc IDs must match one of the client's two conventions:
+      //   weekly "{season}_w{NN}" (zero-padded for chronological sorting) or
+      //   ad-hoc "{season}_x{epochMillis}" (week-less special issues).
       // ---------------------------------------------------------------------
       match /issues/{issueId} {
         allow read: if true;
-        allow write: if request.auth != null
-          && issueId.matches('^[0-9]{4}_w[0-9]{2}$')
+        // Field validation on create/update (merged-doc semantics): even a
+        // co-editor's hand-rolled client can't write a bogus status or
+        // mistyped season/week — the ID↔field reconciliation beyond the
+        // season prefix isn't expressible in rules and stays client-side.
+        allow create, update: if request.auth != null
+          && issueId.matches('^[0-9]{4}_(w[0-9]{2}|x[0-9]{10,16})$')
+          && (get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.editorUid == request.auth.uid
+              || request.auth.uid in get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.coEditorUids)
+          && request.resource.data.keys().hasOnly(
+               ['status', 'publishedAt', 'season', 'week', 'leagueId', 'title', 'sortWeek', 'sections'])
+          && request.resource.data.status in ['draft', 'published']
+          && request.resource.data.season is int
+          && issueId.matches('^' + string(request.resource.data.season) + '_.*')
+          && (request.resource.data.week is int || request.resource.data.week == null)
+          && request.resource.data.leagueId is string
+          && request.resource.data.sections is list;
+        allow delete: if request.auth != null
           && (get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.editorUid == request.auth.uid
               || request.auth.uid in get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.coEditorUids);
       }

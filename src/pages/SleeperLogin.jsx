@@ -37,11 +37,6 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const LoadMoreButton = styled(Button)`
-  margin-top: 15px;
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
-`;
-
 const LeagueItem = styled.div`
   display: flex;
   align-items: center;
@@ -66,10 +61,11 @@ const LeagueName = styled.span`
   text-align: left;
 `;
 
-const YearHeader = styled.h3`
-  margin-top: 20px;
-  margin-bottom: 5px;
+const YearTag = styled.span`
+  font-size: 12px;
   color: ${({ theme }) => theme.text};
+  opacity: 0.6;
+  margin-left: 10px;
 `;
 
 function SleeperLogin() {
@@ -77,9 +73,6 @@ function SleeperLogin() {
   const [leaguesByYear, setLeaguesByYear] = useState([]); // [{year, leagues}]
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [nextYear, setNextYear] = useState(null); // next year to fetch on "Load more"
-  const [hasMore, setHasMore] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
@@ -96,8 +89,6 @@ function SleeperLogin() {
       if (cached) {
         const parsed = JSON.parse(cached);
         setLeaguesByYear(parsed.leaguesByYear);
-        setNextYear(parsed.nextYear);
-        setHasMore(parsed.hasMore);
         setUserId(parsed.userId);
         setHasSubmitted(true);
       }
@@ -154,71 +145,17 @@ function SleeperLogin() {
       }
 
       const newLeaguesByYear = leagues.length > 0 ? [{ year: season, leagues }] : [];
-      const moreAvailable = leagues.length > 0;
-      const next = moreAvailable ? season - 1 : null;
 
       setLeaguesByYear(newLeaguesByYear);
-      setNextYear(next);
-      setHasMore(moreAvailable);
       setHasSubmitted(true);
 
       localStorage.setItem(
         `leaguesByYear_${username}`,
-        JSON.stringify({
-          leaguesByYear: newLeaguesByYear,
-          nextYear: next,
-          hasMore: moreAvailable,
-          userId: uid,
-        })
+        JSON.stringify({ leaguesByYear: newLeaguesByYear, userId: uid })
       );
     } catch (error) {
       console.error("Error fetching leagues:", error);
       setErrorMessage("connection");
-    }
-  };
-
-  const handleLoadMore = async () => {
-    if (nextYear === null || !hasMore || loadingMore) return;
-    setLoadingMore(true);
-
-    try {
-      const leagues = await fetchLeaguesForYear(userId, nextYear);
-
-      if (leagues.length === 0) {
-        setHasMore(false);
-        setLoadingMore(false);
-        // Update cache
-        localStorage.setItem(
-          `leaguesByYear_${username}`,
-          JSON.stringify({
-            leaguesByYear,
-            nextYear: null,
-            hasMore: false,
-            userId,
-          })
-        );
-        return;
-      }
-
-      const updated = [...leaguesByYear, { year: nextYear, leagues }];
-      const next = nextYear - 1;
-
-      setLeaguesByYear(updated);
-      setNextYear(next);
-      setLoadingMore(false);
-
-      localStorage.setItem(
-        `leaguesByYear_${username}`,
-        JSON.stringify({
-          leaguesByYear: updated,
-          nextYear: next,
-          hasMore: true,
-          userId,
-        })
-      );
-    } catch (error) {
-      console.error("Error loading more leagues:", error);
-      setLoadingMore(false);
     }
   };
 
@@ -232,6 +169,18 @@ function SleeperLogin() {
   };
 
   const totalLeagues = leaguesByYear.reduce((sum, g) => sum + g.leagues.length, 0);
+
+  // One row per league: Sleeper mints a new league ID every season, chained
+  // via previous_league_id. Hide any season that a newer fetched season
+  // points back to — the newsletter flow handles year selection now
+  // (league → newsletter → season → issue).
+  const allLeagues = leaguesByYear.flatMap(({ year, leagues }) =>
+    leagues.map((l) => ({ ...l, latestYear: year }))
+  );
+  const ancestorIds = new Set(
+    allLeagues.map((l) => l.previous_league_id).filter((id) => id && id !== "0")
+  );
+  const dedupedLeagues = allLeagues.filter((l) => !ancestorIds.has(l.league_id));
 
   return (
     <Container>
@@ -267,28 +216,17 @@ function SleeperLogin() {
       {totalLeagues > 0 && (
         <div>
           <h2>Select a League</h2>
-          {leaguesByYear.map(({ year, leagues }) => (
-            <div key={year}>
-              <YearHeader>{year} Leagues</YearHeader>
-              {leagues.map((league) => (
-                <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
-                  <LeaguePhoto
-                    src={
-                      league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : undefined
-                    }
-                    alt={league.name}
-                    size={50}
-                  />
-                  <LeagueName>{league.name}</LeagueName>
-                </LeagueItem>
-              ))}
-            </div>
+          {dedupedLeagues.map((league) => (
+            <LeagueItem key={league.league_id} onClick={() => handleLeagueSelect(league)}>
+              <LeaguePhoto
+                src={league.avatar ? `https://sleepercdn.com/avatars/${league.avatar}` : undefined}
+                alt={league.name}
+                size={50}
+              />
+              <LeagueName>{league.name}</LeagueName>
+              <YearTag>{league.latestYear}</YearTag>
+            </LeagueItem>
           ))}
-          {hasMore && (
-            <LoadMoreButton onClick={handleLoadMore} disabled={loadingMore}>
-              {loadingMore ? "Loading..." : "Load more"}
-            </LoadMoreButton>
-          )}
         </div>
       )}
     </Container>

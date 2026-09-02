@@ -4,6 +4,7 @@ import { ThemeProvider as CustomThemeProvider, useTheme } from "./ThemeContext";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { ColorConstants } from "./components/constants/ColorConstants";
 import NavBar from "./components/NavBar";
+import LeagueBackBar from "./components/LeagueBackBar";
 import SleeperLogin from "./pages/SleeperLogin";
 import EspnLogin from "./pages/EspnLogin";
 import YahooLogin from "./pages/YahooLogin";
@@ -34,9 +35,15 @@ import HotDogs from "./pages/hotDogTracker/HotDogTracker";
 import LLWSTracker from "./pages/llwsTracker/LLWSTracker";
 import LeagueNewsletters from "./pages/LeagueNewsletters";
 import NewsletterHome from "./pages/NewsletterHome";
+import NewsletterSettings from "./pages/NewsletterSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import Snowfall from "react-snowfall";
+import { lazy, Suspense } from "react";
+
+// Lazy-loaded: the builder pulls in Tiptap (~150KB) — only editors pay for it
+const IssueBuilder = lazy(() => import("./pages/IssueBuilder"));
+const IssueReader = lazy(() => import("./pages/IssueReader"));
 
 const BackgroundWrapper = styled.div`
   background: ${({ $background }) => $background};
@@ -84,6 +91,7 @@ const ThemeWithStyledThemeProvider = () => {
           )}
           <NavBar />
           <Box sx={{ paddingTop: "64px" }}>
+            <LeagueBackBar />
             <AppRoutes />
           </Box>
         </BrowserRouter>
@@ -128,6 +136,23 @@ const AppRoutes = () => {
       <Route path="/league/:leagueId/llws" element={<LLWSTracker />} />
       <Route path="/league/:leagueId/newsletters" element={<LeagueNewsletters />} />
       <Route path="/n/:newsletterId" element={<NewsletterHome />} />
+      <Route path="/n/:newsletterId/settings" element={<NewsletterSettings />} />
+      <Route
+        path="/n/:newsletterId/builder"
+        element={
+          <Suspense fallback={<div style={{ textAlign: "center", padding: 40 }}>Loading…</div>}>
+            <IssueBuilder />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/n/:newsletterId/issue/:issueId"
+        element={
+          <Suspense fallback={<div style={{ textAlign: "center", padding: 40 }}>Loading…</div>}>
+            <IssueReader />
+          </Suspense>
+        }
+      />
 
       {/* Protected routes - auth required */}
       <Route
