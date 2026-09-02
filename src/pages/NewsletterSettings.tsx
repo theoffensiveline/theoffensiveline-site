@@ -13,7 +13,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { getNewsletter, setNewsletterFeature, updateNewsletter } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
-import { getSleeperUserByUsername, getUserLeagues } from "../utils/api/SleeperAPI";
+import { getNflState, getSleeperUserByUsername, getUserLeagues } from "../utils/api/SleeperAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { TOGGLEABLE_FEATURES } from "../components/constants/NewsletterConstants";
 import type { LeagueFeature, NewsletterSeason } from "../types/firestore";
@@ -200,10 +200,25 @@ function NewsletterSettings(): React.ReactElement {
           if (username) sleeperUid = (await getSleeperUserByUsername(username))?.user_id;
         }
         if (sleeperUid) {
-          const nextLeagues = await getUserLeagues(sleeperUid, newest.season + 1);
-          const next = nextLeagues.find((l) => l.previous_league_id === newest.leagueId);
-          if (next && !newsletter!.leagueIds.includes(next.league_id)) {
-            out.push({ leagueId: next.league_id, season: newest.season + 1, name: next.name });
+          // Walk every year up to the current season, matching against the
+          // whole discovered chain — this survives a league that skipped a
+          // Sleeper season (2026's previous points at 2024) AND a newsletter
+          // that skipped a year (2025 and 2026 both get offered).
+          const currentSeason = parseInt((await getNflState()).season, 10);
+          const chainIds = new Set(newsletter!.leagueIds);
+          for (
+            let year = newest.season + 1;
+            year <= Math.min(currentSeason, newest.season + 6);
+            year++
+          ) {
+            const yearLeagues = await getUserLeagues(sleeperUid, year);
+            const match = yearLeagues.find(
+              (l) => l.previous_league_id && chainIds.has(l.previous_league_id)
+            );
+            if (match && !newsletter!.leagueIds.includes(match.league_id)) {
+              out.push({ leagueId: match.league_id, season: year, name: match.name });
+              chainIds.add(match.league_id);
+            }
           }
         }
       } catch (e) {
