@@ -63,6 +63,8 @@ export interface SleeperUserLeague {
   name: string;
   season: string;
   avatar: string | null;
+  /** League ID of this league's previous season ("0"/null for the first). */
+  previous_league_id?: string | null;
 }
 
 /**

@@ -13,6 +13,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { verifyLeagueMembership } from "../utils/leagueClaim";
 import { getNewsletter, setNewsletterFeature, updateNewsletter } from "../services/firestoreCrud";
 import { getLeague, getPlatform } from "../utils/api/FantasyAPI";
+import { getSleeperUserByUsername, getUserLeagues } from "../utils/api/SleeperAPI";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { TOGGLEABLE_FEATURES } from "../components/constants/NewsletterConstants";
 import type { LeagueFeature, NewsletterSeason } from "../types/firestore";
@@ -164,24 +165,52 @@ function NewsletterSettings(): React.ReactElement {
     }
   };
 
-  // One-click prior-season suggestion: follow previous_league_id from the
-  // earliest Sleeper season (ESPN/Yahoo adapters have no season chain, so a
-  // cross-platform earliest season would otherwise dead-end the suggestion).
+  // One-click season suggestions, both directions (ESPN/Yahoo adapters have
+  // no season chain, so only Sleeper seasons participate):
+  //  - Backward: follow previous_league_id from the earliest Sleeper season.
+  //  - Forward: Sleeper has NO next-season pointer, so the newest season's
+  //    successor is found by fetching the editor's own leagues for the next
+  //    year and matching previous_league_id back to our newest season.
   const seasonYears = newsletter?.seasons.map((s) => s.season).join(",");
-  const { data: suggestion } = useQuery<ChainSuggestion | null>({
-    queryKey: ["prevSeasonSuggestion", newsletterId, seasonYears],
+  const { data: suggestions } = useQuery<ChainSuggestion[]>({
+    queryKey: ["seasonSuggestions", newsletterId, seasonYears, profile?.sleeperUserId ?? ""],
     enabled: isEditor && !!newsletter,
     staleTime: 60 * 60 * 1000,
     queryFn: async () => {
-      const earliestSleeper = [...newsletter!.seasons]
+      const out: ChainSuggestion[] = [];
+      const sleeperSeasons = [...newsletter!.seasons]
         .filter((s) => getPlatform(s.leagueId) === "sleeper")
-        .sort((a, b) => a.season - b.season)[0];
-      if (!earliestSleeper) return null;
-      const league = await getLeague(earliestSleeper.leagueId);
+        .sort((a, b) => a.season - b.season);
+      if (sleeperSeasons.length === 0) return out;
+
+      const earliest = sleeperSeasons[0];
+      const league = await getLeague(earliest.leagueId);
       const prevId = league.previous_league_id;
-      if (!prevId || prevId === "0" || newsletter!.leagueIds.includes(prevId)) return null;
-      const prev = await getLeague(prevId);
-      return { leagueId: prevId, season: parseInt(prev.season, 10), name: prev.name };
+      if (prevId && prevId !== "0" && !newsletter!.leagueIds.includes(prevId)) {
+        const prev = await getLeague(prevId);
+        out.push({ leagueId: prevId, season: parseInt(prev.season, 10), name: prev.name });
+      }
+
+      try {
+        const newest = sleeperSeasons[sleeperSeasons.length - 1];
+        let sleeperUid = profile?.sleeperUserId;
+        if (!sleeperUid) {
+          // Sleeper-login flow caches the username even for unlinked accounts
+          const username = localStorage.getItem("sleeperUsername");
+          if (username) sleeperUid = (await getSleeperUserByUsername(username))?.user_id;
+        }
+        if (sleeperUid) {
+          const nextLeagues = await getUserLeagues(sleeperUid, newest.season + 1);
+          const next = nextLeagues.find((l) => l.previous_league_id === newest.leagueId);
+          if (next && !newsletter!.leagueIds.includes(next.league_id)) {
+            out.push({ leagueId: next.league_id, season: newest.season + 1, name: next.name });
+          }
+        }
+      } catch (e) {
+        // Forward lookup is best-effort — the manual input still works.
+        console.error("Error looking up next season:", e);
+      }
+      return out.sort((a, b) => b.season - a.season);
     },
   });
 
@@ -211,8 +240,8 @@ function NewsletterSettings(): React.ReactElement {
     }
   };
 
-  const handleAddSuggestion = async () => {
-    if (!suggestion || adding) return;
+  const handleAddSuggestion = async (suggestion: ChainSuggestion) => {
+    if (adding) return;
     setAdding(true);
     setAddError(null);
     try {
@@ -286,15 +315,19 @@ function NewsletterSettings(): React.ReactElement {
       </SubtleButton>
 
       <SectionLabel>Add a Season</SectionLabel>
-      {suggestion && (
-        <ActionButton onClick={handleAddSuggestion} disabled={adding}>
+      {(suggestions ?? []).map((suggestion) => (
+        <ActionButton
+          key={suggestion.leagueId}
+          onClick={() => handleAddSuggestion(suggestion)}
+          disabled={adding}
+        >
           {adding
             ? "Adding…"
             : `Add ${suggestion.season} — ${
                 suggestion.name.length > 28 ? `${suggestion.name.slice(0, 28)}…` : suggestion.name
               }`}
         </ActionButton>
-      )}
+      ))}
       <ManualRow>
         <IdInput
           type="text"
