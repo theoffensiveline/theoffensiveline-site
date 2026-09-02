@@ -139,6 +139,12 @@ function NewsletterHome(): React.ReactElement {
     <PageColumn>
       <PageTitle>{newsletter.name}</PageTitle>
       {isEditor && <EditorBadge>🖋️ You're the editor</EditorBadge>}
+      <SubtleButton
+        style={{ marginBottom: 12 }}
+        onClick={() => navigate(`/league/${newsletter.activeLeagueId}/newsletters`)}
+      >
+        ← Back to all newsletters
+      </SubtleButton>
       {/* The builder entry lives on the current season's league home with the
           issues — this page is a pure seasons index. */}
       {isEditor && (
