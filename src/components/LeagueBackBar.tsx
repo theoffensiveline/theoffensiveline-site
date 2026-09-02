@@ -38,7 +38,8 @@ const LEAGUE_PAGE_PATTERNS = [
   "/league/:leagueId/weekly-recap/:week",
   "/league/:leagueId/hot-dogs",
   "/league/:leagueId/llws",
-  "/league/:leagueId/newsletters",
+  // NOT /league/:leagueId/newsletters — the discovery page is an entry point
+  // from the platform login flows, where "back to league home" makes no sense.
   "/submit/:leagueId",
   "/bylaws/:leagueId",
   "/leaderboards/:leagueId",
