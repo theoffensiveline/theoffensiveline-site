@@ -39,6 +39,13 @@ const SubtleButton = styled.button`
   }
 `;
 
+const SuggestionColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
 const ManualRow = styled.div`
   display: flex;
   gap: 8px;
@@ -330,19 +337,21 @@ function NewsletterSettings(): React.ReactElement {
       </SubtleButton>
 
       <SectionLabel>Add a Season</SectionLabel>
-      {(suggestions ?? []).map((suggestion) => (
-        <ActionButton
-          key={suggestion.leagueId}
-          onClick={() => handleAddSuggestion(suggestion)}
-          disabled={adding}
-        >
-          {adding
-            ? "Adding…"
-            : `Add ${suggestion.season} — ${
-                suggestion.name.length > 28 ? `${suggestion.name.slice(0, 28)}…` : suggestion.name
-              }`}
-        </ActionButton>
-      ))}
+      <SuggestionColumn>
+        {(suggestions ?? []).map((suggestion) => (
+          <ActionButton
+            key={suggestion.leagueId}
+            onClick={() => handleAddSuggestion(suggestion)}
+            disabled={adding}
+          >
+            {adding
+              ? "Adding…"
+              : `Add ${suggestion.season} — ${
+                  suggestion.name.length > 28 ? `${suggestion.name.slice(0, 28)}…` : suggestion.name
+                }`}
+          </ActionButton>
+        ))}
+      </SuggestionColumn>
       <ManualRow>
         <IdInput
           type="text"
