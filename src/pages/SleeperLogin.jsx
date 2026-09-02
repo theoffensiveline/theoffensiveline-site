@@ -37,11 +37,6 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const LoadMoreButton = styled(Button)`
-  margin-top: 15px;
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
-`;
-
 const LeagueItem = styled.div`
   display: flex;
   align-items: center;
@@ -78,9 +73,6 @@ function SleeperLogin() {
   const [leaguesByYear, setLeaguesByYear] = useState([]); // [{year, leagues}]
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [nextYear, setNextYear] = useState(null); // next year to fetch on "Load more"
-  const [hasMore, setHasMore] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [userId, setUserId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
@@ -97,8 +89,6 @@ function SleeperLogin() {
       if (cached) {
         const parsed = JSON.parse(cached);
         setLeaguesByYear(parsed.leaguesByYear);
-        setNextYear(parsed.nextYear);
-        setHasMore(parsed.hasMore);
         setUserId(parsed.userId);
         setHasSubmitted(true);
       }
@@ -155,71 +145,17 @@ function SleeperLogin() {
       }
 
       const newLeaguesByYear = leagues.length > 0 ? [{ year: season, leagues }] : [];
-      const moreAvailable = leagues.length > 0;
-      const next = moreAvailable ? season - 1 : null;
 
       setLeaguesByYear(newLeaguesByYear);
-      setNextYear(next);
-      setHasMore(moreAvailable);
       setHasSubmitted(true);
 
       localStorage.setItem(
         `leaguesByYear_${username}`,
-        JSON.stringify({
-          leaguesByYear: newLeaguesByYear,
-          nextYear: next,
-          hasMore: moreAvailable,
-          userId: uid,
-        })
+        JSON.stringify({ leaguesByYear: newLeaguesByYear, userId: uid })
       );
     } catch (error) {
       console.error("Error fetching leagues:", error);
       setErrorMessage("connection");
-    }
-  };
-
-  const handleLoadMore = async () => {
-    if (nextYear === null || !hasMore || loadingMore) return;
-    setLoadingMore(true);
-
-    try {
-      const leagues = await fetchLeaguesForYear(userId, nextYear);
-
-      if (leagues.length === 0) {
-        setHasMore(false);
-        setLoadingMore(false);
-        // Update cache
-        localStorage.setItem(
-          `leaguesByYear_${username}`,
-          JSON.stringify({
-            leaguesByYear,
-            nextYear: null,
-            hasMore: false,
-            userId,
-          })
-        );
-        return;
-      }
-
-      const updated = [...leaguesByYear, { year: nextYear, leagues }];
-      const next = nextYear - 1;
-
-      setLeaguesByYear(updated);
-      setNextYear(next);
-      setLoadingMore(false);
-
-      localStorage.setItem(
-        `leaguesByYear_${username}`,
-        JSON.stringify({
-          leaguesByYear: updated,
-          nextYear: next,
-          hasMore: true,
-          userId,
-        })
-      );
-    } catch (error) {
-      console.error("Error loading more leagues:", error);
-      setLoadingMore(false);
     }
   };
 
@@ -291,11 +227,6 @@ function SleeperLogin() {
               <YearTag>{league.latestYear}</YearTag>
             </LeagueItem>
           ))}
-          {hasMore && (
-            <LoadMoreButton onClick={handleLoadMore} disabled={loadingMore}>
-              {loadingMore ? "Loading..." : "Load earlier seasons"}
-            </LoadMoreButton>
-          )}
         </div>
       )}
     </Container>

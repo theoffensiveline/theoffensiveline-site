@@ -97,6 +97,9 @@ function IssueReader(): React.ReactElement {
           {issue.title && issue.week !== null ? ` · Week ${issue.week}` : ""}
           {issue.status !== "published" ? " · DRAFT" : ""}
         </ArticleSubheader>
+        <EditLink onClick={() => navigate(`/home/${issue.leagueId}`)}>
+          ← Back to league home
+        </EditLink>
         {canOpenInBuilder && (
           <EditLink
             onClick={() =>
