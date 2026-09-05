@@ -23,6 +23,7 @@ This document captures lessons learned and important notes for The Offensive Lin
 - **Centralized Error Logging:** `logNewsletterError` in `src/utils/logger/newsletterError.ts` — swap console output for `Sentry.captureException` when Sentry is added
 - **Global Toast:** `LeagueWeeklyRecap` shows a fixed-position toast when ≥2 sections error simultaneously; uses `useState` + `useRef` timer pattern
 - **API Request Deduplication:** `SleeperAPI.ts` uses a module-level `_inflight` Map so concurrent calls to `getUsers`/`getRosters`/`getMatchups` with the same URL share one HTTP request. Entry removed on settle. No changes to compute function signatures needed.
+- **Firestore API Cache:** `platformCache.ts` provides platform-agnostic Firestore-backed caching (`readCache`, `readCacheWithTtl`, `writeCache`, `cacheKey`). `SleeperAPI.ts` wraps all fetch endpoints with it — completed weeks are cached permanently, stable endpoints (league/users/rosters/bracket) use a 1-hour TTL, and the current week bypasses the cache but falls back to it on rate-limit errors. Collection: `/apiCache/{docId}` where doc IDs are `{leagueId}:{endpoint}:{week?}`. The current NFL week is cached in-memory for 5 minutes to avoid repeated `/state/nfl` calls during batched multi-week fetches. ESPN/Yahoo adapters can use the same helpers when needed.
 - **Perf Logging:** Set `REACT_APP_NEWSLETTER_PERF=1` before `yarn start` to log per-section compute times. Sections >200ms emit `console.warn`. Implemented via `withPerfLogging` wrapper in `useNewsletterData.ts`.
 - **React.memo on SectionShell:** Inner component renamed `SectionShellInner`, exported as `React.memo(SectionShellInner)`. Prevents re-renders of already-loaded sections when sibling sections finish loading.
 - **Dynamic Imports order:** `React.lazy` const declarations must come AFTER all static `import` statements — ESLint `import/first` rule flags static imports below them as "import in body of module".
@@ -55,10 +56,10 @@ Sleeper REST API
 
 ### Caching Strategy
 
-| Week type | staleTime | gcTime | refetchOnMount | refetchOnWindowFocus |
-|---|---|---|---|---|
-| Completed (week < current NFL week) | 6 hours | 24 hours | false | false |
-| Current week | 1 hour | 2 hours | true | true |
+| Week type                           | staleTime | gcTime   | refetchOnMount | refetchOnWindowFocus |
+| ----------------------------------- | --------- | -------- | -------------- | -------------------- |
+| Completed (week < current NFL week) | 6 hours   | 24 hours | false          | false                |
+| Current week                        | 1 hour    | 2 hours  | true           | true                 |
 
 League settings (`getLeague`) use a 24-hour stale time — settings almost never change mid-season.
 NFL state (`getNflState`) uses a 1-hour stale time to detect week transitions.
@@ -75,7 +76,7 @@ Query keys follow `['newsletter', leagueId, week, section]` — caches are isola
 A: The current-week cache uses a 1-hour stale time. Either wait for it to expire or call `invalidateNewsletter(queryClient, leagueId, week)` (exported from `useNewsletterData.ts`) to force a refresh.
 
 **Q: Sleeper API returns 429 Too Many Requests.**
-A: The in-flight de-duplication in `SleeperAPI.ts` prevents duplicate concurrent requests, but rapid week-switching can still hit rate limits. Add a short delay between programmatic week changes or rely on React Query's built-in caching to serve already-fetched weeks instantly.
+A: The Firestore-backed cache in `platformCache.ts` (used by `SleeperAPI.ts`) persists completed-week data permanently and stable endpoints (league/users/rosters) for 1 hour, so repeated page loads serve from Firestore instead of hitting Sleeper. If a 429 still occurs (e.g. first load of a new week), `getMatchups`/`getTransactions` fall back to any stale cache entry rather than showing a blank page. The in-memory NFL week cache (5-min TTL) also prevents repeated `/state/nfl` calls during batched multi-week fetches.
 
 **Q: Avatar images are missing or broken.**
 A: Sleeper avatar URLs are constructed from the user's `avatar` hash. If the hash is `null` (user never set an avatar), the UI falls back to `undefined` and should render initials or a placeholder. Check `getAvatarUrl` in `src/utils/leagueHistory.ts` for the URL pattern.

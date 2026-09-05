@@ -68,9 +68,11 @@ All compute functions import from [src/utils/api/FantasyAPI.ts](src/utils/api/Fa
 
 **Sleeper API:**
 
-- [src/utils/api/SleeperAPI.ts](src/utils/api/SleeperAPI.ts) — raw fetchers with in-flight deduplication
+- [src/utils/api/SleeperAPI.ts](src/utils/api/SleeperAPI.ts) — raw fetchers with in-flight deduplication and Firestore-backed persistent caching
+- [src/utils/api/platformCache.ts](src/utils/api/platformCache.ts) — platform-agnostic Firestore cache helpers (`readCache`, `readCacheWithTtl`, `writeCache`, `cacheKey`); shared across all adapters
 - Player data cached in [sleeper_players.json](src/utils/api/sleeper_players.json)
 - Functions: `getLeague`, `getRosters`, `getMatchups`, `getTransactions`, `getPlayoffBracket`
+- **Cache strategy:** Completed weeks (matchups, transactions) cached permanently in Firestore (`/apiCache` collection); stable endpoints (league, users, rosters, bracket) use 1-hour TTL; current week bypasses cache but falls back to stale cache on rate-limit errors. Current NFL week cached in-memory for 5 minutes.
 
 **ESPN API:**
 
