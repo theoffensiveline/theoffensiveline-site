@@ -157,5 +157,23 @@ service cloud.firestore {
       allow read: if true;
       allow create, update: if request.auth != null;
     }
+
+    // -----------------------------------------------------------------------
+    // /apiCache/{docId}
+    // Persistent cache for fantasy platform API responses (Sleeper, ESPN,
+    // Yahoo) to avoid rate limiting and reduce latency.
+    // Doc IDs: "{leagueId}:league", "{leagueId}:users", "{leagueId}:rosters",
+    //          "{leagueId}:matchups:{week}", "{leagueId}:transactions:{leg}",
+    //          "{leagueId}:winners_bracket", "{leagueId}:losers_bracket"
+    // League IDs are platform-prefixed (e.g. "espn_123"), so there are no
+    // cross-platform collisions. Publicly readable (league data is public on
+    // all platforms). Any signed-in user can create/update — data is derived
+    // from public APIs and the cache is self-healing (stale or missing
+    // entries are re-fetched).
+    // -----------------------------------------------------------------------
+    match /apiCache/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+    }
   }
 }
