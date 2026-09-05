@@ -137,11 +137,13 @@ export default function NavBar() {
       return ["Select Newsletter"];
     }
     const features = (inNewsletterMode ? newsletterDoc?.features : leagueDoc?.features) ?? [];
-    return [
-      "Home",
-      ...FEATURE_PAGES.filter(([feature]) => features.includes(feature)).map(([, page]) => page),
-      inNewsletterMode ? "Change Newsletter" : "Change League",
-    ];
+    const featureLabels = FEATURE_PAGES.filter(([feature]) => features.includes(feature)).map(
+      ([feature, page]) =>
+        // In newsletter mode the `submit` flag powers the newsletter-submission
+        // page, not the legacy standalone Submit page.
+        feature === "submit" && inNewsletterMode ? "Newsletter Submit" : page
+    );
+    return ["Home", ...featureLabels, inNewsletterMode ? "Change Newsletter" : "Change League"];
   };
 
   const pages = getPages();
@@ -155,6 +157,8 @@ export default function NavBar() {
       navigate(`/survivorHome/${featureLeagueId}`);
     } else if (page === "Hot Dogs") {
       navigate(`/league/${featureLeagueId}/hot-dogs`);
+    } else if (page === "Newsletter Submit") {
+      navigate(`/newsletter-submit/${featureLeagueId}`);
     } else {
       navigate(`/${page.toLowerCase()}/${featureLeagueId}`);
     }

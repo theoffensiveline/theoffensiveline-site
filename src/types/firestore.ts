@@ -16,7 +16,8 @@
  * NOTE: ESPN credentials (espn_s2 / SWID) are NEVER stored in Firestore.
  *       They belong in localStorage only.
  *
- * NOTE: /newsletters/{id}/issues/{issueId}/submissions/ is Phase 3.
+ * NOTE: /newsletters/{id}/issues/{issueId}/submissions/ holds user
+ *       submissions appended to the bottom of an issue (#submit).
  */
 
 import { Timestamp } from "firebase/firestore";
@@ -224,4 +225,33 @@ export interface WeekDataDoc {
   awards: Record<string, unknown>;
   /** Leaderboard data for this week. */
   leaderboard: Record<string, unknown>;
+}
+
+/**
+ * /newsletters/{newsletterId}/issues/{issueId}/submissions/{submissionId}
+ *
+ * A user-submitted blurb appended to the bottom of an issue (#submit). Any
+ * authenticated user can create one; the editor never curates them — they
+ * render verbatim below the issue's sections in the reader.
+ *
+ * `text` is free-form. If it is a bare image URL the reader renders it as an
+ * <img>; otherwise it renders as plain text.
+ */
+export interface SubmissionDoc {
+  /** Submission title (required, may be empty string). */
+  title: string;
+  /** Body text, or a bare image URL rendered as an <img> by the reader. */
+  text: string;
+  /** Firebase Auth UID of the submitter. */
+  authorUid: string;
+  /** Denormalized display name at submit time (user docs aren't public). */
+  authorName: string;
+  /** NFL season year this submission targets (matches the issue's season). */
+  season: number;
+  /** Week number this submission targets (matches the issue's week). */
+  week: number;
+  /** League doc ID the submission is for. */
+  leagueId: string;
+  /** Timestamp when the submission was created. */
+  createdAt: Timestamp;
 }
