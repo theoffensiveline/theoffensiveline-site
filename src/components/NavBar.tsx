@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -18,6 +19,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useFeedback } from "../contexts/FeedbackContext";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
+import { ColorConstants } from "./constants/ColorConstants";
 import type { LeagueFeature } from "../types/firestore";
 
 /** Nav items gated by league feature flags, in display order. */
@@ -29,6 +31,9 @@ const FEATURE_PAGES: [LeagueFeature, string][] = [
   ["hotdogs", "Hot Dogs"],
 ];
 
+/** Pages that represent navigation actions, not content. */
+const ACTION_PAGES = new Set(["Select Newsletter", "Change Newsletter", "Change League"]);
+
 export default function NavBar() {
   const { theme, toggleTheme } = useTheme();
   const { currentUser, signOut } = useAuth();
@@ -38,9 +43,11 @@ export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [isVisible, setIsVisible] = React.useState(true);
-  const [lastScrollY, setLastScrollY] = React.useState(0);
+  const lastScrollYRef = React.useRef(0);
   const [leagueId, setLeagueId] = React.useState<string | null>(null);
   const [newsletterId, setNewsletterId] = React.useState<string | null>(null);
+
+  const colors = ColorConstants[theme as "light" | "dark"];
 
   // Update selection state when localStorage changes or URL changes.
   // selectedNewsletterId is the primary key (#108); selectedLeagueId remains
@@ -66,20 +73,21 @@ export default function NavBar() {
     };
   }, []);
 
+  // Hide-on-scroll using a ref so we don't re-bind the listener on every scroll.
   React.useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      if (currentScrollY > lastScrollYRef.current && currentScrollY > 100) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
-      setLastScrollY(currentScrollY);
+      lastScrollYRef.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -148,21 +156,80 @@ export default function NavBar() {
 
   const pages = getPages();
 
-  const redirect = (page: string) => {
-    if (page === "Select Newsletter" || page === "Change Newsletter" || page === "Change League") {
-      navigate("/league-picker");
-    } else if (page === "Home") {
-      navigate(inNewsletterMode ? `/n/${newsletterId}` : `/home/${leagueId}`);
-    } else if (page === "Survivor") {
-      navigate(`/survivorHome/${featureLeagueId}`);
-    } else if (page === "Hot Dogs") {
-      navigate(`/league/${featureLeagueId}/hot-dogs`);
-    } else if (page === "Newsletter Submit") {
-      navigate(`/newsletter-submit/${featureLeagueId}`);
-    } else {
-      navigate(`/${page.toLowerCase()}/${featureLeagueId}`);
+  // Resolve a page label to its target path (mirror of redirect() without the
+  // side effects, so we can highlight the active route and reuse for nav).
+  const pathFor = (page: string): string => {
+    if (ACTION_PAGES.has(page)) {
+      return "/league-picker";
     }
+    if (page === "Home") {
+      return inNewsletterMode ? `/n/${newsletterId}` : `/home/${leagueId}`;
+    }
+    if (page === "Survivor") {
+      return `/survivorHome/${featureLeagueId}`;
+    }
+    if (page === "Hot Dogs") {
+      return `/league/${featureLeagueId}/hot-dogs`;
+    }
+    if (page === "Newsletter Submit") {
+      return `/newsletter-submit/${featureLeagueId}`;
+    }
+    return `/${page.toLowerCase()}/${featureLeagueId}`;
+  };
+
+  const isActive = (page: string): boolean => {
+    const target = pathFor(page);
+    if (!target || target === "/league-picker") return false;
+    // Exact match for Home (newsletter home has sub-routes like /settings);
+    // prefix match for content pages so sub-routes keep the parent active.
+    if (page === "Home") return location.pathname === target;
+    return location.pathname === target || location.pathname.startsWith(`${target}/`);
+  };
+
+  const redirect = (page: string) => {
+    navigate(pathFor(page));
     handleCloseNavMenu();
+  };
+
+  // Close the mobile menu whenever the route changes.
+  React.useEffect(() => {
+    setAnchorElNav(null);
+  }, [location.pathname]);
+
+  const navTextColor = "#ECECDF";
+  const activeColor = colors.newsBlue;
+  const hoverBg = "rgba(255,255,255,0.08)";
+
+  const desktopButtonSx = (page: string) => {
+    const active = isActive(page);
+    const base: Record<string, unknown> = {
+      my: 2,
+      color: navTextColor,
+      display: "block",
+      px: 1.5,
+      borderRadius: 1,
+      position: "relative",
+      fontWeight: active ? 600 : 400,
+      opacity: active ? 1 : 0.85,
+      transition: "background-color 0.15s ease, opacity 0.15s ease",
+      "&:hover": {
+        backgroundColor: hoverBg,
+        opacity: 1,
+      },
+    };
+    if (active) {
+      base["&::after"] = {
+        content: '""',
+        position: "absolute",
+        left: 8,
+        right: 8,
+        bottom: 4,
+        height: 2,
+        borderRadius: 1,
+        backgroundColor: activeColor,
+      };
+    }
+    return base;
   };
 
   return (
@@ -172,10 +239,51 @@ export default function NavBar() {
         transition: "transform 0.3s ease-in-out",
         transform: isVisible ? "translateY(0)" : "translateY(-100%)",
         zIndex: (theme) => theme.zIndex.drawer + 1,
+        backgroundColor: "#3A404C",
+        boxShadow: "none",
+        borderBottom: "3px solid transparent",
+        borderImage: "linear-gradient(90deg, #FF3366 0%, #20A4F4 100%) 1",
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ gap: 1 }}>
+          {/* Brand logo + wordmark — doubles as Home link */}
+          <Box
+            onClick={() => pages.length > 0 && redirect("Home")}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              cursor: pages.length > 0 ? "pointer" : "default",
+              mr: 2,
+              userSelect: "none",
+            }}
+          >
+            <Box
+              component="img"
+              src="/logo.png"
+              alt="The Offensive Line"
+              sx={{
+                width: 36,
+                height: 36,
+                borderRadius: 1,
+                objectFit: "contain",
+              }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                display: { xs: "none", md: "block" },
+                color: navTextColor,
+                fontWeight: 700,
+                letterSpacing: 0.3,
+              }}
+            >
+              The Offensive Line
+            </Typography>
+          </Box>
+
           {/* Mobile menu button */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             {pages.length > 0 && (
@@ -206,32 +314,76 @@ export default function NavBar() {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
+                "& .MuiPaper-root": {
+                  backgroundColor: colors.componentBackground,
+                },
+                "& .MuiMenuItem-root": {
+                  color: colors.text,
+                  "&:hover": {
+                    backgroundColor: hoverBg,
+                  },
+                },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => redirect(page)}>
+                <MenuItem
+                  key={page}
+                  onClick={() => redirect(page)}
+                  sx={{
+                    fontWeight: isActive(page) ? 600 : 400,
+                    color: isActive(page) ? colors.newsBlue : colors.text,
+                    borderLeft: isActive(page)
+                      ? `3px solid ${colors.newsBlue}`
+                      : "3px solid transparent",
+                  }}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          {/* Desktop menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => redirect(page)}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+          {/* Desktop menu — content pages left, action pages pushed right */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 0.5 }}>
+            {pages
+              .filter((page) => !ACTION_PAGES.has(page))
+              .map((page) => (
+                <Button key={page} onClick={() => redirect(page)} sx={desktopButtonSx(page)}>
+                  {page}
+                </Button>
+              ))}
+            {pages
+              .filter((page) => ACTION_PAGES.has(page))
+              .map((page) => (
+                <Button
+                  key={page}
+                  onClick={() => redirect(page)}
+                  size="small"
+                  sx={{
+                    my: 2,
+                    ml: "auto",
+                    color: navTextColor,
+                    border: "1px solid transparent",
+                    borderImage: "linear-gradient(90deg, #FF3366 0%, #20A4F4 100%) 1",
+                    borderRadius: 999,
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: hoverBg,
+                    },
+                  }}
+                >
+                  {page}
+                </Button>
+              ))}
           </Box>
 
           {/* Theme toggle and user menu */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton sx={{ ml: 1, color: "white" }} onClick={toggleTheme}>
+            <IconButton
+              sx={{ ml: 1, color: navTextColor }}
+              onClick={toggleTheme}
+              aria-label="toggle theme"
+            >
               {theme === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
 
@@ -245,7 +397,15 @@ export default function NavBar() {
                   onClick={handleOpenUserMenu}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  {currentUser.photoURL ? (
+                    <Avatar
+                      src={currentUser.photoURL}
+                      alt={currentUser.displayName || "account"}
+                      sx={{ width: 32, height: 32 }}
+                    />
+                  ) : (
+                    <AccountCircle />
+                  )}
                 </IconButton>
                 <Menu
                   id="menu-appbar"
@@ -261,6 +421,17 @@ export default function NavBar() {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
+                  sx={{
+                    "& .MuiPaper-root": {
+                      backgroundColor: colors.componentBackground,
+                    },
+                    "& .MuiMenuItem-root": {
+                      color: colors.text,
+                      "&:hover": {
+                        backgroundColor: hoverBg,
+                      },
+                    },
+                  }}
                 >
                   <MenuItem
                     onClick={() => {
