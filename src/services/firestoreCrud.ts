@@ -24,6 +24,7 @@ import {
   getDocs,
   query,
   where,
+  orderBy,
   arrayUnion,
   arrayRemove,
   runTransaction,
@@ -38,6 +39,7 @@ import type {
   NewsletterSeason,
   IssueDoc,
   IssueSection,
+  SubmissionDoc,
 } from "../types/firestore";
 import { getSeedFeatures } from "../components/constants/LeagueConstants";
 
@@ -395,4 +397,85 @@ export async function getIssuesForLeague(
 export async function getAllIssues(newsletterId: string): Promise<(IssueDoc & { id: string })[]> {
   const snap = await getDocs(collection(db, "newsletters", newsletterId, "issues"));
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as IssueDoc) }));
+}
+
+// ---------------------------------------------------------------------------
+// Submissions — /newsletters/{newsletterId}/issues/{issueId}/submissions/{id}
+// User-submitted blurbs appended to the bottom of an issue (#submit). Any
+// authenticated user can create; the reader queries them ordered by createdAt.
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a user submission under an issue. The issue doc need not exist yet —
+ * Firestore allows subcollections under a non-existent parent, so submissions
+ * land now and surface once the editor creates/publishes the issue.
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID (weekly "{season}_w{NN}" form)
+ * @param data - Submission fields (excluding createdAt, which is set here)
+ * @returns The new submission's document ID.
+ */
+export async function addSubmission(
+  newsletterId: string,
+  issueId: string,
+  data: Omit<SubmissionDoc, "createdAt">
+): Promise<string> {
+  const ref = await addDoc(
+    collection(db, "newsletters", newsletterId, "issues", issueId, "submissions"),
+    { ...data, createdAt: Timestamp.now() }
+  );
+  return ref.id;
+}
+
+/**
+ * Fetch all submissions for an issue, oldest first (append order).
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID (weekly or ad-hoc form)
+ * @returns Array of submission documents with their IDs.
+ */
+export async function getSubmissions(
+  newsletterId: string,
+  issueId: string
+): Promise<(SubmissionDoc & { id: string })[]> {
+  const q = query(
+    collection(db, "newsletters", newsletterId, "issues", issueId, "submissions"),
+    orderBy("createdAt", "asc")
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as SubmissionDoc) }));
+}
+
+/**
+ * Update the title/text of a submission. Only the author's own fields are
+ * editable — ownership and metadata are frozen by the Firestore rules.
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID
+ * @param submissionId - Submission document ID
+ * @param fields - Partial { title, text } to merge
+ */
+export async function updateSubmission(
+  newsletterId: string,
+  issueId: string,
+  submissionId: string,
+  fields: { title: string; text: string }
+): Promise<void> {
+  await updateDoc(
+    doc(db, "newsletters", newsletterId, "issues", issueId, "submissions", submissionId),
+    fields
+  );
+}
+
+/**
+ * Delete a submission. Restricted to the author by Firestore rules.
+ * @param newsletterId - Parent newsletter document ID
+ * @param issueId - Issue document ID
+ * @param submissionId - Submission document ID
+ */
+export async function deleteSubmission(
+  newsletterId: string,
+  issueId: string,
+  submissionId: string
+): Promise<void> {
+  await deleteDoc(
+    doc(db, "newsletters", newsletterId, "issues", issueId, "submissions", submissionId)
+  );
 }

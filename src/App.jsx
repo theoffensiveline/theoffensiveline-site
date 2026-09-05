@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import News from "./pages/News";
 import Submit from "./pages/Submit";
+import NewsletterSubmit from "./pages/NewsletterSubmit";
 import Bylaws from "./pages/Bylaws";
 import Newsletter from "./pages/Newsletter";
 import CommissionerNote from "./league/commishNote1";
@@ -126,6 +127,7 @@ const AppRoutes = () => {
       <Route path="/home/:leagueId" element={<Home />} />
       <Route path="/news" element={<News />} />
       <Route path="/submit/:leagueId" element={<Submit />} />
+      <Route path="/newsletter-submit/:leagueId" element={<NewsletterSubmit />} />
       <Route path="/bylaws/:leagueId" element={<Bylaws />} />
       <Route path="/newsletter/:leagueId/:issue" element={<Newsletter />} />
       <Route path="/leaderboards/:leagueId" element={<LeaderboardsHome />} />

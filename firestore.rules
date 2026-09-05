@@ -106,6 +106,45 @@ service cloud.firestore {
         allow delete: if request.auth != null
           && (get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.editorUid == request.auth.uid
               || request.auth.uid in get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.coEditorUids);
+
+        // -----------------------------------------------------------------
+        // /newsletters/{newsletterId}/issues/{issueId}/submissions/{submissionId}
+        // User-submitted blurbs appended to an issue (#submit). Publicly
+        // readable so the IssueReader can render them; any authenticated
+        // user may create one. The issue parent need not exist yet —
+        // submissions land now and surface once the editor publishes.
+        // -----------------------------------------------------------------
+        match /submissions/{submissionId} {
+          allow read: if true;
+          allow create: if request.auth != null
+            && request.resource.data.keys().hasOnly(
+                 ['title', 'text', 'authorUid', 'authorName', 'season', 'week', 'leagueId', 'createdAt'])
+            && request.resource.data.title is string
+            && request.resource.data.text is string
+            && request.resource.data.authorUid == request.auth.uid
+            && request.resource.data.authorName is string
+            && request.resource.data.season is int
+            && request.resource.data.week is int
+            && request.resource.data.leagueId is string
+            && request.resource.data.createdAt is timestamp;
+          // Authors can edit the title/text of their own submissions, but
+          // can't change ownership or metadata fields. createdAt is frozen.
+          allow update: if request.auth != null
+            && resource.data.authorUid == request.auth.uid
+            && request.resource.data.keys().hasOnly(
+                 ['title', 'text', 'authorUid', 'authorName', 'season', 'week', 'leagueId', 'createdAt'])
+            && request.resource.data.authorUid == resource.data.authorUid
+            && request.resource.data.authorName == resource.data.authorName
+            && request.resource.data.season == resource.data.season
+            && request.resource.data.week == resource.data.week
+            && request.resource.data.leagueId == resource.data.leagueId
+            && request.resource.data.createdAt == resource.data.createdAt
+            && request.resource.data.title is string
+            && request.resource.data.text is string;
+          // Authors can delete their own submissions.
+          allow delete: if request.auth != null
+            && resource.data.authorUid == request.auth.uid;
+        }
       }
     }
 

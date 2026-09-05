@@ -16,6 +16,7 @@ import { useNewsletterData } from "../hooks/useNewsletterData";
 import { getIssue } from "../services/firestoreCrud";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
+import { SubmissionsList } from "../components/newsletter/SubmissionsList";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 import {
   ArticleSubheader,
@@ -123,6 +124,8 @@ function IssueReader(): React.ReactElement {
             week={issue.week}
           />
         ))}
+
+        {issue.week !== null && <SubmissionsList newsletterId={newsletterId!} issueId={issueId!} />}
       </NewsletterContainer>
     </IssuePage>
   );
