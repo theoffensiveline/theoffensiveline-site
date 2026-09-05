@@ -15,6 +15,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useTheme } from "../ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useFeedback } from "../contexts/FeedbackContext";
 import { useLeagueDoc } from "../hooks/useLeagueDoc";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import type { LeagueFeature } from "../types/firestore";
@@ -31,6 +32,7 @@ const FEATURE_PAGES: [LeagueFeature, string][] = [
 export default function NavBar() {
   const { theme, toggleTheme } = useTheme();
   const { currentUser, signOut } = useAuth();
+  const { openFeedback } = useFeedback();
   const navigate = useNavigate();
   const location = useLocation();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -263,6 +265,14 @@ export default function NavBar() {
                     }}
                   >
                     <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      openFeedback();
+                      handleCloseUserMenu();
+                    }}
+                  >
+                    <Typography textAlign="center">Feedback</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
                     <Typography textAlign="center">Logout</Typography>

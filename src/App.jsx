@@ -38,6 +38,8 @@ import NewsletterHome from "./pages/NewsletterHome";
 import NewsletterSettings from "./pages/NewsletterSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
+import { FeedbackProvider } from "./contexts/FeedbackContext";
+import FloatingFeedbackButton from "./components/FloatingFeedbackButton";
 import Snowfall from "react-snowfall";
 import { lazy, Suspense } from "react";
 
@@ -79,21 +81,24 @@ const ThemeWithStyledThemeProvider = () => {
       <GlobalStyle />
       <BackgroundWrapper $background={currentTheme.background}>
         <BrowserRouter>
-          {isWinterMonth() && (
-            <Snowfall
-              style={{
-                position: "fixed",
-                width: "100vw",
-                height: "100vh",
-                zIndex: 9999,
-              }}
-            />
-          )}
-          <NavBar />
-          <Box sx={{ paddingTop: "64px" }}>
-            <LeagueBackBar />
-            <AppRoutes />
-          </Box>
+          <FeedbackProvider>
+            {isWinterMonth() && (
+              <Snowfall
+                style={{
+                  position: "fixed",
+                  width: "100vw",
+                  height: "100vh",
+                  zIndex: 9999,
+                }}
+              />
+            )}
+            <NavBar />
+            <Box sx={{ paddingTop: "64px" }}>
+              <LeagueBackBar />
+              <AppRoutes />
+            </Box>
+            <FloatingFeedbackButton />
+          </FeedbackProvider>
         </BrowserRouter>
       </BackgroundWrapper>
     </StyledThemeProvider>

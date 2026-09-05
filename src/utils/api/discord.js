@@ -17,6 +17,8 @@ export const sendDiscordNotification = async (submissionData, channel) => {
       webhookUrl = config.submissionsUrl;
     } else if (channel === "general") {
       webhookUrl = config.leaderboardUrl;
+    } else if (channel === "feedback") {
+      webhookUrl = config.feedbackUrl;
     }
 
     if (!webhookUrl) {
