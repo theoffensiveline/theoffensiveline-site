@@ -7,7 +7,8 @@ import { logNewsletterError } from "../../utils/logger/newsletterError";
 
 interface SectionShellProps {
   id?: string;
-  title: string;
+  /** Omit for subheader-only sections (e.g. individual matchups). */
+  title?: string;
   subtitle?: string;
   status: "pending" | "error" | "success";
   error?: Error | null;
@@ -204,7 +205,7 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
   useEffect(() => {
     if (status === "error" && error) {
       logNewsletterError(error, {
-        sectionKey: sectionKey ?? id ?? title,
+        sectionKey: sectionKey ?? id ?? title ?? "section",
         leagueId,
         week,
         lastUpdated,
@@ -223,7 +224,7 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
 
   return (
     <SectionContainer id={id} aria-live="polite" aria-busy={shouldShowSkeleton}>
-      <ArticleHeader>{title}</ArticleHeader>
+      {title && <ArticleHeader>{title}</ArticleHeader>}
       {subtitle && <ArticleSubheader>{subtitle}</ArticleSubheader>}
 
       {shouldShowSkeleton && (
@@ -256,7 +257,7 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
 
       {status === "success" && showContent && (
         <NewsletterErrorBoundary
-          sectionKey={sectionKey ?? id ?? title}
+          sectionKey={sectionKey ?? id ?? title ?? "section"}
           leagueId={leagueId}
           week={week}
           resetKeys={resetKeys}
