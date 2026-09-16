@@ -168,10 +168,12 @@ export interface IssueSection {
   id: string;
   /** Registry type key, or "editor-text" for authored content. */
   type: string;
-  /** Optional heading for authored sections. */
+  /** Optional heading — authored sections, and the per-matchup override on "matchup" sections. */
   title?: string;
   /** Tiptap JSON document for authored sections. Absent on computed ones. */
   body?: Record<string, unknown>;
+  /** "matchup" sections only: which matchup_id of the issue's week to render. */
+  matchupId?: number;
 }
 
 /**

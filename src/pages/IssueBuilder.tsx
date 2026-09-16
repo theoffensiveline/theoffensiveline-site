@@ -29,7 +29,11 @@ import {
   adhocIssueId,
   deleteIssue,
 } from "../services/firestoreCrud";
-import { SECTION_REGISTRY, DEFAULT_SECTION_ORDER } from "../components/newsletter/sectionRegistry";
+import {
+  SECTION_REGISTRY,
+  DEFAULT_SECTION_ORDER,
+  matchupHeading,
+} from "../components/newsletter/sectionRegistry";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
 import { RichTextEditor } from "../components/newsletter/RichText";
 import { NewsletterContainer, NewsletterTitle } from "../components/newsletters/newsStyles";
@@ -180,7 +184,12 @@ const RestoreRow = styled.div`
 /* ------------------------------------------------------------------ */
 
 function prefillSections(): IssueSection[] {
-  return DEFAULT_SECTION_ORDER.map((type) => ({ id: crypto.randomUUID(), type }));
+  // "matchup" is a slot marker: the week's matchup ids aren't known until
+  // starters data resolves, so the expansion effect materializes them later.
+  return DEFAULT_SECTION_ORDER.filter((t) => t !== "matchup").map((type) => ({
+    id: crypto.randomUUID(),
+    type,
+  }));
 }
 
 function newTextSection(): IssueSection {
@@ -271,6 +280,9 @@ function IssueBuilder(): React.ReactElement {
   });
 
   const [sections, setSections] = useState<IssueSection[] | null>(null);
+  // True between prefilling a fresh weekly issue and starters data resolving:
+  // the signal to expand the "matchup" slot into one section per matchup.
+  const matchupPrefillPendingRef = useRef(false);
   const [issueTitle, setIssueTitle] = useState("");
   const [sortWeek, setSortWeek] = useState<number | null>(null);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -405,6 +417,7 @@ function IssueBuilder(): React.ReactElement {
       setSaveState("idle");
       setConfirmingDelete(false);
       setDeleteError(false);
+      matchupPrefillPendingRef.current = false;
     }
     prevDocIdRef.current = docId;
 
@@ -440,6 +453,7 @@ function IssueBuilder(): React.ReactElement {
     // cache echo of our own save (setQueryData), which would blank "Saved"
     // the instant it appeared. The docId-switch reset handles new docs.
     if (loadedIssue) {
+      matchupPrefillPendingRef.current = false;
       setSections(loadedIssue.sections);
       setIssueTitle(loadedIssue.title ?? "");
       setSortWeek(loadedIssue.sortWeek ?? null);
@@ -450,6 +464,7 @@ function IssueBuilder(): React.ReactElement {
       // New doc: weekly issues prefill the standard computed set; ad-hoc
       // issues start with a single commentary section (no week, so computed
       // sections have nothing to render from).
+      matchupPrefillPendingRef.current = adhocId === null;
       setSections(adhocId ? [newTextSection()] : prefillSections());
       setIssueTitle("");
       setSortWeek(null);
@@ -581,6 +596,7 @@ function IssueBuilder(): React.ReactElement {
         setAdhocId(null);
       } else {
         // Stay on the week with a fresh prefill.
+        matchupPrefillPendingRef.current = true;
         setSections(prefillSections());
         setIssueTitle("");
         setSortWeek(null);
@@ -613,6 +629,37 @@ function IssueBuilder(): React.ReactElement {
   // so the queries stay disabled)
   const newsletterData = useNewsletterData(activeLeagueId, adhocId ? NaN : (week ?? NaN));
 
+  // A freshly-prefilled weekly issue has no matchup sections yet — the week's
+  // matchup ids aren't known until starters data resolves. Insert one section
+  // per matchup at the "matchup" slot in DEFAULT_SECTION_ORDER, exactly once;
+  // from there deletes and restores are manual.
+  useEffect(() => {
+    if (!matchupPrefillPendingRef.current) return;
+    if (newsletterData.starters.status === "error") {
+      matchupPrefillPendingRef.current = false;
+      return;
+    }
+    const starters = newsletterData.starters.data;
+    if (!starters) return;
+    matchupPrefillPendingRef.current = false;
+    const matchupIds = [...new Set(starters.map((s) => s.matchup_id))].sort((a, b) => a - b);
+    const insertAt = DEFAULT_SECTION_ORDER.indexOf("matchup");
+    setSections((prev) => {
+      if (!prev) return prev;
+      const next = [...prev];
+      next.splice(
+        insertAt,
+        0,
+        ...matchupIds.map((matchupId) => ({
+          id: crypto.randomUUID(),
+          type: "matchup",
+          matchupId,
+        }))
+      );
+      return next;
+    });
+  }, [newsletterData.starters.data, newsletterData.starters.status]);
+
   /* ----------------------------- render ----------------------------- */
 
   if (newsletterLoading) return <Centered>Loading…</Centered>;
@@ -640,8 +687,19 @@ function IssueBuilder(): React.ReactElement {
   // restore affordance is weekly-only.
   const removedComputedTypes =
     sections && !adhocId
-      ? DEFAULT_SECTION_ORDER.filter((t) => !sections.some((s) => s.type === t))
+      ? DEFAULT_SECTION_ORDER.filter((t) => t !== "matchup" && !sections.some((s) => s.type === t))
       : [];
+  // Matchups present in this week's data but missing a section — offered for
+  // one-click restore alongside the other removed computed sections.
+  const presentMatchupIds = new Set(
+    (sections ?? []).filter((s) => s.type === "matchup").map((s) => s.matchupId)
+  );
+  const missingMatchupIds =
+    adhocId || matchupPrefillPendingRef.current
+      ? []
+      : [...new Set((newsletterData.starters.data ?? []).map((s) => s.matchup_id))]
+          .sort((a, b) => a - b)
+          .filter((id) => !presentMatchupIds.has(id));
 
   return (
     <IssuePage>
@@ -807,7 +865,9 @@ function IssueBuilder(): React.ReactElement {
                   <SectionChip>
                     {section.type === "editor-text"
                       ? "Commentary"
-                      : (SECTION_REGISTRY[section.type]?.label ?? section.type)}
+                      : section.type === "matchup"
+                        ? `Matchup ${section.matchupId ?? ""}`
+                        : (SECTION_REGISTRY[section.type]?.label ?? section.type)}
                   </SectionChip>
                   {editable && (
                     <>
@@ -861,15 +921,25 @@ function IssueBuilder(): React.ReactElement {
                     />
                   </>
                 ) : (
-                  week !== null &&
-                  activeLeagueId && (
-                    <IssueSectionView
-                      section={section}
-                      data={newsletterData}
-                      leagueId={activeLeagueId}
-                      week={week}
-                    />
-                  )
+                  <>
+                    {section.type === "matchup" && (
+                      <TitleInput
+                        type="text"
+                        placeholder={matchupHeading(newsletterData, section.matchupId)}
+                        value={section.title ?? ""}
+                        disabled={!editable}
+                        onChange={(e) => patchSection(section.id, { title: e.target.value })}
+                      />
+                    )}
+                    {week !== null && activeLeagueId && (
+                      <IssueSectionView
+                        section={section}
+                        data={newsletterData}
+                        leagueId={activeLeagueId}
+                        week={week}
+                      />
+                    )}
+                  </>
                 )}
               </SectionFrame>
             ))}
@@ -879,7 +949,7 @@ function IssueBuilder(): React.ReactElement {
                 <SubtleButton onClick={() => addTextAfter(null)}>
                   + Add commentary section
                 </SubtleButton>
-                {removedComputedTypes.length > 0 && (
+                {(removedComputedTypes.length > 0 || missingMatchupIds.length > 0) && (
                   <RestoreRow>
                     <SaveState>Restore removed section:</SaveState>
                     {removedComputedTypes.map((type) => (
@@ -891,6 +961,20 @@ function IssueBuilder(): React.ReactElement {
                         aria-label={`Restore ${SECTION_REGISTRY[type].label} section`}
                       >
                         + {SECTION_REGISTRY[type].label}
+                      </IconButton>
+                    ))}
+                    {missingMatchupIds.map((matchupId) => (
+                      <IconButton
+                        key={`matchup-${matchupId}`}
+                        onClick={() =>
+                          mutate((prev) => [
+                            ...prev,
+                            { id: crypto.randomUUID(), type: "matchup", matchupId },
+                          ])
+                        }
+                        aria-label={`Restore ${matchupHeading(newsletterData, matchupId)} section`}
+                      >
+                        + {matchupHeading(newsletterData, matchupId)}
                       </IconButton>
                     ))}
                   </RestoreRow>

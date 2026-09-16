@@ -19,6 +19,7 @@ import {
   WeeklyMarginTable,
 } from "../newsletters/tableStyles";
 import type { NewsletterData, SectionResult } from "../../hooks/useNewsletterData";
+import type { IssueSection } from "../../types/firestore";
 import { AwardsSkeleton, TableSkeleton, ChartSkeleton, MatchupSkeleton } from "./skeletons";
 
 // Lazy chart chunks, same rationale as LeagueWeeklyRecap
@@ -38,15 +39,28 @@ const WeeklyScoringChart = React.lazy(() =>
 export interface RegistryEntry {
   /** Short name shown in the builder palette and anchor nav. */
   label: string;
-  /** Rendered section heading. */
-  title: (data: NewsletterData) => string;
-  subtitle?: (data: NewsletterData) => string | undefined;
+  /** Rendered section heading; undefined = subheader-only section. */
+  title: (data: NewsletterData, section: IssueSection) => string | undefined;
+  subtitle?: (data: NewsletterData, section: IssueSection) => string | undefined;
   /** The underlying query result driving loading/error state. */
   result: (data: NewsletterData) => SectionResult<unknown>;
-  render: (data: NewsletterData) => React.ReactNode;
+  render: (data: NewsletterData, section: IssueSection) => React.ReactNode;
   skeleton: React.ReactNode;
   /** False = suppress the section (e.g. empty playoff data). */
-  shouldRender?: (data: NewsletterData) => boolean;
+  shouldRender?: (data: NewsletterData, section: IssueSection) => boolean;
+}
+
+/**
+ * Default heading for a "matchup" section: "Team A vs Team B" once starters
+ * data is in, "Matchup N" before that (or for byes/stale ids).
+ */
+export function matchupHeading(data: NewsletterData, matchupId: number | undefined): string {
+  const names = (data.starters.data ?? [])
+    .filter((s) => s.matchup_id === matchupId)
+    .map((s) => s.team_name);
+  if (names.length >= 2) return `${names[0]} vs ${names[1]}`;
+  if (names.length === 1) return names[0];
+  return matchupId !== undefined ? `Matchup ${matchupId}` : "Matchup";
 }
 
 export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
@@ -68,26 +82,21 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
     ),
     skeleton: <ChartSkeleton />,
   },
-  matchups: {
-    label: "Matchup Spotlight",
-    title: () => "Matchups",
+  matchup: {
+    label: "Matchup",
+    title: () => undefined,
+    subtitle: (d, s) => s.title || matchupHeading(d, s.matchupId),
     result: (d) => d.starters,
-    render: (d) => {
-      const matchupIds = [...new Set((d.starters.data ?? []).map((s) => s.matchup_id))].sort(
-        (a, b) => a - b
-      );
-      return (
-        <React.Suspense fallback={<MatchupSkeleton />}>
-          {matchupIds.map((matchupId) => (
-            <React.Fragment key={matchupId}>
-              <ArticleSubheader>Matchup {matchupId}</ArticleSubheader>
-              <MatchupPlot data={d.starters.data ?? []} matchupId={matchupId} />
-            </React.Fragment>
-          ))}
-        </React.Suspense>
-      );
-    },
+    render: (d, s) => (
+      <React.Suspense fallback={<MatchupSkeleton />}>
+        <MatchupPlot data={d.starters.data ?? []} matchupId={s.matchupId ?? 0} />
+      </React.Suspense>
+    ),
     skeleton: <MatchupSkeleton />,
+    shouldRender: (d, s) =>
+      s.matchupId !== undefined &&
+      (d.starters.status !== "success" ||
+        (d.starters.data ?? []).some((m) => m.matchup_id === s.matchupId)),
   },
   "scoring-distributions": {
     label: "Scoring Distributions",
@@ -181,11 +190,15 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
   },
 };
 
-/** Prefill order for a fresh issue — mirrors the weekly recap page. */
+/**
+ * Prefill order for a fresh issue — mirrors the weekly recap page. "matchup"
+ * is a slot marker: it expands to one section per matchup_id once starters
+ * data resolves (see IssueBuilder).
+ */
 export const DEFAULT_SECTION_ORDER = [
   "awards",
   "efficiency",
-  "matchups",
+  "matchup",
   "scoring-distributions",
   "standings",
   "power-rankings",
