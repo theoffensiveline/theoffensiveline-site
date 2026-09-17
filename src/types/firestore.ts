@@ -242,13 +242,13 @@ export interface WeekDataDoc {
  * authenticated user can create one; the editor never curates them — they
  * render verbatim below the issue's sections in the reader.
  *
- * `text` is free-form. If it is a bare image URL the reader renders it as an
- * <img>; otherwise it renders as plain text.
+ * `text` is free-form. A bare image URL renders as an <img> and a bare
+ * tweet URL renders as an embedded tweet; otherwise plain text.
  */
 export interface SubmissionDoc {
-  /** Submission title (required, may be empty string). */
+  /** Submission title (optional, may be empty string). */
   title: string;
-  /** Body text, or a bare image URL rendered as an <img> by the reader. */
+  /** Body text, or a bare image/tweet URL rendered as an embed by the reader. */
   text: string;
   /** Firebase Auth UID of the submitter. */
   authorUid: string;

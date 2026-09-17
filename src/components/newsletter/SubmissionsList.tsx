@@ -1,12 +1,15 @@
 /**
  * SubmissionsList (#submit) — renders user-submitted blurbs at the bottom of
  * an issue in the reader. Each submission shows its title, author, and body.
- * A bare image URL in `text` renders as an <img>; otherwise plain text.
+ * A bare image URL in `text` renders as an <img>; a bare tweet URL renders
+ * as an embedded tweet; otherwise plain text.
  */
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { getSubmissions } from "../../services/firestoreCrud";
+import { isImageUrl, getTweetId } from "../../utils/submissionUtils";
+import { TweetEmbed } from "./TweetEmbed";
 import { ArticleSubheader } from "../newsletters/newsStyles";
 
 const Wrapper = styled.div`
@@ -29,7 +32,7 @@ const SubmissionTitle = styled.div`
 const SubmissionAuthor = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.text}99;
-  margin-bottom: 8px;
+  margin-top: 8px;
 `;
 
 const SubmissionBody = styled.div`
@@ -44,13 +47,6 @@ const SubmissionImage = styled.img`
   width: 100%;
   margin-top: 4px;
 `;
-
-/** True if a string is a bare image URL (http/https, no whitespace, common image extension). */
-function isImageUrl(s: string): boolean {
-  const trimmed = s.trim();
-  if (trimmed.length === 0 || /\s/.test(trimmed)) return false;
-  return /^https?:\/\/\S+\.(png|jpe?g|gif|webp|svg|bmp)$/i.test(trimmed);
-}
 
 interface SubmissionsListProps {
   newsletterId: string;
@@ -71,17 +67,22 @@ export function SubmissionsList({
   return (
     <Wrapper>
       <ArticleSubheader>Reader Submissions</ArticleSubheader>
-      {data.map((s) => (
-        <SubmissionCard key={s.id}>
-          {s.title && <SubmissionTitle>{s.title}</SubmissionTitle>}
-          <SubmissionAuthor>— {s.authorName}</SubmissionAuthor>
-          {isImageUrl(s.text) ? (
-            <SubmissionImage src={s.text.trim()} alt={s.title || "submission"} />
-          ) : (
-            <SubmissionBody>{s.text}</SubmissionBody>
-          )}
-        </SubmissionCard>
-      ))}
+      {data.map((s) => {
+        const tweetId = getTweetId(s.text);
+        return (
+          <SubmissionCard key={s.id}>
+            {s.title && <SubmissionTitle>{s.title}</SubmissionTitle>}
+            {isImageUrl(s.text) ? (
+              <SubmissionImage src={s.text.trim()} alt={s.title || "submission"} />
+            ) : tweetId ? (
+              <TweetEmbed tweetId={tweetId} url={s.text.trim()} />
+            ) : (
+              <SubmissionBody>{s.text}</SubmissionBody>
+            )}
+            <SubmissionAuthor>— {s.authorName}</SubmissionAuthor>
+          </SubmissionCard>
+        );
+      })}
     </Wrapper>
   );
 }

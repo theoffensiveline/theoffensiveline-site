@@ -9,7 +9,8 @@
  * the current NFL week) and enters a title + text. The submission is written
  * to `/newsletters/{id}/issues/{season}_w{NN}/submissions/` and renders at the
  * bottom of that issue in the reader. A bare image URL in the text field is
- * rendered as an <img> by the reader.
+ * rendered as an <img> by the reader; a bare tweet URL renders as an embedded
+ * tweet.
  *
  * The legacy Submit.jsx / /submit/:leagueId route is untouched.
  */
@@ -22,11 +23,14 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { styled } from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import {
   getNewslettersForLeague,
+  getIssuesForLeague,
   addSubmission,
   getSubmissions,
   updateSubmission,
@@ -35,6 +39,8 @@ import {
 } from "../services/firestoreCrud";
 import { getNflState } from "../utils/api/FantasyAPI";
 import { getSelectedNewsletterId } from "../utils/selectedNewsletter";
+import { isImageUrl, getTweetId } from "../utils/submissionUtils";
+import { TweetEmbed } from "../components/newsletter/TweetEmbed";
 import type { NewsletterDoc } from "../types/firestore";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 
@@ -91,6 +97,19 @@ const FormCard = styled(Box)`
     &:hover {
       background-color: ${({ theme }) => theme.newsBlue}22;
     }
+  }
+
+  .MuiCheckbox-root {
+    color: ${({ theme }) => theme.text}99;
+
+    &.Mui-checked {
+      color: ${({ theme }) => theme.newsBlue};
+    }
+  }
+
+  .MuiFormControlLabel-label {
+    color: ${({ theme }) => theme.text}cc;
+    font-size: 0.9rem;
   }
 `;
 
@@ -200,12 +219,6 @@ const EditRow = styled.div`
   gap: 8px;
 `;
 
-function isImageUrl(s: string): boolean {
-  const trimmed = s.trim();
-  if (trimmed.length === 0 || /\s/.test(trimmed)) return false;
-  return /^https?:\/\/\S+\.(png|jpe?g|gif|webp|svg|bmp)$/i.test(trimmed);
-}
-
 type ResolvedNewsletter = { id: string } & NewsletterDoc;
 
 export default function NewsletterSubmit(): React.ReactElement {
@@ -214,6 +227,7 @@ export default function NewsletterSubmit(): React.ReactElement {
 
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
   const [week, setWeek] = useState<number>(1);
   const [weekTouched, setWeekTouched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -249,18 +263,40 @@ export default function NewsletterSubmit(): React.ReactElement {
     );
   }, [newsletter, leagueId]);
 
-  // Default the week selector to the current NFL week.
+  // Default the week selector to the current NFL week — or the earliest week
+  // without a published issue when it's within 1 of the current week (i.e.
+  // the next newsletter is still being written, or the editor is one week
+  // behind). If the newsletter is further behind, stick with the current
+  // week rather than defaulting to a stale one.
   const stateQuery = useQuery({
     queryKey: ["nflState", leagueId],
     queryFn: () => getNflState(leagueId),
     enabled: !!leagueId,
   });
 
+  const issuesQuery = useQuery({
+    queryKey: ["issuesForLeague", newsletter?.id, leagueId],
+    queryFn: () => getIssuesForLeague(newsletter!.id, leagueId!),
+    enabled: !!newsletter && !!leagueId,
+  });
+
   useEffect(() => {
-    if (!weekTouched && stateQuery.data?.week) {
-      setWeek(Math.min(stateQuery.data.week, MAX_WEEK));
+    if (weekTouched || !stateQuery.data?.week) return;
+    const current = Math.min(stateQuery.data.week, MAX_WEEK);
+    const publishedWeeks = new Set(
+      (issuesQuery.data ?? [])
+        .filter((i) => i.status === "published" && i.week !== null && i.season === season)
+        .map((i) => i.week as number)
+    );
+    let earliestMissing = MAX_WEEK;
+    for (let w = 1; w <= MAX_WEEK; w++) {
+      if (!publishedWeeks.has(w)) {
+        earliestMissing = w;
+        break;
+      }
     }
-  }, [stateQuery.data, weekTouched]);
+    setWeek(Math.abs(earliestMissing - current) <= 1 ? earliestMissing : current);
+  }, [stateQuery.data, issuesQuery.data, season, weekTouched]);
 
   const weekOptions = useMemo(() => Array.from({ length: MAX_WEEK }, (_, i) => i + 1), []);
 
@@ -296,8 +332,7 @@ export default function NewsletterSubmit(): React.ReactElement {
   };
 
   const handleSaveEdit = async (submissionId: string) => {
-    if (!newsletter || !issueIdForQuery || editTitle.trim() === "" || editText.trim() === "")
-      return;
+    if (!newsletter || !issueIdForQuery || editText.trim() === "") return;
     setEditLoading(true);
     try {
       await updateSubmission(newsletter.id, issueIdForQuery, submissionId, {
@@ -325,19 +360,16 @@ export default function NewsletterSubmit(): React.ReactElement {
   };
 
   const canSubmit =
-    !!currentUser &&
-    !!newsletter &&
-    season !== undefined &&
-    title.trim() !== "" &&
-    text.trim() !== "" &&
-    !loading;
+    !!currentUser && !!newsletter && season !== undefined && text.trim() !== "" && !loading;
 
   const handleSubmit = async () => {
     if (!canSubmit || !newsletter || season === undefined || !currentUser || !leagueId) return;
     setLoading(true);
     setStatus(null);
 
-    const authorName = profile?.customDisplayName || currentUser.displayName || "Anonymous";
+    const authorName = anonymous
+      ? "Anonymous"
+      : profile?.customDisplayName || currentUser.displayName || "Anonymous";
 
     try {
       await addSubmission(newsletter.id, issueDocId(season, week), {
@@ -405,7 +437,7 @@ export default function NewsletterSubmit(): React.ReactElement {
         <TextField
           fullWidth
           margin="normal"
-          label="Title"
+          label="Title (optional)"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Brief headline"
@@ -419,7 +451,14 @@ export default function NewsletterSubmit(): React.ReactElement {
           rows={4}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Say something — or paste an image URL to embed an image"
+          placeholder="Say something — or paste an image or tweet URL to embed it"
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox checked={anonymous} onChange={(e) => setAnonymous(e.target.checked)} />
+          }
+          label="Post anonymously"
         />
 
         <SubmitButton onClick={handleSubmit} disabled={!canSubmit}>
@@ -431,56 +470,61 @@ export default function NewsletterSubmit(): React.ReactElement {
         {mine.length > 0 && (
           <PriorSection>
             <h3>Your submissions for Week {week}</h3>
-            {mine.map((s) => (
-              <PriorCard key={s.id}>
-                {editingId === s.id ? (
-                  <EditRow>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="Title"
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                    />
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="Text"
-                      multiline
-                      rows={3}
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                    />
-                    <PriorActions>
-                      <SmallButton
-                        onClick={() => handleSaveEdit(s.id)}
-                        disabled={editLoading || editTitle.trim() === "" || editText.trim() === ""}
-                      >
-                        {editLoading ? "Saving…" : "Save"}
-                      </SmallButton>
-                      <SmallButton onClick={cancelEdit} disabled={editLoading}>
-                        Cancel
-                      </SmallButton>
-                    </PriorActions>
-                  </EditRow>
-                ) : (
-                  <>
-                    <PriorTitle>{s.title || "(untitled)"}</PriorTitle>
-                    {isImageUrl(s.text) ? (
-                      <PriorImage src={s.text.trim()} alt={s.title || "submission"} />
-                    ) : (
-                      <PriorText>{s.text}</PriorText>
-                    )}
-                    <PriorActions>
-                      <SmallButton onClick={() => startEdit(s)}>Edit</SmallButton>
-                      <SmallButton className="danger" onClick={() => handleDelete(s.id)}>
-                        Delete
-                      </SmallButton>
-                    </PriorActions>
-                  </>
-                )}
-              </PriorCard>
-            ))}
+            {mine.map((s) => {
+              const tweetId = getTweetId(s.text);
+              return (
+                <PriorCard key={s.id}>
+                  {editingId === s.id ? (
+                    <EditRow>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Title"
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                      />
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Text"
+                        multiline
+                        rows={3}
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                      />
+                      <PriorActions>
+                        <SmallButton
+                          onClick={() => handleSaveEdit(s.id)}
+                          disabled={editLoading || editText.trim() === ""}
+                        >
+                          {editLoading ? "Saving…" : "Save"}
+                        </SmallButton>
+                        <SmallButton onClick={cancelEdit} disabled={editLoading}>
+                          Cancel
+                        </SmallButton>
+                      </PriorActions>
+                    </EditRow>
+                  ) : (
+                    <>
+                      <PriorTitle>{s.title || "(untitled)"}</PriorTitle>
+                      {isImageUrl(s.text) ? (
+                        <PriorImage src={s.text.trim()} alt={s.title || "submission"} />
+                      ) : tweetId ? (
+                        <TweetEmbed tweetId={tweetId} url={s.text.trim()} />
+                      ) : (
+                        <PriorText>{s.text}</PriorText>
+                      )}
+                      <PriorActions>
+                        <SmallButton onClick={() => startEdit(s)}>Edit</SmallButton>
+                        <SmallButton className="danger" onClick={() => handleDelete(s.id)}>
+                          Delete
+                        </SmallButton>
+                      </PriorActions>
+                    </>
+                  )}
+                </PriorCard>
+              );
+            })}
           </PriorSection>
         )}
       </FormCard>
