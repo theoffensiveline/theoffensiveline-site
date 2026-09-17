@@ -539,6 +539,21 @@ function IssueBuilder(): React.ReactElement {
     mutate((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
 
   /**
+   * playoff-picture only: enable/disable the manually-edited WP odds column.
+   * Removing strips the key entirely — Firestore rejects undefined values,
+   * and the entered values go with it.
+   */
+  const toggleWpOdds = (id: string) =>
+    mutate((prev) =>
+      prev.map((s) => {
+        if (s.id !== id) return s;
+        if (s.wpOdds === undefined) return { ...s, wpOdds: {} };
+        const { wpOdds: _dropped, ...rest } = s;
+        return rest;
+      })
+    );
+
+  /**
    * Explicit status change: the ONLY writer of status/publishedAt. Cancels
    * any pending autosave first, persists the full doc, and flips local
    * state + the shared cache only when the write actually succeeded.
@@ -894,6 +909,19 @@ function IssueBuilder(): React.ReactElement {
                       >
                         + text
                       </IconButton>
+                      {section.type === "playoff-picture" && (
+                        <IconButton
+                          onClick={() => toggleWpOdds(section.id)}
+                          aria-label="Toggle WP odds column"
+                          title={
+                            section.wpOdds === undefined
+                              ? "Add a manually-edited WP playoff odds column"
+                              : "Remove the WP playoff odds column (values are lost)"
+                          }
+                        >
+                          {section.wpOdds === undefined ? "+ WP odds" : "− WP odds"}
+                        </IconButton>
+                      )}
                       <IconButton
                         onClick={() => remove(index)}
                         aria-label="Remove section"
@@ -937,6 +965,9 @@ function IssueBuilder(): React.ReactElement {
                         data={newsletterData}
                         leagueId={activeLeagueId}
                         week={week}
+                        onPatchSection={
+                          editable ? (patch) => patchSection(section.id, patch) : undefined
+                        }
                       />
                     )}
                   </>

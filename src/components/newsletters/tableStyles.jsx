@@ -7,6 +7,7 @@ import React from "react";
 import { useState } from "react";
 import { ArticleSubheader, StyledButton } from "./newsStyles.jsx";
 import { useTheme } from "../../ThemeContext.tsx";
+import { interpolateColor } from "../../utils/newsletter/colorUtils";
 
 // Base Table Components
 const BaseTable = styled.table`
@@ -71,6 +72,18 @@ export const StickyTable = styled(BaseTable)`
     min-width: 120px;
     max-width: 120px;
   }
+`;
+
+/** Inline editor for the manually-entered WP odds column (builder only). */
+const WpOddsInput = styled.input`
+  width: 54px;
+  padding: 2px 4px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  text-align: center;
 `;
 
 // Base Table Component for reuse
@@ -352,18 +365,42 @@ export const DivisionOverallRecordsTable = ({ data }) => {
   return <BaseDataTable headers={headers} data={tableData} renderCell={renderCell} />;
 };
 
-export const PlayoffTable = ({ playoffData }) => {
+/**
+ * wpOdds tri-state:
+ *   undefined → legacy mode: column renders from each row's "WP Playoff %"
+ *               (archived newsletters carry real values in their JSON).
+ *   null      → column hidden (computed sections; WP odds are never
+ *               auto-populated).
+ *   object    → column shows editor-entered values keyed by team name.
+ *               Read-only cells are color-graded across the entered
+ *               numbers; while editing (onWpOddsChange set) cells stay
+ *               neutral and render inputs.
+ * @param {object} props
+ * @param {any[]} props.playoffData
+ * @param {Record<string, string> | null} [props.wpOdds]
+ * @param {(team: string, value: string) => void} [props.onWpOddsChange]
+ */
+export const PlayoffTable = ({ playoffData, wpOdds, onWpOddsChange }) => {
+  const showWpColumn = wpOdds !== null;
   const headers = [
     "Rank",
     "Team",
     "W",
     "L",
     "Playoff %",
-    "WP Playoff %",
+    ...(showWpColumn ? ["WP Playoff %"] : []),
     "Play-off #",
     "Last %",
     "Last #",
   ];
+
+  const wpNumbers = wpOdds
+    ? Object.values(wpOdds)
+        .map((v) => parseFloat(v))
+        .filter((v) => !Number.isNaN(v))
+    : [];
+  const minWp = wpNumbers.length ? Math.min(...wpNumbers) : 0;
+  const maxWp = wpNumbers.length ? Math.max(...wpNumbers) : 0;
 
   const renderCell = (row, header) => {
     const baseStyle = "center-column";
@@ -381,7 +418,32 @@ export const PlayoffTable = ({ playoffData }) => {
             {row["Play-off %"]}
           </td>
         );
-      case "WP Playoff %":
+      case "WP Playoff %": {
+        if (wpOdds !== undefined) {
+          const raw = wpOdds[row.Team] ?? "";
+          const num = parseFloat(raw);
+          const editing = onWpOddsChange !== undefined;
+          return (
+            <td
+              className={baseStyle}
+              style={{
+                backgroundColor:
+                  editing || Number.isNaN(num) ? "#f3f7f3" : interpolateColor(num, minWp, maxWp),
+                color: ColorConstants["light"].text,
+              }}
+            >
+              {editing ? (
+                <WpOddsInput
+                  value={raw}
+                  onChange={(e) => onWpOddsChange(row.Team, e.target.value)}
+                  aria-label={`WP playoff odds for ${row.Team}`}
+                />
+              ) : (
+                raw
+              )}
+            </td>
+          );
+        }
         return (
           <td
             className={baseStyle}
@@ -393,6 +455,7 @@ export const PlayoffTable = ({ playoffData }) => {
             {row["WP Playoff %"]}
           </td>
         );
+      }
       case "Play-off #":
         return (
           <td

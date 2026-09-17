@@ -329,7 +329,10 @@ export const LeagueWeeklyRecap: React.FC = () => {
         title: "Playoff Probabilities",
         subtitle: "Monte Carlo simulation of playoff and last place chances",
         section: newsletter.playoffStandings,
-        render: () => <PlayoffTable playoffData={newsletter.playoffStandings.data ?? []} />,
+        // WP odds are never auto-populated — hide the column here too.
+        render: () => (
+          <PlayoffTable playoffData={newsletter.playoffStandings.data ?? []} wpOdds={null} />
+        ),
         skeleton: <TableSkeleton rows={10} columns={4} />,
         shouldRender:
           newsletter.playoffStandings.status !== "success" ||
