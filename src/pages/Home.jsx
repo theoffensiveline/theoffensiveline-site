@@ -201,8 +201,9 @@ function Home() {
 
   // Newsletter content for league ID '1382521746292219904'
   const newsletterContent = {
-    mostRecentIssue: ["2026 Post Draft Recap"],
+    mostRecentIssue: [],
     newsletterIssues: [
+      "2026 Post Draft Recap",
       "Hot Dog Tracker",
       "LLWS Draft Tracker",
       "2026 Realignment",
@@ -363,18 +364,16 @@ function Home() {
                   key={issue.id}
                   onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
                 >
-                  {`${displayNewsletter.name}\n${
-                    issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
-                  }${issue.status !== "published" ? " · draft" : ""}`}
+                  {`${displayNewsletter.name}\n${issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
+                    }${issue.status !== "published" ? " · draft" : ""}`}
                 </RecentGridItem>
               ) : (
                 <GridItem
                   key={issue.id}
                   onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
                 >
-                  {`${displayNewsletter.name}\n${
-                    issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
-                  }${issue.status !== "published" ? " · draft" : ""}`}
+                  {`${displayNewsletter.name}\n${issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
+                    }${issue.status !== "published" ? " · draft" : ""}`}
                 </GridItem>
               )
             )}
