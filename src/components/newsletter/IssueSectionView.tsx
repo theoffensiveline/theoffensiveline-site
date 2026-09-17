@@ -24,6 +24,8 @@ interface IssueSectionViewProps {
   leagueId: string;
   /** Null for ad-hoc issues — computed sections degrade to nothing. */
   week: number | null;
+  /** Builder-only: enables inline editing affordances (e.g. WP odds inputs). */
+  onPatchSection?: (patch: Partial<IssueSection>) => void;
 }
 
 export function IssueSectionView({
@@ -31,6 +33,7 @@ export function IssueSectionView({
   data,
   leagueId,
   week,
+  onPatchSection,
 }: IssueSectionViewProps): React.ReactElement | null {
   if (section.type === "editor-text") {
     return (
@@ -60,7 +63,7 @@ export function IssueSectionView({
       onRetry={() => result.refetch()}
       skeleton={entry.skeleton}
     >
-      {entry.render(data, section)}
+      {entry.render(data, section, onPatchSection)}
     </SectionShell>
   );
 }

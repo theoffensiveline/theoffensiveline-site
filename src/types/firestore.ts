@@ -174,6 +174,12 @@ export interface IssueSection {
   body?: Record<string, unknown>;
   /** "matchup" sections only: which matchup_id of the issue's week to render. */
   matchupId?: number;
+  /**
+   * "playoff-picture" sections only: editor-entered WP playoff odds keyed by
+   * team name. Never computed — presence of the key (even an empty map)
+   * enables the WP Playoff % column; absent = column hidden.
+   */
+  wpOdds?: Record<string, string>;
 }
 
 /**

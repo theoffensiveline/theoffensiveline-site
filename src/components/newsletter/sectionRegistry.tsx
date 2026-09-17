@@ -44,7 +44,16 @@ export interface RegistryEntry {
   subtitle?: (data: NewsletterData, section: IssueSection) => string | undefined;
   /** The underlying query result driving loading/error state. */
   result: (data: NewsletterData) => SectionResult<unknown>;
-  render: (data: NewsletterData, section: IssueSection) => React.ReactNode;
+  /**
+   * onPatchSection is builder-only: when provided (draft mode), sections with
+   * editor-editable data (e.g. WP odds inputs) can patch themselves. Reader
+   * and published previews render without it.
+   */
+  render: (
+    data: NewsletterData,
+    section: IssueSection,
+    onPatchSection?: (patch: Partial<IssueSection>) => void
+  ) => React.ReactNode;
   skeleton: React.ReactNode;
   /** False = suppress the section (e.g. empty playoff data). */
   shouldRender?: (data: NewsletterData, section: IssueSection) => boolean;
@@ -173,7 +182,20 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
     title: () => "Playoff Probabilities",
     subtitle: () => "Monte Carlo simulation of playoff and last place chances",
     result: (d) => d.playoffStandings,
-    render: (d) => <PlayoffTable playoffData={d.playoffStandings.data ?? []} />,
+    // WP odds are never auto-populated — the column only appears when the
+    // editor enabled it (section.wpOdds set) and shows their manual values.
+    render: (d, s, onPatchSection) => (
+      <PlayoffTable
+        playoffData={d.playoffStandings.data ?? []}
+        wpOdds={s.wpOdds ?? null}
+        onWpOddsChange={
+          onPatchSection
+            ? (team: string, value: string) =>
+                onPatchSection({ wpOdds: { ...(s.wpOdds ?? {}), [team]: value } })
+            : undefined
+        }
+      />
+    ),
     skeleton: <TableSkeleton rows={10} columns={4} />,
     shouldRender: (d) =>
       d.playoffStandings.status !== "success" || (d.playoffStandings.data?.length ?? 0) > 0,
