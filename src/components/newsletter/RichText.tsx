@@ -8,10 +8,33 @@ import styled from "styled-components";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
+import { isImageUrl } from "../../utils/submissionUtils";
 
 type TiptapDoc = Record<string, unknown>;
 
 const EMPTY_DOC: TiptapDoc = { type: "doc", content: [{ type: "paragraph" }] };
+
+/**
+ * Rewrites paragraphs that contain nothing but a bare image URL into image
+ * nodes — same contract as submission text (#submit). Covers commentary
+ * saved before image support and URLs typed instead of pasted.
+ */
+function withImageNodes(doc: TiptapDoc): TiptapDoc {
+  const content = doc.content;
+  if (!Array.isArray(content)) return doc;
+  let changed = false;
+  const next = content.map((node) => {
+    const n = node as { type?: string; content?: { type?: string; text?: string }[] };
+    const sole = n.content?.length === 1 ? n.content[0] : undefined;
+    if (n.type === "paragraph" && sole?.type === "text" && sole.text && isImageUrl(sole.text)) {
+      changed = true;
+      return { type: "image", attrs: { src: sole.text.trim() } };
+    }
+    return node;
+  });
+  return changed ? { ...doc, content: next } : doc;
+}
 
 const EditorFrame = styled.div`
   border: 1px solid ${({ theme }: any) => theme.neutral3}66;
@@ -32,6 +55,17 @@ const EditorFrame = styled.div`
 
     a {
       color: ${({ theme }: any) => theme.newsBlue};
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 0.4em 0;
+
+      &.ProseMirror-selectednode {
+        outline: 2px solid ${({ theme }: any) => theme.newsBlue};
+      }
     }
   }
 `;
@@ -73,10 +107,17 @@ const ViewBody = styled.div`
     a {
       color: ${({ theme }: any) => theme.newsBlue};
     }
+
+    img {
+      display: block;
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 0.4em 0;
+    }
   }
 `;
 
-const extensions = [StarterKit, Link.configure({ openOnClick: false })];
+const extensions = [StarterKit, Link.configure({ openOnClick: false }), Image];
 
 interface RichTextEditorProps {
   content: TiptapDoc | undefined;
@@ -91,9 +132,20 @@ export function RichTextEditor({
 }: RichTextEditorProps): React.ReactElement {
   const editor = useEditor({
     extensions,
-    content: content ?? EMPTY_DOC,
+    content: withImageNodes(content ?? EMPTY_DOC),
     editable: !disabled,
     onUpdate: ({ editor: e }) => onChange(e.getJSON() as TiptapDoc),
+    editorProps: {
+      // Bare image URL on the clipboard → image node at the cursor, same as
+      // submissions. Anything else falls through to the default paste.
+      handlePaste: (view, event) => {
+        const text = event.clipboardData?.getData("text/plain").trim() ?? "";
+        if (!isImageUrl(text)) return false;
+        const node = view.state.schema.nodes.image.create({ src: text });
+        view.dispatch(view.state.tr.replaceSelectionWith(node));
+        return true;
+      },
+    },
   });
 
   // useEditor only reads `editable` at mount, so publish → revert-to-draft
@@ -113,6 +165,13 @@ export function RichTextEditor({
     } else {
       editor.chain().focus().setLink({ href: url }).run();
     }
+  };
+
+  const setImage = () => {
+    if (!editor) return;
+    const url = window.prompt("Image URL", "https://");
+    if (url === null || url.trim() === "") return;
+    editor.chain().focus().setImage({ src: url.trim() }).run();
   };
 
   return (
@@ -136,6 +195,9 @@ export function RichTextEditor({
           <ToolButton type="button" $active={editor.isActive("link")} onClick={setLink}>
             Link
           </ToolButton>
+          <ToolButton type="button" onClick={setImage}>
+            Image
+          </ToolButton>
         </Toolbar>
       )}
       <EditorContent editor={editor} />
@@ -147,14 +209,14 @@ export function RichTextEditor({
 export function RichTextView({ content }: { content: TiptapDoc | undefined }): React.ReactElement {
   const editor = useEditor({
     extensions,
-    content: content ?? EMPTY_DOC,
+    content: withImageNodes(content ?? EMPTY_DOC),
     editable: false,
   });
   // useEditor only reads `content` at mount — re-sync when a refetch (e.g.
   // window refocus past staleTime) delivers updated commentary, or the view
   // keeps showing the old text until a full reload (#84 swarm review).
   React.useEffect(() => {
-    if (editor) editor.commands.setContent(content ?? EMPTY_DOC);
+    if (editor) editor.commands.setContent(withImageNodes(content ?? EMPTY_DOC));
   }, [editor, content]);
   return (
     <ViewBody>
