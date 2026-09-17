@@ -107,6 +107,8 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
       (d.starters.status !== "success" ||
         (d.starters.data ?? []).some((m) => m.matchup_id === s.matchupId)),
   },
+  // Retired: superseded by the three split sections below so editors can
+  // interleave commentary between charts. Kept so published issues render.
   "scoring-distributions": {
     label: "Scoring Distributions",
     title: () => "Scoring Distributions",
@@ -130,6 +132,48 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
       </React.Suspense>
     ),
     skeleton: <ChartSkeleton />,
+  },
+  "scoring-histogram": {
+    label: "Scoring Distribution",
+    title: () => "Scoring Distributions",
+    subtitle: () => "Distribution of Scoring",
+    result: (d) => d.matchupData,
+    render: (d) => (
+      <React.Suspense fallback={<ChartSkeleton />}>
+        <StackedHistogram chartData={d.matchupData.data ?? []} />
+        <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
+      </React.Suspense>
+    ),
+    skeleton: <ChartSkeleton />,
+  },
+  "weekly-scoring": {
+    label: "Weekly Scoring",
+    title: () => undefined,
+    subtitle: () => "Weekly Scoring Chart",
+    result: (d) => d.matchupData,
+    render: (d) => (
+      <React.Suspense fallback={<ChartSkeleton />}>
+        <WeeklyScoringChart chartData={d.matchupData.data ?? []} />
+        <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
+      </React.Suspense>
+    ),
+    skeleton: <ChartSkeleton />,
+  },
+  "margin-of-victory": {
+    label: "Margin of Victory",
+    title: () => undefined,
+    subtitle: () => "Weekly Margin of Victory",
+    result: (d) => d.matchupData,
+    render: (d) => (
+      <>
+        <WeeklyMarginTable
+          matchupData={d.matchupData.data ?? []}
+          leaderboardData={d.leaderboard.data ?? []}
+        />
+        <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
+      </>
+    ),
+    skeleton: <TableSkeleton rows={10} columns={6} />,
   },
   standings: {
     label: "Standings",
@@ -221,7 +265,9 @@ export const DEFAULT_SECTION_ORDER = [
   "awards",
   "efficiency",
   "matchup",
-  "scoring-distributions",
+  "scoring-histogram",
+  "weekly-scoring",
+  "margin-of-victory",
   "standings",
   "power-rankings",
   "median",

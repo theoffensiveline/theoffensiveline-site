@@ -239,30 +239,51 @@ export const LeagueWeeklyRecap: React.FC = () => {
         shouldRender: true,
       },
       {
-        id: "scoring-distributions",
-        label: "Scoring Distributions",
+        id: "scoring-histogram",
+        label: "Scoring Distribution",
         title: "Scoring Distributions",
-        subtitle: undefined as string | undefined,
+        subtitle: "Distribution of Scoring" as string | undefined,
         section: newsletter.matchupData,
         render: () => (
           <React.Suspense fallback={<ChartSkeleton />}>
-            <ArticleSubheader>Distribution of Scoring</ArticleSubheader>
             <StackedHistogram chartData={newsletter.matchupData.data ?? []} />
             <ArticleCaption>Weekly Scoring Distribution w/ Historical Scores</ArticleCaption>
-
-            <ArticleSubheader>Weekly Scoring Chart</ArticleSubheader>
+          </React.Suspense>
+        ),
+        skeleton: <ChartSkeleton />,
+        shouldRender: true,
+      },
+      {
+        id: "weekly-scoring",
+        label: "Weekly Scoring",
+        title: undefined as string | undefined,
+        subtitle: "Weekly Scoring Chart",
+        section: newsletter.matchupData,
+        render: () => (
+          <React.Suspense fallback={<ChartSkeleton />}>
             <WeeklyScoringChart chartData={newsletter.matchupData.data ?? []} />
             <ArticleCaption>Weekly Scoring Chart</ArticleCaption>
-
-            <ArticleSubheader>Weekly Margin of Victory</ArticleSubheader>
+          </React.Suspense>
+        ),
+        skeleton: <ChartSkeleton />,
+        shouldRender: true,
+      },
+      {
+        id: "margin-of-victory",
+        label: "Margin of Victory",
+        title: undefined as string | undefined,
+        subtitle: "Weekly Margin of Victory",
+        section: newsletter.matchupData,
+        render: () => (
+          <>
             <WeeklyMarginTable
               matchupData={newsletter.matchupData.data ?? []}
               leaderboardData={newsletter.leaderboard.data ?? []}
             />
             <ArticleCaption>Weekly Margin of Victory Table</ArticleCaption>
-          </React.Suspense>
+          </>
         ),
-        skeleton: <ChartSkeleton />,
+        skeleton: <TableSkeleton rows={10} columns={6} />,
         shouldRender: true,
       },
       {
