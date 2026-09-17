@@ -55,25 +55,35 @@ const NFL_STATE_MEM_TTL_MS = 5 * 60 * 1000; // 5 minutes — in-memory only
 
 /** In-memory cache of the current NFL week (avoids repeated /state/nfl calls). */
 let _nflWeekCache: { week: number; fetchedAt: number } | null = null;
+/** Shared in-flight /state/nfl request — concurrent getMatchups calls all await this. */
+let _nflWeekInflight: Promise<number | null> | null = null;
 
 /**
- * Determine the current NFL week. Uses an in-memory cache (5-min TTL) so that
- * batched getMatchups calls only trigger one /state/nfl request.
+ * Determine the current NFL week. Uses an in-memory cache (5-min TTL) plus
+ * in-flight deduplication so that a cold-start batch of N getMatchups calls
+ * triggers exactly one /state/nfl request instead of N.
  * Returns null if the fetch fails — callers fall back to the Firestore cache.
  */
 async function getCurrentNflWeek(): Promise<number | null> {
   if (_nflWeekCache && Date.now() - _nflWeekCache.fetchedAt < NFL_STATE_MEM_TTL_MS) {
     return _nflWeekCache.week;
   }
-  try {
-    const res = await fetch(`${BASE_URL}/state/nfl`);
-    if (!res.ok) return null;
-    const data = await res.json();
-    _nflWeekCache = { week: data.week, fetchedAt: Date.now() };
-    return data.week;
-  } catch {
-    return null;
+  if (!_nflWeekInflight) {
+    _nflWeekInflight = (async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/state/nfl`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        _nflWeekCache = { week: data.week, fetchedAt: Date.now() };
+        return data.week;
+      } catch {
+        return null;
+      } finally {
+        _nflWeekInflight = null;
+      }
+    })();
   }
+  return _nflWeekInflight;
 }
 
 /**
@@ -137,7 +147,7 @@ export const getLeague = async (leagueId: string): Promise<League> => {
       `${BASE_URL}/league/${leagueId}`,
       "Failed to fetch league"
     );
-    await writeCache(key, data);
+    writeCache(key, data);
     return data;
   } catch (error) {
     console.error("Error fetching league:", error);
@@ -156,7 +166,7 @@ export const getUsers = async (leagueId: string): Promise<User[]> => {
       `${BASE_URL}/league/${leagueId}/users`,
       "Failed to fetch users"
     );
-    await writeCache(key, data);
+    writeCache(key, data);
     return data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -175,7 +185,7 @@ export const getRosters = async (leagueId: string): Promise<Roster[]> => {
       `${BASE_URL}/league/${leagueId}/rosters`,
       "Failed to fetch rosters"
     );
-    await writeCache(key, data);
+    writeCache(key, data);
     return data;
   } catch (error) {
     console.error("Error fetching rosters:", error);
@@ -187,14 +197,12 @@ export const getRosters = async (leagueId: string): Promise<Roster[]> => {
 // Completed weeks (week < current NFL week) are cached permanently in Firestore.
 // The current week bypasses the cache to ensure live scoring is fresh.
 export const getMatchups = async (leagueId: string, week: number): Promise<Matchup[]> => {
-  const currentWeek = await getCurrentNflWeek();
+  const key = cacheKey(leagueId, "matchups", week);
+  // Run the current-week check and the cache read in parallel — sequencing
+  // them would put two unrelated round-trips on the critical path.
+  const [currentWeek, cached] = await Promise.all([getCurrentNflWeek(), readCache<Matchup[]>(key)]);
   const isCompleted = currentWeek !== null && week < currentWeek;
-
-  if (isCompleted) {
-    const key = cacheKey(leagueId, "matchups", week);
-    const cached = await readCache<Matchup[]>(key);
-    if (cached) return cached;
-  }
+  if (isCompleted && cached) return cached;
 
   try {
     const data = await dedupedFetch<Matchup[]>(
@@ -203,15 +211,13 @@ export const getMatchups = async (leagueId: string, week: number): Promise<Match
     );
     // Only persist completed-week data (current week changes with live scoring)
     if (isCompleted) {
-      await writeCache(cacheKey(leagueId, "matchups", week), data);
+      writeCache(key, data);
     }
     return data;
   } catch (error) {
-    // If Sleeper is rate-limiting, try the cache as a last resort even for
-    // the current week — stale data is better than a blank page.
-    const key = cacheKey(leagueId, "matchups", week);
-    const fallback = await readCache<Matchup[]>(key);
-    if (fallback) return fallback;
+    // If Sleeper is rate-limiting, reuse the cache read from above as a last
+    // resort even for the current week — stale data beats a blank page.
+    if (cached) return cached;
 
     console.error("Error fetching matchups:", error);
     throw error;
@@ -272,14 +278,13 @@ export const getPlayerProjections = async (
 };
 
 export const getTransactions = async (leagueId: string, leg: number): Promise<Transactions[]> => {
-  const currentWeek = await getCurrentNflWeek();
+  const key = cacheKey(leagueId, "transactions", leg);
+  const [currentWeek, cached] = await Promise.all([
+    getCurrentNflWeek(),
+    readCache<Transactions[]>(key),
+  ]);
   const isCompleted = currentWeek !== null && leg < currentWeek;
-
-  if (isCompleted) {
-    const key = cacheKey(leagueId, "transactions", leg);
-    const cached = await readCache<Transactions[]>(key);
-    if (cached) return cached;
-  }
+  if (isCompleted && cached) return cached;
 
   try {
     const response = await fetch(`${BASE_URL}/league/${leagueId}/transactions/${leg}`);
@@ -288,13 +293,11 @@ export const getTransactions = async (leagueId: string, leg: number): Promise<Tr
     }
     const data = await response.json();
     if (isCompleted) {
-      await writeCache(cacheKey(leagueId, "transactions", leg), data);
+      writeCache(key, data);
     }
     return data;
   } catch (error) {
-    const key = cacheKey(leagueId, "transactions", leg);
-    const fallback = await readCache<Transactions[]>(key);
-    if (fallback) return fallback;
+    if (cached) return cached;
 
     console.error("Error fetching transactions:", error);
     throw error;
@@ -316,7 +319,7 @@ export const getBracketMatchups = async (
       throw new Error("Failed to fetch bracket matchups");
     }
     const data = await response.json();
-    await writeCache(key, data);
+    writeCache(key, data);
     return data;
   } catch (error) {
     console.error("Error fetching bracket matchups:", error);
