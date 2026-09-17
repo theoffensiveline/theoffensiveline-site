@@ -178,7 +178,12 @@ const SectionShellInner: React.FC<SectionShellProps> = ({
 
   // Handle minimum display time for skeleton (400ms)
   useEffect(() => {
-    if (status === "success" && loadingStartTime !== null) {
+    if (status === "success" && loadingStartTime === null) {
+      // Data was already cached at mount — there was no pending phase, so
+      // the minimum-display timer would never be scheduled and the skeleton
+      // would render forever.
+      setShowContent(true);
+    } else if (status === "success" && loadingStartTime !== null) {
       const elapsed = Date.now() - loadingStartTime;
       const minimumDisplayTime = 400;
       const remainingTime = Math.max(0, minimumDisplayTime - elapsed);
