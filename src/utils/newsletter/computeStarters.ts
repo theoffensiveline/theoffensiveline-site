@@ -41,8 +41,11 @@ export async function computeStarters(leagueId: string, week: number): Promise<S
       const player = players[playerId];
       const points = matchup.starters_points?.[index] ?? 0;
 
-      // Get custom nickname from roster player_map
-      const nickname = roster?.player_map?.[playerId] || undefined;
+      // Sleeper stores custom player nicknames in roster metadata as
+      // `p_nick_{player_id}`; player_map is usually null. ESPN/Yahoo rosters
+      // have neither, so this is effectively Sleeper-only.
+      const nickname =
+        roster?.metadata?.[`p_nick_${playerId}`] || roster?.player_map?.[playerId] || undefined;
 
       return {
         full_name: player?.full_name || playerId,
