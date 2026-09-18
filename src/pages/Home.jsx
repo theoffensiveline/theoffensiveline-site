@@ -364,16 +364,18 @@ function Home() {
                   key={issue.id}
                   onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
                 >
-                  {`${displayNewsletter.name}\n${issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
-                    }${issue.status !== "published" ? " · draft" : ""}`}
+                  {`${displayNewsletter.name}\n${
+                    issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
+                  }${issue.status !== "published" ? " · draft" : ""}`}
                 </RecentGridItem>
               ) : (
                 <GridItem
                   key={issue.id}
                   onClick={() => navigate(`/n/${displayNewsletterId}/issue/${issue.id}`)}
                 >
-                  {`${displayNewsletter.name}\n${issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
-                    }${issue.status !== "published" ? " · draft" : ""}`}
+                  {`${displayNewsletter.name}\n${
+                    issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
+                  }${issue.status !== "published" ? " · draft" : ""}`}
                 </GridItem>
               )
             )}
