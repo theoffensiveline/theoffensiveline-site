@@ -19,6 +19,7 @@ import {
 import { useNewsletterData } from "../hooks/useNewsletterData";
 import { SectionShell } from "../components/newsletter/SectionShell";
 import { AnchorNav } from "../components/newsletter/AnchorNav";
+import { ShareButton } from "../components/newsletter/ShareButton";
 import { ProgressIndicator } from "../components/newsletter/ProgressIndicator";
 import {
   AwardsSkeleton,
@@ -455,6 +456,8 @@ export const LeagueWeeklyRecap: React.FC = () => {
           <ArticleSubheader>
             {platformLabel} Weekly Recap – Week {parsedWeek}
           </ArticleSubheader>
+
+          <ShareButton centered title={`The Offensive Line – Week ${parsedWeek} Recap`} />
 
           <ProgressIndicator
             totalSections={visibleSections.length}
