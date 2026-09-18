@@ -3,6 +3,7 @@ import type { ESPNLeagueResponse } from "../../types/espnTypes";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { getEspnCredentials } from "../espnCredentials";
+import { cacheKey, readCache, writeCache } from "./platformCache";
 
 const ESPN_BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
 
@@ -43,7 +44,16 @@ function getEspnProxyUrl(): Promise<string> {
   return _proxyUrlPromise;
 }
 
-function dedupedFetch<T>(url: string): Promise<T> {
+/**
+ * Fetch an ESPN URL with in-flight deduplication and a Firestore fallback.
+ *
+ * Every successful response is written to the apiCache (fire-and-forget) so
+ * that visitors without ESPN credentials — e.g. someone opening a shared
+ * newsletter link to a private league — can still be served. When a fetch
+ * fails (private league + no creds, or ESPN down), the cached copy is
+ * returned if one exists; otherwise the original error propagates.
+ */
+function dedupedFetch<T>(url: string, cacheDocId?: string): Promise<T> {
   const cached = _inflight.get(url);
   if (cached) return cached as Promise<T>;
 
@@ -67,6 +77,17 @@ function dedupedFetch<T>(url: string): Promise<T> {
       if (!res.ok) throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
       return res.json() as Promise<T>;
     })
+    .then((data) => {
+      if (cacheDocId) writeCache(cacheDocId, data);
+      return data;
+    })
+    .catch(async (err) => {
+      if (cacheDocId) {
+        const fallback = await readCache<T>(cacheDocId);
+        if (fallback != null) return fallback;
+      }
+      throw err;
+    })
     .finally(() => {
       _inflight.delete(url);
     });
@@ -87,9 +108,18 @@ export function deriveSeasonYear(): number {
   return month >= 7 ? now.getFullYear() : now.getFullYear() - 1;
 }
 
+// Cache doc IDs embed the season year so data from different seasons can
+// never collide under the same key (e.g. "espn_123:matchups:2025:5").
+function espnCacheId(numericId: string, endpoint: string, year: number, week?: number): string {
+  return cacheKey(`espn_${numericId}`, `${endpoint}:${year}`, week);
+}
+
 export async function fetchLeague(numericId: string, year?: number): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
-  return dedupedFetch<ESPNLeagueResponse>(leagueUrl(numericId, y));
+  return dedupedFetch<ESPNLeagueResponse>(
+    leagueUrl(numericId, y),
+    espnCacheId(numericId, "league", y)
+  );
 }
 
 export async function fetchMatchups(
@@ -100,18 +130,23 @@ export async function fetchMatchups(
   const y = year ?? deriveSeasonYear();
   const periodParam = scoringPeriodId != null ? `&scoringPeriodId=${scoringPeriodId}` : "";
   return dedupedFetch<ESPNLeagueResponse>(
-    `${leagueUrl(numericId, y)}?view=mMatchupScore&view=mRoster&view=mStatus&view=mSettings&view=mTeam&view=modular&view=mNav${periodParam}`
+    `${leagueUrl(numericId, y)}?view=mMatchupScore&view=mRoster&view=mStatus&view=mSettings&view=mTeam&view=modular&view=mNav${periodParam}`,
+    espnCacheId(numericId, "matchups", y, scoringPeriodId)
   );
 }
 
 export async function fetchRosters(numericId: string, year?: number): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
-  return dedupedFetch<ESPNLeagueResponse>(`${leagueUrl(numericId, y)}?view=mRoster`);
+  return dedupedFetch<ESPNLeagueResponse>(
+    `${leagueUrl(numericId, y)}?view=mRoster`,
+    espnCacheId(numericId, "rosters", y)
+  );
 }
 
 export async function fetchRecord(numericId: string, year?: number): Promise<ESPNLeagueResponse> {
   const y = year ?? deriveSeasonYear();
   return dedupedFetch<ESPNLeagueResponse>(
-    `${leagueUrl(numericId, y)}?view=mStatus&view=mSettings&view=mTeam&view=mTransactions2&view=modular&view=mNav`
+    `${leagueUrl(numericId, y)}?view=mStatus&view=mSettings&view=mTeam&view=mTransactions2&view=modular&view=mNav`,
+    espnCacheId(numericId, "record", y)
   );
 }

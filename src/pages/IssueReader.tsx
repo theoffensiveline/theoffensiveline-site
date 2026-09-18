@@ -17,6 +17,7 @@ import { getIssue } from "../services/firestoreCrud";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
 import { SubmissionsList } from "../components/newsletter/SubmissionsList";
+import { ShareButton } from "../components/newsletter/ShareButton";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 import {
   ArticleSubheader,
@@ -32,6 +33,13 @@ const EditLink = styled.button`
   padding: 6px 14px;
   font-size: 13px;
   cursor: pointer;
+`;
+
+const ActionRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 8px;
 `;
 
@@ -98,22 +106,27 @@ function IssueReader(): React.ReactElement {
           {issue.title && issue.week !== null ? ` · Week ${issue.week}` : ""}
           {issue.status !== "published" ? " · DRAFT" : ""}
         </ArticleSubheader>
-        <EditLink onClick={() => navigate(`/home/${issue.leagueId}`)}>
-          ← Back to league home
-        </EditLink>
-        {canOpenInBuilder && (
-          <EditLink
-            onClick={() =>
-              navigate(
-                issue.week !== null
-                  ? `/n/${newsletterId}/builder?week=${issue.week}`
-                  : `/n/${newsletterId}/builder?issue=${issueId}`
-              )
-            }
-          >
-            Editor mode
+        <ActionRow>
+          <EditLink onClick={() => navigate(`/home/${issue.leagueId}`)}>
+            ← Back to league home
           </EditLink>
-        )}
+          {canOpenInBuilder && (
+            <EditLink
+              onClick={() =>
+                navigate(
+                  issue.week !== null
+                    ? `/n/${newsletterId}/builder?week=${issue.week}`
+                    : `/n/${newsletterId}/builder?issue=${issueId}`
+                )
+              }
+            >
+              Editor mode
+            </EditLink>
+          )}
+          <ShareButton
+            title={`${newsletter.name} – ${issue.title || (issue.week !== null ? `Week ${issue.week}` : "Special issue")}`}
+          />
+        </ActionRow>
 
         {issue.sections.map((section) => (
           <IssueSectionView

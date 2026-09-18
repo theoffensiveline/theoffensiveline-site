@@ -204,6 +204,9 @@ service cloud.firestore {
     // Doc IDs: "{leagueId}:league", "{leagueId}:users", "{leagueId}:rosters",
     //          "{leagueId}:matchups:{week}", "{leagueId}:transactions:{leg}",
     //          "{leagueId}:winners_bracket", "{leagueId}:losers_bracket"
+    // ESPN keys embed the season year:
+    //          "espn_123:league:2025", "espn_123:matchups:2025:5",
+    //          "espn_123:rosters:2025", "espn_123:record:2025"
     // League IDs are platform-prefixed (e.g. "espn_123"), so there are no
     // cross-platform collisions. Publicly readable (league data is public on
     // all platforms). Any signed-in user can create/update — data is derived
