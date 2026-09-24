@@ -121,8 +121,12 @@ export function trimLeagueResponse(data: ESPNLeagueResponse): ESPNLeagueResponse
  * Every successful response is trimmed and written to the apiCache
  * (fire-and-forget) so that visitors without ESPN credentials — e.g. someone
  * opening a shared newsletter link to a private league — can still be served.
- * When a fetch fails (private league + no creds, or ESPN down), the cached
- * copy is returned if one exists; otherwise the original error propagates.
+ * For those visitors the cache is checked FIRST: a credential-less fetch to a
+ * private league is a guaranteed 401, so going live first just adds a dead
+ * round trip per endpoint. On a cache miss they still try a direct fetch
+ * (public leagues work without creds). Credentialed users always go live
+ * first, then fall back to the cache when a fetch fails (ESPN down, expired
+ * cookies); otherwise the original error propagates.
  */
 function dedupedFetch(url: string, cacheDocId?: string): Promise<ESPNLeagueResponse> {
   const cached = _inflight.get(url);
@@ -130,26 +134,32 @@ function dedupedFetch(url: string, cacheDocId?: string): Promise<ESPNLeagueRespo
 
   const creds = getEspnCredentials();
 
-  // If credentials are saved, route through the server-side proxy so the
-  // Cookie header can be set. Browser fetch cannot set Cookie directly.
-  // Otherwise, attempt a direct request (works for public leagues).
-  const promise: Promise<ESPNLeagueResponse> = (creds ? getEspnProxyUrl() : Promise.resolve(""))
-    .then((proxyUrl) => {
-      if (creds && proxyUrl) {
-        return fetch(proxyUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url, espn_s2: creds.espnS2, swid: creds.swid }),
-        });
-      }
-      return fetch(url, { credentials: "include" });
-    })
-    .then((res) => {
-      if (!res.ok) throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
-      return res.json() as Promise<ESPNLeagueResponse>;
-    })
-    .then((data) => {
-      if (cacheDocId) writeCache(cacheDocId, trimLeagueResponse(data));
+  /* If credentials are saved, route through the server-side proxy so the
+     Cookie header can be set. Browser fetch cannot set Cookie directly.
+     Otherwise, attempt a direct request (works for public leagues). */
+  const fetchLive = async (): Promise<ESPNLeagueResponse> => {
+    const proxyUrl = creds ? await getEspnProxyUrl() : "";
+    const res =
+      creds && proxyUrl
+        ? await fetch(proxyUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url, espn_s2: creds.espnS2, swid: creds.swid }),
+          })
+        : await fetch(url, { credentials: "include" });
+    if (!res.ok) throw new Error(`ESPN API error: ${res.status} ${res.statusText}`);
+    return res.json() as Promise<ESPNLeagueResponse>;
+  };
+
+  const promise: Promise<ESPNLeagueResponse> = (async () => {
+    if (!creds && cacheDocId) {
+      const cachedData = await readCache<ESPNLeagueResponse>(cacheDocId);
+      if (cachedData != null) return { data: cachedData, fresh: false };
+    }
+    return { data: await fetchLive(), fresh: true };
+  })()
+    .then(({ data, fresh }) => {
+      if (fresh && cacheDocId) writeCache(cacheDocId, trimLeagueResponse(data));
       return data;
     })
     .catch(async (err) => {

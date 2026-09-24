@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchLeague } from "../utils/api/ESPNApi";
 import { useAuth } from "../contexts/AuthContext";
@@ -199,7 +199,10 @@ type FlowStep = "enter-id" | "needs-credentials" | "found-league";
  * 5. User enters credentials and retries → fetch with credentials attached.
  */
 function EspnLogin() {
-  const [leagueId, setLeagueId] = useState("");
+  /* ?leagueId= pre-fills the ID — e.g. the credential prompt on the
+     newsletter home deep-links here so visitors don't retype it. */
+  const [searchParams] = useSearchParams();
+  const [leagueId, setLeagueId] = useState(searchParams.get("leagueId") ?? "");
   const [espnS2, setEspnS2] = useState("");
   const [swid, setSwid] = useState("");
   const [hasSavedCreds, setHasSavedCreds] = useState(false);

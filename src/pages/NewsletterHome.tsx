@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
+import { getEspnCredentials } from "../utils/espnCredentials";
 import {
   PageColumn,
   PageTitle,
@@ -158,6 +159,18 @@ function NewsletterHome(): React.ReactElement {
         <ActionButton onClick={toggleSubscription} disabled={subscribing}>
           {subscribing ? "…" : isSubscribed ? "Unsubscribe" : "Subscribe"}
         </ActionButton>
+      )}
+      {/* Visitors without ESPN cookies can only see cached data (or errors if
+          nothing is cached yet) — offer the cookie flow up front. */}
+      {newsletter.activeLeagueId.startsWith("espn_") && !getEspnCredentials() && (
+        <SubtleButton
+          style={{ marginBottom: 12 }}
+          onClick={() =>
+            navigate(`/espn-login?leagueId=${newsletter.activeLeagueId.replace(/^espn_/, "")}`)
+          }
+        >
+          This league is on ESPN — enter cookies for live data →
+        </SubtleButton>
       )}
 
       <SectionLabel>Seasons</SectionLabel>
