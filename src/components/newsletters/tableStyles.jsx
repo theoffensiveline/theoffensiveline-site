@@ -462,6 +462,7 @@ export const PlayoffTable = ({ playoffData, wpOdds, onWpOddsChange }) => {
             className={baseStyle}
             style={{
               backgroundColor: row.PlayoffMagicColor,
+              color: ColorConstants["light"].text,
               whiteSpace: "nowrap",
             }}
           >
@@ -486,6 +487,7 @@ export const PlayoffTable = ({ playoffData, wpOdds, onWpOddsChange }) => {
             className={baseStyle}
             style={{
               backgroundColor: row.LastMagicColor,
+              color: ColorConstants["light"].text,
               whiteSpace: "nowrap",
             }}
           >
