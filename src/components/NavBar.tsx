@@ -24,7 +24,10 @@ import type { LeagueFeature } from "../types/firestore";
 
 /** Nav items gated by league feature flags, in display order. */
 const FEATURE_PAGES: [LeagueFeature, string][] = [
-  ["submit", "Submit"],
+  // The `submit` flag powers the newsletter-submission page in both modes;
+  // the legacy standalone Submit page (/submit/:leagueId) is still routed
+  // but no longer linked anywhere.
+  ["submit", "Newsletter Submit"],
   ["bylaws", "Bylaws"],
   ["leaderboards", "Leaderboards"],
   ["survivor", "Survivor"],
@@ -146,10 +149,7 @@ export default function NavBar() {
     }
     const features = (inNewsletterMode ? newsletterDoc?.features : leagueDoc?.features) ?? [];
     const featureLabels = FEATURE_PAGES.filter(([feature]) => features.includes(feature)).map(
-      ([feature, page]) =>
-        // In newsletter mode the `submit` flag powers the newsletter-submission
-        // page, not the legacy standalone Submit page.
-        feature === "submit" && inNewsletterMode ? "Newsletter Submit" : page
+      ([, page]) => page
     );
     return ["Home", ...featureLabels, inNewsletterMode ? "Change Newsletter" : "Change League"];
   };

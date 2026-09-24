@@ -12,7 +12,8 @@
  * rendered as an <img> by the reader; a bare tweet URL renders as an embedded
  * tweet.
  *
- * The legacy Submit.jsx / /submit/:leagueId route is untouched.
+ * The legacy Submit.jsx / /submit/:leagueId route still exists but is no
+ * longer linked — the `submit` feature flag always points here.
  */
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -39,7 +40,7 @@ import {
 } from "../services/firestoreCrud";
 import { getNflState } from "../utils/api/FantasyAPI";
 import { getSelectedNewsletterId } from "../utils/selectedNewsletter";
-import { isImageUrl, getTweetId } from "../utils/submissionUtils";
+import { isImageUrl, isBareUrl, getTweetId } from "../utils/submissionUtils";
 import { TweetEmbed } from "../components/newsletter/TweetEmbed";
 import type { NewsletterDoc } from "../types/firestore";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
@@ -331,8 +332,20 @@ export default function NewsletterSubmit(): React.ReactElement {
     setEditText("");
   };
 
+  // Bare links that aren't a direct image or tweet render as plain text —
+  // warn before saving so users don't paste an image's page link (e.g.
+  // imgflip.com/i/xyz) expecting it to embed.
+  const confirmPlainTextLink = (value: string): boolean => {
+    const trimmed = value.trim();
+    if (!isBareUrl(trimmed) || isImageUrl(trimmed) || getTweetId(trimmed)) return true;
+    return window.confirm(
+      "This link won't embed — it'll show as plain text in the newsletter. If you meant to share an image, use a direct image URL ending in .png, .jpg, .gif, etc. A link to the image's page won't render.\n\nSubmit anyway?"
+    );
+  };
+
   const handleSaveEdit = async (submissionId: string) => {
     if (!newsletter || !issueIdForQuery || editText.trim() === "") return;
+    if (!confirmPlainTextLink(editText)) return;
     setEditLoading(true);
     try {
       await updateSubmission(newsletter.id, issueIdForQuery, submissionId, {
@@ -364,6 +377,7 @@ export default function NewsletterSubmit(): React.ReactElement {
 
   const handleSubmit = async () => {
     if (!canSubmit || !newsletter || season === undefined || !currentUser || !leagueId) return;
+    if (!confirmPlainTextLink(text)) return;
     setLoading(true);
     setStatus(null);
 

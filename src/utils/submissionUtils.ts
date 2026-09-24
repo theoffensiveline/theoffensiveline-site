@@ -4,6 +4,11 @@
  * URLs render as embedded tweets, everything else is plain text.
  */
 
+/** True if a string is a bare http(s) URL (no whitespace or surrounding prose). */
+export function isBareUrl(s: string): boolean {
+  return /^https?:\/\/\S+$/i.test(s.trim());
+}
+
 /** True if a string is a bare image URL (http/https, no whitespace, common image extension). */
 export function isImageUrl(s: string): boolean {
   const trimmed = s.trim();
