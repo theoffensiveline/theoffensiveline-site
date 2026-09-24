@@ -119,7 +119,11 @@ export async function readCacheWithTtl<T>(key: string, ttlMs: number): Promise<T
 export function writeCache<T>(key: string, data: T): void {
   try {
     setDoc(doc(db, CACHE_COLLECTION, key), {
-      data,
+      /* JSON round-trip strips undefined leaves: Firestore rejects undefined
+         field values, and trimmed adapter payloads (e.g. ESPN's
+         trimLeagueResponse) produce them for absent optional fields like
+         roster, away, and playoffTierType. */
+      data: JSON.parse(JSON.stringify(data)),
       cachedAt: Date.now(),
     }).catch((e) => console.warn(`[platformCache] write failed for ${key}:`, e));
   } catch (e) {

@@ -22,11 +22,15 @@ pnpm install
 # Start development server (opens on localhost:3000)
 pnpm start
 
-# Run all tests
-pnpm test
+# Run all tests once (CI=true is required — without it jest enters watch mode)
+CI=true pnpm test
 
-# Run only newsletter utility tests
-pnpm test-utils-newsletter
+# Run a subset by filename pattern (positional regex arg, passed through to jest)
+CI=true pnpm test espnTrim
+
+# Do NOT use `pnpm test -- --testPathPattern=...` — pnpm mangles the forwarded
+# flag into react-scripts' config arg, jest rejects the testPattern, and every
+# suite runs and fails. Use the positional form above instead.
 
 # Lint, type-check, and verify formatting (all run in CI — must pass before committing)
 pnpm lint
@@ -177,6 +181,8 @@ See [docs/newsletter-data-flow.md](docs/newsletter-data-flow.md) for a full arch
 ## TypeScript
 
 New files should use `.tsx` for components, `.ts` for utilities. Type definitions in `/src/types/`. Many older components still use `.jsx`.
+
+Comment style: multi-line comments use block comments (`/* ... */`), never consecutive `//` lines. Single `//` is fine for one-liners.
 
 ## Special Notes
 
