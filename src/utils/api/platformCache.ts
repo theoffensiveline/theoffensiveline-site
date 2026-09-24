@@ -121,8 +121,8 @@ export function writeCache<T>(key: string, data: T): void {
     setDoc(doc(db, CACHE_COLLECTION, key), {
       data,
       cachedAt: Date.now(),
-    }).catch((e) => console.warn("[platformCache] write failed:", e));
+    }).catch((e) => console.warn(`[platformCache] write failed for ${key}:`, e));
   } catch (e) {
-    console.warn("[platformCache] write failed:", e);
+    console.warn(`[platformCache] write failed for ${key}:`, e);
   }
 }
