@@ -3,15 +3,23 @@
  * an issue in the reader. Each submission shows its title, author, and body.
  * A bare image URL in `text` renders as an <img>; a bare tweet URL renders
  * as an embedded tweet; a bare Instagram reel/post URL renders as an
- * Instagram embed; otherwise plain text.
+ * Instagram embed; a bare TikTok video URL renders as a TikTok embed; other
+ * bare URLs render as links; otherwise plain text.
  */
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { getSubmissions } from "../../services/firestoreCrud";
-import { isImageUrl, getTweetId, getInstagramEmbedUrl } from "../../utils/submissionUtils";
+import {
+  isImageUrl,
+  isBareUrl,
+  getTweetId,
+  getInstagramEmbedUrl,
+  isTikTokUrl,
+} from "../../utils/submissionUtils";
 import { TweetEmbed } from "./TweetEmbed";
 import { InstagramEmbed } from "./InstagramEmbed";
+import { TikTokEmbed } from "./TikTokEmbed";
 import { ArticleSubheader } from "../newsletters/newsStyles";
 
 const Wrapper = styled.div`
@@ -72,6 +80,7 @@ export function SubmissionsList({
       {data.map((s) => {
         const tweetId = getTweetId(s.text);
         const instagramUrl = getInstagramEmbedUrl(s.text);
+        const isTikTok = isTikTokUrl(s.text);
         return (
           <SubmissionCard key={s.id}>
             {s.title && <SubmissionTitle>{s.title}</SubmissionTitle>}
@@ -81,6 +90,14 @@ export function SubmissionsList({
               <TweetEmbed tweetId={tweetId} url={s.text.trim()} />
             ) : instagramUrl ? (
               <InstagramEmbed url={instagramUrl} />
+            ) : isTikTok ? (
+              <TikTokEmbed url={s.text.trim()} />
+            ) : isBareUrl(s.text) ? (
+              <SubmissionBody>
+                <a href={s.text.trim()} target="_blank" rel="noreferrer">
+                  {s.text.trim()}
+                </a>
+              </SubmissionBody>
             ) : (
               <SubmissionBody>{s.text}</SubmissionBody>
             )}

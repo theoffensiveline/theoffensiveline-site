@@ -10,7 +10,8 @@
  * to `/newsletters/{id}/issues/{season}_w{NN}/submissions/` and renders at the
  * bottom of that issue in the reader. A bare image URL in the text field is
  * rendered as an <img> by the reader; a bare tweet URL renders as an embedded
- * tweet; a bare Instagram reel/post URL renders as an Instagram embed.
+ * tweet; a bare Instagram reel/post URL renders as an Instagram embed; a bare
+ * TikTok video URL renders as a TikTok embed.
  *
  * The legacy Submit.jsx / /submit/:leagueId route still exists but is no
  * longer linked — the `submit` feature flag always points here.
@@ -40,9 +41,17 @@ import {
 } from "../services/firestoreCrud";
 import { getNflState } from "../utils/api/FantasyAPI";
 import { getSelectedNewsletterId } from "../utils/selectedNewsletter";
-import { isImageUrl, isBareUrl, getTweetId, getInstagramEmbedUrl } from "../utils/submissionUtils";
+import {
+  isImageUrl,
+  isBareUrl,
+  getTweetId,
+  getInstagramEmbedUrl,
+  isTikTokUrl,
+  resolveTikTokUrl,
+} from "../utils/submissionUtils";
 import { TweetEmbed } from "../components/newsletter/TweetEmbed";
 import { InstagramEmbed } from "../components/newsletter/InstagramEmbed";
+import { TikTokEmbed } from "../components/newsletter/TikTokEmbed";
 import type { NewsletterDoc } from "../types/firestore";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 
@@ -342,22 +351,46 @@ export default function NewsletterSubmit(): React.ReactElement {
       !isBareUrl(trimmed) ||
       isImageUrl(trimmed) ||
       getTweetId(trimmed) ||
-      getInstagramEmbedUrl(trimmed)
+      getInstagramEmbedUrl(trimmed) ||
+      isTikTokUrl(trimmed)
     )
       return true;
     return window.confirm(
-      "This link won't embed — it'll show as plain text in the newsletter. If you meant to share an image, use a direct image URL ending in .png, .jpg, .gif, etc. A link to the image's page won't render.\n\nSubmit anyway?"
+      "This link won't embed — it'll show as a plain link in the newsletter. If you meant to share an image, use a direct image URL ending in .png, .jpg, .gif, etc. A link to the image's page won't render.\n\nSubmit anyway?"
     );
+  };
+
+  /* TikTok short links (/t/{code}, vm., vt.) don't carry the video ID —
+     resolve them through TikTok's oEmbed endpoint and store the canonical
+     URL so the reader embeds without extra fetches. Returns the text to
+     store, or null if unresolvable (the user is prompted for a full URL). */
+  const resolveSubmissionText = async (value: string): Promise<string | null> => {
+    const trimmed = value.trim();
+    if (!isTikTokUrl(trimmed)) return trimmed;
+    setStatus({ message: "Resolving TikTok link…", error: false });
+    const resolved = await resolveTikTokUrl(trimmed);
+    if (resolved) return resolved.url;
+    setStatus({
+      message:
+        "Couldn't resolve that TikTok link — open it in a browser, then paste the full tiktok.com/@…/video/… URL it lands on.",
+      error: true,
+    });
+    return null;
   };
 
   const handleSaveEdit = async (submissionId: string) => {
     if (!newsletter || !issueIdForQuery || editText.trim() === "") return;
     if (!confirmPlainTextLink(editText)) return;
     setEditLoading(true);
+    const resolvedText = await resolveSubmissionText(editText);
+    if (resolvedText === null) {
+      setEditLoading(false);
+      return;
+    }
     try {
       await updateSubmission(newsletter.id, issueIdForQuery, submissionId, {
         title: editTitle.trim(),
-        text: editText.trim(),
+        text: resolvedText,
       });
       cancelEdit();
       refetchSubmissions();
@@ -387,6 +420,11 @@ export default function NewsletterSubmit(): React.ReactElement {
     if (!confirmPlainTextLink(text)) return;
     setLoading(true);
     setStatus(null);
+    const resolvedText = await resolveSubmissionText(text);
+    if (resolvedText === null) {
+      setLoading(false);
+      return;
+    }
 
     const authorName = anonymous
       ? "Anonymous"
@@ -395,7 +433,7 @@ export default function NewsletterSubmit(): React.ReactElement {
     try {
       await addSubmission(newsletter.id, issueDocId(season, week), {
         title: title.trim(),
-        text: text.trim(),
+        text: resolvedText,
         authorUid: currentUser.uid,
         authorName,
         season,
@@ -472,7 +510,7 @@ export default function NewsletterSubmit(): React.ReactElement {
           rows={4}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Say something — or paste an image, tweet, or Instagram URL to embed it"
+          placeholder="Say something — or paste an image, tweet, Instagram, or TikTok URL to embed it"
           helperText="To embed an image, upload it to imgur.com first, then paste the direct image link (right-click the image → copy image address — it should start with i.imgur.com). A link to the imgur page won't render."
         />
 
@@ -495,6 +533,7 @@ export default function NewsletterSubmit(): React.ReactElement {
             {mine.map((s) => {
               const tweetId = getTweetId(s.text);
               const instagramUrl = getInstagramEmbedUrl(s.text);
+              const isTikTok = isTikTokUrl(s.text);
               return (
                 <PriorCard key={s.id}>
                   {editingId === s.id ? (
@@ -536,6 +575,14 @@ export default function NewsletterSubmit(): React.ReactElement {
                         <TweetEmbed tweetId={tweetId} url={s.text.trim()} />
                       ) : instagramUrl ? (
                         <InstagramEmbed url={instagramUrl} />
+                      ) : isTikTok ? (
+                        <TikTokEmbed url={s.text.trim()} />
+                      ) : isBareUrl(s.text) ? (
+                        <PriorText>
+                          <a href={s.text.trim()} target="_blank" rel="noreferrer">
+                            {s.text.trim()}
+                          </a>
+                        </PriorText>
                       ) : (
                         <PriorText>{s.text}</PriorText>
                       )}
