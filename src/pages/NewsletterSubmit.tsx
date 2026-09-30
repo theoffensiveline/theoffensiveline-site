@@ -465,7 +465,8 @@ export default function NewsletterSubmit(): React.ReactElement {
           rows={4}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Say something — or paste an image or tweet URL to embed it"
+          placeholder="Say something — or paste an image URL or tweet URL to embed it"
+          helperText="To embed an image, upload it to imgur.com first, then paste the direct image link (right-click the image → copy image address — it should start with i.imgur.com). A link to the imgur page won't render."
         />
 
         <FormControlLabel
