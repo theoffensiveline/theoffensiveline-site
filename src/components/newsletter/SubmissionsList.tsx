@@ -2,14 +2,16 @@
  * SubmissionsList (#submit) — renders user-submitted blurbs at the bottom of
  * an issue in the reader. Each submission shows its title, author, and body.
  * A bare image URL in `text` renders as an <img>; a bare tweet URL renders
- * as an embedded tweet; otherwise plain text.
+ * as an embedded tweet; a bare Instagram reel/post URL renders as an
+ * Instagram embed; otherwise plain text.
  */
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { getSubmissions } from "../../services/firestoreCrud";
-import { isImageUrl, getTweetId } from "../../utils/submissionUtils";
+import { isImageUrl, getTweetId, getInstagramEmbedUrl } from "../../utils/submissionUtils";
 import { TweetEmbed } from "./TweetEmbed";
+import { InstagramEmbed } from "./InstagramEmbed";
 import { ArticleSubheader } from "../newsletters/newsStyles";
 
 const Wrapper = styled.div`
@@ -69,6 +71,7 @@ export function SubmissionsList({
       <ArticleSubheader>Reader Submissions</ArticleSubheader>
       {data.map((s) => {
         const tweetId = getTweetId(s.text);
+        const instagramUrl = getInstagramEmbedUrl(s.text);
         return (
           <SubmissionCard key={s.id}>
             {s.title && <SubmissionTitle>{s.title}</SubmissionTitle>}
@@ -76,6 +79,8 @@ export function SubmissionsList({
               <SubmissionImage src={s.text.trim()} alt={s.title || "submission"} />
             ) : tweetId ? (
               <TweetEmbed tweetId={tweetId} url={s.text.trim()} />
+            ) : instagramUrl ? (
+              <InstagramEmbed url={instagramUrl} />
             ) : (
               <SubmissionBody>{s.text}</SubmissionBody>
             )}

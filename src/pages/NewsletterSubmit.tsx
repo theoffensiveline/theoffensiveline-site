@@ -10,7 +10,7 @@
  * to `/newsletters/{id}/issues/{season}_w{NN}/submissions/` and renders at the
  * bottom of that issue in the reader. A bare image URL in the text field is
  * rendered as an <img> by the reader; a bare tweet URL renders as an embedded
- * tweet.
+ * tweet; a bare Instagram reel/post URL renders as an Instagram embed.
  *
  * The legacy Submit.jsx / /submit/:leagueId route still exists but is no
  * longer linked — the `submit` feature flag always points here.
@@ -40,8 +40,9 @@ import {
 } from "../services/firestoreCrud";
 import { getNflState } from "../utils/api/FantasyAPI";
 import { getSelectedNewsletterId } from "../utils/selectedNewsletter";
-import { isImageUrl, isBareUrl, getTweetId } from "../utils/submissionUtils";
+import { isImageUrl, isBareUrl, getTweetId, getInstagramEmbedUrl } from "../utils/submissionUtils";
 import { TweetEmbed } from "../components/newsletter/TweetEmbed";
+import { InstagramEmbed } from "../components/newsletter/InstagramEmbed";
 import type { NewsletterDoc } from "../types/firestore";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
 
@@ -337,7 +338,13 @@ export default function NewsletterSubmit(): React.ReactElement {
   // imgflip.com/i/xyz) expecting it to embed.
   const confirmPlainTextLink = (value: string): boolean => {
     const trimmed = value.trim();
-    if (!isBareUrl(trimmed) || isImageUrl(trimmed) || getTweetId(trimmed)) return true;
+    if (
+      !isBareUrl(trimmed) ||
+      isImageUrl(trimmed) ||
+      getTweetId(trimmed) ||
+      getInstagramEmbedUrl(trimmed)
+    )
+      return true;
     return window.confirm(
       "This link won't embed — it'll show as plain text in the newsletter. If you meant to share an image, use a direct image URL ending in .png, .jpg, .gif, etc. A link to the image's page won't render.\n\nSubmit anyway?"
     );
@@ -465,7 +472,7 @@ export default function NewsletterSubmit(): React.ReactElement {
           rows={4}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Say something — or paste an image URL or tweet URL to embed it"
+          placeholder="Say something — or paste an image, tweet, or Instagram URL to embed it"
           helperText="To embed an image, upload it to imgur.com first, then paste the direct image link (right-click the image → copy image address — it should start with i.imgur.com). A link to the imgur page won't render."
         />
 
@@ -487,6 +494,7 @@ export default function NewsletterSubmit(): React.ReactElement {
             <h3>Your submissions for Week {week}</h3>
             {mine.map((s) => {
               const tweetId = getTweetId(s.text);
+              const instagramUrl = getInstagramEmbedUrl(s.text);
               return (
                 <PriorCard key={s.id}>
                   {editingId === s.id ? (
@@ -526,6 +534,8 @@ export default function NewsletterSubmit(): React.ReactElement {
                         <PriorImage src={s.text.trim()} alt={s.title || "submission"} />
                       ) : tweetId ? (
                         <TweetEmbed tweetId={tweetId} url={s.text.trim()} />
+                      ) : instagramUrl ? (
+                        <InstagramEmbed url={instagramUrl} />
                       ) : (
                         <PriorText>{s.text}</PriorText>
                       )}
