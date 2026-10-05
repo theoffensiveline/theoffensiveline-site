@@ -467,7 +467,12 @@ export default function Bylaws() {
             and both teams will be the incumbent members in the next week&apos;s Matchups of the
             Week.
           </StyledListItem>
-          <StyledListItem>Dog Definition: Hot dog, sausage, or braut in a bun.</StyledListItem>
+          <StyledListItem>
+            Dog Definition: Hot dog, sausage, or braut in a bun.
+            <ol type="a">
+              <StyledListItem>Corndog Clause - Corndogs are acceptable.</StyledListItem>
+            </ol>
+          </StyledListItem>
         </StyledOrderedList>
       </StyledTextArea>
     </>
