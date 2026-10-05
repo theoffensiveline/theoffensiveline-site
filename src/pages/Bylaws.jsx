@@ -436,6 +436,45 @@ export default function Bylaws() {
           </StyledListItem>
         </StyledOrderedList>
       </StyledTextArea>
+      <SubtitleHolder>Article X - Matchup of the Week</SubtitleHolder>
+      <StyledTextArea>
+        <StyledOrderedList>
+          <StyledListItem>
+            The loser must send their video before next Monday Night&apos;s kickoff.
+          </StyledListItem>
+          <StyledListItem>
+            The loser must count their starters below 10 points, and add another for any under 0
+            points, and do that number of shots or eat that number of hotdogs.
+            <ol type="a">
+              <StyledListItem>
+                If the loser fails to submit their video on time, they must add 1 extra shot or
+                hotdog for the first week it&apos;s late, 2 extra for the second week, 3 extra for
+                the third week, and so on. The additional penalty grows each week, and all penalties
+                are added to their original total.
+              </StyledListItem>
+              <StyledListItem>
+                Nikhil Clause - If you are granted an extension, and do not meet the extended
+                deadline, the extension is revoked and you owe the full amount of shots or dogs as
+                if it was a normal late penalty.
+              </StyledListItem>
+            </ol>
+          </StyledListItem>
+          <StyledListItem>
+            The winner will be the incumbent champion in next week&apos;s Matchup of the Week.
+          </StyledListItem>
+          <StyledListItem>
+            In the case of a tie (pls no), both teams will complete their respective shots or dogs,
+            and both teams will be the incumbent members in the next week&apos;s Matchups of the
+            Week.
+          </StyledListItem>
+          <StyledListItem>
+            Dog Definition: Hot dog, sausage, or braut in a bun.
+            <ol type="a">
+              <StyledListItem>Corndog Clause - Corndogs are acceptable.</StyledListItem>
+            </ol>
+          </StyledListItem>
+        </StyledOrderedList>
+      </StyledTextArea>
     </>
   );
 }
