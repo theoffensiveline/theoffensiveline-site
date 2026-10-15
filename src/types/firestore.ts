@@ -96,6 +96,19 @@ export interface LeagueDoc {
 }
 
 /**
+ * The starting point of a season's Matchup of the Week chain. The seed
+ * matchup's winner becomes the incumbent; each following week's MotW is
+ * whichever matchup the incumbent plays in. Editor-set per season — the
+ * chain rule alone can't recover the first MotW.
+ */
+export interface MotwSeed {
+  /** Week the MotW chain starts (almost always 1). */
+  week: number;
+  /** matchup_id of the first MotW within that week. */
+  matchupId: number;
+}
+
+/**
  * One league-season entry inside a newsletter (see NewsletterDoc).
  */
 export interface NewsletterSeason {
@@ -103,6 +116,12 @@ export interface NewsletterSeason {
   leagueId: string;
   /** NFL season year this league covers (e.g. 2025). */
   season: number;
+  /**
+   * Editor-chosen starting MotW for this season. Absent = this league
+   * doesn't run MotW (or the editor hasn't set it yet); the motw-history
+   * section renders nothing.
+   */
+  motwSeed?: MotwSeed;
   /**
    * Whether the editor passed a membership check for this league when it was
    * added. Unverified seasons are display-only: they never grant privacy

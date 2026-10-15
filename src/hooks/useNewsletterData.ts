@@ -10,7 +10,9 @@ import { computePowerRankings } from "../utils/newsletter/computePowerRankings";
 import { computePlayoffStandings } from "../utils/newsletter/computePlayoffStandings";
 import { computeSchedule } from "../utils/newsletter/computeSchedule";
 import { computeMatchupData } from "../utils/newsletter/computeMatchupData";
+import { computeMotwHistory, MotwHistoryRow } from "../utils/newsletter/computeMotwHistory";
 import { getLeague, getNflState } from "../utils/api/FantasyAPI";
+import type { MotwSeed } from "../types/firestore";
 import type {
   BestBallData,
   EfficiencyData,
@@ -119,6 +121,13 @@ export const newsletterQueryKeys = {
     [...newsletterQueryKeys.all(leagueId, week), "schedule"] as const,
   matchupData: (leagueId: string, week: number) =>
     [...newsletterQueryKeys.all(leagueId, week), "matchupData"] as const,
+  motwHistory: (leagueId: string, week: number, seed: MotwSeed | undefined) =>
+    [
+      ...newsletterQueryKeys.all(leagueId, week),
+      "motwHistory",
+      seed?.week ?? null,
+      seed?.matchupId ?? null,
+    ] as const,
 };
 
 /**
@@ -236,6 +245,8 @@ export interface NewsletterData {
   playoffStandings: SectionResult<PlayoffTableData[]>;
   schedule: SectionResult<ScheduleData>;
   matchupData: SectionResult<MatchupData[]>;
+  /** Null when the season has no MotW seed set — the section suppresses. */
+  motwHistory: SectionResult<MotwHistoryRow[] | null>;
   /** Whether the league uses median scoring (league_average_match === 1) */
   isMedianLeague: boolean;
   // Aggregate helpers
@@ -269,6 +280,8 @@ function toSectionResult<T>(queryResult: UseQueryResult<T, Error>): SectionResul
  *
  * @param leagueId - Sleeper league ID
  * @param week - Week number to fetch data for
+ * @param motwSeed - Season's editor-set MotW seed; omit for contexts with
+ *   no newsletter doc (motwHistory resolves to null)
  * @returns Newsletter data with loading states and helpers
  *
  * @example
@@ -286,7 +299,11 @@ function toSectionResult<T>(queryResult: UseQueryResult<T, Error>): SectionResul
  * return <AwardsGridV2 awardsData={newsletter.awards.data} />;
  * ```
  */
-export function useNewsletterData(leagueId: string | undefined, week: number): NewsletterData {
+export function useNewsletterData(
+  leagueId: string | undefined,
+  week: number,
+  motwSeed?: MotwSeed
+): NewsletterData {
   // Validation - don't throw errors to avoid breaking React Hook rules
   // Instead, disable queries if invalid
   const enabled = !!leagueId && Number.isFinite(week) && week > 0;
@@ -398,8 +415,17 @@ export function useNewsletterData(leagueId: string | undefined, week: number): N
         enabled,
         ...cachePolicy,
       },
+      {
+        queryKey: newsletterQueryKeys.motwHistory(safeLeagueId, week, motwSeed),
+        queryFn: () =>
+          withPerfLogging("motwHistory", () =>
+            motwSeed ? computeMotwHistory(safeLeagueId, week, motwSeed) : Promise.resolve(null)
+          ),
+        enabled,
+        ...cachePolicy,
+      },
     ],
-    [safeLeagueId, week, enabled, cachePolicy]
+    [safeLeagueId, week, motwSeed, enabled, cachePolicy]
   );
 
   // Fetch all sections in parallel using useQueries
@@ -416,6 +442,7 @@ export function useNewsletterData(leagueId: string | undefined, week: number): N
   const playoffStandingsQuery = queries[7] as UseQueryResult<PlayoffTableData[], Error>;
   const scheduleQuery = queries[8] as UseQueryResult<ScheduleData, Error>;
   const matchupDataQuery = queries[9] as UseQueryResult<MatchupData[], Error>;
+  const motwHistoryQuery = queries[10] as UseQueryResult<MotwHistoryRow[] | null, Error>;
 
   // Calculate aggregate helpers
   const isLoadingAny = queries.some((q) => q.isLoading || q.isPending);
@@ -434,6 +461,7 @@ export function useNewsletterData(leagueId: string | undefined, week: number): N
     playoffStandings: toSectionResult(playoffStandingsQuery),
     schedule: toSectionResult(scheduleQuery),
     matchupData: toSectionResult(matchupDataQuery),
+    motwHistory: toSectionResult(motwHistoryQuery),
     isMedianLeague,
     isLoadingAny,
     hasErrors,

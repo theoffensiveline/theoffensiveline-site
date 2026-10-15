@@ -78,7 +78,8 @@ function IssueReader(): React.ReactElement {
     (newsletter.editorUid === currentUser.uid || newsletter.coEditorUids.includes(currentUser.uid));
 
   // Hooks must run unconditionally; week NaN disables the queries
-  const newsletterData = useNewsletterData(issue?.leagueId, issue?.week ?? NaN);
+  const motwSeed = newsletter?.seasons.find((s) => s.leagueId === issue?.leagueId)?.motwSeed;
+  const newsletterData = useNewsletterData(issue?.leagueId, issue?.week ?? NaN, motwSeed);
 
   if (!validId) return <Centered>Invalid issue ID.</Centered>;
   if (newsletterLoading || !isFetched) return <Centered>Loading…</Centered>;
