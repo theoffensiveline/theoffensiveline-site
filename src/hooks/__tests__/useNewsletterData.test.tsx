@@ -71,6 +71,7 @@ describe("useNewsletterData", () => {
     expect(result.current).toHaveProperty("playoffStandings");
     expect(result.current).toHaveProperty("schedule");
     expect(result.current).toHaveProperty("matchupData");
+    expect(result.current).toHaveProperty("motwHistory");
   });
 
   it("should return aggregate helpers", () => {
@@ -82,7 +83,7 @@ describe("useNewsletterData", () => {
     expect(result.current).toHaveProperty("hasErrors");
     expect(result.current).toHaveProperty("readySections");
     expect(result.current).toHaveProperty("totalSections");
-    expect(result.current.totalSections).toBe(10);
+    expect(result.current.totalSections).toBe(11);
   });
 
   it("should have proper section structure", () => {
@@ -180,6 +181,22 @@ describe("useNewsletterData", () => {
         leagueId,
         week,
         "matchupData",
+      ]);
+      expect(newsletterQueryKeys.motwHistory(leagueId, week, { week: 1, matchupId: 3 })).toEqual([
+        "newsletter",
+        leagueId,
+        week,
+        "motwHistory",
+        1,
+        3,
+      ]);
+      expect(newsletterQueryKeys.motwHistory(leagueId, week, undefined)).toEqual([
+        "newsletter",
+        leagueId,
+        week,
+        "motwHistory",
+        null,
+        null,
       ]);
     });
 

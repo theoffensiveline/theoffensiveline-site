@@ -13,6 +13,7 @@ import { AwardsGridV2, ArticleCaption, ArticleSubheader } from "../newsletters/n
 import {
   AltLeaderboardTable,
   LeaderboardTable,
+  MotwHistoryTable,
   PlayoffTable,
   PowerRankingsTable,
   ScheduleTable,
@@ -254,7 +255,26 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
     shouldRender: (d) =>
       d.schedule.status !== "success" || (d.schedule.data?.current_records.length ?? 0) > 0,
   },
+  "motw-history": {
+    label: "MotW History",
+    title: () => "Matchup of the Week History",
+    result: (d) => d.motwHistory,
+    render: (d) => <MotwHistoryTable data={d.motwHistory.data ?? []} />,
+    skeleton: <TableSkeleton rows={8} columns={5} />,
+    // Null data = the season has no MotW seed set — suppress entirely so
+    // readers never see an empty frame (editors get the seed picker in the
+    // builder's section toolbar instead).
+    shouldRender: (d) =>
+      d.motwHistory.status !== "success" || (d.motwHistory.data?.length ?? 0) > 0,
+  },
 };
+
+/**
+ * Computed section types that are never prefilled but can be inserted via
+ * the builder's restore/add row. Retired keys (e.g. scoring-distributions)
+ * must NOT be listed — they stay render-only for old issues.
+ */
+export const OPT_IN_SECTION_TYPES = ["motw-history"];
 
 /**
  * Prefill order for a fresh issue — mirrors the weekly recap page. "matchup"

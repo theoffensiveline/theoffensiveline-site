@@ -32,9 +32,11 @@ import {
 import {
   SECTION_REGISTRY,
   DEFAULT_SECTION_ORDER,
+  OPT_IN_SECTION_TYPES,
   matchupHeading,
 } from "../components/newsletter/sectionRegistry";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
+import { MotwSeedPicker } from "../components/newsletter/MotwSeedPicker";
 import { RichTextEditor } from "../components/newsletter/RichText";
 import { NewsletterContainer, NewsletterTitle } from "../components/newsletters/newsStyles";
 import type { IssueDoc, IssueSection } from "../types/firestore";
@@ -214,7 +216,8 @@ function IssueBuilder(): React.ReactElement {
     (newsletter.editorUid === currentUser.uid || newsletter.coEditorUids.includes(currentUser.uid));
 
   const activeLeagueId = newsletter?.activeLeagueId;
-  const season = newsletter?.seasons.find((s) => s.leagueId === activeLeagueId)?.season;
+  const activeSeason = newsletter?.seasons.find((s) => s.leagueId === activeLeagueId);
+  const season = activeSeason?.season;
 
   const { completedWeeksDesc, loading: weeksLoading } = useCompletedWeeks(
     activeLeagueId,
@@ -642,7 +645,11 @@ function IssueBuilder(): React.ReactElement {
 
   // Live data for the computed-section preview (ad-hoc issues have no week,
   // so the queries stay disabled)
-  const newsletterData = useNewsletterData(activeLeagueId, adhocId ? NaN : (week ?? NaN));
+  const newsletterData = useNewsletterData(
+    activeLeagueId,
+    adhocId ? NaN : (week ?? NaN),
+    activeSeason?.motwSeed
+  );
 
   // A freshly-prefilled weekly issue has no matchup sections yet — the week's
   // matchup ids aren't known until starters data resolves. Insert one section
@@ -703,6 +710,12 @@ function IssueBuilder(): React.ReactElement {
   const removedComputedTypes =
     sections && !adhocId
       ? DEFAULT_SECTION_ORDER.filter((t) => t !== "matchup" && !sections.some((s) => s.type === t))
+      : [];
+  // Opt-in computed types (never prefilled) that aren't in this draft yet —
+  // offered in the same add row as restorable defaults.
+  const optInTypes =
+    sections && !adhocId
+      ? OPT_IN_SECTION_TYPES.filter((t) => !sections.some((s) => s.type === t))
       : [];
   // Matchups present in this week's data but missing a section — offered for
   // one-click restore alongside the other removed computed sections.
@@ -959,6 +972,18 @@ function IssueBuilder(): React.ReactElement {
                         onChange={(e) => patchSection(section.id, { title: e.target.value })}
                       />
                     )}
+                    {section.type === "motw-history" &&
+                      editable &&
+                      newsletterId &&
+                      week !== null &&
+                      activeLeagueId && (
+                        <MotwSeedPicker
+                          newsletterId={newsletterId}
+                          seasons={newsletter.seasons}
+                          leagueId={activeLeagueId}
+                          issueWeek={week}
+                        />
+                      )}
                     {week !== null && activeLeagueId && (
                       <IssueSectionView
                         section={section}
@@ -980,10 +1005,12 @@ function IssueBuilder(): React.ReactElement {
                 <SubtleButton onClick={() => addTextAfter(null)}>
                   + Add commentary section
                 </SubtleButton>
-                {(removedComputedTypes.length > 0 || missingMatchupIds.length > 0) && (
+                {(removedComputedTypes.length > 0 ||
+                  optInTypes.length > 0 ||
+                  missingMatchupIds.length > 0) && (
                   <RestoreRow>
-                    <SaveState>Restore removed section:</SaveState>
-                    {removedComputedTypes.map((type) => (
+                    <SaveState>Add section:</SaveState>
+                    {[...removedComputedTypes, ...optInTypes].map((type) => (
                       <IconButton
                         key={type}
                         onClick={() =>

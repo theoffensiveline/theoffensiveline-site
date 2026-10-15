@@ -264,6 +264,54 @@ export const MotwTable = ({ motwHistoryData }) => {
   return <BaseDataTable headers={headers} data={motwHistoryData} renderCell={renderCell} />;
 };
 
+/**
+ * Slimmer MotW table for the dynamic newsletter's motw-history section —
+ * same layout as MotwTable above minus the shots/dogs column. Rows are
+ * MotwHistoryRow objects from computeMotwHistory.
+ */
+export const MotwHistoryTable = ({ data }) => {
+  const headers = ["Week", "Winner", "Winner Score", "Loser Score", "Loser"];
+
+  const renderCell = (row, header) => {
+    switch (header) {
+      case "Week":
+        return <td className="center-column">{row.week}</td>;
+      case "Winner":
+        return <td className="wrap-cell">{row.winnerTeam}</td>;
+      case "Winner Score":
+        return (
+          <td
+            className="center-column"
+            style={{
+              backgroundColor: row.winnerScoreColor,
+              color: ColorConstants["light"].text,
+            }}
+          >
+            {row.winnerScore}
+          </td>
+        );
+      case "Loser Score":
+        return (
+          <td
+            className="center-column"
+            style={{
+              backgroundColor: row.loserScoreColor,
+              color: ColorConstants["light"].text,
+            }}
+          >
+            {row.loserScore}
+          </td>
+        );
+      case "Loser":
+        return <td className="wrap-cell">{row.loserTeam}</td>;
+      default:
+        return <td className="center-column">{row[header]}</td>;
+    }
+  };
+
+  return <BaseDataTable headers={headers} data={data} renderCell={renderCell} />;
+};
+
 export const DivisionRecordTable = ({ data, standings = [] }) => {
   const headers = ["Team", "Hubbell", "Glizzy", "Avon"];
   const divisions = ["Hubbell", "Glizzy", "Avon"];
