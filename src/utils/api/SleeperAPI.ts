@@ -336,7 +336,7 @@ export const SleeperTeamIdMapping = {
   "6": "Nikhil",
   "7": "Greg",
   "8": "Anthony",
-  "9": "Devan",
+  "9": "Will",
   "10": "Josh L",
   "11": "Kyle",
   "12": "Matt Rob",
