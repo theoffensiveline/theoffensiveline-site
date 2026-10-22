@@ -308,7 +308,7 @@ export async function computeWeeklyAwards(leagueId: string, week: number): Promi
       value: `Scored ${mvp.points.toFixed(2)} points for ${
         team?.name || mvp.teamName
       } which was ${mvp.pct.toFixed(2)}% of the team total`,
-      description: "Highest scoring starter of the week",
+      description: "Highest share of a winning team's total score",
     });
   }
 
