@@ -22,9 +22,13 @@ import {
   SurvivorButton,
   SurvivorWeekNav,
   LoadingSpinner,
+  PickHistory,
+  PickChip,
+  SelectionReason,
 } from "../components/survivorStyles";
 import { useSurvivorData } from "../hooks/useSurvivorData";
 import SurvivorMatchup from "../components/survivor/SurvivorMatchup";
+import SurvivorDeadlineBanner from "../components/survivor/SurvivorDeadlineBanner";
 import { ExtendedMatchup } from "../types/survivorTypes";
 import CustomAlert from "../components/shared/CustomAlert";
 import CustomConfirm from "../components/shared/CustomConfirm";
@@ -81,6 +85,20 @@ const Survivor: React.FC = () => {
 
   // Derive user status from standings data
   const userStatus = standingsData?.userStatus?.[currentUser?.uid || ""] || null;
+
+  const { canSelect: userCanMakeSelection, reason: selectionReason } = canMakeSelection(
+    userStatus,
+    week,
+    currentWeek
+  );
+
+  // The user's own picks across all weeks, oldest first (includes missed weeks)
+  const myPicks = (standingsData?.picks || [])
+    .filter((p) => p.userId === currentUser?.uid)
+    .sort((a, b) => a.week - b.week);
+
+  const renderHearts = (lives: number) =>
+    "❤️".repeat(Math.max(0, lives)) + "🖤".repeat(Math.max(0, 2 - lives));
 
   const onTeamSelect = async (teamId: number, matchupId: number) => {
     if (isSubmitting) return; // Prevent multiple submissions
@@ -169,6 +187,7 @@ const Survivor: React.FC = () => {
 
   return (
     <SurvivorContainer>
+      <SurvivorDeadlineBanner />
       {!loading && week !== null && currentWeek !== null && (
         <>
           <SurvivorWeekNav>
@@ -180,12 +199,14 @@ const Survivor: React.FC = () => {
                 Previous Week
               </SurvivorButton>
             )}
-            <SurvivorButton
-              style={{ position: "absolute", right: "0", margin: "10px" }}
-              onClick={() => handleNextWeek()}
-            >
-              Next Week
-            </SurvivorButton>
+            {week < 17 && (
+              <SurvivorButton
+                style={{ position: "absolute", right: "0", margin: "10px" }}
+                onClick={() => handleNextWeek()}
+              >
+                Next Week
+              </SurvivorButton>
+            )}
           </SurvivorWeekNav>
           <SurvivorTitle>Week {week} Matchups</SurvivorTitle>
           <div
@@ -202,11 +223,24 @@ const Survivor: React.FC = () => {
             ) : (
               <span>
                 Selection: {getSelectedTeamName(userPick, teams)}
-                {userStatus?.lives !== undefined &&
-                  ` (${userStatus.lives} ${userStatus.lives === 1 ? "life" : "lives"} remaining)`}
+                {userStatus?.lives !== undefined && ` ${renderHearts(userStatus.lives)}`}
               </span>
             )}
           </div>
+          {myPicks.length > 0 && (
+            <PickHistory>
+              <span style={{ fontSize: "0.8rem", opacity: 0.7 }}>Your picks:</span>
+              {myPicks.map((p) => (
+                <PickChip key={p.week} status={p.status}>
+                  W{p.week} {p.missed ? "No pick" : p.ownerName || "—"}
+                  {p.status === "win" ? " ✓" : p.status === "loss" ? " ✗" : ""}
+                </PickChip>
+              ))}
+            </PickHistory>
+          )}
+          {!userCanMakeSelection && selectionReason && (
+            <SelectionReason>{selectionReason}</SelectionReason>
+          )}
         </>
       )}
       {loading ? <LoadingSpinner /> : null}
@@ -219,11 +253,6 @@ const Survivor: React.FC = () => {
         <div>
           {/* Check if user can make a selection using utility after data is loaded */}
           {(() => {
-            const { canSelect: userCanMakeSelection, reason: selectionReason } = canMakeSelection(
-              userStatus,
-              week,
-              currentWeek
-            );
             return Object.keys(groupedMatchups)
               .sort((a, b) => {
                 if (b === motwMatchupId?.toString()) return 1;

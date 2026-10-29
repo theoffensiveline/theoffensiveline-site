@@ -27,6 +27,8 @@ export interface SurvivorPick {
   opponentScore?: number;
   opponentTeamId?: string;
   opponentTeamName?: string;
+  /** True for synthetic entries representing a missed submission — no pick doc exists */
+  missed?: boolean;
 }
 
 /**
@@ -235,6 +237,36 @@ export const isInBlackoutPeriod = (): boolean => {
 
 export const canViewOtherPicks = (): boolean => {
   return isInBlackoutPeriod();
+};
+
+/**
+ * Returns the next pick-deadline transition: either the upcoming Thursday 8 PM
+ * ET lock (when submissions are open) or the upcoming Tuesday 8 AM ET reopen
+ * (during the blackout). `deadline` is a real Date instant, converted back from
+ * ET wall-clock time.
+ */
+export const getSurvivorDeadlineInfo = (): { locked: boolean; deadline: Date } => {
+  const now = new Date();
+  // Wall-clock time in ET (DST-safe via the platform's timezone data)
+  const etNow = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+  const etToLocalOffset = etNow.getTime() - now.getTime();
+  const toRealInstant = (etWallClock: Date) => new Date(etWallClock.getTime() - etToLocalOffset);
+
+  if (isInBlackoutPeriod()) {
+    // Next reopen: Tuesday 8 AM ET
+    const reopen = new Date(etNow);
+    reopen.setDate(reopen.getDate() + ((2 - reopen.getDay() + 7) % 7));
+    reopen.setHours(8, 0, 0, 0);
+    if (reopen <= etNow) reopen.setDate(reopen.getDate() + 7);
+    return { locked: true, deadline: toRealInstant(reopen) };
+  }
+
+  // Next lock: Thursday 8 PM ET
+  const lock = new Date(etNow);
+  lock.setDate(lock.getDate() + ((4 - lock.getDay() + 7) % 7));
+  lock.setHours(20, 0, 0, 0);
+  if (lock <= etNow) lock.setDate(lock.getDate() + 7);
+  return { locked: false, deadline: toRealInstant(lock) };
 };
 
 export const canMakeSelection = (
@@ -461,131 +493,203 @@ export const getSurvivorStandings = async (
       weeklyResults[week] = await getMatchupResults(leagueId, week);
     }
 
-    // Process each user's picks
-    const userPicks = new Map<string, SurvivorPick[]>();
-    const userStatus: Record<string, { lives: number; isEliminated: boolean }> = {};
-
-    // Initialize user status with 2 lives
-    allPicks.forEach((pick) => {
-      if (!userStatus[pick.userId]) {
-        userStatus[pick.userId] = { lives: 2, isEliminated: false };
-      }
-      if (!userPicks.has(pick.userId)) {
-        userPicks.set(pick.userId, []);
-      }
-      userPicks.get(pick.userId)?.push(pick);
-    });
-
-    // Process each user's picks to determine win/loss status
-    const processedPicks: SurvivorPick[] = [];
-
-    for (const [userId, picks] of userPicks.entries()) {
-      // Sort picks by week
-      const sortedPicks = [...picks].sort((a, b) => a.week - b.week);
-
-      for (const pick of sortedPicks) {
-        // Skip if user is already eliminated
-        if (userStatus[userId].lives <= 0) {
-          const lossPick: SurvivorPick = {
-            ...pick,
-            status: "loss" as const,
-            teamScore: 0,
-            opponentScore: 0,
-          };
-          processedPicks.push(lossPick);
-          continue;
-        }
-
-        // Check if the week is completed
-        if (pick.week < currentWeek) {
-          const weekResults = weeklyResults[pick.week];
-          let isWin = false;
-          let teamScore = 0;
-          let opponentScore = 0;
-          let opponentTeamId = "";
-
-          // Find the matchup where the picked team played
-          for (const matchup of Object.values(weekResults)) {
-            const team1RosterId = matchup.team1.rosterId.toString();
-            const team2RosterId = matchup.team2.rosterId.toString();
-
-            if (team1RosterId === pick.teamIdSelected) {
-              // The picked team is team1 in this matchup
-              isWin = team1RosterId === matchup.winnerId?.toString();
-              teamScore = matchup.team1.points;
-              opponentScore = matchup.team2.points;
-              opponentTeamId = team2RosterId;
-              break;
-            } else if (team2RosterId === pick.teamIdSelected) {
-              // The picked team is team2 in this matchup
-              isWin = team2RosterId === matchup.winnerId?.toString();
-              teamScore = matchup.team2.points;
-              opponentScore = matchup.team1.points;
-              opponentTeamId = team1RosterId;
-              break;
-            }
-          }
-
-          // Update pick status and user lives
-          if (!isWin) {
-            userStatus[userId].lives--;
-            if (userStatus[userId].lives <= 0) {
-              userStatus[userId].isEliminated = true;
-            }
-          }
-
-          const resultPick: SurvivorPick = {
-            ...pick,
-            status: isWin ? "win" : "loss",
-            teamScore,
-            opponentScore,
-            opponentTeamId,
-            opponentTeamName: `Team ${opponentTeamId.slice(0, 6)}`, // Default name if not found
-          };
-          processedPicks.push(resultPick);
-        } else {
-          // Future week, status is pending
-          const pendingPick: SurvivorPick = {
-            ...pick,
-            status: "pending",
-            teamScore: 0,
-            opponentScore: 0,
-          };
-          processedPicks.push(pendingPick);
-        }
-      }
-    }
-
-    // Sort all picks by user and week
-    const sortedPicks = processedPicks.sort((a, b) => {
-      // Sort by user first
-      if (a.userId !== b.userId) {
-        const statusA = userStatus[a.userId];
-        const statusB = userStatus[b.userId];
-
-        // Not eliminated comes first
-        if (!statusA.isEliminated && statusB.isEliminated) return -1;
-        if (statusA.isEliminated && !statusB.isEliminated) return 1;
-
-        // More lives comes first
-        if (statusA.lives !== statusB.lives) return statusB.lives - statusA.lives;
-
-        // Finally sort by username
-        return a.username.localeCompare(b.username);
-      }
-
-      // Then sort by week for the same user
-      return a.week - b.week;
-    });
-
-    return {
-      picks: sortedPicks,
-      userStatus,
-    };
+    return computeSurvivorResults(
+      allPicks,
+      currentWeek,
+      weeklyResults,
+      leagueId,
+      isInBlackoutPeriod()
+    );
   } catch (error) {
     console.error("Error getting survivor standings:", error);
     return { picks: [], userStatus: {} };
   }
+};
+
+/**
+ * Resolves win/loss for every pick and derives each user's remaining lives.
+ *
+ * A missed submission counts as a loss for every week whose pick deadline has
+ * passed — any completed week, plus the current week once the Thursday 8 PM ET
+ * blackout begins — starting from the week the user entered the pool (their
+ * first pick). Missed weeks are returned as synthetic `missed: true` loss picks
+ * so the UI can display them; nothing is written to Firestore.
+ */
+export const computeSurvivorResults = (
+  allPicks: SurvivorPick[],
+  currentWeek: number,
+  weeklyResults: Record<number, Awaited<ReturnType<typeof getMatchupResults>>>,
+  leagueId: string,
+  isCurrentWeekDeadlinePassed: boolean
+): {
+  picks: SurvivorPick[];
+  userStatus: Record<string, { lives: number; isEliminated: boolean }>;
+} => {
+  const deadlinePassed = (weekNum: number) =>
+    weekNum < currentWeek || (weekNum === currentWeek && isCurrentWeekDeadlinePassed);
+
+  // Process each user's picks
+  const userPicks = new Map<string, SurvivorPick[]>();
+  const userStatus: Record<string, { lives: number; isEliminated: boolean }> = {};
+
+  // Initialize user status with 2 lives
+  allPicks.forEach((pick) => {
+    if (!userStatus[pick.userId]) {
+      userStatus[pick.userId] = { lives: 2, isEliminated: false };
+    }
+    if (!userPicks.has(pick.userId)) {
+      userPicks.set(pick.userId, []);
+    }
+    userPicks.get(pick.userId)?.push(pick);
+  });
+
+  // Process each user's picks to determine win/loss status
+  const processedPicks: SurvivorPick[] = [];
+
+  for (const [userId, picks] of userPicks.entries()) {
+    // Sort picks by week
+    const sortedPicks = [...picks].sort((a, b) => a.week - b.week);
+    const picksByWeek = new Map<number, SurvivorPick>();
+    sortedPicks.forEach((pick) => picksByWeek.set(pick.week, pick));
+
+    // Users only owe a submission starting the week they enter the pool
+    const firstPickWeek = sortedPicks[0]?.week ?? currentWeek;
+    const username = sortedPicks[0]?.username ?? `User-${userId.slice(0, 6)}`;
+    const processedWeeks = new Set<number>();
+
+    const deductLife = () => {
+      userStatus[userId].lives--;
+      if (userStatus[userId].lives <= 0) {
+        userStatus[userId].isEliminated = true;
+      }
+    };
+
+    const resolvePick = (pick: SurvivorPick): SurvivorPick => {
+      const weekResults = weeklyResults[pick.week] ?? {};
+      let isWin = false;
+      let teamScore = 0;
+      let opponentScore = 0;
+      let opponentTeamId = "";
+
+      // Find the matchup where the picked team played
+      for (const matchup of Object.values(weekResults)) {
+        const team1RosterId = matchup.team1.rosterId.toString();
+        const team2RosterId = matchup.team2.rosterId.toString();
+
+        if (team1RosterId === pick.teamIdSelected) {
+          // The picked team is team1 in this matchup
+          isWin = team1RosterId === matchup.winnerId?.toString();
+          teamScore = matchup.team1.points;
+          opponentScore = matchup.team2.points;
+          opponentTeamId = team2RosterId;
+          break;
+        } else if (team2RosterId === pick.teamIdSelected) {
+          // The picked team is team2 in this matchup
+          isWin = team2RosterId === matchup.winnerId?.toString();
+          teamScore = matchup.team2.points;
+          opponentScore = matchup.team1.points;
+          opponentTeamId = team1RosterId;
+          break;
+        }
+      }
+
+      // Update pick status and user lives
+      if (!isWin) {
+        deductLife();
+      }
+
+      return {
+        ...pick,
+        status: isWin ? "win" : "loss",
+        teamScore,
+        opponentScore,
+        opponentTeamId,
+        opponentTeamName: `Team ${opponentTeamId.slice(0, 6)}`, // Default name if not found
+      };
+    };
+
+    // Walk every deadline-passed week since entry; a missing pick costs a life
+    for (
+      let weekNum = firstPickWeek;
+      weekNum <= currentWeek && deadlinePassed(weekNum);
+      weekNum++
+    ) {
+      processedWeeks.add(weekNum);
+      const pick = picksByWeek.get(weekNum);
+
+      if (!pick) {
+        // Eliminated users owe nothing further — later weeks show as N/A
+        if (userStatus[userId].lives > 0) {
+          deductLife();
+          processedPicks.push({
+            id: `missed-${userId}-${weekNum}`,
+            leagueId,
+            userId,
+            username,
+            week: weekNum,
+            teamIdSelected: "",
+            ownerName: "",
+            timestamp: Timestamp.now(),
+            status: "loss",
+            teamScore: 0,
+            opponentScore: 0,
+            missed: true,
+          });
+        }
+        continue;
+      }
+
+      // Skip win/loss resolution if user is already eliminated
+      if (userStatus[userId].lives <= 0) {
+        processedPicks.push({ ...pick, status: "loss", teamScore: 0, opponentScore: 0 });
+      } else if (pick.week < currentWeek) {
+        processedPicks.push(resolvePick(pick));
+      } else {
+        // Current week, deadline passed but games not final — pending
+        processedPicks.push({ ...pick, status: "pending", teamScore: 0, opponentScore: 0 });
+      }
+    }
+
+    // Remaining picks: future weeks, or the current week before its deadline
+    for (const pick of sortedPicks) {
+      if (processedWeeks.has(pick.week)) continue;
+
+      // Skip if user is already eliminated
+      if (userStatus[userId].lives <= 0) {
+        processedPicks.push({ ...pick, status: "loss", teamScore: 0, opponentScore: 0 });
+      } else {
+        // Future week, status is pending
+        processedPicks.push({ ...pick, status: "pending", teamScore: 0, opponentScore: 0 });
+      }
+    }
+  }
+
+  // Sort all picks by user and week
+  const sortedProcessedPicks = processedPicks.sort((a, b) => {
+    // Sort by user first
+    if (a.userId !== b.userId) {
+      const statusA = userStatus[a.userId];
+      const statusB = userStatus[b.userId];
+
+      // Not eliminated comes first
+      if (!statusA.isEliminated && statusB.isEliminated) return -1;
+      if (statusA.isEliminated && !statusB.isEliminated) return 1;
+
+      // More lives comes first
+      if (statusA.lives !== statusB.lives) return statusB.lives - statusA.lives;
+
+      // Finally sort by username
+      return a.username.localeCompare(b.username);
+    }
+
+    // Then sort by week for the same user
+    return a.week - b.week;
+  });
+
+  return {
+    picks: sortedProcessedPicks,
+    userStatus,
+  };
 };
 
 interface TeamSelectParams {
