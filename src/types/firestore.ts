@@ -215,6 +215,13 @@ export interface IssueDoc {
   status: NewsletterStatus;
   /** Timestamp when the issue was published. Null if still draft. */
   publishedAt: Timestamp | null;
+  /**
+   * Lazy scheduled publish (no server job): while status stays "draft", a
+   * future timestamp here means the issue goes live automatically once the
+   * time passes — readers treat it as published from that moment on. Null or
+   * absent when unscheduled. Always cleared on publish/revert.
+   */
+  scheduledPublishAt?: Timestamp | null;
   /** NFL season year this issue covers. */
   season: number;
   /** Week number within the season. Null for ad-hoc issues. */

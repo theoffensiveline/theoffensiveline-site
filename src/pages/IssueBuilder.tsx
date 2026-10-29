@@ -6,8 +6,11 @@
  * ad-hoc "special" issues (week-less, "{season}_x{millis}" doc IDs,
  * commentary-only, positioned among the weeklies via sortWeek). Every issue
  * has an optional title. Drafts autosave (debounced, transactional
- * create-or-merge that never touches status); Publish/Revert are the only
- * status writers; drafts are deletable (two-click).
+ * create-or-merge that never touches status); Publish/Revert/Schedule are
+ * the only status writers; drafts are deletable (two-click). Scheduling is
+ * lazy (no server job): the doc keeps status "draft" with a future
+ * scheduledPublishAt, and readers treat it as published once that time
+ * passes.
  *
  * Co-editing is last-write-wins (Firestore default) — acceptable per #84.
  */
@@ -38,6 +41,13 @@ import {
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
 import { MotwSeedPicker } from "../components/newsletter/MotwSeedPicker";
 import { RichTextEditor } from "../components/newsletter/RichText";
+import { ShareButton } from "../components/newsletter/ShareButton";
+import {
+  isIssueLive,
+  isIssueScheduled,
+  formatScheduleTime,
+  toLocalDateTimeInput,
+} from "../utils/issueSchedule";
 import { NewsletterContainer, NewsletterTitle } from "../components/newsletters/newsStyles";
 import type { IssueDoc, IssueSection } from "../types/firestore";
 import { IssuePage, Centered } from "../components/newsletter/pageStyles";
@@ -57,6 +67,15 @@ const ControlsBar = styled.div`
 
 const SelectControl = styled.select`
   padding: 8px 12px;
+  border: 1px solid ${({ theme }: any) => theme.neutral3}66;
+  border-radius: 8px;
+  background-color: ${({ theme }: any) => theme.background};
+  color: ${({ theme }: any) => theme.text};
+  font-size: 14px;
+`;
+
+const DateTimeInput = styled.input`
+  padding: 7px 10px;
   border: 1px solid ${({ theme }: any) => theme.neutral3}66;
   border-radius: 8px;
   background-color: ${({ theme }: any) => theme.background};
@@ -260,9 +279,7 @@ function IssueBuilder(): React.ReactElement {
       return;
     }
     if (!allIssues && !issuesError) return;
-    const published = new Set(
-      (allIssues ?? []).filter((i) => i.status === "published").map((i) => i.id)
-    );
+    const published = new Set((allIssues ?? []).filter((i) => isIssueLive(i)).map((i) => i.id));
     const candidate =
       completedWeeksDesc.find((w) => !published.has(issueDocId(season, w))) ??
       completedWeeksDesc[0];
@@ -290,6 +307,14 @@ function IssueBuilder(): React.ReactElement {
   const [sortWeek, setSortWeek] = useState<number | null>(null);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [status, setStatus] = useState<"draft" | "published">("draft");
+  // Lazy schedule (#schedule): draft + future scheduledPublishAt goes live
+  // on its own; past it, the issue reads as published everywhere.
+  const [scheduledAt, setScheduledAt] = useState<Timestamp | null>(null);
+  const [schedulePickerOpen, setSchedulePickerOpen] = useState(false);
+  const [scheduleInput, setScheduleInput] = useState("");
+  // Re-rendered once when the scheduled time arrives so the builder locks
+  // the same instant readers see the issue go live.
+  const [nowTick, setNowTick] = useState(() => Date.now());
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const dirtyRef = useRef(false);
   // Bumped on every edit; a save only clears dirty if nothing changed since
@@ -383,6 +408,7 @@ function IssueBuilder(): React.ReactElement {
           (old: IssueDoc | null | undefined): IssueDoc => ({
             status: old?.status ?? "draft",
             publishedAt: old?.publishedAt ?? null,
+            scheduledPublishAt: old?.scheduledPublishAt ?? null,
             season: target.season,
             week: target.week,
             leagueId: target.leagueId,
@@ -420,6 +446,7 @@ function IssueBuilder(): React.ReactElement {
       setSaveState("idle");
       setConfirmingDelete(false);
       setDeleteError(false);
+      setSchedulePickerOpen(false);
       matchupPrefillPendingRef.current = false;
     }
     prevDocIdRef.current = docId;
@@ -461,6 +488,7 @@ function IssueBuilder(): React.ReactElement {
       setIssueTitle(loadedIssue.title ?? "");
       setSortWeek(loadedIssue.sortWeek ?? null);
       setStatus(loadedIssue.status);
+      setScheduledAt(loadedIssue.scheduledPublishAt ?? null);
       lastSavedTitleRef.current = loadedIssue.title ?? "";
       liveRef.current.docExists = true;
     } else {
@@ -472,6 +500,7 @@ function IssueBuilder(): React.ReactElement {
       setIssueTitle("");
       setSortWeek(null);
       setStatus("draft");
+      setScheduledAt(null);
       lastSavedTitleRef.current = "";
       liveRef.current.docExists = false;
     }
@@ -557,17 +586,21 @@ function IssueBuilder(): React.ReactElement {
     );
 
   /**
-   * Explicit status change: the ONLY writer of status/publishedAt. Cancels
-   * any pending autosave first, persists the full doc, and flips local
-   * state + the shared cache only when the write actually succeeded.
+   * Explicit status/schedule change: the ONLY writer of status, publishedAt,
+   * and scheduledPublishAt. Cancels any pending autosave first, persists the
+   * full doc, and flips local state + the shared cache only when the write
+   * actually succeeded.
    */
-  const setPublishState = async (nextStatus: "draft" | "published") => {
+  const writeIssueStatus = async (next: {
+    status: "draft" | "published";
+    publishedAt: Timestamp | null;
+    scheduledPublishAt: Timestamp | null;
+  }) => {
     if (!sections || !docId || season === undefined || !activeLeagueId) return;
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     dirtyRef.current = false;
     const doc: IssueDoc = {
-      status: nextStatus,
-      publishedAt: nextStatus === "published" ? Timestamp.now() : null,
+      ...next,
       season,
       week: adhocId ? null : week,
       leagueId: activeLeagueId,
@@ -579,7 +612,9 @@ function IssueBuilder(): React.ReactElement {
     try {
       await setIssue(newsletterId!, docId, doc);
       liveRef.current.docExists = true;
-      setStatus(nextStatus);
+      setStatus(next.status);
+      setScheduledAt(next.scheduledPublishAt);
+      setSchedulePickerOpen(false);
       setSaveState("saved");
       queryClient.setQueryData(["issue", newsletterId, docId], doc);
       queryClient.invalidateQueries({ queryKey: ["issues", newsletterId] });
@@ -591,8 +626,25 @@ function IssueBuilder(): React.ReactElement {
     }
   };
 
-  const publish = () => setPublishState("published");
-  const unpublish = () => setPublishState("draft");
+  const publish = () =>
+    writeIssueStatus({
+      status: "published",
+      publishedAt: Timestamp.now(),
+      scheduledPublishAt: null,
+    });
+  // Revert-to-draft and cancel-schedule are the same write: plain draft,
+  // no schedule.
+  const unpublish = () =>
+    writeIssueStatus({ status: "draft", publishedAt: null, scheduledPublishAt: null });
+  const applySchedule = () => {
+    const date = new Date(scheduleInput);
+    if (isNaN(date.getTime())) return;
+    writeIssueStatus({
+      status: "draft",
+      publishedAt: null,
+      scheduledPublishAt: Timestamp.fromDate(date),
+    });
+  };
 
   /**
    * Delete the current draft (two-click confirm in the UI). Published issues
@@ -618,6 +670,7 @@ function IssueBuilder(): React.ReactElement {
         setSections(prefillSections());
         setIssueTitle("");
         setSortWeek(null);
+        setScheduledAt(null);
         setSaveState("idle");
       }
     } catch (e) {
@@ -682,6 +735,15 @@ function IssueBuilder(): React.ReactElement {
     });
   }, [newsletterData.starters.data, newsletterData.starters.status]);
 
+  // Flip to locked the moment a scheduled publish fires while the builder
+  // is open — `editable` derives from nowTick, so one re-render is enough.
+  useEffect(() => {
+    const ms = scheduledAt ? scheduledAt.toMillis() - Date.now() : null;
+    if (ms === null || ms <= 0) return;
+    const t = setTimeout(() => setNowTick(Date.now()), Math.min(ms + 250, 2_000_000_000));
+    return () => clearTimeout(t);
+  }, [scheduledAt]);
+
   /* ----------------------------- render ----------------------------- */
 
   if (newsletterLoading) return <Centered>Loading…</Centered>;
@@ -698,7 +760,10 @@ function IssueBuilder(): React.ReactElement {
       </Centered>
     );
   }
-  const editable = status === "draft";
+  // Live = published, or scheduled and the time already passed. A scheduled
+  // draft stays editable until go-live, then locks like a published issue.
+  const editable = !isIssueLive({ status, scheduledPublishAt: scheduledAt }, nowTick);
+  const isScheduled = isIssueScheduled({ status, scheduledPublishAt: scheduledAt }, nowTick);
   const issuesById = new Map((allIssues ?? []).map((i) => [i.id, i]));
   // Existing ad-hoc issues for the active season, newest first
   const adhocIssues = (allIssues ?? [])
@@ -763,16 +828,22 @@ function IssueBuilder(): React.ReactElement {
             {adhocIssues.map((i) => (
               <option key={i.id} value={`a:${i.id}`}>
                 {i.title || "Special issue"}
-                {i.status === "published" ? " · published" : " · draft"}
+                {isIssueLive(i)
+                  ? " · published"
+                  : isIssueScheduled(i)
+                    ? " · scheduled"
+                    : " · draft"}
               </option>
             ))}
             {completedWeeksDesc.map((w) => {
               const existing =
                 season !== undefined ? issuesById.get(issueDocId(season, w)) : undefined;
               const marker = existing
-                ? existing.status === "published"
+                ? isIssueLive(existing)
                   ? " · published"
-                  : " · draft"
+                  : isIssueScheduled(existing)
+                    ? " · scheduled"
+                    : " · draft"
                 : "";
               return (
                 <option key={w} value={`w:${w}`}>
@@ -785,11 +856,39 @@ function IssueBuilder(): React.ReactElement {
           </SelectControl>
 
           {editable ? (
-            <PublishButton onClick={publish} disabled={!sections || saveState === "saving"}>
-              Publish
-            </PublishButton>
+            <>
+              <PublishButton onClick={publish} disabled={!sections || saveState === "saving"}>
+                {isScheduled ? "Publish now" : "Publish"}
+              </PublishButton>
+              {/* Scheduling is weekly-only — ad-hoc issues have no submission
+                  window to open, which is the feature's whole point. */}
+              {!adhocId && (
+                <SubtleButton
+                  onClick={() => {
+                    setScheduleInput(
+                      toLocalDateTimeInput(
+                        scheduledAt?.toDate() ?? new Date(Date.now() + 24 * 60 * 60 * 1000)
+                      )
+                    );
+                    setSchedulePickerOpen((v) => !v);
+                  }}
+                >
+                  {isScheduled ? "Reschedule" : "Schedule…"}
+                </SubtleButton>
+              )}
+              {isScheduled && <SubtleButton onClick={unpublish}>Cancel schedule</SubtleButton>}
+            </>
           ) : (
             <SubtleButton onClick={unpublish}>Revert to draft</SubtleButton>
+          )}
+
+          {docId !== null && (
+            <ShareButton
+              url={`${window.location.origin}/n/${newsletterId}/issue/${docId}`}
+              title={`${newsletter.name} – ${
+                issueTitle || (adhocId ? "Special issue" : `Week ${week}`)
+              }`}
+            />
           )}
 
           {editable &&
@@ -818,9 +917,33 @@ function IssueBuilder(): React.ReactElement {
           {deleteError && <ErrorNote>Delete failed — try again.</ErrorNote>}
         </ControlsBar>
 
+        {schedulePickerOpen && editable && !adhocId && (
+          <ControlsBar>
+            <SaveState>Publish at:</SaveState>
+            <DateTimeInput
+              type="datetime-local"
+              value={scheduleInput}
+              min={toLocalDateTimeInput(new Date())}
+              onChange={(e) => setScheduleInput(e.target.value)}
+            />
+            <SubtleButton
+              onClick={applySchedule}
+              disabled={!scheduleInput || saveState === "saving"}
+            >
+              Set schedule
+            </SubtleButton>
+          </ControlsBar>
+        )}
+
         {!editable && (
           <PublishedBanner>
             This issue is published and locked. Revert to draft to edit.
+          </PublishedBanner>
+        )}
+        {isScheduled && editable && scheduledAt && (
+          <PublishedBanner>
+            Scheduled to publish {formatScheduleTime(scheduledAt)} — keep editing and collecting
+            submissions until then.
           </PublishedBanner>
         )}
         {editable && newsletter.coEditorUids.length > 0 && (

@@ -96,8 +96,11 @@ service cloud.firestore {
           && (get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.editorUid == request.auth.uid
               || request.auth.uid in get(/databases/$(database)/documents/newsletters/$(newsletterId)).data.coEditorUids)
           && request.resource.data.keys().hasOnly(
-               ['status', 'publishedAt', 'season', 'week', 'leagueId', 'title', 'sortWeek', 'sections'])
+               ['status', 'publishedAt', 'scheduledPublishAt', 'season', 'week', 'leagueId', 'title', 'sortWeek', 'sections'])
           && request.resource.data.status in ['draft', 'published']
+          && (!request.resource.data.keys().hasAny(['scheduledPublishAt'])
+              || request.resource.data.scheduledPublishAt == null
+              || request.resource.data.scheduledPublishAt is timestamp)
           && request.resource.data.season is int
           && issueId.matches('^' + string(request.resource.data.season) + '_.*')
           && (request.resource.data.week is int || request.resource.data.week == null)

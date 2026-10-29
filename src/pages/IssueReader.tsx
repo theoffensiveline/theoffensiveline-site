@@ -4,9 +4,11 @@
  * section registry; authored sections render their stored content.
  *
  * Drafts are hidden from non-editors client-side ("not published yet") —
- * true read-gating arrives with #103 sub-issue D.
+ * true read-gating arrives with #103 sub-issue D. Scheduled issues (#schedule)
+ * show a "publishes at X" placeholder until their time arrives, then reveal
+ * on their own — the doc keeps status "draft" and lazily reads as live.
  */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +16,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { useNewsletterData } from "../hooks/useNewsletterData";
 import { getIssue } from "../services/firestoreCrud";
+import { isIssueLive, isIssueScheduled, formatScheduleTime } from "../utils/issueSchedule";
 import { setSelectedNewsletter } from "../utils/selectedNewsletter";
 import { IssueSectionView } from "../components/newsletter/IssueSectionView";
 import { SubmissionsList } from "../components/newsletter/SubmissionsList";
@@ -81,12 +84,30 @@ function IssueReader(): React.ReactElement {
   const motwSeed = newsletter?.seasons.find((s) => s.leagueId === issue?.leagueId)?.motwSeed;
   const newsletterData = useNewsletterData(issue?.leagueId, issue?.week ?? NaN, motwSeed);
 
+  // Re-render once when a scheduled publish fires so the "publishes at X"
+  // placeholder reveals the issue without a manual refresh.
+  const [, forceTick] = useState(0);
+  useEffect(() => {
+    const ms = issue?.scheduledPublishAt ? issue.scheduledPublishAt.toMillis() - Date.now() : null;
+    if (ms === null || ms <= 0) return;
+    const t = setTimeout(() => forceTick((n) => n + 1), Math.min(ms + 250, 2_000_000_000));
+    return () => clearTimeout(t);
+  }, [issue?.scheduledPublishAt]);
+
   if (!validId) return <Centered>Invalid issue ID.</Centered>;
   if (newsletterLoading || !isFetched) return <Centered>Loading…</Centered>;
   if (!newsletter) return <Centered>Newsletter not found.</Centered>;
   if (!issue) return <Centered>This issue doesn't exist yet.</Centered>;
-  if (issue.status !== "published" && !isEditor) {
-    return <Centered>This issue hasn't been published yet — check back soon.</Centered>;
+  const live = isIssueLive(issue);
+  const scheduled = isIssueScheduled(issue);
+  if (!live && !isEditor) {
+    return (
+      <Centered>
+        {scheduled && issue.scheduledPublishAt
+          ? `This issue publishes ${formatScheduleTime(issue.scheduledPublishAt)} — check back then.`
+          : "This issue hasn't been published yet — check back soon."}
+      </Centered>
+    );
   }
 
   // The builder edits only the active season, so older seasons' issues
@@ -105,7 +126,11 @@ function IssueReader(): React.ReactElement {
           {" · "}
           {issue.season}
           {issue.title && issue.week !== null ? ` · Week ${issue.week}` : ""}
-          {issue.status !== "published" ? " · DRAFT" : ""}
+          {!live
+            ? scheduled && issue.scheduledPublishAt
+              ? ` · publishes ${formatScheduleTime(issue.scheduledPublishAt)}`
+              : " · DRAFT"
+            : ""}
         </ArticleSubheader>
         <ActionRow>
           <EditLink onClick={() => navigate(`/home/${issue.leagueId}`)}>
