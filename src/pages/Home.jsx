@@ -10,6 +10,7 @@ import { useNewsletterDoc } from "../hooks/useNewsletterDoc";
 import { useAuth } from "../contexts/AuthContext";
 import { getIssuesForLeague, getNewslettersForLeague } from "../services/firestoreCrud";
 import { setSelectedNewsletter, getSelectedNewsletterId } from "../utils/selectedNewsletter";
+import { isIssueLive, isIssueScheduled } from "../utils/issueSchedule";
 
 const GridContainer = styled.div`
   display: grid;
@@ -159,8 +160,12 @@ function Home() {
   // issues slot in via sortWeek ("after Week N" → just above Week N in this
   // newest-first list; unset → top of the season).
   const issueSortKey = (i) => (i.week != null ? i.week : (i.sortWeek ?? 998) + 0.5);
+  // Scheduled issues hide from readers until their publish time passes;
+  // editors see them with a "scheduled" marker.
+  const issueMarker = (i) =>
+    isIssueLive(i) ? "" : isIssueScheduled(i) ? " · scheduled" : " · draft";
   const leagueIssues = (newsletterIssues ?? [])
-    .filter((i) => i.status === "published" || isNewsletterEditor)
+    .filter((i) => isIssueLive(i) || isNewsletterEditor)
     .sort((a, b) => issueSortKey(b) - issueSortKey(a) || (a.id < b.id ? 1 : -1));
   // The builder only edits the newsletter's active season, so its entry point
   // renders on that season's league home only.
@@ -366,7 +371,7 @@ function Home() {
                 >
                   {`${displayNewsletter.name}\n${
                     issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
-                  }${issue.status !== "published" ? " · draft" : ""}`}
+                  }${issueMarker(issue)}`}
                 </RecentGridItem>
               ) : (
                 <GridItem
@@ -375,7 +380,7 @@ function Home() {
                 >
                   {`${displayNewsletter.name}\n${
                     issue.title || (issue.week != null ? `Week ${issue.week}` : "Special issue")
-                  }${issue.status !== "published" ? " · draft" : ""}`}
+                  }${issueMarker(issue)}`}
                 </GridItem>
               )
             )}

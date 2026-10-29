@@ -41,6 +41,7 @@ import {
 } from "../services/firestoreCrud";
 import { getNflState } from "../utils/api/FantasyAPI";
 import { getSelectedNewsletterId } from "../utils/selectedNewsletter";
+import { isIssueLive } from "../utils/issueSchedule";
 import {
   isImageUrl,
   isBareUrl,
@@ -296,7 +297,7 @@ export default function NewsletterSubmit(): React.ReactElement {
     const current = Math.min(stateQuery.data.week, MAX_WEEK);
     const publishedWeeks = new Set(
       (issuesQuery.data ?? [])
-        .filter((i) => i.status === "published" && i.week !== null && i.season === season)
+        .filter((i) => isIssueLive(i) && i.week !== null && i.season === season)
         .map((i) => i.week as number)
     );
     let earliestMissing = MAX_WEEK;
