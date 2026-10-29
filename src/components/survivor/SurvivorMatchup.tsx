@@ -10,8 +10,9 @@ import {
   SurvivorMatchupPlayerRows,
   SurvivorMatchupPositions,
   SurvivorMatchupPosition,
-  SurvivorButton,
+  SurvivorSelectButton,
   TeamPointsRow,
+  UsedLabel,
 } from "../survivorStyles";
 
 interface SurvivorMatchupProps {
@@ -81,25 +82,30 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
     return `${team_wins} - ${team_losses}${team_ties > 0 ? ` - ${team_ties}` : ""}`;
   };
 
+  const isMotw = parseInt(matchupId) === motwMatchupId;
+
   return (
-    <SurvivorMatchupContainer key={matchupId}>
+    <SurvivorMatchupContainer key={matchupId} motw={isMotw}>
       {/* Matchup Title (Spanning all 3 columns) */}
       <SurvivorMatchupTitle>
         <span
           style={{
-            color:
-              parseInt(matchupId) === motwMatchupId ? ColorConstants.light.hotDogYellow : "inherit",
+            color: isMotw ? ColorConstants.light.hotDogYellow : "inherit",
           }}
         >
-          {parseInt(matchupId) === motwMatchupId
-            ? "⭐ Matchup of the Week"
-            : `Matchup ${matchupId}`}
+          {isMotw ? "⭐ Matchup of the Week" : `Matchup ${matchupId}`}
         </span>
       </SurvivorMatchupTitle>
 
       {/* First row for Team Names and Images */}
       <SurvivorMatchupTeamRow>
-        <SurvivorMatchupTeamInfo>
+        <SurvivorMatchupTeamInfo
+          selected={userPick?.teamIdSelected === team1.roster_id.toString()}
+          selectable={canMakeSelection}
+          onClick={
+            canMakeSelection ? () => onTeamSelect(team1.roster_id, parseInt(matchupId)) : undefined
+          }
+        >
           <h3>{team1Details.team_name}</h3>
           <img src={team1Details.team_logo} alt={team1Details.team_name} />
           <p>
@@ -109,8 +115,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
             <br />
             PA: {team1Details.team_points_against}
           </p>
-          <SurvivorButton
-            onClick={() => onTeamSelect(team1.roster_id, parseInt(matchupId))}
+          <SurvivorSelectButton
             disabled={
               !canMakeSelection ||
               userPick?.teamIdSelected === team1.roster_id.toString() ||
@@ -132,10 +137,19 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
               : userPick && canMakeSelection
                 ? "Switch"
                 : "Select"}
-          </SurvivorButton>
+          </SurvivorSelectButton>
+          {hasPickedTeamBefore(team1.roster_id.toString(), parseInt(matchupId)) && (
+            <UsedLabel>Already used</UsedLabel>
+          )}
         </SurvivorMatchupTeamInfo>
         <SurvivorMatchupVs>VS</SurvivorMatchupVs>
-        <SurvivorMatchupTeamInfo>
+        <SurvivorMatchupTeamInfo
+          selected={userPick?.teamIdSelected === team2.roster_id.toString()}
+          selectable={canMakeSelection}
+          onClick={
+            canMakeSelection ? () => onTeamSelect(team2.roster_id, parseInt(matchupId)) : undefined
+          }
+        >
           <h3>{team2Details.team_name}</h3>
           <img src={team2Details.team_logo} alt={team2Details.team_name} />
           <p>
@@ -145,8 +159,7 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
             <br />
             PA: {team2Details.team_points_against}
           </p>
-          <SurvivorButton
-            onClick={() => onTeamSelect(team2.roster_id, parseInt(matchupId))}
+          <SurvivorSelectButton
             disabled={
               !canMakeSelection ||
               userPick?.teamIdSelected === team2.roster_id.toString() ||
@@ -168,7 +181,10 @@ const SurvivorMatchup: React.FC<SurvivorMatchupProps> = ({
               : userPick && canMakeSelection
                 ? "Switch"
                 : "Select"}
-          </SurvivorButton>
+          </SurvivorSelectButton>
+          {hasPickedTeamBefore(team2.roster_id.toString(), parseInt(matchupId)) && (
+            <UsedLabel>Already used</UsedLabel>
+          )}
         </SurvivorMatchupTeamInfo>
       </SurvivorMatchupTeamRow>
 
