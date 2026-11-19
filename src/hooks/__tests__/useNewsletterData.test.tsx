@@ -72,6 +72,7 @@ describe("useNewsletterData", () => {
     expect(result.current).toHaveProperty("schedule");
     expect(result.current).toHaveProperty("matchupData");
     expect(result.current).toHaveProperty("motwHistory");
+    expect(result.current).toHaveProperty("tradeVolume");
   });
 
   it("should return aggregate helpers", () => {
@@ -83,7 +84,7 @@ describe("useNewsletterData", () => {
     expect(result.current).toHaveProperty("hasErrors");
     expect(result.current).toHaveProperty("readySections");
     expect(result.current).toHaveProperty("totalSections");
-    expect(result.current.totalSections).toBe(11);
+    expect(result.current.totalSections).toBe(12);
   });
 
   it("should have proper section structure", () => {

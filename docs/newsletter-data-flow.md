@@ -39,13 +39,15 @@ Related stories: Phase 7 (performance & caching), Phase 8 (testing & documentati
 │  computePlayoffStandings  → PlayoffTableData[]  (weeks 1–N)        │
 │  computeSchedule          → ScheduleData        (weeks 1–N)        │
 │  computeMatchupData       → MatchupData[]       (weeks 1–N)        │
+│  computeMotwHistory       → MotwHistoryRow[]    (seed.week–N)     │
+│  computeTradeVolume       → TradeVolumeSeason[] (current + priors)│
 └──────────────────────────┬──────────────────────────────────────────┘
                            │  Promise<T>
                            ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │              useNewsletterData  (src/hooks/useNewsletterData.ts)    │
 │                                                                     │
-│  • useQueries — all 10 sections fetched in parallel                 │
+│  • useQueries — all 12 sections fetched in parallel                 │
 │  • Intelligent cache policy per week type:                          │
 │      completed week  → staleTime 6 h,  gcTime 24 h                 │
 │      current week    → staleTime 1 h,  gcTime  2 h                 │
@@ -82,7 +84,7 @@ sequenceDiagram
 
     User->>Page: Navigate to /league/:id/weekly-recap?week=N
     Page->>Hook: useNewsletterData(leagueId, week)
-    Hook->>RQ: Check cache for ['newsletter', leagueId, N, section] × 10
+    Hook->>RQ: Check cache for ['newsletter', leagueId, N, section] × 12
 
     alt Cache hit (completed week, <6h stale)
         RQ-->>Hook: Return cached data instantly
@@ -92,7 +94,7 @@ sequenceDiagram
         RQ-->>Hook: status="pending" for each section
         Hook-->>Page: isLoadingAny=true → SectionShell shows skeletons
 
-        par 10 sections fire in parallel
+        par 12 sections fire in parallel
             Hook->>Compute: computeWeeklyAwards(leagueId, N)
             Hook->>Compute: computeLeaderboard(leagueId, N)
             Hook->>Compute: computeMatchupData(leagueId, N)
@@ -148,6 +150,8 @@ Each utility is a pure async function: `(leagueId: string, week: number) → Pro
 | [computePlayoffStandings](../src/utils/newsletter/computePlayoffStandings.ts) | `PlayoffTableData[]` | 1–N | Projects playoff seeding from current standings |
 | [computeSchedule](../src/utils/newsletter/computeSchedule.ts) | `ScheduleData` | 1–N | Hypothetical records vs every other team's schedule (luck index) |
 | [computeMatchupData](../src/utils/newsletter/computeMatchupData.ts) | `MatchupData[]` | 1–N | Powers scoring distribution histogram, weekly stats chart, margin-of-victory table |
+| [computeMotwHistory](../src/utils/newsletter/computeMotwHistory.ts) | `MotwHistoryRow[]` | seed.week–N | Forward-only MotW chain from the editor-set seed; null when no seed |
+| [computeTradeVolume](../src/utils/newsletter/computeTradeVolume.ts) | `TradeVolumeSeason[]` | 1–N per season | Cumulative player-trade counts; walks `previous_league_id` for up to 3 prior seasons. Sleeper only — transactions are Firestore-cached permanently for completed weeks |
 
 ---
 
