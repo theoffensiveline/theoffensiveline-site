@@ -11,6 +11,7 @@ import { computePlayoffStandings } from "../utils/newsletter/computePlayoffStand
 import { computeSchedule } from "../utils/newsletter/computeSchedule";
 import { computeMatchupData } from "../utils/newsletter/computeMatchupData";
 import { computeMotwHistory, MotwHistoryRow } from "../utils/newsletter/computeMotwHistory";
+import { computeTradeVolume } from "../utils/newsletter/computeTradeVolume";
 import { getLeague, getNflState } from "../utils/api/FantasyAPI";
 import type { MotwSeed } from "../types/firestore";
 import type {
@@ -23,6 +24,7 @@ import type {
   PlayoffTableData,
   ScheduleData,
   StartersData,
+  TradeVolumeSeason,
 } from "../types/newsletterTypes";
 
 // ---------------------------------------------------------------------------
@@ -128,6 +130,8 @@ export const newsletterQueryKeys = {
       seed?.week ?? null,
       seed?.matchupId ?? null,
     ] as const,
+  tradeVolume: (leagueId: string, week: number) =>
+    [...newsletterQueryKeys.all(leagueId, week), "tradeVolume"] as const,
 };
 
 /**
@@ -143,7 +147,8 @@ export type NewsletterSection =
   | "powerRankings"
   | "playoffStandings"
   | "schedule"
-  | "matchupData";
+  | "matchupData"
+  | "tradeVolume";
 
 /**
  * Prefetch a specific newsletter section for faster loading on hover/navigation.
@@ -181,6 +186,7 @@ export async function prefetchNewsletterSection(
     playoffStandings: computePlayoffStandings,
     schedule: computeSchedule,
     matchupData: computeMatchupData,
+    tradeVolume: computeTradeVolume,
   };
 
   const queryKey = newsletterQueryKeys[section](leagueId, week);
@@ -247,6 +253,8 @@ export interface NewsletterData {
   matchupData: SectionResult<MatchupData[]>;
   /** Null when the season has no MotW seed set — the section suppresses. */
   motwHistory: SectionResult<MotwHistoryRow[] | null>;
+  /** Cumulative player-trade counts by week, current + up to 3 prior seasons. */
+  tradeVolume: SectionResult<TradeVolumeSeason[]>;
   /** Whether the league uses median scoring (league_average_match === 1) */
   isMedianLeague: boolean;
   // Aggregate helpers
@@ -424,6 +432,12 @@ export function useNewsletterData(
         enabled,
         ...cachePolicy,
       },
+      {
+        queryKey: newsletterQueryKeys.tradeVolume(safeLeagueId, week),
+        queryFn: () => withPerfLogging("tradeVolume", () => computeTradeVolume(safeLeagueId, week)),
+        enabled,
+        ...cachePolicy,
+      },
     ],
     [safeLeagueId, week, motwSeed, enabled, cachePolicy]
   );
@@ -443,6 +457,7 @@ export function useNewsletterData(
   const scheduleQuery = queries[8] as UseQueryResult<ScheduleData, Error>;
   const matchupDataQuery = queries[9] as UseQueryResult<MatchupData[], Error>;
   const motwHistoryQuery = queries[10] as UseQueryResult<MotwHistoryRow[] | null, Error>;
+  const tradeVolumeQuery = queries[11] as UseQueryResult<TradeVolumeSeason[], Error>;
 
   // Calculate aggregate helpers
   const isLoadingAny = queries.some((q) => q.isLoading || q.isPending);
@@ -462,6 +477,7 @@ export function useNewsletterData(
     schedule: toSectionResult(scheduleQuery),
     matchupData: toSectionResult(matchupDataQuery),
     motwHistory: toSectionResult(motwHistoryQuery),
+    tradeVolume: toSectionResult(tradeVolumeQuery),
     isMedianLeague,
     isLoadingAny,
     hasErrors,

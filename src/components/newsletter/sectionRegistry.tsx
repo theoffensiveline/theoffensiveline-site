@@ -36,6 +36,9 @@ const StackedHistogram = React.lazy(() =>
 const WeeklyScoringChart = React.lazy(() =>
   import("../newsletters/chartStyles").then((m) => ({ default: m.WeeklyScoringChart }))
 );
+const CumulativeTradesChart = React.lazy(() =>
+  import("../newsletters/chartStyles").then((m) => ({ default: m.CumulativeTradesChart }))
+);
 
 export interface RegistryEntry {
   /** Short name shown in the builder palette and anchor nav. */
@@ -176,6 +179,23 @@ export const SECTION_REGISTRY: Record<string, RegistryEntry> = {
     ),
     skeleton: <TableSkeleton rows={10} columns={6} />,
   },
+  "trade-volume": {
+    label: "Trading Volume",
+    title: () => "Trading Volume",
+    subtitle: () => "Cumulative trades involving players, by season",
+    result: (d) => d.tradeVolume,
+    render: (d) => (
+      <React.Suspense fallback={<ChartSkeleton />}>
+        <CumulativeTradesChart seasons={d.tradeVolume.data ?? []} />
+      </React.Suspense>
+    ),
+    skeleton: <ChartSkeleton />,
+    // Suppress entirely when no season recorded a player trade (e.g. ESPN
+    // and Yahoo leagues expose no transactions).
+    shouldRender: (d) =>
+      d.tradeVolume.status !== "success" ||
+      (d.tradeVolume.data ?? []).some((s) => s.points.some((p) => p.trades > 0)),
+  },
   standings: {
     label: "Standings",
     title: () => "Standings",
@@ -288,6 +308,7 @@ export const DEFAULT_SECTION_ORDER = [
   "scoring-histogram",
   "weekly-scoring",
   "margin-of-victory",
+  "trade-volume",
   "standings",
   "power-rankings",
   "median",

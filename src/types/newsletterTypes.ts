@@ -204,6 +204,26 @@ export interface ScheduleData {
 }
 
 /**
+ * One week of cumulative trade counts for a single season
+ */
+export interface TradeVolumePoint {
+  /** Week number */
+  week: number;
+  /** Cumulative trades involving at least one player, through this week */
+  trades: number;
+}
+
+/**
+ * Cumulative trade volume for one league season (current or prior)
+ */
+export interface TradeVolumeSeason {
+  /** NFL season year (e.g. "2025") */
+  season: string;
+  leagueId: string;
+  points: TradeVolumePoint[];
+}
+
+/**
  * Playoff probability table data
  */
 export interface PlayoffTableData {

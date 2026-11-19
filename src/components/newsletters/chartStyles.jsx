@@ -764,6 +764,56 @@ export const TradesLineChart = ({ tradeHistory }) => {
   );
 };
 
+/**
+ * Cumulative trade volume across seasons for the dynamic newsletter.
+ * `seasons` is TradeVolumeSeason[] — current season first, one VictoryLine
+ * per season with a running-total point per week.
+ */
+export const CumulativeTradesChart = ({ seasons }) => {
+  const theme = useTheme();
+
+  const palette = [theme.newsRed, theme.newsBlue, theme.neutral2, theme.neutral1];
+  const colorAt = (i) => palette[i % palette.length];
+
+  const legendData = (seasons ?? []).map((s, i) => ({
+    name: s.season,
+    symbol: { fill: colorAt(i) },
+  }));
+
+  const getAxisConfig = (label, padding = 30) => ({
+    ...getAxisConfigWithGrid(theme),
+    label,
+    style: {
+      ...getCommonChartStyles(theme).axis,
+      axisLabel: { padding, fill: theme.text },
+    },
+  });
+
+  return (
+    <VictoryChart {...getBaseChartConfig()}>
+      <VictoryLabel
+        text="Only trades involving players are counted"
+        x={225}
+        y={40}
+        textAnchor="middle"
+        style={{ fontSize: 12, fill: theme.text }}
+      />
+      <VictoryAxis {...getAxisConfig("Week")} />
+      <VictoryAxis dependentAxis {...getAxisConfig("Total Trades")} />
+      <VictoryLegend {...getBaseLegendConfig(theme, 75)} data={legendData} />
+      {(seasons ?? []).map((s, i) => (
+        <VictoryLine
+          key={s.leagueId}
+          data={s.points}
+          x="week"
+          y="trades"
+          style={{ data: { stroke: colorAt(i) } }}
+        />
+      ))}
+    </VictoryChart>
+  );
+};
+
 export const KyleRecordChart = () => {
   const theme = useTheme();
 

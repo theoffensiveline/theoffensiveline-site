@@ -138,6 +138,7 @@ All utilities live in [src/utils/newsletter/](src/utils/newsletter/) with signat
 | `computePlayoffStandings` | `PlayoffTableData[]`  | PlayoffStandingsTable                                   |
 | `computeSchedule`         | `ScheduleData`        | ScheduleMatrix                                          |
 | `computeMatchupData`      | `MatchupData[]`       | StackedHistogram, WeeklyScoringChart, WeeklyMarginTable |
+| `computeTradeVolume`      | `TradeVolumeSeason[]` | CumulativeTradesChart (Sleeper only; walks `previous_league_id`) |
 
 Multi-week utilities fetch all weeks 1–N in a single `Promise.all`. The in-flight cache in both `SleeperAPI.ts` and `ESPNApi.ts` ensures concurrent identical requests share one HTTP request.
 
